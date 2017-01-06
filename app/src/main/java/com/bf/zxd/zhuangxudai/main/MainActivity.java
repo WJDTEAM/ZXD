@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
@@ -35,11 +36,15 @@ public class MainActivity extends AppCompatActivity {
     private static final int CONTENT_YBJ = 2;
     private static final int CONTENT_ZXD = 3;
     private static final int CONTENT_MY = 4;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
 
     private void setToolbar(String toolstr) {
 
-        mToolbar.setTitle(toolstr);
+        mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
+        toolbarTitle.setText(toolstr);
+
 
     }
 
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         //EventBus.getDefault().register(this);
         realm = Realm.getDefaultInstance();
         mcompositeSubscription = new CompositeSubscription();
-        setToolbar("首页");
+//        setToolbar("首页");
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -75,15 +80,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * 页面切换
+     *
      * @param contentHome
      */
 
     private void setContent(int contentHome) {
         switch (contentHome) {
             case CONTENT_HOME:
-                String home_str = getResources().getString(R.string.firstPage);
+                String home_str = getResources().getString(R.string.home_title);
                 setToolbar(home_str);
                 HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag(HOME_TAG);
                 if (homeFragment == null) {
@@ -121,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     /**
      * 设置fragment
      *
@@ -132,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.container, fragment, tag);
         fragmentTransaction.commit();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:paddingTop="10dp"
+              android:paddingBottom="10dp"
+
+
+    >
+    <TextView
+        android:id="@+id/zhuangxiugonglue_home"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:drawableTop="@drawable/home_zxgl"
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/ZXGL"
+        android:gravity="center"
+        android:layout_weight="1"
+
+        />
+    <TextView
+        android:id="@+id/daikuanhongdong_home"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:drawableTop="@drawable/home_dkhd"
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/DKHD"
+        android:gravity="center"
+        android:layout_weight="1"
+
+        />
+    <TextView
+        android:id="@+id/jiazhuangzhuanti_home"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:drawableTop="@drawable/home_jzzt"
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/JZZT"
+        android:gravity="center"
+        android:layout_weight="1"
+        />
+    <TextView
+        android:id="@+id/zhuangxiugongsi_home"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:drawableTop="@drawable/home_zxgs"
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/ZXGS"
+        android:gravity="center"
+        android:layout_weight="1"
+        />
+
+</LinearLayout>
