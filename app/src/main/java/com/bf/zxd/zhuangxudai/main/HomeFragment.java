@@ -1,5 +1,6 @@
 package com.bf.zxd.zhuangxudai.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.zxgl.ZxglActivity;
 import com.daimajia.slider.library.SliderLayout;
 import com.sunfusheng.marqueeview.MarqueeView;
 
@@ -118,6 +120,7 @@ public class HomeFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.zhuangxiugonglue_home:
+                startActivity(new Intent(getActivity(), ZxglActivity.class));
                 break;
             case R.id.daikuanhongdong_home:
                 break;
