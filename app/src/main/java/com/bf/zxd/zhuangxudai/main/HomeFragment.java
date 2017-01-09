@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.daimajia.slider.library.SliderLayout;
+import com.sunfusheng.marqueeview.MarqueeView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +26,7 @@ import io.realm.Realm;
  */
 
 public class HomeFragment extends Fragment {
-//    @BindView(toolbar_title)
+    //    @BindView(toolbar_title)
 //    TextView toolbarTitle;
 //    @BindView(R.id.base_toolBar)
 //    Toolbar baseToolBar;
@@ -38,6 +42,8 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerviewFragmentHome;
     @BindView(R.id.slider)
     SliderLayout slider;
+    @BindView(R.id.marqueeView)
+    MarqueeView marqueeView;
     private Realm realm;
     private Unbinder unbinder;
 
@@ -55,6 +61,20 @@ public class HomeFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
         initView();
+
+//        MarqueeView marqueeView = (MarqueeView) findViewById(R.id.marqueeView);
+
+        List<String> info = new ArrayList<>();
+        info.add("1. 大家好，我是孙福生。");
+        info.add("2. 欢迎大家关注我哦！");
+        info.add("3. GitHub帐号：sfsheng0322");
+        info.add("4. 新浪微博：孙福生微博");
+        info.add("5. 个人博客：sunfusheng.com");
+        info.add("6. 微信公众号：孙福生");
+        marqueeView.startWithList(info);
+
+        String notice = "心中有阳光，脚底有力量！心中有阳光，脚底有力量！心中有阳光，脚底有力量！";
+        marqueeView.startWithText(notice);
 //        setViewPager(carousels);
 
 
@@ -65,7 +85,8 @@ public class HomeFragment extends Fragment {
 //        setToolbar();
 
     }
-//    private void setViewPager(List<Carousel> carousels) {
+
+    //    private void setViewPager(List<Carousel> carousels) {
 //        if (carousels.size() > 1) {
 //            mSliderLayout.startAutoCycle();
 //        }

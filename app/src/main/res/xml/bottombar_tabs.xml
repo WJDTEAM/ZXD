@@ -2,18 +2,18 @@
 <tabs xmlns:android="http://schemas.android.com/apk/res/android">
     <tab
         id="@+id/tab_home"
-        icon="@mipmap/ic_bottom_home"
+        icon="@drawable/home_dake"
         title="首页" />
     <tab
         id="@+id/tab_ybj"
-        icon="@mipmap/ic_bottom_order"
+        icon="@drawable/ybj"
         title="样板间" />
     <tab
         id="@+id/tab_zxd"
-        icon="@mipmap/ic_bottom_home"
+        icon="@drawable/zxd"
         title="装修贷" />
     <tab
         id="@+id/tab_mine"
-        icon="@mipmap/ic_bottom_mine"
+        icon="@drawable/my"
         title="我的"/>
 </tabs>
