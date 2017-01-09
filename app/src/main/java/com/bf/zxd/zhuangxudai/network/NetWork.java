@@ -1,6 +1,8 @@
 package com.bf.zxd.zhuangxudai.network;
+
 import com.bf.zxd.zhuangxudai.network.api.JzztService;
 import com.bf.zxd.zhuangxudai.network.api.UserService;
+import com.bf.zxd.zhuangxudai.network.api.ZxService;
 
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
@@ -14,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetWork {
     private static UserService userService;
     private static JzztService jzztService;
+    private static ZxService zxService;
 
     public static UserService getUserService() {
         if (userService == null) {
@@ -28,6 +31,13 @@ public class NetWork {
             jzztService = retrofit.create(JzztService.class);
         }
         return jzztService;
+    }
+    public static ZxService getZxService() {
+        if (zxService == null) {
+            Retrofit retrofit = getRetrofit();
+            zxService = retrofit.create(ZxService.class);
+        }
+        return zxService;
     }
     private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
     private static CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
