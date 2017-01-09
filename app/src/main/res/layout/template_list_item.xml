@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="?android:selectableItemBackground"
+              android:clickable="true"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:id="@+id/template_item_lin">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/mediumhdp">
+    <TextView
+        android:id="@+id/template_item_title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="混搭风格客厅背景墙图片"
+        android:textColor="@color/black"
+        android:textSize="@dimen/mediumsp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/love"/>
+    <TextView
+        android:id="@+id/template_item_num"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="1231231231"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimary"
+        />
+</LinearLayout>
+
+    <ImageView
+        android:id="@+id/template_item_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:src="@drawable/demo"
+        />
+    <TextView
+        android:id="@+id/template_item_details"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mediumhdp"
+        android:lines="2"
+        android:ellipsize="end"
+        android:text="混搭并不是简单的把各种风格元素放在一起做加法，而是把他们有主有次的组合在一起，混搭的是否成功，关键看是否和谐"
+        android:textSize="@dimen/smallsp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        />
+
+</LinearLayout>

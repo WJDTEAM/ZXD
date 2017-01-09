@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:app="http://schemas.android.com/apk/res-auto"
+               xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <com.bf.zxd.zhuangxudai.customview.DropDownMenu
+        android:id="@+id/dropDownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ddmenuTextSize="13sp"
+        app:ddtextUnselectedColor="@color/black"
+        app:ddtextSelectedColor="@color/colorPrimary"
+        app:dddividerColor="@color/gary"
+        app:ddunderlineColor="@color/gary"
+        app:ddmenuSelectedIcon="@drawable/drop_down_selected_icon"
+        app:ddmaskColor="@color/mask_color"
+        app:ddmenuBackgroundColor="@color/white"
+        app:ddmenuUnselectedIcon="@drawable/drop_down_unselected_icon"
+        />
+
+</RelativeLayout>

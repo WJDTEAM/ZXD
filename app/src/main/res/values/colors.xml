@@ -10,10 +10,14 @@
     <color name="gray_light">#EBEDF0</color>
     <color name="red">#ee0000</color>
 
+    <color name="black_dark">#000000</color>
+
+    <color name="transparent">#00000000</color><!-- 全透明 -->
+
     <color name="whitesmoke">#efefef</color> <!-- 烟白色 -->
     <color name="gary">#cecece</color> <!-- 灰色 -->
     <color name="gary_dark">#979797</color> <!-- 深灰色 -->
     <color name="frame_gary">#848484</color> <!-- 边框 -->
-
+    <color name="mask_color">#88888888</color><!-- 遮罩颜色 -->
 
 </resources>

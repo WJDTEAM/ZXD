@@ -1,4 +1,4 @@
-package com.bf.zxd.zhuangxudai.main;
+package com.bf.zxd.zhuangxudai.template;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,13 +12,13 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 
 /**
- * Created by johe on 2017/1/5.
+ * Created by johe on 2017/1/9.
  */
 
-public class ZXDFragment extends Fragment {
+public class TemplateImgFragment extends Fragment{
     Realm realm;
-    public static ZXDFragment newInstance() {
-        ZXDFragment fragment = new ZXDFragment();
+    public static TemplateImgFragment newInstance() {
+        TemplateImgFragment fragment = new TemplateImgFragment();
         return fragment;
     }
 
@@ -26,7 +26,7 @@ public class ZXDFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user, container, false);
+        View view = inflater.inflate(R.layout.fragment_template_img, container, false);
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
 

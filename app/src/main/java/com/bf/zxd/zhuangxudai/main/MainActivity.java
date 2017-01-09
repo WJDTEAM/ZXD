@@ -1,5 +1,7 @@
 package com.bf.zxd.zhuangxudai.main;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,10 @@ import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.blankj.utilcode.utils.KeyboardUtils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         //加入activity列表
         ((BaseApplication) getApplication()).addActivity(this);
-        //EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
         realm = Realm.getDefaultInstance();
         mcompositeSubscription = new CompositeSubscription();
 //        setToolbar("首页");
@@ -130,6 +136,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * 页面跳转
+     */
+    @DebugLog
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void startActivity(Class<Activity> activityClass) {
+       startActivity(new Intent(MainActivity.this,activityClass));
+    }
+
+    /**
      * 设置fragment
      *
      * @param fragment
@@ -144,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
         realm.close();
         KeyboardUtils.hideSoftInput(this);
         if (mcompositeSubscription != null && !mcompositeSubscription.isUnsubscribed()) {
