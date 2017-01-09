@@ -2,21 +2,40 @@ package com.bf.zxd.zhuangxudai.template;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.transition.ChangeBounds;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 /**
  * Created by johe on 2017/1/9.
  */
 
-public class TemplateImgFragment extends Fragment{
+public class TemplateImgFragment extends Fragment {
     Realm realm;
+    @BindView(R.id.details_title)
+    TextView detailsTitle;
+    @BindView(R.id.page_num)
+    TextView pageNum;
+    @BindView(R.id.now_num)
+    TextView nowNum;
+    @BindView(R.id.template_img_lin)
+    LinearLayout templateImgLin;
+    @BindView(R.id.template_img_rel)
+    RelativeLayout templateImgRel;
+
     public static TemplateImgFragment newInstance() {
         TemplateImgFragment fragment = new TemplateImgFragment();
         return fragment;
@@ -29,7 +48,34 @@ public class TemplateImgFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_template_img, container, false);
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
-
+        vg=(ViewGroup)view.findViewById(R.id.template_img_lin);
         return view;
+    }
+
+    ViewGroup vg;
+    //宽高改变动画
+    public void clickEvent(int x){
+        ChangeBounds transition = new ChangeBounds();
+        transition.setDuration(200);
+        transition.setInterpolator(new DecelerateInterpolator());
+        TransitionManager.beginDelayedTransition(vg,transition);
+        setViewSize(x/3*2);
+
+    }
+    public void setViewSize(int x){
+        ViewGroup.LayoutParams params=templateImgLin.getLayoutParams();
+        params.height=params.height+x;
+        templateImgLin.setLayoutParams(params);
+    }
+    //toolbar和底部栏的显隐
+    @OnClick(R.id.template_img_rel)
+    public void onClick() {
+        if(((TemplateActivity)getActivity()).isToolBarShow){
+            ((TemplateActivity)getActivity()).hide(((TemplateActivity)getActivity()).toolBarheight);
+            clickEvent(-((TemplateActivity)getActivity()).toolBarheight);
+        }else{
+            ((TemplateActivity)getActivity()).show();
+            clickEvent(((TemplateActivity)getActivity()).toolBarheight);
+        }
     }
 }

@@ -88,7 +88,7 @@ public class YBJFragment extends Fragment {
     Observer<List<DictData>> observer=new Observer<List<DictData>>() {
         @Override
         public void onCompleted() {
-            Log.i("gqf","onCompleted");
+
         }
 
         @Override
@@ -101,7 +101,6 @@ public class YBJFragment extends Fragment {
             mDictDatas=dictData;
             filterDictData();
             initDropDpwnMenu();
-            Log.i("gqf",dictData.toString());
         }
     };
     //过滤数据
@@ -124,9 +123,8 @@ public class YBJFragment extends Fragment {
         super.onStart();
 
     }
-    //获得顶部条件
+    //获得顶部条件数据
     public void getDictData(){
-
         Subscription subscription = NetWork.getJzztService().getDictData()
                 .subscribeOn(Schedulers.io())
                 //遍历
@@ -148,7 +146,6 @@ public class YBJFragment extends Fragment {
     private List<View> popupViews = new ArrayList<>();
     public void initDropDpwnMenu(){
 
-
         //init constellation
         final View constellationView = getActivity().getLayoutInflater().inflate(R.layout.custom_layout, null);
         GridView constellation = ButterKnife.findById(constellationView, R.id.constellation);
@@ -163,7 +160,6 @@ public class YBJFragment extends Fragment {
             }
         });
 
-
         //init model menu
         final ListView modelView = new ListView(getActivity());
         modelView.setDividerHeight(0);
@@ -175,7 +171,6 @@ public class YBJFragment extends Fragment {
         areaView.setDividerHeight(0);
         areaAdapter = new ListDropDownAdapter(getActivity(), area);
         areaView.setAdapter(areaAdapter);
-
 
         popupViews.add(constellationView);
         popupViews.add(modelView);
@@ -206,7 +201,7 @@ public class YBJFragment extends Fragment {
                 constellationPosition = position;
             }
         });
-        //init context view
+        //设置内容
         RecyclerView contentView = new RecyclerView(getActivity());
         /*contentView.addItemDecoration(new RecycleViewDivider(
                 getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, R.drawable.template_divider_shap));*/
@@ -224,11 +219,8 @@ public class YBJFragment extends Fragment {
         templateListAdapter.setOnItemClickListener(new TemplateListAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-
                 //发送广播通知mainactivity跳转页面
                 EventBus.getDefault().post(TemplateActivity.class);
-                Log.i("gqf","postionTemplateActivity");
-
             }
         });
 
