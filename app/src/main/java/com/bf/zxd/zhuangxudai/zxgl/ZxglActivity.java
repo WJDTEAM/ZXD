@@ -69,8 +69,16 @@ public class ZxglActivity extends BaseActivity {
     }
 
     private void setAdapter(List<zxgl> zxgls) {
+        //init context view
+//        RecyclerView contentView = new RecyclerView(ZxglActivity.this);
+        /*contentView.addItemDecoration(new RecycleViewDivider(
+                getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, R.drawable.template_divider_shap));*/
+//        contentView.addItemDecoration(new RecycleViewDivider(
+//                this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
         recyclerviewZhuangxiugonglue.setLayoutManager(new LinearLayoutManager(this));
-        recyclerviewZhuangxiugonglue.addItemDecoration(new RecycleViewDivider(this,1));
+        recyclerviewZhuangxiugonglue.addItemDecoration(new RecycleViewDivider(
+                this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
+//        recyclerviewZhuangxiugonglue.addItemDecoration(new RecycleViewDivider(this,1));
         ZxglAdapter zxglAdapter = new ZxglAdapter(zxgls,ZxglActivity.this);
         recyclerviewZhuangxiugonglue.setAdapter(zxglAdapter);
     }
