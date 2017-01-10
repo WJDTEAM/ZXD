@@ -6,7 +6,7 @@
     android:id="@+id/activity_product_exhibition"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bf.zxd.zhuangxudai.jzzt.ProductExhibitionActivity">
+    >
     <!--toolBar-->
     <include
         android:id="@+id/toolbar"
@@ -252,8 +252,6 @@
                     android:layout_height="5dp"
                     android:background="@color/whitesmoke"
                     />
-
-                <include layout="@layout/case_show"/>
 
 
             </LinearLayout>

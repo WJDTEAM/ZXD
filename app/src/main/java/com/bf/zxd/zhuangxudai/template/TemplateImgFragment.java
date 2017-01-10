@@ -1,10 +1,12 @@
 package com.bf.zxd.zhuangxudai.template;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.transition.ChangeBounds;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -41,6 +43,22 @@ public class TemplateImgFragment extends Fragment {
         return fragment;
     }
 
+    public interface mImgListener {
+        public void show();
+        public void hide();
+        public int getToolBarheight() ;
+        public boolean isToolBarShow() ;
+        public void changeFragmentByTAG(String fragment);
+    }
+
+    private mImgListener mListener;
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mListener = (mImgListener) activity;
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,6 +67,16 @@ public class TemplateImgFragment extends Fragment {
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
         vg=(ViewGroup)view.findViewById(R.id.template_img_lin);
+        templateImgRel.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if(motionEvent.getAction()==MotionEvent.ACTION_DOWN){
+                    mListener.changeFragmentByTAG(TemplateActivity.CHANGE_DETAILS_FRAGMENT);
+                }
+                return false;
+            }
+        });
         return view;
     }
 
@@ -60,7 +88,6 @@ public class TemplateImgFragment extends Fragment {
         transition.setInterpolator(new DecelerateInterpolator());
         TransitionManager.beginDelayedTransition(vg,transition);
         setViewSize(x/3*2);
-
     }
     public void setViewSize(int x){
         ViewGroup.LayoutParams params=templateImgLin.getLayoutParams();
@@ -70,12 +97,12 @@ public class TemplateImgFragment extends Fragment {
     //toolbar和底部栏的显隐
     @OnClick(R.id.template_img_rel)
     public void onClick() {
-        if(((TemplateActivity)getActivity()).isToolBarShow){
-            ((TemplateActivity)getActivity()).hide(((TemplateActivity)getActivity()).toolBarheight);
-            clickEvent(-((TemplateActivity)getActivity()).toolBarheight);
+        /*if(mListener.isToolBarShow()){
+            mListener.hide();
+            clickEvent(-mListener.getToolBarheight());
         }else{
-            ((TemplateActivity)getActivity()).show();
-            clickEvent(((TemplateActivity)getActivity()).toolBarheight);
-        }
+            mListener.show();
+            clickEvent(mListener.getToolBarheight());
+        }*/
     }
 }

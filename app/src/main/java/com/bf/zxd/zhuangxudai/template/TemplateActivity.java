@@ -3,6 +3,7 @@ package com.bf.zxd.zhuangxudai.template;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -25,9 +26,10 @@ import butterknife.ButterKnife;
  * Created by johe on 2017/1/9.
  */
 
-public class TemplateActivity extends AppCompatActivity {
+public class TemplateActivity extends AppCompatActivity implements TemplateImgFragment.mImgListener,TemplateDetailsFragment.mDetailsListener{
 
     TemplateImgFragment templateImgFragment;
+    TemplateDetailsFragment mTemplateDetailsFragment;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.base_toolBar)
@@ -38,7 +40,9 @@ public class TemplateActivity extends AppCompatActivity {
     public int toolBarheight = 0;
 
     public boolean isToolBarShow = false;
+    public static String CHANGE_DETAILS_FRAGMENT="tempalte_details_fragment";
 
+    public static String CHANGE_IMG_FRAGMENT="tempalte_img_fragment";
     private void setToolbar(int status, String toolstr) {
 
         baseToolBar.setTitle(toolstr);
@@ -50,6 +54,7 @@ public class TemplateActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     onBackPressed();
+                    //changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT);
                 }
             });
             baseToolBar.setBackgroundColor(getResources().getColor(R.color.transparent));
@@ -60,12 +65,11 @@ public class TemplateActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     //切换fragment
-
+                    changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT);
                     //重置toolbar
                     setToolbar(1, "");
                 }
             });
-            baseToolBar.setBackgroundColor(getResources().getColor(R.color.white));
         }
     }
 
@@ -80,15 +84,9 @@ public class TemplateActivity extends AppCompatActivity {
 
         //加载图片fragment
         templateImgFragment = TemplateImgFragment.newInstance();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.template_details_fragment, templateImgFragment);
-        transaction.commit();
+        mTemplateDetailsFragment=TemplateDetailsFragment.newInstance();
 
-
-
-
-
+        changeFragment(templateImgFragment,CHANGE_IMG_FRAGMENT);
     }
 
     @Override
@@ -105,14 +103,14 @@ public class TemplateActivity extends AppCompatActivity {
             @Override
             public void onGlobalLayout() {
                 baseToolBar.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                hide(baseToolBar.getHeight());
                 toolBarheight = baseToolBar.getHeight();
+                hide();
             }
         });
     }
     //隐藏toolbar和底部栏
-    public void hide(int height) {
-        baseToolBar.animate().translationY(0 - height).setInterpolator(new AccelerateDecelerateInterpolator());
+    public void hide() {
+        baseToolBar.animate().translationY(0 - toolBarheight).setInterpolator(new AccelerateDecelerateInterpolator());
         isToolBarShow = false;
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
@@ -123,6 +121,42 @@ public class TemplateActivity extends AppCompatActivity {
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 
+    public void changeFragmentByTAG(String fragment){
+        if(fragment.equals(CHANGE_DETAILS_FRAGMENT)){
+            //imgfragment上划出屏幕，显示toolbar和底部栏
+            setToolbar(2, "现代风格时尚复式装");
+            changeFragment(mTemplateDetailsFragment,fragment);
+            show();
+        }else{
+            //imgfragment下划入屏幕，隐藏toolbar和底部栏
+            setToolbar(1, "");
+            changeFragment(templateImgFragment,fragment);
+            hide();
+        }
+    }
+    public void changeFragment(Fragment fragment,String fragmentTag){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if(fragmentManager.getFragments()==null) {
+            transaction.add(R.id.template_details_fragment, mTemplateDetailsFragment);
+            transaction.add(R.id.template_details_fragment, fragment);
+            transaction.show(fragment);
+            transaction.commitNow();
+        }else {
+                if (fragmentTag.equals(CHANGE_DETAILS_FRAGMENT)) {
+                    transaction.setCustomAnimations(R.anim.base_slide_remain,R.anim.side_fragment_out);
+                    transaction.hide(templateImgFragment);
+                    transaction.show(fragment);
+                    transaction.commitNow();
+                } else {
+                    transaction.setCustomAnimations(R.anim.side_fragment_in,R.anim.base_slide_remain);
+                    //transaction.setCustomAnimations(R.anim.side_fragment_out,R.anim.side_fragment_out,R.anim.side_fragment_out,R.anim.side_fragment_in);
+                    transaction.hide(mTemplateDetailsFragment);
+                    transaction.show(fragment);
+                    transaction.commitNow();
+                }
+        }
+    }
 
     public void changeSystemBarColor(int id) {
         // 改变状�?�栏颜色
@@ -146,7 +180,13 @@ public class TemplateActivity extends AppCompatActivity {
         win.setAttributes(winParams);
     }
 
+    public int getToolBarheight() {
+        return toolBarheight;
+    }
 
+    public boolean isToolBarShow() {
+        return isToolBarShow;
+    }
 }
 
 
