@@ -55,7 +55,7 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(getLayout(), parent, false);
+        View view = LayoutInflater.from(mContext).inflate(getLayout(), parent, false);
 
         return new ViewHolder(view);
     }
