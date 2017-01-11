@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
@@ -43,7 +42,6 @@ public class LoanActivity extends AppCompatActivity {
     LoanActivityListAdapter loanActivityListAdapter;
     private void setToolbar(String toolstr) {
         baseToolBar.setTitle("");
-        ((TextView)baseToolBar.findViewById(R.id.toolbar_title)).setText(toolstr);
         setSupportActionBar(baseToolBar);
         baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);
         baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {

@@ -50,11 +50,14 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     public static final float slidingDistance=200;
     private void setToolbar(int status, String toolstr) {
 
-        baseToolBar.setTitle("");
-        ((TextView)baseToolBar.findViewById(R.id.toolbar_title)).setText(toolstr);
+        baseToolBar.setTitle(toolstr);
+        /*TextView txt=((TextView)baseToolBar.findViewById(R.id.toolbar_title));
+        txt.setText(toolstr);
+        txt.setGravity(Gravity.CENTER_VERTICAL);*/
+        baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);
+        setSupportActionBar(baseToolBar);
         //图片界面
         if (status == 1) {
-            baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);
             baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -73,7 +76,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
             });
             baseToolBar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
-        setSupportActionBar(baseToolBar);
+
     }
 
     @Override

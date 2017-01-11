@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.Interfaces.DialogFragmentDismissLinsener;
@@ -50,8 +49,7 @@ public class ApplyForActivity extends AppCompatActivity {
 
     private void setToolbar(String toolstr) {
 
-        toolbar.setTitle("");
-        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(toolstr);
+        toolbar.setTitle(toolstr);
         toolbar.setNavigationIcon(R.drawable.barcode__back_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -48,8 +48,7 @@ public class LoanApplyForActivity extends AppCompatActivity {
     String sex="";
     private void setToolbar(String toolstr) {
 
-        toolbar.setTitle("");
-        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(toolstr);
+        toolbar.setTitle(toolstr);
         toolbar.setNavigationIcon(R.drawable.barcode__back_arrow);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
