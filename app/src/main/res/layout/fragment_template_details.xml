@@ -13,7 +13,8 @@
         layout="@layout/toolbar"/>
     <!--content-->
 
-    <ScrollView
+    <com.bf.zxd.zhuangxudai.customview.CustomScrollView
+        android:id="@+id/template_details_scrol"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -123,6 +124,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/company_address1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -220,6 +222,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/company_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/spzs_04"
@@ -229,6 +232,7 @@
                     android:textColor="@color/black"
                     />
                 <TextView
+                    android:id="@+id/company_address2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/spzs_02"
@@ -249,5 +253,5 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </com.bf.zxd.zhuangxudai.customview.CustomScrollView>
 </RelativeLayout>

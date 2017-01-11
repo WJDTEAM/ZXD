@@ -1,6 +1,5 @@
 package com.bf.zxd.zhuangxudai.main;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
+import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndActivityEvent;
 import com.blankj.utilcode.utils.KeyboardUtils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
      */
     @DebugLog
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void startActivity(Class<Activity> activityClass) {
-       startActivity(new Intent(MainActivity.this,activityClass));
+    public void startActivity(CompanyIdAndActivityEvent companyIdAndActivityEvent) {
+       startActivity(new Intent(MainActivity.this,companyIdAndActivityEvent.getActivityClass()).putExtra("CompanyId",companyIdAndActivityEvent.getCompanyId()));
     }
 
     /**

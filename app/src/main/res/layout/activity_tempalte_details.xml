@@ -10,14 +10,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar"/>
-
     <FrameLayout
         android:id="@+id/template_details_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
         />
+    <include layout="@layout/toolbar"/>
 
 </RelativeLayout>
     <LinearLayout
@@ -39,8 +38,12 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:src="@drawable/loan"
+                android:layout_gravity="center"
+                android:scaleType="fitEnd"
+                android:paddingRight="@dimen/activity_horizontal_margin"
                 />
             <TextView
                 android:layout_width="0dp"
@@ -63,8 +66,13 @@
             >
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/subscribe"
+                android:layout_gravity="center"
+                android:scaleType="fitEnd"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                />
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"

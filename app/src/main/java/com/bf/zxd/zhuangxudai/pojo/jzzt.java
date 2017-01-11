@@ -2,6 +2,7 @@ package com.bf.zxd.zhuangxudai.pojo;
 
 /**
  * Created by Daniel on 2017/1/9.
+ * 家装专题列表item信息
  */
 
 public class jzzt {
@@ -68,5 +69,17 @@ public class jzzt {
 
     public void setThumbnails(String thumbnails) {
         this.thumbnails = thumbnails;
+    }
+
+    @Override
+    public String toString() {
+        return "jzzt{" +
+                "article_id=" + article_id +
+                ", company_id=" + company_id +
+                ", companyName='" + companyName + '\'' +
+                ", description='" + description + '\'' +
+                ", title='" + title + '\'' +
+                ", thumbnails='" + thumbnails + '\'' +
+                '}';
     }
 }

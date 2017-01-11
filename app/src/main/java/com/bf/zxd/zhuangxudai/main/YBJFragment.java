@@ -17,7 +17,9 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.DropDownMenu;
 import com.bf.zxd.zhuangxudai.customview.RecycleViewDivider;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.DictData;
+import com.bf.zxd.zhuangxudai.pojo.jzzt;
 import com.bf.zxd.zhuangxudai.template.ConstellationAdapter;
 import com.bf.zxd.zhuangxudai.template.GirdDropDownAdapter;
 import com.bf.zxd.zhuangxudai.template.ListDropDownAdapter;
@@ -49,14 +51,17 @@ public class YBJFragment extends Fragment {
     Realm realm;
     @BindView(R.id.dropDownMenu)
     DropDownMenu mDropDownMenu;
-
+    RecyclerView contentView;
+    TemplateListAdapter templateListAdapter;
     private CompositeSubscription mcompositeSubscription;
     public static YBJFragment newInstance() {
         YBJFragment fragment = new YBJFragment();
         return fragment;
     }
 
-
+    String houseStyle="";
+    String houseType="";
+    String houseArea="";
     private String headers[] = {"风格", "户型", "面积"};
     private List<DictData> style;
     private List<DictData> model;
@@ -117,6 +122,11 @@ public class YBJFragment extends Fragment {
                 area.add(d);
             }
         }
+        DictData d=new DictData();
+        d.setDict_desc("不限");
+        style.add(0,d);
+        model.add(0,d);
+        area.add(0,d);
     }
     @Override
     public void onStart() {
@@ -139,6 +149,54 @@ public class YBJFragment extends Fragment {
                 .subscribe(observer);
         mcompositeSubscription.add(subscription);
     }
+    //获取样板间数据
+    public void initJzztData(String houseStyle,String houseType,String houseArea){
+        if(houseStyle.equals("风格")){
+            houseStyle="";
+        }if(houseType.equals("户型")){
+            houseType="";
+        }if(houseArea.equals("面积")){
+            houseArea="";
+        }
+        Subscription subscription = NetWork.getZxService().getJzztItem(houseStyle,houseType,houseArea)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<jzzt>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<jzzt> jzzts) {
+                        initListView(jzzts);
+                    }
+                });
+        mcompositeSubscription.add(subscription);
+    }
+    public void initListView(List<jzzt> lists){
+        if(templateListAdapter==null) {
+            templateListAdapter = new TemplateListAdapter(getActivity(),lists);
+            contentView.setAdapter(templateListAdapter);
+            templateListAdapter.setOnItemClickListener(new TemplateListAdapter.MyItemClickListener() {
+                @Override
+                public void onItemClick(View view, int postion) {
+                    //发送广播通知mainactivity跳转页面
+                    CompanyIdAndActivityEvent companyIdAndActivityEvent=new CompanyIdAndActivityEvent();
+                    companyIdAndActivityEvent.setCompanyId(templateListAdapter.getmDatas().get(postion).getCompany_id());
+                    companyIdAndActivityEvent.setActivityClass(TemplateActivity.class);
+                    EventBus.getDefault().post(companyIdAndActivityEvent);
+                }
+            });
+        }else{
+            templateListAdapter.update(lists);
+        }
+    }
     GirdDropDownAdapter modelAdapter;
     ListDropDownAdapter areaAdapter;
     ConstellationAdapter styleAdapter;
@@ -155,8 +213,10 @@ public class YBJFragment extends Fragment {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDropDownMenu.setTabText(constellationPosition == 0 ? headers[3] : style.get(constellationPosition).getDict_desc());
+                houseStyle=constellationPosition == 0 ? headers[0] : style.get(constellationPosition).getDict_desc();
+                mDropDownMenu.setTabText(houseStyle);
                 mDropDownMenu.closeMenu();
+                initJzztData(houseStyle,houseType,houseArea);
             }
         });
 
@@ -180,8 +240,10 @@ public class YBJFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 modelAdapter.setCheckItem(position);
-                mDropDownMenu.setTabText(position == 0 ? headers[1] : model.get(position).getDict_desc());
+                houseType=position == 0 ? headers[1] : model.get(position).getDict_desc();
+                mDropDownMenu.setTabText(houseType);
                 mDropDownMenu.closeMenu();
+                initJzztData(houseStyle,houseType,houseArea);
             }
         });
 
@@ -189,8 +251,10 @@ public class YBJFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 areaAdapter.setCheckItem(position);
-                mDropDownMenu.setTabText(position == 0 ? headers[2] : area.get(position).getDict_desc());
+                houseArea= position == 0 ? headers[2] : area.get(position).getDict_desc();
+                mDropDownMenu.setTabText(houseArea);
                 mDropDownMenu.closeMenu();
+                initJzztData(houseStyle,houseType,houseArea);
             }
         });
 
@@ -202,27 +266,19 @@ public class YBJFragment extends Fragment {
             }
         });
         //设置内容
-        RecyclerView contentView = new RecyclerView(getActivity());
+        contentView = new RecyclerView(getActivity());
+
+        initJzztData(houseStyle,houseType,houseArea);
+
         /*contentView.addItemDecoration(new RecycleViewDivider(
                 getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, R.drawable.template_divider_shap));*/
 
         contentView.addItemDecoration(new RecycleViewDivider(
                 getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
 
-        List<String> date=new ArrayList<>();
-        date.add("1");
-        date.add("1");
-        TemplateListAdapter templateListAdapter=new TemplateListAdapter(getActivity(),date);
-        contentView.setAdapter(templateListAdapter);
         contentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         contentView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        templateListAdapter.setOnItemClickListener(new TemplateListAdapter.MyItemClickListener() {
-            @Override
-            public void onItemClick(View view, int postion) {
-                //发送广播通知mainactivity跳转页面
-                EventBus.getDefault().post(TemplateActivity.class);
-            }
-        });
+
 
         //init dropdownview
         mDropDownMenu.setDropDownMenu(Arrays.asList(headers), popupViews, contentView);

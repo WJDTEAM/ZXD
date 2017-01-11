@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bf.zxd.zhuangxudai.Dkhd.LoanActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.zxgl.ZxglActivity;
 import com.daimajia.slider.library.SliderLayout;
@@ -123,6 +124,7 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity(), ZxglActivity.class));
                 break;
             case R.id.daikuanhongdong_home:
+                startActivity(new Intent(getActivity(), LoanActivity.class));
                 break;
             case R.id.jiazhuangzhuanti_home:
                 break;

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -37,16 +38,20 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     @BindView(R.id.template_details_fragment)
     FrameLayout templateDetailsFragment;
     BottomSheetBehavior mBottomSheetBehavior;
+
+    int CompanyId;
+
     public int toolBarheight = 0;
 
     public boolean isToolBarShow = false;
-    public static String CHANGE_DETAILS_FRAGMENT="tempalte_details_fragment";
+    public static final String CHANGE_DETAILS_FRAGMENT="tempalte_details_fragment";
 
-    public static String CHANGE_IMG_FRAGMENT="tempalte_img_fragment";
+    public static final String CHANGE_IMG_FRAGMENT="tempalte_img_fragment";
+    public static final float slidingDistance=200;
     private void setToolbar(int status, String toolstr) {
 
-        baseToolBar.setTitle(toolstr);
-        setSupportActionBar(baseToolBar);
+        baseToolBar.setTitle("");
+        ((TextView)baseToolBar.findViewById(R.id.toolbar_title)).setText(toolstr);
         //图片界面
         if (status == 1) {
             baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);
@@ -54,23 +59,21 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                 @Override
                 public void onClick(View view) {
                     onBackPressed();
-                    //changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT);
                 }
             });
             baseToolBar.setBackgroundColor(getResources().getColor(R.color.transparent));
         } else {
             //详情界面
-            baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);
             baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //切换fragment
                     changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT);
-                    //重置toolbar
-                    setToolbar(1, "");
                 }
             });
+            baseToolBar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
+        setSupportActionBar(baseToolBar);
     }
 
     @Override
@@ -80,8 +83,9 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         ButterKnife.bind(this);
         changeSystemBarColor(R.color.black_dark);
         setToolbar(1, "");
+        CompanyId=getIntent().getIntExtra("CompanyId",0);
+        Log.i("gqf","CompanyId"+CompanyId);
         mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.tab_layout));
-
         //加载图片fragment
         templateImgFragment = TemplateImgFragment.newInstance();
         mTemplateDetailsFragment=TemplateDetailsFragment.newInstance();
@@ -98,15 +102,18 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     protected void onResume() {
         super.onResume();
         //获得toolbar高度
-        ViewTreeObserver vto = baseToolBar.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                baseToolBar.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                toolBarheight = baseToolBar.getHeight();
-                hide();
-            }
-        });
+        if(toolBarheight==0) {
+            ViewTreeObserver vto = baseToolBar.getViewTreeObserver();
+            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    baseToolBar.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    toolBarheight = baseToolBar.getHeight();
+                    hide();
+                    Log.i("gqf","onResume");
+                }
+            });
+        }
     }
     //隐藏toolbar和底部栏
     public void hide() {
@@ -132,6 +139,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
             setToolbar(1, "");
             changeFragment(templateImgFragment,fragment);
             hide();
+
         }
     }
     public void changeFragment(Fragment fragment,String fragmentTag){
@@ -148,12 +156,13 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                     transaction.hide(templateImgFragment);
                     transaction.show(fragment);
                     transaction.commitNow();
+
                 } else {
                     transaction.setCustomAnimations(R.anim.side_fragment_in,R.anim.base_slide_remain);
-                    //transaction.setCustomAnimations(R.anim.side_fragment_out,R.anim.side_fragment_out,R.anim.side_fragment_out,R.anim.side_fragment_in);
                     transaction.hide(mTemplateDetailsFragment);
                     transaction.show(fragment);
                     transaction.commitNow();
+                    //templateImgFragment.Enable=true;
                 }
         }
     }
@@ -186,6 +195,10 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
     public boolean isToolBarShow() {
         return isToolBarShow;
+    }
+
+    public int getCompanyId() {
+        return CompanyId;
     }
 }
 
