@@ -75,6 +75,7 @@ public class AppointmentActivity extends BaseActivity {
 
 
     }
+    /*提交按钮控制*/
     private void initSubmit() {
         Observable<CharSequence> userName = RxTextView.textChanges(storeNameEdi).skip(1);
         Observable<CharSequence> phoneNum = RxTextView.textChanges(phoneNumEdi).skip(1);
