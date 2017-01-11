@@ -81,14 +81,15 @@ public class AppointmentActivity extends BaseActivity {
         Observable<CharSequence> address = RxTextView.textChanges(addressTv).skip(1);
         Observable<CharSequence> houseArea = RxTextView.textChanges(houseAreaEdi).skip(1);
         Observable<CharSequence> houseType = RxTextView.textChanges(houseTypeEdi).skip(1);
-
         Observable.combineLatest(userName, phoneNum, address, houseArea, houseType, new Func5<CharSequence,CharSequence,CharSequence,CharSequence, CharSequence, Boolean>() {
             @Override
             public Boolean call(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, CharSequence charSequence4, CharSequence charSequence5) {
                 boolean userNameBl = !TextUtils.isEmpty(charSequence);
                 boolean phoneNumBl = !TextUtils.isEmpty(charSequence2);
-                boolean loanNumBl = !TextUtils.isEmpty(charSequence3);
-                return userNameBl&&phoneNumBl&&loanNumBl;
+                boolean addressBl = !TextUtils.isEmpty(charSequence3);
+                boolean houseAreaBl = !TextUtils.isEmpty(charSequence4);
+                boolean houseTypeBl = !TextUtils.isEmpty(charSequence5);
+                return userNameBl&&phoneNumBl&&addressBl&&houseAreaBl&&houseTypeBl;
             }
         }).subscribe(new Observer<Boolean>() {
             @Override
