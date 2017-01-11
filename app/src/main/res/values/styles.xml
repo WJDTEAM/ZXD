@@ -45,6 +45,20 @@
         <item name="android:textCursorDrawable">@drawable/edi_cursor_red_shap</item>
     </style>
 
+    <style name="apply_address_for_edi_style">
+        <item name="android:maxLength">20</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/tinyhdp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textSize">@dimen/mediumsp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:cursorVisible">true</item>
+        <item name="android:paddingLeft">@dimen/tinymdp</item>
+        <item name="android:background">@drawable/bg_edit_unselected</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:textCursorDrawable">@drawable/edi_cursor_red_shap</item>
+    </style>
+
     <!-- toolbar菜单样式 -->
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="actionMenuTextColor">@android:color/white</item>
@@ -61,5 +75,10 @@
     <!-- toolbar弹出菜单样式 -->
     <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat">
         <item name="android:colorBackground">#212121</item>
+    </style>
+
+    <style name="Animation.CustomPopup" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/popup_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_out</item>
     </style>
 </resources>

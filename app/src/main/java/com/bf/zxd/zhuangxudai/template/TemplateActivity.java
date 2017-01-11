@@ -15,7 +15,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.util.SystemBarTintManager;
@@ -31,8 +30,8 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
     TemplateImgFragment templateImgFragment;
     TemplateDetailsFragment mTemplateDetailsFragment;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+//    @BindView(R.id.toolbar_title)
+//    TextView toolbarTitle;
     @BindView(R.id.base_toolBar)
     Toolbar baseToolBar;
     @BindView(R.id.template_details_fragment)
@@ -51,7 +50,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     private void setToolbar(int status, String toolstr) {
 
         baseToolBar.setTitle("");
-        ((TextView)baseToolBar.findViewById(R.id.toolbar_title)).setText(toolstr);
+//        ((TextView)baseToolBar.findViewById(R.id.toolbar_title)).setText(toolstr);
         //图片界面
         if (status == 1) {
             baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);

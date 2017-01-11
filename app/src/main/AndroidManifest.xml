@@ -26,10 +26,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".my.ApplyForActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
-
+        <activity
+            android:name=".my.ApplyForActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".my.LoanApplyForActivity"
@@ -38,15 +38,44 @@
         </activity>
         <activity android:name=".jzzt.ProductExhibitionActivity">
         </activity>
-        <activity android:name=".template.TemplateActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".template.TemplateActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <!--装修攻略-->
         <activity
             android:name=".zxgl.ZxglActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+        </activity>
+        <!-- 装修公司 -->
+        <activity
+            android:name=".zxgs.ZxgsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <!-- 家装专题 -->
+        <activity
+            android:name=".jzzt.JzztActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <!--装修公司 商品展示页-->
+        <activity android:name=".zxgs.ZxgsDetailActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait">
+        </activity>
+        <!--贷款-->
+        <activity android:name=".zxgs.LoanApplyActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait">
+        </activity>
+        <!--预约-->
+        <activity android:name=".zxgs.AppointmentActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait">
+
         </activity>
         <!--贷款活动-->
         <activity android:name=".Dkhd.LoanActivity"

@@ -20,6 +20,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    // apk name def
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(output.outputFile.parent, defaultConfig.applicationId + "-" + buildType.name + "-v" +
+                    defaultConfig.versionName + "-" + defaultConfig.versionCode + ".apk" );
+        }
+    }
 }
 buildscript {
     repositories {
@@ -64,4 +71,11 @@ dependencies {
     
     compile 'com.7heaven.widgets:segmentcontrol:1.16'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    /*选择器*/
+    compile 'com.alibaba:fastjson:1.1.55.android'
+    compile 'com.github.florent37:viewanimator:1.0.3'
+    compile 'cn.qqtheme.framework:WheelPicker:1.4.2'
+    compile 'cn.qqtheme.framework:FilePicker:1.4.2'
+    compile 'cn.qqtheme.framework:ColorPicker:1.4.2'
+
 }

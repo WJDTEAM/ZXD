@@ -7,6 +7,7 @@ import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dict;
 import com.bf.zxd.zhuangxudai.pojo.jzzt;
 import com.bf.zxd.zhuangxudai.pojo.zxgl;
+import com.bf.zxd.zhuangxudai.pojo.zxgs_wjd;
 
 import java.util.List;
 
@@ -35,6 +36,13 @@ public interface ZxService {
      */
     @GET("getZxglItem")
     Observable<List<zxgl>> getZxglItem();
+
+    /**
+     * 获取装修公司列表接口
+     * @return
+     */
+    @GET("getZxgsItem")
+    Observable<List<zxgs_wjd>> getZxgsItem();
 
     /**
      * 家装专题列表接口

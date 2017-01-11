@@ -3,6 +3,8 @@ package com.bf.zxd.zhuangxudai.application;
 import android.app.Activity;
 import android.app.Application;
 
+import com.bf.zxd.zhuangxudai.util.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +68,7 @@ public class BaseApplication extends Application {
         mList = new ArrayList<>();
         RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).schemaVersion(2).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfig);
+
 
 
     }
