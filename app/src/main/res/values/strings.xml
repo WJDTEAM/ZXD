@@ -23,4 +23,8 @@
     <string name="zxd">装修贷</string>
     <!--我的-->
     <string name="my">我的</string>
+
+
+    <!--预约-->
+    <string name="house_typeHint">×室×厅×厨×卫×阳台</string>
 </resources>

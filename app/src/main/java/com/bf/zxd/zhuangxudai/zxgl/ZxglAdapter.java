@@ -27,6 +27,7 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
     List<zxgl> datas;
     MyItemClickListener mItemClickListener;
     private Context mContext;
+    private LayoutInflater mLayoutInflater;
 
 
     public int getLayout() {
@@ -34,8 +35,9 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
     }
 
     public ZxglAdapter(List<zxgl> datas,Context mContext) {
-        this.mContext=mContext;
+        this.mContext= mContext;
         this.datas = datas;
+        mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     /**
@@ -55,17 +57,17 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(getLayout(), parent, false);
+        View view = mLayoutInflater.inflate(getLayout(), parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final zxgl memoryCode = datas.get(position);
-        Picasso.with(mContext).load(memoryCode.getThumbnails()).into(holder.img);
-        holder.aboveTxt.setText(memoryCode.getTitle());
-        holder.bottomTxt.setText(memoryCode.getDescription());
+        final zxgl data = datas.get(position);
+        Picasso.with(mContext).load(data.getThumbnails()).into(holder.img);
+        holder.aboveTxt.setText(data.getTitle());
+        holder.bottomTxt.setText(data.getDescription());
 
 
 
@@ -87,9 +89,9 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
         // View rootView;
         @BindView(R.id.img)
         ImageView img;
-        @BindView(R.id.above_txt)
+        @BindView(R.id.gsTitle_txt)
         TextView aboveTxt;
-        @BindView(R.id.bottom_txt)
+        @BindView(R.id.gsAddress_txt)
         TextView bottomTxt;
         @BindView(R.id.RelativeLayout_item)
         RelativeLayout RelativeLayoutItem;

@@ -4,19 +4,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.RecycleViewDivider;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.zxgl;
+import com.bf.zxd.zhuangxudai.util.Utils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import hugo.weaving.DebugLog;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,8 +30,8 @@ import rx.subscriptions.CompositeSubscription;
  */
 
 public class ZxglActivity extends BaseActivity {
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+//    @BindView(R.id.toolbar_title)
+//    TextView toolbarTitle;
     @BindView(R.id.base_toolBar)
     Toolbar baseToolBar;
     @BindView(R.id.recyclerview_zhuangxiugonglue)
@@ -40,12 +42,13 @@ public class ZxglActivity extends BaseActivity {
     @Override
     public void initDate() {
         mCompositeSubscription = new CompositeSubscription();
+        Utils.init(this);
         getZxglItem();
 
     }
 
     private void getZxglItem() {
-        Subscription Subscription_getZxglItem= NetWork.getZxService().getZxglItem()
+        Subscription Subscription_getZxglItem = NetWork.getZxService().getZxglItem()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<zxgl>>() {
@@ -54,9 +57,10 @@ public class ZxglActivity extends BaseActivity {
 
                     }
 
+                    @DebugLog
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("Daniel","请求装修攻略列表数据失败！");
+                        Log.e("Daniel", "请求装修攻略列表数据失败！");
 
                     }
 
@@ -70,31 +74,32 @@ public class ZxglActivity extends BaseActivity {
 
     private void setAdapter(List<zxgl> zxgls) {
         //init context view
-//        RecyclerView contentView = new RecyclerView(ZxglActivity.this);
-        /*contentView.addItemDecoration(new RecycleViewDivider(
-                getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, R.drawable.template_divider_shap));*/
-//        contentView.addItemDecoration(new RecycleViewDivider(
-//                this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
         recyclerviewZhuangxiugonglue.setLayoutManager(new LinearLayoutManager(this));
         recyclerviewZhuangxiugonglue.addItemDecoration(new RecycleViewDivider(
                 this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
-//        recyclerviewZhuangxiugonglue.addItemDecoration(new RecycleViewDivider(this,1));
-        ZxglAdapter zxglAdapter = new ZxglAdapter(zxgls,ZxglActivity.this);
+        ZxglAdapter zxglAdapter = new ZxglAdapter(zxgls, this);
         recyclerviewZhuangxiugonglue.setAdapter(zxglAdapter);
     }
 
     @Override
     public void initView() {
         setContentView(R.layout.zhuangxiugonglue_list);
-        mUnbinder=ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         setToolBar();
 
     }
 
     private void setToolBar() {
-        baseToolBar.setTitle("");
+        baseToolBar.setTitle("装修攻略");
+        baseToolBar.setTitleTextColor(getResources().getColor(R.color.white));
+        baseToolBar.setNavigationIcon(R.drawable.back);
         setSupportActionBar(baseToolBar);
-        toolbarTitle.setText("装修攻略");
+        baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 

@@ -38,8 +38,8 @@ import rx.subscriptions.CompositeSubscription;
 
 public class TemplateDetailsFragment extends Fragment {
     Realm realm;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+//    @BindView(R.id.toolbar_title)
+//    TextView toolbarTitle;
     @BindView(R.id.base_toolBar)
     Toolbar baseToolBar;
     @BindView(R.id.slider)

@@ -150,7 +150,7 @@
         >
 
         <TextView
-            android:id="@+id/above_txt"
+            android:id="@+id/gsTitle_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="约看工地客户们该注意哪些细节"

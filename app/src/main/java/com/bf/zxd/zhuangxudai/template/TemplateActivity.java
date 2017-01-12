@@ -15,7 +15,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.util.SystemBarTintManager;
@@ -31,8 +30,8 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
     TemplateImgFragment templateImgFragment;
     TemplateDetailsFragment mTemplateDetailsFragment;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+//    @BindView(R.id.toolbar_title)
+//    TextView toolbarTitle;
     @BindView(R.id.base_toolBar)
     Toolbar baseToolBar;
     @BindView(R.id.template_details_fragment)
@@ -50,14 +49,11 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     public static final float slidingDistance=200;
     private void setToolbar(int status, String toolstr) {
 
-        baseToolBar.setTitle(toolstr);
-        /*TextView txt=((TextView)baseToolBar.findViewById(R.id.toolbar_title));
-        txt.setText(toolstr);
-        txt.setGravity(Gravity.CENTER_VERTICAL);*/
-        baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);
-        setSupportActionBar(baseToolBar);
+        baseToolBar.setTitle("");
+//        ((TextView)baseToolBar.findViewById(R.id.toolbar_title)).setText(toolstr);
         //图片界面
         if (status == 1) {
+            baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);
             baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -76,7 +72,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
             });
             baseToolBar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         }
-
+        setSupportActionBar(baseToolBar);
     }
 
     @Override

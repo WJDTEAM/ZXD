@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_product_exhibition"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <!--toolBar-->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+    <!--content-->
+    <!--提交资料-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+
+        <Button
+            android:id="@+id/loan_apply_for_btn"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:enabled="false"
+            android:background="@drawable/apply_for_selector"
+            android:layout_marginLeft="@dimen/hugemdp"
+            android:layout_marginRight="@dimen/hugemdp"
+            android:layout_marginBottom="@dimen/hugemdp"
+            android:textColor="@drawable/apply_for_text_color_selector"
+            android:text="提交资料"
+            android:textSize="@dimen/bigsp"
+            />
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/toolbar"
+            >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/recylist_item_line_shap"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/whitesmoke"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="32dp"
+                    android:clickable="true"
+                    android:src="@drawable/home_zxgs"
+
+                    />
+
+                <TextView
+                    android:id="@+id/gsTitle_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_toRightOf="@+id/image"
+                    android:text="苹果装饰"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/gsTitle_txt"
+                    android:layout_toRightOf="@+id/image"
+                    android:gravity="center_vertical"
+
+                    >
+
+                    <TextView
+                        android:id="@+id/below_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:padding="4dp"
+                        android:text="河南苹果装饰2000平米展厅"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/image"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/address_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:drawableLeft="@drawable/address"
+                        android:drawablePadding="5dp"
+                        android:text="金水区农业路国贸360广场3栋1602室"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_toRightOf="@+id/below_txt"
+                        android:src="@drawable/like_light"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/below_txt"
+                        android:text="98%"
+                        android:textColor="@color/colorPrimary"
+
+                        />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/whitesmoke"
+                />
+            <include layout="@layout/appointment_message"/>
+        </LinearLayout>
+
+</RelativeLayout>

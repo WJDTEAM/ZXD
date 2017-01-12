@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.Dkhd.LoanActivity;
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.jzzt.JzztActivity;
 import com.bf.zxd.zhuangxudai.zxgl.ZxglActivity;
+import com.bf.zxd.zhuangxudai.zxgs.ZxgsActivity;
 import com.daimajia.slider.library.SliderLayout;
 import com.sunfusheng.marqueeview.MarqueeView;
 
@@ -127,8 +129,10 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity(), LoanActivity.class));
                 break;
             case R.id.jiazhuangzhuanti_home:
+                startActivity(new Intent(getActivity(), JzztActivity.class));
                 break;
             case R.id.zhuangxiugongsi_home:
+               startActivity(new Intent(getActivity(), ZxgsActivity.class));
                 break;
         }
     }
