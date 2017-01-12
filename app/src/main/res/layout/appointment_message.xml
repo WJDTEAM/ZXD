@@ -122,10 +122,12 @@
             android:layout_weight="1"
             >
             <TextView
-                android:text="房屋面积："
+                android:text="面积："
                 style="@style/apply_for_text_style"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
                 />
-            <EditText
+            <TextView
                 android:id="@+id/house_area_edi"
                 style="@style/apply_for_edi_style"
                 />
@@ -142,14 +144,34 @@
                 android:layout_width="wrap_content"
                 android:gravity="center_vertical|left"
                 />
-            <EditText
+            <TextView
                 android:id="@+id/house_type_edi"
                 style="@style/apply_for_edi_style"
                 android:hint="@string/house_typeHint"
                 />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:text="风格："
+                style="@style/apply_for_text_style"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical|left"
+                />
+            <TextView
+                android:id="@+id/house_style_edi"
+                style="@style/apply_for_edi_style"
+                android:hint="@string/house_typeHint"
+                />
+        </LinearLayout>
+
     </LinearLayout>
+
     <TextView
         android:layout_width="1dp"
         android:layout_height="0dp"
