@@ -1,6 +1,7 @@
 package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +70,15 @@ public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
         final zxgs_wjd data = datas.get(position);
         Picasso.with(mContext).load(url).into(holder.img);
         holder.gsTitleTxt.setText(data.getZxgs_name());
+        holder.jdggBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int  Zxgs_id = data.getZxgs_id();
+                Intent intent = new Intent(mContext,ZxgsDetailActivity.class);
+                intent.putExtra("Zxgs_id",Zxgs_id);
+                mContext.startActivity(intent);
+            }
+        });
 
 
     }

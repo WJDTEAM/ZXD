@@ -37,6 +37,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -44,6 +45,7 @@
                 android:text="喆喆"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/bigsp"
+                android:paddingRight="5dp"
                 />
             <TextView
                 android:layout_width="0dp"
@@ -65,11 +67,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="Android Studio打包应用默认生成的apk名称是：app-release.apk 、如果我们要让生成的apk名跟我们版本包名有联系的话，那我们就要自定义生成的apk名了"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="8dp"
             >
             <TextView
                 android:layout_width="0dp"

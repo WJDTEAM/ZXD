@@ -33,6 +33,10 @@
         android:paddingLeft="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
+        android:background="?android:selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+
         >
         <TextView
             android:layout_width="0dp"
@@ -59,21 +63,22 @@
             android:text="100000"
             android:gravity="center_vertical"
             android:textSize="18sp"
+
             />
         <TextView
+            android:id="@+id/home_applyLoan_btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="3dp"
             android:gravity="center"
             android:text="申请贷款"
+            android:layout_marginRight="16dp"
             android:textColor="@color/colorPrimary"
-            android:background="@drawable/home_applyloan_shap"
+            android:clickable="true"
+            android:background="@drawable/home_applyloan_txt_sel"
             android:textSize="15sp"
             />
-
-
-
     </LinearLayout>
 
 </LinearLayout>

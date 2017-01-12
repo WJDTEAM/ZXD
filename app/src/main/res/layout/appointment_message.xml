@@ -103,6 +103,7 @@
             <EditText
                 android:id="@+id/address_down_edi"
                 style="@style/apply_for_edi_style"
+                android:textColorHint="@color/gary_dark"
                 android:hint="请输入你所居住的街道及门派信息"
                 />
         </LinearLayout>
@@ -166,7 +167,6 @@
             <TextView
                 android:id="@+id/house_style_edi"
                 style="@style/apply_for_edi_style"
-                android:hint="@string/house_typeHint"
                 />
         </LinearLayout>
 

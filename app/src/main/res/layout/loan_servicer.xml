@@ -35,6 +35,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             >
             <TextView
                 android:id="@+id/loanServicer_up"
@@ -79,6 +82,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="8dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             >
             <TextView
                 android:id="@+id/loanServicer_right_up"

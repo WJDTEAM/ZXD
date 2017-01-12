@@ -86,9 +86,9 @@ public class ZxgsActivity extends BaseActivity {
         zxgsAdapter.setOnItemClickListener(new ZxgsAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                String  _name = zxgses.get(postion).getZxgs_name();
+                int  Zxgs_id = zxgses.get(postion).getZxgs_id();
                 Intent intent = new Intent(ZxgsActivity.this,ZxgsDetailActivity.class);
-                intent.putExtra("name",_name);
+                intent.putExtra("Zxgs_id",Zxgs_id);
                 startActivity(intent);
             }
         });

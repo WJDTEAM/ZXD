@@ -1,5 +1,6 @@
 package com.bf.zxd.zhuangxudai.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,8 @@ import com.bf.zxd.zhuangxudai.jzzt.JzztActivity;
 import com.bf.zxd.zhuangxudai.zxgl.ZxglActivity;
 import com.bf.zxd.zhuangxudai.zxgs.ZxgsActivity;
 import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.sunfusheng.marqueeview.MarqueeView;
 
 import java.util.ArrayList;
@@ -49,8 +52,11 @@ public class HomeFragment extends Fragment {
     SliderLayout slider;
     @BindView(R.id.marqueeView)
     MarqueeView marqueeView;
+    @BindView(R.id.home_applyLoan_btn)
+    TextView homeApplyLoanBtn;
     private Realm realm;
     private Unbinder unbinder;
+    private int[] carousels = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
 
 
     public static HomeFragment newInstance() {
@@ -70,17 +76,16 @@ public class HomeFragment extends Fragment {
 //        MarqueeView marqueeView = (MarqueeView) findViewById(R.id.marqueeView);
 
         List<String> info = new ArrayList<>();
-        info.add("1. 大家好，我是孙福生。");
-        info.add("2. 欢迎大家关注我哦！");
-        info.add("3. GitHub帐号：sfsheng0322");
-        info.add("4. 新浪微博：孙福生微博");
-        info.add("5. 个人博客：sunfusheng.com");
-        info.add("6. 微信公众号：孙福生");
+        info.add("张小姐                                20万                         158*****111");
+        info.add("王先生                                30万                         156*****141");
+        info.add("李小姐                                10万                         138*****341");
+        info.add("赵先生                                20万                         137*****468");
+        info.add("刘小姐                                40万                         156*****123");
+        info.add("孙先姐                                60万                         159*****876");
         marqueeView.startWithList(info);
-
-        String notice = "心中有阳光，脚底有力量！心中有阳光，脚底有力量！心中有阳光，脚底有力量！";
-        marqueeView.startWithText(notice);
-//        setViewPager(carousels);
+//        String notice = "张小姐                   20万                  158*****111";
+//        marqueeView.startWithText(notice);
+        setViewPager(carousels);
 
 
         return view;
@@ -91,26 +96,35 @@ public class HomeFragment extends Fragment {
 
     }
 
-    //    private void setViewPager(List<Carousel> carousels) {
-//        if (carousels.size() > 1) {
-//            mSliderLayout.startAutoCycle();
-//        }
-//        for (Carousel m : carousels) {
-//
-//            DefaultSliderView textSliderView = new DefaultSliderView(getActivity());
-//            if (!StringUtils.isEmpty(m.getImage_url()))
-//                textSliderView.image(m.getImage_url())
-//                        .setScaleType(BaseSliderView.ScaleType.CenterCrop)
-//                        .setOnSliderClickListener(this);
-//
-//            mSliderLayout.addSlider(textSliderView);
-//        }
-//    }
+    private void setViewPager(int[] carousels) {
+        if (carousels.length > 1) {
+            slider.startAutoCycle();
+        }
+        for (int i = 0; i < carousels.length; i++) {
+            DefaultSliderView textSliderView = new DefaultSliderView(getActivity());
+            textSliderView.image(carousels[i])
+                    .setScaleType(BaseSliderView.ScaleType.CenterCrop);
+
+            slider.addSlider(textSliderView);
+        }
+    }
+
     private void setToolbar() {
         //让原始的toolbar的title不显示
 //        baseToolBar.setTitle("");
 //        ((AppCompatActivity) getActivity()).setSupportActionBar(baseToolBar);
 //        toolbarTitle.setText(getResources().getString(R.string.home_title));
+    }
+    public interface mDetailsListener {
+        void setContent(int id);
+    }
+
+    private mDetailsListener mListener;
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mListener = (mDetailsListener) activity;
+
     }
 
     @Override
@@ -119,7 +133,7 @@ public class HomeFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.zhuangxiugonglue_home, R.id.daikuanhongdong_home, R.id.jiazhuangzhuanti_home, R.id.zhuangxiugongsi_home})
+    @OnClick({R.id.home_applyLoan_btn,R.id.zhuangxiugonglue_home, R.id.daikuanhongdong_home, R.id.jiazhuangzhuanti_home, R.id.zhuangxiugongsi_home})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.zhuangxiugonglue_home:
@@ -132,7 +146,10 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity(), JzztActivity.class));
                 break;
             case R.id.zhuangxiugongsi_home:
-               startActivity(new Intent(getActivity(), ZxgsActivity.class));
+                startActivity(new Intent(getActivity(), ZxgsActivity.class));
+                break;
+            case R.id.home_applyLoan_btn:
+//                mListener.setContent(3);
                 break;
         }
     }

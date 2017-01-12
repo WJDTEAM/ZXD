@@ -51,7 +51,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="32dp"
                     android:clickable="true"
-                    android:src="@drawable/home_zxgs"
+                    android:src="@drawable/demo2"
 
                     />
 
@@ -100,6 +100,7 @@
                         android:layout_marginLeft="8dp"
                         android:drawableLeft="@drawable/address"
                         android:drawablePadding="5dp"
+                        android:textColor="@color/black"
                         android:text="金水区农业路国贸360广场3栋1602室"
                         />
 

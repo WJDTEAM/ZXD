@@ -26,7 +26,7 @@ import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import rx.subscriptions.CompositeSubscription;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HomeFragment.mDetailsListener {
 
     private static final String HOME_TAG = "home_flag";
     private static final String YBJ_TAG = "ybj_flag";
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
      * @param contentHome
      */
 
-    private void setContent(int contentHome) {
+    public void setContent(int contentHome) {
         switch (contentHome) {
             case CONTENT_HOME:
                 String home_str = getResources().getString(R.string.home_title);

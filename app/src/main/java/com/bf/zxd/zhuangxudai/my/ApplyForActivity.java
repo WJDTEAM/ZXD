@@ -50,14 +50,17 @@ public class ApplyForActivity extends AppCompatActivity {
     private void setToolbar(String toolstr) {
 
         toolbar.setTitle(toolstr);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+//        ((TextView) toolbar.findViewById(R.id.toolbar_title)).setText(toolstr);
         toolbar.setNavigationIcon(R.drawable.barcode__back_arrow);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-        setSupportActionBar(toolbar);
+
 
     }
 

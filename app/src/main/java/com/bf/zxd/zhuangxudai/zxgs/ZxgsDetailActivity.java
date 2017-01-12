@@ -1,6 +1,8 @@
 package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -9,12 +11,21 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
-import com.daimajia.slider.library.SliderLayout;
+import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.Zxgs;
+import com.bf.zxd.zhuangxudai.template.TemplateHorizontalListAdapter;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class ZxgsDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -28,8 +39,8 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     TextView belowTxt;
     @BindView(R.id.address_txt)
     TextView addressTxt;
-    @BindView(R.id.slider)
-    SliderLayout slider;
+//    @BindView(R.id.slider)
+//    SliderLayout slider;
     @BindView(R.id.activity_product_exhibition)
     RelativeLayout activityProductExhibition;
     @BindView(R.id.tab_layout)
@@ -38,11 +49,43 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     LinearLayout templateLoanLin;
     @BindView(R.id.template_subscribe_lin)
     LinearLayout templateSubscribeLin;
-    private String title;
+
+    @BindView(R.id.all_imgs_RecyclerView)
+    RecyclerView allImgsRecyclerView;
+    private int Zxgs_id=-1;
+    TemplateHorizontalListAdapter templateHorizontalListAdapter;
 
     @Override
     public void initDate() {
-        title = getIntent().getStringExtra("name");
+        Zxgs_id = getIntent().getIntExtra("Zxgs_id",-1);
+
+        NetWork.getZxService().getZxgs(Zxgs_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Zxgs>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Zxgs zxgs) {
+                        String _title = zxgs.getCompany_name();
+                        setToolBar(_title);
+                        gsTitleTxt.setText(_title);
+                        String _address = zxgs.getAddr();
+                        addressTxt.setText(_address);
+                        String _tel = zxgs.getTel();
+                        belowTxt.setText(_tel);
+                        Picasso.with(ZxgsDetailActivity.this).load(zxgs.getLogo_img()).error(R.drawable.demo2).into(image);
+
+                    }
+                });
 
 
     }
@@ -51,8 +94,9 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     public void initView() {
         setContentView(R.layout.activity_zxgs_detail);
         ButterKnife.bind(this);
-        setToolBar(title);
-        gsTitleTxt.setText(title);
+
+        initListView();
+
 
     }
 
@@ -60,6 +104,25 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     public void initEvent() {
 
 
+    }
+
+    List<String> data;
+    public void initListView(){
+        data=new ArrayList<>();
+        for(int i=0;i<14;i++){
+            data.add("");
+        }
+        templateHorizontalListAdapter=new TemplateHorizontalListAdapter(ZxgsDetailActivity.this,data);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(ZxgsDetailActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        allImgsRecyclerView.setLayoutManager(linearLayoutManager);
+        allImgsRecyclerView.setAdapter(templateHorizontalListAdapter);
+//        templateHorizontalListAdapter.setOnItemClickListener(new TemplateHorizontalListAdapter.MyItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int postion) {
+//                mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,postion+1);
+//            }
+//        });
     }
 
     private void setToolBar(String tooltitle) {
