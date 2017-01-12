@@ -5,6 +5,8 @@
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
                 android:id="@+id/RelativeLayout_item"
+                android:background="?android:selectableItemBackground"
+                android:clickable="true"
     >
 
     <ImageView

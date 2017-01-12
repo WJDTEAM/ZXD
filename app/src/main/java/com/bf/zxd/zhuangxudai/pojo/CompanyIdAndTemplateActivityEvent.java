@@ -6,11 +6,11 @@ import com.bf.zxd.zhuangxudai.template.TemplateActivity;
  * Created by johe on 2017/1/11.
  */
 
-public class CompanyIdAndActivityEvent {
+public class CompanyIdAndTemplateActivityEvent {
     int CompanyId;
     Class<TemplateActivity> activityClass;
-    public CompanyIdAndActivityEvent(){}
-    public CompanyIdAndActivityEvent(int companyId, Class<TemplateActivity> activityClass) {
+    public CompanyIdAndTemplateActivityEvent(){}
+    public CompanyIdAndTemplateActivityEvent(int companyId, Class<TemplateActivity> activityClass) {
         this.CompanyId = companyId;
         this.activityClass = activityClass;
     }

@@ -5,11 +5,8 @@
               android:layout_height="match_parent">
 
     <include layout="@layout/toolbar"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/loan_activity_list"
+    <WebView
+        android:id="@+id/loan_activity_details_web"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/whitesmoke"
-
-        ></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"></WebView>
 </LinearLayout>

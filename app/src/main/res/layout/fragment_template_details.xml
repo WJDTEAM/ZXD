@@ -55,7 +55,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="3"
-                    android:paddingLeft="8dp"
+                    android:paddingLeft="@dimen/smallmdp"
+                    android:text="客厅整体设计白色十分精致，射灯，吊灯，落地灯相互组合搭配，让空间更为明亮绚烂，茶色玻璃装饰的墙腰，增加卧室的视觉空间。夜深人静的时候坐在皮质沙发上翻翻杂志，很是舒适。"
+                    android:textSize="@dimen/smallsp"
+
                     />
 
                 <View
@@ -251,6 +254,28 @@
 
             </LinearLayout>
 
+
+            <TextView
+                android:id="@+id/imgs_num_txt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tinyhdp"
+                android:text="相关图片(14张)"
+                android:textColor="@color/black_dark"
+                android:textSize="@dimen/mediumsp"
+                android:gravity="bottom"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/all_imgs_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mediumhdp"
+                android:background="@color/whitesmoke"
+                />
         </LinearLayout>
 
     </com.bf.zxd.zhuangxudai.customview.CustomScrollView>

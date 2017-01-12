@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.customview.AutoHeightLayoutManager;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.Zxd;
 
@@ -64,7 +65,9 @@ public class ZXDFragment extends Fragment {
     public void initListView(List<Zxd> zxds){
         if(loanBankListAdapter==null){
             loanBankListAdapter=new LoanBankListAdapter(getActivity(),zxds);
-            loanBankList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            AutoHeightLayoutManager autoHeightLayoutManager=new AutoHeightLayoutManager(getActivity());
+            autoHeightLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            loanBankList.setLayoutManager(autoHeightLayoutManager);
             loanBankList.setAdapter(loanBankListAdapter);
         }
     }

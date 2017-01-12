@@ -1,4 +1,4 @@
-package com.bf.zxd.zhuangxudai.Dkhd;
+package com.bf.zxd.zhuangxudai.zxgl;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,10 +16,10 @@ import io.realm.Realm;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by johe on 2017/1/10.
+ * Created by johe on 2017/1/12.
  */
 
-public class LoanDetailsActivity extends AppCompatActivity {
+public class ZxglDetailsActivity extends AppCompatActivity{
 
 
     Realm realm;
@@ -83,9 +83,10 @@ public class LoanDetailsActivity extends AppCompatActivity {
         webView.setWebViewClient(new CustomWebViewClient());*/
 
 
-        webView.loadUrl("https://render.mybank.cn/p/s/aliloan_site/xydk.html");
+        webView.loadUrl("http://m.jia.com/tuku/");
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setLoadWithOverviewMode(true);
 
     }
 }
+

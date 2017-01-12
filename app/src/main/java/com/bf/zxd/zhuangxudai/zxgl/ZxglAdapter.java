@@ -13,6 +13,8 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.pojo.zxgl;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,6 +72,12 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
         holder.bottomTxt.setText(data.getDescription());
 
 
+        holder.RelativeLayoutItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(ZxglDetailsActivity.class);
+            }
+        });
 
 
     }

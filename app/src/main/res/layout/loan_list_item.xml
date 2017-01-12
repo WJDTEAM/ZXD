@@ -6,6 +6,7 @@
     android:layout_marginBottom="@dimen/tinymdp"
     android:layout_marginTop="@dimen/tinymdp">
 <LinearLayout
+    android:id="@+id/loan_activity_lin"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:src="@drawable/demo"
+        android:src="@drawable/bank_activity_log"
         />
 
     <LinearLayout

@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.pojo.Dkhd;
 import com.bf.zxd.zhuangxudai.template.TemplateListAdapter;
-import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -56,12 +58,18 @@ public class LoanActivityListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         LoanActivityListAdapter.MyViewHoder myViewHoder = (LoanActivityListAdapter.MyViewHoder) holder;
-        Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
-                .placeholder(R.drawable.demo)
-                .error(R.drawable.demo)
-                .into(myViewHoder.loanActivityImg);
+//        Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
+//                .placeholder(R.drawable.demo)
+//                .error(R.drawable.demo)
+//                .into(myViewHoder.loanActivityImg);
         myViewHoder.loanActivityTitle.setText(mDatas.get(position).getTitle());
         myViewHoder.loanActivityTime.setText(mDatas.get(position).getCreate_time());
+        myViewHoder.loan_activity_lin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(LoanDetailsActivity.class);
+            }
+        });
     }
 
     @Override
@@ -82,6 +90,8 @@ public class LoanActivityListAdapter extends RecyclerView.Adapter<RecyclerView.V
         ImageView loanActivityImg;
         @BindView(R.id.loan_activity_time)
         TextView loanActivityTime;
+        @BindView(R.id.loan_activity_lin)
+        LinearLayout loan_activity_lin;
 
         public MyViewHoder(View view) {
             super(view);

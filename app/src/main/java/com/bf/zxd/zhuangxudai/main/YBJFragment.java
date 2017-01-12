@@ -17,7 +17,7 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.DropDownMenu;
 import com.bf.zxd.zhuangxudai.customview.RecycleViewDivider;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndActivityEvent;
+import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndTemplateActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.DictData;
 import com.bf.zxd.zhuangxudai.pojo.jzzt;
 import com.bf.zxd.zhuangxudai.template.ConstellationAdapter;
@@ -187,10 +187,10 @@ public class YBJFragment extends Fragment {
                 @Override
                 public void onItemClick(View view, int postion) {
                     //发送广播通知mainactivity跳转页面
-                    CompanyIdAndActivityEvent companyIdAndActivityEvent=new CompanyIdAndActivityEvent();
-                    companyIdAndActivityEvent.setCompanyId(templateListAdapter.getmDatas().get(postion).getCompany_id());
-                    companyIdAndActivityEvent.setActivityClass(TemplateActivity.class);
-                    EventBus.getDefault().post(companyIdAndActivityEvent);
+                    CompanyIdAndTemplateActivityEvent companyIdAndTemplateActivityEvent =new CompanyIdAndTemplateActivityEvent();
+                    companyIdAndTemplateActivityEvent.setCompanyId(templateListAdapter.getmDatas().get(postion).getCompany_id());
+                    companyIdAndTemplateActivityEvent.setActivityClass(TemplateActivity.class);
+                    EventBus.getDefault().post(companyIdAndTemplateActivityEvent);
                 }
             });
         }else{

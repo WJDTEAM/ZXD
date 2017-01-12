@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_margin="@dimen/activity_horizontal_margin">
+    android:layout_margin="@dimen/smallmdp">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,25 +13,43 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
 
         <ImageView
             android:id="@+id/bank_img"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scaleType="fitStart"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
+            android:src="@drawable/bank_log"
+            android:layout_margin="@dimen/tinymdp"
             />
-        
         <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gary_dark"/>
-    </LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+        <Button
+            android:id="@+id/bank_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/apply_for_selector"
+            android:text="去申请"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/mediummdp"
+            android:layout_marginBottom="@dimen/mediummdp"
+            />
 
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gary"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
     <ImageView
         android:id="@+id/thumbnails"
         android:layout_width="match_parent"
@@ -40,17 +58,24 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:src="@drawable/demo"
+        android:src="@drawable/bank_msg"
         />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gary"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"/>
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="@dimen/tinyhdp"
         android:text="中国工商银行装修贷活动"
         android:lines="2"
         android:ellipsize="end"
         android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         />

@@ -17,6 +17,7 @@
         app:ddmaskColor="@color/mask_color"
         app:ddmenuBackgroundColor="@color/white"
         app:ddmenuUnselectedIcon="@drawable/drop_down_unselected_icon"
+        android:background="@color/whitesmoke"
         />
 
 </RelativeLayout>

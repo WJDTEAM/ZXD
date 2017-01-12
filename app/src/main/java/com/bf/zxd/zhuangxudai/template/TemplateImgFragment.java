@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -70,7 +71,7 @@ public class TemplateImgFragment extends Fragment {
 
         public boolean isToolBarShow();
 
-        public void changeFragmentByTAG(String fragment);
+        public void changeFragmentByTAG(String fragment,int index);
     }
 
     private mImgListener mListener;
@@ -122,12 +123,8 @@ public class TemplateImgFragment extends Fragment {
                     //用户右翻页
                     index++;
                 }
-                ((TextView)autoViewPagerAdapter.getImageViewList().get(0).findViewById(R.id.txt)).setText(index-2+"");
-                ((TextView)autoViewPagerAdapter.getImageViewList().get(1).findViewById(R.id.txt)).setText(index-1+"");
-                ((TextView)autoViewPagerAdapter.getImageViewList().get(2).findViewById(R.id.txt)).setText(index+"");
-                ((TextView)autoViewPagerAdapter.getImageViewList().get(3).findViewById(R.id.txt)).setText(index+1+"");
-                ((TextView)autoViewPagerAdapter.getImageViewList().get(4).findViewById(R.id.txt)).setText(index+2+"");
-                templateViewpager.setCurrentItem(2,false);
+                setViewPager(index);
+
             }
         });
         templateViewpager.setOnTouchListener(new View.OnTouchListener() {
@@ -141,7 +138,7 @@ public class TemplateImgFragment extends Fragment {
                     upY=motionEvent.getY();
                     upX=motionEvent.getX();
                     if((downY-upY)>TemplateActivity.slidingDistance){
-                        mListener.changeFragmentByTAG(TemplateActivity.CHANGE_DETAILS_FRAGMENT);
+                        mListener.changeFragmentByTAG(TemplateActivity.CHANGE_DETAILS_FRAGMENT,0);
                         return true;
                     }else{
 
@@ -173,7 +170,27 @@ public class TemplateImgFragment extends Fragment {
         }
     }
 
-
+    public void setViewPager(int index){
+        ((TextView)autoViewPagerAdapter.getImageViewList().get(0).findViewById(R.id.txt)).setText(index-2+"");
+        ((TextView)autoViewPagerAdapter.getImageViewList().get(1).findViewById(R.id.txt)).setText(index-1+"");
+        ((TextView)autoViewPagerAdapter.getImageViewList().get(2).findViewById(R.id.txt)).setText(index+"");
+        ((TextView)autoViewPagerAdapter.getImageViewList().get(3).findViewById(R.id.txt)).setText(index+1+"");
+        ((TextView)autoViewPagerAdapter.getImageViewList().get(4).findViewById(R.id.txt)).setText(index+2+"");
+        if(index%2==0){
+            ((ImageView)autoViewPagerAdapter.getImageViewList().get(0).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo2);
+            ((ImageView)autoViewPagerAdapter.getImageViewList().get(1).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo);
+            ((ImageView)autoViewPagerAdapter.getImageViewList().get(2).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo2);
+            ((ImageView)autoViewPagerAdapter.getImageViewList().get(3).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo);
+            ((ImageView)autoViewPagerAdapter.getImageViewList().get(4).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo2);
+        }else{
+            ((ImageView)autoViewPagerAdapter.getImageViewList().get(0).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo);
+            ((ImageView)autoViewPagerAdapter.getImageViewList().get(1).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo2);
+            ((ImageView)autoViewPagerAdapter.getImageViewList().get(2).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo);
+            ((ImageView)autoViewPagerAdapter.getImageViewList().get(3).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo2);
+            ((ImageView)autoViewPagerAdapter.getImageViewList().get(4).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo);
+        }
+        templateViewpager.setCurrentItem(2,false);
+    }
     ViewGroup vg;
 
     //宽高改变动画

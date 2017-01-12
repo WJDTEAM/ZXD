@@ -4,10 +4,29 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/loan_bank_list"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        ></android.support.v7.widget.RecyclerView>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@drawable/zxd_top_img2"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/loan_bank_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/whitesmoke"
+
+                ></android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+    </ScrollView>
+
 </LinearLayout>

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,11 +21,18 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.CustomScrollView;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
+import com.bf.zxd.zhuangxudai.zxgs.ZxgsDetailActivity;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 import rx.Observer;
@@ -38,8 +47,8 @@ import rx.subscriptions.CompositeSubscription;
 
 public class TemplateDetailsFragment extends Fragment {
     Realm realm;
-//    @BindView(R.id.toolbar_title)
-//    TextView toolbarTitle;
+    //    @BindView(R.id.toolbar_title)
+    //    TextView toolbarTitle;
     @BindView(R.id.base_toolBar)
     Toolbar baseToolBar;
     @BindView(R.id.slider)
@@ -67,10 +76,19 @@ public class TemplateDetailsFragment extends Fragment {
     TextView companyPhone;
     @BindView(R.id.company_address2)
     TextView companyAddress2;
+    @BindView(R.id.all_imgs_RecyclerView)
+    RecyclerView allImgsRecyclerView;
 
+    TemplateHorizontalListAdapter templateHorizontalListAdapter;
     public static TemplateDetailsFragment newInstance() {
         TemplateDetailsFragment fragment = new TemplateDetailsFragment();
         return fragment;
+    }
+
+    @OnClick(R.id.below_txt)
+    public void onClick() {
+        //跳转页面
+        mListener.startActivity(ZxgsDetailActivity.class);
     }
 
     public interface mDetailsListener {
@@ -82,9 +100,11 @@ public class TemplateDetailsFragment extends Fragment {
 
         public boolean isToolBarShow();
 
-        public void changeFragmentByTAG(String fragment);
+        public void changeFragmentByTAG(String fragment,int index);
 
         public int getCompanyId();
+
+        public void startActivity(Class<ZxgsDetailActivity> activity);
     }
 
     private mDetailsListener mListener;
@@ -112,7 +132,7 @@ public class TemplateDetailsFragment extends Fragment {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     upY = motionEvent.getY();
                     if ((upY - downY) > TemplateActivity.slidingDistance && scrolHeight == 0) {
-                        mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT);
+                        mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,0);
                         return true;
                     }
                 }
@@ -127,6 +147,7 @@ public class TemplateDetailsFragment extends Fragment {
                 Log.i("gqf", "int x" + x + "int y" + y + "int oldx" + oldx + "int oldy" + oldy);
             }
         });
+        initSliderLayout();
 
         return view;
     }
@@ -136,8 +157,43 @@ public class TemplateDetailsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         initData(mListener.getCompanyId());
-
+        initListView();
     }
+    List<String> data;
+    public void initListView(){
+        data=new ArrayList<>();
+        for(int i=0;i<14;i++){
+            data.add("");
+        }
+        templateHorizontalListAdapter=new TemplateHorizontalListAdapter(getActivity(),data);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        allImgsRecyclerView.setLayoutManager(linearLayoutManager);
+        allImgsRecyclerView.setAdapter(templateHorizontalListAdapter);
+        templateHorizontalListAdapter.setOnItemClickListener(new TemplateHorizontalListAdapter.MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,0);
+            }
+        });
+    }
+    public void initSliderLayout() {
+        TextSliderView textSliderView1 = new TextSliderView(this.getActivity());
+        textSliderView1.image(R.drawable.demo2);
+        textSliderView1.description("新品推荐");
+        TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
+        textSliderView2.image(R.drawable.demo);
+        textSliderView2.description("老品推荐");
+
+        slider.addSlider(textSliderView1);
+        slider.addSlider(textSliderView2);
+
+        //阴影显示的动画效果
+        slider.setCustomAnimation(new DescriptionAnimation());
+        //图片的转场效果
+        slider.setDuration(3000);
+    }
+
 
     public void initData(int id) {
         Subscription subscription = NetWork.getZxService().getZxgs(id)
@@ -146,17 +202,17 @@ public class TemplateDetailsFragment extends Fragment {
                 .subscribe(new Observer<Zxgs>() {
                     @Override
                     public void onCompleted() {
-                        Log.i("gqf","onCompleted");
+                        Log.i("gqf", "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("gqf","onError"+e.getMessage());
+                        Log.i("gqf", "onError" + e.getMessage());
                     }
 
                     @Override
                     public void onNext(Zxgs zxgs) {
-                        Log.i("gqf","mListener"+zxgs.toString());
+                        Log.i("gqf", "mListener" + zxgs.toString());
                         initView(zxgs);
                     }
                 });
@@ -173,4 +229,5 @@ public class TemplateDetailsFragment extends Fragment {
                 .error(R.drawable.home_zxgs)
                 .into(image);
     }
+
 }

@@ -82,6 +82,16 @@
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait">
         </activity>
+        <!--活动详情-->
+        <activity android:name=".Dkhd.LoanDetailsActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait">
+        </activity>
+        <!--装修攻略详情-->
+        <activity android:name=".zxgl.ZxglDetailsActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

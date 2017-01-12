@@ -1,5 +1,7 @@
 package com.bf.zxd.zhuangxudai.zxgl;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +14,10 @@ import com.bf.zxd.zhuangxudai.customview.RecycleViewDivider;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.zxgl;
 import com.bf.zxd.zhuangxudai.util.Utils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -85,10 +91,18 @@ public class ZxglActivity extends BaseActivity {
     public void initView() {
         setContentView(R.layout.zhuangxiugonglue_list);
         mUnbinder = ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         setToolBar();
 
     }
-
+    /**
+     * 页面跳转
+     */
+    @DebugLog
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void startActivity(Class<Activity> activity) {
+        startActivity(new Intent(ZxglActivity.this,activity));
+    }
     private void setToolBar() {
         baseToolBar.setTitle("装修攻略");
         baseToolBar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -113,5 +127,6 @@ public class ZxglActivity extends BaseActivity {
         super.onDestroy();
         mUnbinder.unbind();
         mCompositeSubscription.unsubscribe();
+        EventBus.getDefault().unregister(this);
     }
 }

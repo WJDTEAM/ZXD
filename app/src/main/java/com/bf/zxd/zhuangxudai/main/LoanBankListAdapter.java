@@ -57,11 +57,14 @@ public class LoanBankListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         MyViewHoder myViewHoder = (MyViewHoder) holder;
-        Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
-                .placeholder(R.drawable.demo)
-                .error(R.drawable.demo)
-                .into(myViewHoder.thumbnails);
-        Picasso.with(mContext).load(mDatas.get(position).getBank_img()).into(myViewHoder.bankImg);
+//        Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
+//                .placeholder(R.drawable.bank_msg)
+//                .error(R.drawable.bank_msg)
+//                .into(myViewHoder.thumbnails);
+        Picasso.with(mContext).load(mDatas.get(position).getBank_img())
+                .placeholder(R.drawable.bank_log)
+                .error(R.drawable.bank_log)
+                .into(myViewHoder.bankImg);
         myViewHoder.title.setText(mDatas.get(position).getTitle());
     }
 
@@ -83,7 +86,8 @@ public class LoanBankListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageView bankImg;
         @BindView(R.id.title)
         TextView title;
-
+        @BindView(R.id.bank_apply)
+        TextView bank_apply;
         public MyViewHoder(View view) {
             super(view);
             ButterKnife.bind(this, view);
