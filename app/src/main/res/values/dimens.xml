@@ -27,5 +27,6 @@
     <dimen name="hugehxxdp">80dp</dimen>
     <dimen name="hugehxxxdp">90dp</dimen>
     <dimen name="hugehxxxxdp">100dp</dimen>
+    <dimen name="hugehxxxxxdp">120dp</dimen>
 
 </resources>

@@ -73,6 +73,34 @@ public interface ZxService {
     @POST("saveRzsq")
     Observable<ResuleInfo> saveRzsq(@Field("unit_name") String unit_name, @Field("unit_addr") String unit_addr, @Field("full_name") String full_name, @Field("phone") String phone);
 
+    /**
+     * 贷款申请保存
+     * @param full_name
+     * @param phone
+     * @param company_id
+     * @param sex
+     * @param apply_money
+     * @param bank_id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("saveDksq")
+    Observable<ResuleInfo> saveDksq(@Field("full_name") String full_name, @Field("phone") String phone, @Field("company_id") int company_id, @Field("sex") int sex, @Field("apply_money") String apply_money, @Field("bank_id") int bank_id);
+
+    /**
+     * 预约保存
+     * @param full_name
+     * @param phone
+     * @param company_id
+     * @param unit_addr
+     * @param area
+     * @param house_type
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("saveZxyy")
+    Observable<ResuleInfo> saveZxyy(@Field("full_name") String full_name, @Field("phone") String phone, @Field("company_id") int company_id, @Field("unit_addr") String unit_addr, @Field("area") int area, @Field("house_type") int house_type, @Field("house_style") int house_style);
+
 
     /**
      * 装修贷银行信息
