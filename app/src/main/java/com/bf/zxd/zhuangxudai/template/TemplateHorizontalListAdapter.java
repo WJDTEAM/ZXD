@@ -71,6 +71,11 @@ public class TemplateHorizontalListAdapter extends RecyclerView.Adapter<Recycler
                 mItemClickListener.onItemClick(myViewHoder.listImg,position);
             }
         });
+        if((position+1)%2==0){
+            myViewHoder.listImg.setImageResource(R.drawable.demo2);
+        }else{
+            myViewHoder.listImg.setImageResource(R.drawable.demo);
+        }
     }
 
     @Override

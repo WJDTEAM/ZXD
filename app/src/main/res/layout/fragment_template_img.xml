@@ -33,19 +33,20 @@
                 android:textSize="@dimen/mediumsp"
                 android:text="智地哥谭(洛阳市洛龙区)现代风格"/>
             <TextView
-                android:id="@+id/page_num"
+                android:id="@+id/now_num"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:gravity="center_vertical|right"
                 android:textSize="@dimen/mediumsp"
                 android:text="1"/>
+
             <TextView
-                android:id="@+id/now_num"
+                android:id="@+id/page_num"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:gravity="center_vertical|right"
+                android:gravity="bottom|right"
                 android:textSize="@dimen/smallsp"
                 android:padding="@dimen/tinymdp"
                 android:text="/14"/>

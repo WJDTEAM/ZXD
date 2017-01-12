@@ -163,6 +163,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         return super.onKeyDown(keyCode, event);
     }
     public void changeFragmentByTAG(String fragment,int index){
+        Log.i("gqf","index"+index);
         if(fragment.equals(CHANGE_DETAILS_FRAGMENT)){
             //imgfragment上划出屏幕，显示toolbar和底部栏
             setToolbar(2, "现代风格时尚复式装");

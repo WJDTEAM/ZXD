@@ -164,6 +164,9 @@ public class TemplateImgFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(hidden){
+            if(mListener.isToolBarShow()){
+                clickEvent(-mListener.getToolBarheight());
+            }
             Enable=false;
         }else{
             Enable=true;
@@ -189,6 +192,7 @@ public class TemplateImgFragment extends Fragment {
             ((ImageView)autoViewPagerAdapter.getImageViewList().get(3).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo2);
             ((ImageView)autoViewPagerAdapter.getImageViewList().get(4).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo);
         }
+        nowNum.setText(""+index);
         templateViewpager.setCurrentItem(2,false);
     }
     ViewGroup vg;

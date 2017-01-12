@@ -173,7 +173,7 @@ public class TemplateDetailsFragment extends Fragment {
         templateHorizontalListAdapter.setOnItemClickListener(new TemplateHorizontalListAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,0);
+                mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,postion+1);
             }
         });
     }
