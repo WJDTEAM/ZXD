@@ -103,8 +103,7 @@ public class HomeFragment extends Fragment {
         for (int i = 0; i < carousels.length; i++) {
             DefaultSliderView textSliderView = new DefaultSliderView(getActivity());
             textSliderView.image(carousels[i])
-                    .setScaleType(BaseSliderView.ScaleType.CenterCrop);
-
+                    .setScaleType(BaseSliderView.ScaleType.Fit);
             slider.addSlider(textSliderView);
         }
     }
@@ -115,6 +114,7 @@ public class HomeFragment extends Fragment {
 //        ((AppCompatActivity) getActivity()).setSupportActionBar(baseToolBar);
 //        toolbarTitle.setText(getResources().getString(R.string.home_title));
     }
+
     public interface mDetailsListener {
         void setContent(int id);
     }
@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.home_applyLoan_btn,R.id.zhuangxiugonglue_home, R.id.daikuanhongdong_home, R.id.jiazhuangzhuanti_home, R.id.zhuangxiugongsi_home})
+    @OnClick({R.id.home_applyLoan_btn, R.id.zhuangxiugonglue_home, R.id.daikuanhongdong_home, R.id.jiazhuangzhuanti_home, R.id.zhuangxiugongsi_home})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.zhuangxiugonglue_home:

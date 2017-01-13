@@ -47,12 +47,14 @@
         <activity
             android:name=".zxgl.ZxglActivity"
             android:launchMode="singleTask"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait">
         </activity>
         <!-- 装修公司 -->
         <activity
             android:name=".zxgs.ZxgsActivity"
             android:launchMode="singleTask"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait">
         </activity>
         <!-- 家装专题 -->

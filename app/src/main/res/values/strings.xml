@@ -27,4 +27,7 @@
 
     <!--预约-->
     <string name="house_typeHint">×室×厅×厨×卫×阳台</string>
+
+    <!--评论-->
+    <string name="comment">刚装完效果真是很好啊，简欧风非常的温馨，装修师傅很好，非常负责，每一步都跟我沟通确认，施工中有任何问题都认真对待。</string>
 </resources>

@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.pojo.ActivityIdAndZxglDetailActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.zxgl;
 import com.squareup.picasso.Picasso;
 
@@ -75,7 +76,8 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
         holder.RelativeLayoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(ZxglDetailsActivity.class);
+                ActivityIdAndZxglDetailActivityEvent activityIdAndZxglDetailActivityEvent = new ActivityIdAndZxglDetailActivityEvent(data.getArticle_id(),ZxglDetailsActivity.class);
+                EventBus.getDefault().post(activityIdAndZxglDetailActivityEvent);
             }
         });
 

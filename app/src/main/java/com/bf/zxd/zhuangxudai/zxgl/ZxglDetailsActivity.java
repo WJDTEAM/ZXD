@@ -28,6 +28,7 @@ public class ZxglDetailsActivity extends AppCompatActivity{
     Toolbar baseToolBar;
     @BindView(R.id.loan_activity_details_web)
     WebView webView;
+    private int mActivityId;
 
     private void setToolbar(String toolstr) {
         baseToolBar.setTitle(toolstr);
@@ -51,8 +52,13 @@ public class ZxglDetailsActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
         mcompositeSubscription = new CompositeSubscription();
+        mActivityId = getIntent().getIntExtra("activityId",-1);
         setToolbar("活动详情");
+//        NetWork.getZxService()
         initWebView();
+
+
+
     }
     public void initWebView(){
         WebSettings settings = webView.getSettings();
@@ -83,7 +89,7 @@ public class ZxglDetailsActivity extends AppCompatActivity{
         webView.setWebViewClient(new CustomWebViewClient());*/
 
 
-        webView.loadUrl("http://m.jia.com/tuku/");
+        webView.loadUrl("http://211.149.235.17:8080/zxd/app/getDetail/"+mActivityId+"");
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setLoadWithOverviewMode(true);
 

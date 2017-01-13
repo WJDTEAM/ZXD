@@ -6,9 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
@@ -28,9 +26,10 @@ public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
 
     List<zxgs_wjd> datas;
     MyItemClickListener mItemClickListener;
+
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private  String url = "http://211.149.235.17:8080/zxd/upload/zxgl-20170109161416796.jpeg";
+    private String url = "http://211.149.235.17:8080/zxd/upload/zxgl-20170109161416796.jpeg";
 
 
     public int getLayout() {
@@ -62,20 +61,20 @@ public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(getLayout(), parent, false);
 
-        return new ViewHolder(view,mItemClickListener);
+        return new ViewHolder(view, mItemClickListener);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final zxgs_wjd data = datas.get(position);
-        Picasso.with(mContext).load(url).into(holder.img);
+        Picasso.with(mContext).load(data.getLogo_img()).into(holder.img);
         holder.gsTitleTxt.setText(data.getZxgs_name());
-        holder.jdggBtn.setOnClickListener(new View.OnClickListener() {
+        holder.jdggImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int  Zxgs_id = data.getZxgs_id();
-                Intent intent = new Intent(mContext,ZxgsDetailActivity.class);
-                intent.putExtra("Zxgs_id",Zxgs_id);
+                int Zxgs_id = data.getZxgs_id();
+                Intent intent = new Intent(mContext, ZxgsDetailActivity.class);
+                intent.putExtra("Zxgs_id", Zxgs_id);
                 mContext.startActivity(intent);
             }
         });
@@ -95,7 +94,7 @@ public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-         View rootView;
+        View rootView;
         MyItemClickListener mListener;
         @BindView(R.id.img)
         ImageView img;
@@ -105,13 +104,15 @@ public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
         TextView gsAddressTxt;
         @BindView(R.id.goodSay_txt)
         TextView goodSayTxt;
-        @BindView(R.id.jdgg_btn)
-        Button jdggBtn;
-        @BindView(R.id.RelativeLayout_item)
-        RelativeLayout RelativeLayoutItem;
+        @BindView(R.id.jdgg_img)
+        ImageView jdggImg;
+//        @BindView(R.id.jdgg_btn)
+//        Button jdggBtn;
+//        @BindView(R.id.RelativeLayout_item)
+//        RelativeLayout RelativeLayoutItem;
 
 
-        ViewHolder(View view,MyItemClickListener listener) {
+        ViewHolder(View view, MyItemClickListener listener) {
             super(view);
             rootView = view;
             ButterKnife.bind(this, view);

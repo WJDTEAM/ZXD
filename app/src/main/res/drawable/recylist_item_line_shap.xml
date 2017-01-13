@@ -7,7 +7,7 @@
         android:dashWidth="3dp"
 
         android:width="1dp"
-        android:color="@color/whitesmoke" />
+        android:color="@color/gary" />
 
 
     <!-- 虚线的高度 -->
