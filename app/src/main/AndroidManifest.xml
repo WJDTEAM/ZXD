@@ -7,7 +7,7 @@
     <application
         android:name=".application.BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -15,11 +15,7 @@
             android:name=".main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
             android:name=".Login.LoginActivity"
@@ -43,18 +39,18 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
-        <!--装修攻略-->
+        <!-- 装修攻略 -->
         <activity
             android:name=".zxgl.ZxglActivity"
-            android:launchMode="singleTask"
             android:hardwareAccelerated="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
         <!-- 装修公司 -->
         <activity
             android:name=".zxgs.ZxgsActivity"
-            android:launchMode="singleTask"
             android:hardwareAccelerated="false"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
         <!-- 家装专题 -->
@@ -63,37 +59,51 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
-        <!--装修公司 商品展示页-->
-        <activity android:name=".zxgs.ZxgsDetailActivity"
+        <!-- 装修公司 商品展示页 -->
+        <activity
+            android:name=".zxgs.ZxgsDetailActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <!-- 贷款 -->
+        <activity
+            android:name=".zxgs.LoanApplyActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <!-- 预约 -->
+        <activity
+            android:name=".zxgs.AppointmentActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <!-- 贷款活动 -->
+        <activity
+            android:name=".Dkhd.LoanActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <!-- 活动详情 -->
+        <activity
+            android:name=".Dkhd.LoanDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <!-- 装修攻略详情 -->
+        <activity
+            android:name=".zxgl.ZxglDetailsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".WelcomeActivity"
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait">
-        </activity>
-        <!--贷款-->
-        <activity android:name=".zxgs.LoanApplyActivity"
-                  android:launchMode="singleInstance"
-                  android:screenOrientation="portrait"
-                  android:windowSoftInputMode="adjustPan">
-        </activity>
-        <!--预约-->
-        <activity android:name=".zxgs.AppointmentActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-        </activity>
-        <!--贷款活动-->
-        <activity android:name=".Dkhd.LoanActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
-        </activity>
-        <!--活动详情-->
-        <activity android:name=".Dkhd.LoanDetailsActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
-        </activity>
-        <!--装修攻略详情-->
-        <activity android:name=".zxgl.ZxglDetailsActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 
