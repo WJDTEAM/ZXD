@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
@@ -27,7 +29,7 @@ import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import rx.subscriptions.CompositeSubscription;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.mDetailsListener ,ZXDFragment.mListener{
+public class MainActivity extends AppCompatActivity implements HomeFragment.mDetailsListener, ZXDFragment.mListener {
 
     private static final String HOME_TAG = "home_flag";
     private static final String YBJ_TAG = "ybj_flag";
@@ -45,12 +47,23 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     private static final int CONTENT_MY = 4;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @BindView(R.id.toolbar_img)
+    ImageView toolbarImg;
 
-    private void setToolbar(String toolstr) {
+    private void setToolbar(String toolstr,int flag) {
+        if (flag==1){
+            mToolbar.setTitle("");
+            setSupportActionBar(mToolbar);
+            toolbarImg.setVisibility(View.VISIBLE);
+            toolbarTitle.setVisibility(View.GONE);
+        }else {
+            mToolbar.setTitle("");
+            setSupportActionBar(mToolbar);
+            toolbarTitle.setText(toolstr);
+            toolbarImg.setVisibility(View.GONE);
+            toolbarTitle.setVisibility(View.VISIBLE);
+        }
 
-        mToolbar.setTitle("");
-        setSupportActionBar(mToolbar);
-        toolbarTitle.setText(toolstr);
 
 
     }
@@ -100,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         switch (contentHome) {
             case CONTENT_HOME:
                 String home_str = getResources().getString(R.string.home_title);
-                setToolbar(home_str);
+                setToolbar(home_str,CONTENT_HOME);
                 HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag(HOME_TAG);
                 if (homeFragment == null) {
                     homeFragment = HomeFragment.newInstance();
@@ -109,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
                 break;
             case CONTENT_ZXD:
                 String zxd_str = getResources().getString(R.string.zxd);
-                setToolbar(zxd_str);
+                setToolbar(zxd_str,CONTENT_ZXD);
                 ZXDFragment zxdFragment = (ZXDFragment) getSupportFragmentManager().findFragmentByTag(ZXD_TAG);
                 if (zxdFragment == null) {
                     zxdFragment = ZXDFragment.newInstance();
@@ -118,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
                 break;
             case CONTENT_YBJ:
                 String orders_str = getResources().getString(R.string.ybj);
-                setToolbar(orders_str);
+                setToolbar(orders_str,CONTENT_YBJ);
                 YBJFragment YBJFragment = (YBJFragment) getSupportFragmentManager().findFragmentByTag(YBJ_TAG);
                 if (YBJFragment == null) {
                     YBJFragment = YBJFragment.newInstance();
@@ -127,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
                 break;
             case CONTENT_MY:
                 String my_str = getResources().getString(R.string.my);
-                setToolbar(my_str);
+                setToolbar(my_str,CONTENT_MY);
                 UserFragment userFragment = (UserFragment) getSupportFragmentManager().findFragmentByTag(MY_TAG);
                 if (userFragment == null) {
                     userFragment = UserFragment.newInstance();
@@ -144,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     @DebugLog
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void startActivity(CompanyIdAndTemplateActivityEvent companyIdAndTemplateActivityEvent) {
-       startActivity(new Intent(MainActivity.this, companyIdAndTemplateActivityEvent.getActivityClass()).putExtra("CompanyId", companyIdAndTemplateActivityEvent.getCompanyId()));
+        startActivity(new Intent(MainActivity.this, companyIdAndTemplateActivityEvent.getActivityClass()).putExtra("CompanyId", companyIdAndTemplateActivityEvent.getCompanyId()));
     }
 
     /**
@@ -169,7 +182,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
             mcompositeSubscription.unsubscribe();
         }
     }
-    public void startLoanApplyActivity(){
+
+    public void startLoanApplyActivity() {
         startActivity(new Intent(MainActivity.this, LoanApplyActivity.class));
     }
 
@@ -179,8 +193,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         getIntentToBank();
     }
 
-    public void getIntentToBank(){
-        if(LoanApplyActivity.companyId!=0||LoanApplyActivity.mZxd!=null){
+    public void getIntentToBank() {
+        if (LoanApplyActivity.companyId != 0 || LoanApplyActivity.mZxd != null) {
             bottomBar.selectTabAtPosition(2);
         }
     }

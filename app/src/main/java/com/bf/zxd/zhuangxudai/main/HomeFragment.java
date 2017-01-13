@@ -14,6 +14,7 @@ import com.bf.zxd.zhuangxudai.Dkhd.LoanActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.jzzt.JzztActivity;
 import com.bf.zxd.zhuangxudai.zxgl.ZxglActivity;
+import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 import com.bf.zxd.zhuangxudai.zxgs.ZxgsActivity;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -132,7 +133,6 @@ public class HomeFragment extends Fragment {
         super.onDestroy();
         unbinder.unbind();
     }
-
     @OnClick({R.id.home_applyLoan_btn, R.id.zhuangxiugonglue_home, R.id.daikuanhongdong_home, R.id.jiazhuangzhuanti_home, R.id.zhuangxiugongsi_home})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity(), ZxgsActivity.class));
                 break;
             case R.id.home_applyLoan_btn:
-//                mListener.setContent(3);
+                startActivity(new Intent(getActivity(), LoanApplyActivity.class));
                 break;
         }
     }

@@ -18,7 +18,9 @@ import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.picker.AddressPickTask;
 import com.bf.zxd.zhuangxudai.pojo.DictData;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
+import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +75,7 @@ public class AppointmentActivity extends BaseActivity {
     TextView houseStyleEdi;
 
     private CompositeSubscription mcompositeSubscription;
+    private int CompanyId;
 
     String houseStyle = "";
     String houseType = "";
@@ -93,8 +96,36 @@ public class AppointmentActivity extends BaseActivity {
     @Override
     public void initDate() {
         mcompositeSubscription = new CompositeSubscription();
+        CompanyId = getIntent().getIntExtra("Zxgs_id",-1);
         getDictData();
+        getZxgs(CompanyId);
 
+    }
+
+    private void getZxgs(int companyId) {
+        Subscription subscription_getZxgs = NetWork.getZxService().getZxgs(companyId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Zxgs>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Zxgs zxgs) {
+                        Picasso.with(AppointmentActivity.this).load(zxgs.getLogo_img()).into(image);
+                        gsTitleTxt.setText(zxgs.getCompany_name());
+                        belowTxt.setText(zxgs.getTel());
+                        addressTxt.setText(zxgs.getAddr());
+                    }
+                });
+        mcompositeSubscription.add(subscription_getZxgs);
     }
 
     private void getDictData() {

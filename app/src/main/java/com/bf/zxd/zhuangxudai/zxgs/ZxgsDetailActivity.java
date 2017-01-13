@@ -22,10 +22,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class ZxgsDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -54,16 +57,16 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     RecyclerView allImgsRecyclerView;
     private int Zxgs_id=-1;
     Zxgs mZxgs;
+    private CompositeSubscription compositeSubscription;
+    private Unbinder mUnbinder;
     TemplateHorizontalListAdapter templateHorizontalListAdapter;
 
     @Override
     public void initDate() {
+        compositeSubscription = new CompositeSubscription();
         Zxgs_id = getIntent().getIntExtra("Zxgs_id",-1);
 
-        if(Zxgs_id==-1){
-
-        }
-        NetWork.getZxService().getZxgs(Zxgs_id)
+        Subscription subscription_getZxgs= NetWork.getZxService().getZxgs(Zxgs_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Zxgs>() {
@@ -90,6 +93,7 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
                         mZxgs=zxgs;
                     }
                 });
+        compositeSubscription.add(subscription_getZxgs);
 
 
     }
@@ -97,7 +101,7 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     @Override
     public void initView() {
         setContentView(R.layout.activity_zxgs_detail);
-        ButterKnife.bind(this);
+        mUnbinder=ButterKnife.bind(this);
 
         initListView();
 
@@ -151,8 +155,17 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
                 startActivity(new Intent(ZxgsDetailActivity.this, LoanApplyActivity.class));
                 break;
             case R.id.template_subscribe_lin:
-                startActivity(new Intent(ZxgsDetailActivity.this, AppointmentActivity.class));
+                Intent _intent = new Intent(ZxgsDetailActivity.this, AppointmentActivity.class);
+                _intent.putExtra("Zxgs_id",Zxgs_id);
+                startActivity(_intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeSubscription.unsubscribe();
+        mUnbinder.unbind();
     }
 }
