@@ -12,8 +12,7 @@ import android.widget.TextView;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.pojo.Dkhd;
 import com.bf.zxd.zhuangxudai.template.TemplateListAdapter;
-
-import org.greenrobot.eventbus.EventBus;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -30,6 +29,14 @@ public class LoanActivityListAdapter extends RecyclerView.Adapter<RecyclerView.V
     private List<Dkhd> mDatas;
     private final LayoutInflater mLayoutInflater;
     private TemplateListAdapter.MyItemClickListener mItemClickListener;
+
+    public List<Dkhd> getmDatas() {
+        return mDatas;
+    }
+
+    public void setmDatas(List<Dkhd> mDatas) {
+        this.mDatas = mDatas;
+    }
 
     public LoanActivityListAdapter(Context mContext, List<Dkhd> mDatas) {
         this.mContext = mContext;
@@ -58,16 +65,17 @@ public class LoanActivityListAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         LoanActivityListAdapter.MyViewHoder myViewHoder = (LoanActivityListAdapter.MyViewHoder) holder;
-//        Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
-//                .placeholder(R.drawable.demo)
-//                .error(R.drawable.demo)
-//                .into(myViewHoder.loanActivityImg);
+        Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
+                .placeholder(R.drawable.demo)
+                .error(R.drawable.demo)
+                .into(myViewHoder.loanActivityImg);
         myViewHoder.loanActivityTitle.setText(mDatas.get(position).getTitle());
         myViewHoder.loanActivityTime.setText(mDatas.get(position).getCreate_time());
         myViewHoder.loan_activity_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(LoanDetailsActivity.class);
+                //EventBus.getDefault().post(LoanDetailsActivity.class);
+                mItemClickListener.onItemClick(view,position);
             }
         });
     }

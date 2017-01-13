@@ -14,6 +14,7 @@ import android.view.View;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.Dkhd;
+import com.bf.zxd.zhuangxudai.template.TemplateListAdapter;
 import com.blankj.utilcode.utils.KeyboardUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -111,6 +112,12 @@ public class LoanActivity extends AppCompatActivity {
             loanActivityListAdapter=new LoanActivityListAdapter(this,Dkhds);
             loanActivityList.setLayoutManager(new LinearLayoutManager(this));
             loanActivityList.setAdapter(loanActivityListAdapter);
+            loanActivityListAdapter.setOnItemClickListener(new TemplateListAdapter.MyItemClickListener() {
+                @Override
+                public void onItemClick(View view, int postion) {
+                    startActivity(new Intent(LoanActivity.this,LoanDetailsActivity.class).putExtra("activity_id",loanActivityListAdapter.getmDatas().get(postion).getArticle_id()));
+                }
+            });
         }
     }
     @Override

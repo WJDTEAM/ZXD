@@ -53,8 +53,12 @@ public class LoanDetailsActivity extends AppCompatActivity {
         mcompositeSubscription = new CompositeSubscription();
         setToolbar("活动详情");
         initWebView();
+
     }
+    int id;
     public void initWebView(){
+        id=getIntent().getIntExtra("activity_id",0);
+
         WebSettings settings = webView.getSettings();
         settings.setAppCacheEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
@@ -81,7 +85,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
         webView.getSettings().setDisplayZoomControls(false);/*
         webView.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
         webView.setWebViewClient(new CustomWebViewClient());*/
-        webView.loadUrl("http://211.149.235.17:8080/zxd/app/getZxglDetail/1");
+        webView.loadUrl("http://211.149.235.17:8080/zxd/app/getDetail/"+id);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setLoadWithOverviewMode(true);
 
