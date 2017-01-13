@@ -81,9 +81,7 @@ public class LoanDetailsActivity extends AppCompatActivity {
         webView.getSettings().setDisplayZoomControls(false);/*
         webView.addJavascriptInterface(new InJavaScriptLocalObj(), "java_obj");
         webView.setWebViewClient(new CustomWebViewClient());*/
-
-
-        webView.loadUrl("https://render.mybank.cn/p/s/aliloan_site/xydk.html");
+        webView.loadUrl("http://211.149.235.17:8080/zxd/app/getZxglDetail/1");
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setLoadWithOverviewMode(true);
 

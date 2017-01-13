@@ -1,6 +1,5 @@
 package com.bf.zxd.zhuangxudai.zxgl;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +11,7 @@ import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.RecycleViewDivider;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.ActivityIdAndZxglDetailActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.zxgl;
 import com.bf.zxd.zhuangxudai.util.Utils;
 
@@ -100,8 +100,10 @@ public class ZxglActivity extends BaseActivity {
      */
     @DebugLog
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void startActivity(Class<Activity> activity) {
-        startActivity(new Intent(ZxglActivity.this,activity));
+    public void startActivity(ActivityIdAndZxglDetailActivityEvent v) {
+        Intent intent = new Intent(ZxglActivity.this,v.getActivityClass());
+        intent.putExtra("activityId",v.getActivityId());
+        startActivity(intent);
     }
     private void setToolBar() {
         baseToolBar.setTitle("装修攻略");
