@@ -56,7 +56,7 @@ public class LoanBankListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        MyViewHoder myViewHoder = (MyViewHoder) holder;
+        final MyViewHoder myViewHoder = (MyViewHoder) holder;
 //        Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
 //                .placeholder(R.drawable.bank_msg)
 //                .error(R.drawable.bank_msg)
@@ -66,6 +66,14 @@ public class LoanBankListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 .error(R.drawable.bank_log)
                 .into(myViewHoder.bankImg);
         myViewHoder.title.setText(mDatas.get(position).getTitle());
+        myViewHoder.bank_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mItemClickListener!=null){
+                    mItemClickListener.onItemClick(null,position);
+                }
+            }
+        });
     }
 
     @Override

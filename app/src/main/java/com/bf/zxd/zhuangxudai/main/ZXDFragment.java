@@ -1,5 +1,6 @@
 package com.bf.zxd.zhuangxudai.main;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.AutoHeightLayoutManager;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.Zxd;
+import com.bf.zxd.zhuangxudai.template.TemplateListAdapter;
+import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 
 import java.util.List;
 
@@ -35,11 +38,24 @@ public class ZXDFragment extends Fragment {
 
     CompositeSubscription mcompositeSubscription;
     LoanBankListAdapter loanBankListAdapter;
+
+    List<Zxd> mZxds;
     public static ZXDFragment newInstance() {
         ZXDFragment fragment = new ZXDFragment();
         return fragment;
     }
+    public interface mListener {
 
+        public void startLoanApplyActivity();
+    }
+
+    private mListener mListener;
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mListener = (mListener) activity;
+
+    }
     public void initData(){
         Subscription Subscription_getZxglItem= NetWork.getZxService().getZxdItem()
                 .subscribeOn(Schedulers.io())
@@ -57,6 +73,7 @@ public class ZXDFragment extends Fragment {
 
                     @Override
                     public void onNext(List<Zxd> zxds) {
+                        mZxds=zxds;
                         initListView(zxds);
                     }
                 });
@@ -69,6 +86,13 @@ public class ZXDFragment extends Fragment {
             autoHeightLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             loanBankList.setLayoutManager(autoHeightLayoutManager);
             loanBankList.setAdapter(loanBankListAdapter);
+            loanBankListAdapter.setOnItemClickListener(new TemplateListAdapter.MyItemClickListener() {
+                @Override
+                public void onItemClick(View view, int postion) {
+                    LoanApplyActivity.mZxd=mZxds.get(postion);
+                    mListener.startLoanApplyActivity();
+                }
+            });
         }
     }
 

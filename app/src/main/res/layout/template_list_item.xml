@@ -35,7 +35,7 @@
         android:id="@+id/template_item_num"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="1231231231"
+        android:text="123"
         android:gravity="center_vertical"
         android:textColor="@color/colorPrimary"
         />
@@ -53,7 +53,7 @@
         android:id="@+id/template_item_details"
         android:layout_width="match_parent"
         android:layout_height="@dimen/mediumhdp"
-        android:lines="2"
+        android:lines="3"
         android:ellipsize="end"
         android:text="混搭并不是简单的把各种风格元素放在一起做加法，而是把他们有主有次的组合在一起，混搭的是否成功，关键看是否和谐"
         android:textSize="@dimen/smallsp"

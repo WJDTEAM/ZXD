@@ -68,7 +68,7 @@
         </activity>
         <!--贷款-->
         <activity android:name=".zxgs.LoanApplyActivity"
-                  android:launchMode="singleTask"
+                  android:launchMode="singleInstance"
                   android:screenOrientation="portrait">
         </activity>
         <!--预约-->

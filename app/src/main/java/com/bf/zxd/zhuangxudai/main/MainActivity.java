@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndTemplateActivityEvent;
+import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 import com.blankj.utilcode.utils.KeyboardUtils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -26,7 +27,7 @@ import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import rx.subscriptions.CompositeSubscription;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.mDetailsListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.mDetailsListener ,ZXDFragment.mListener{
 
     private static final String HOME_TAG = "home_flag";
     private static final String YBJ_TAG = "ybj_flag";
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         realm = Realm.getDefaultInstance();
         mcompositeSubscription = new CompositeSubscription();
 //        setToolbar("首页");
+
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
                 }
             }
         });
+
     }
 
     /**
@@ -164,6 +167,21 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         KeyboardUtils.hideSoftInput(this);
         if (mcompositeSubscription != null && !mcompositeSubscription.isUnsubscribed()) {
             mcompositeSubscription.unsubscribe();
+        }
+    }
+    public void startLoanApplyActivity(){
+        startActivity(new Intent(MainActivity.this, LoanApplyActivity.class));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        getIntentToBank();
+    }
+
+    public void getIntentToBank(){
+        if(LoanApplyActivity.companyId!=0||LoanApplyActivity.mZxd!=null){
+            bottomBar.selectTabAtPosition(2);
         }
     }
 }

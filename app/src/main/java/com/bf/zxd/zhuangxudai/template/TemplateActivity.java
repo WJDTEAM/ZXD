@@ -86,7 +86,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
 
     public void startActivity(Class<ZxgsDetailActivity> activity){
-        startActivity(new Intent(TemplateActivity.this,activity).putExtra("companyId",CompanyId));
+        startActivity(new Intent(TemplateActivity.this,activity).putExtra("Zxgs_id",CompanyId));
     }
 
     @Override
@@ -243,6 +243,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.template_loan_lin:
+                LoanApplyActivity.companyId=CompanyId;
                 startActivity(new Intent(TemplateActivity.this, LoanApplyActivity.class));
                 break;
             case R.id.template_subscribe_lin:

@@ -41,6 +41,7 @@
             app:mvTextColor="@color/colorPrimary"
             app:mvTextSize="14sp"
             app:mvSingleLine="true"
+            android:layout_gravity="center"
             />
     </LinearLayout>
 

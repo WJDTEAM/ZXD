@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.DropDownMenu;
-import com.bf.zxd.zhuangxudai.customview.RecycleViewDivider;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndTemplateActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.DictData;
@@ -273,10 +272,11 @@ public class YBJFragment extends Fragment {
         /*contentView.addItemDecoration(new RecycleViewDivider(
                 getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, R.drawable.template_divider_shap));*/
 
-        contentView.addItemDecoration(new RecycleViewDivider(
-                getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
+//        contentView.addItemDecoration(new RecycleViewDivider(
+//                getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
 
         contentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        //new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         contentView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 

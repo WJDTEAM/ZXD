@@ -65,8 +65,9 @@ public class ConstellationAdapter extends BaseAdapter {
         viewHolder.mText.setText(list.get(position).getDict_desc());
         if (checkItemPosition != -1) {
             if (checkItemPosition == position) {
-                viewHolder.mText.setTextColor(context.getResources().getColor(R.color.colorPrimary));
+                viewHolder.mText.setTextColor(context.getResources().getColor(R.color.white));
                 viewHolder.mText.setBackgroundResource(R.drawable.check_bg);
+
             } else {
                 viewHolder.mText.setTextColor(context.getResources().getColor(R.color.black));
                 viewHolder.mText.setBackgroundResource(R.drawable.uncheck_bg);

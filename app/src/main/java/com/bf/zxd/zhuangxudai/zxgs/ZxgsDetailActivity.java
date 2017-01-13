@@ -53,12 +53,16 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.all_imgs_RecyclerView)
     RecyclerView allImgsRecyclerView;
     private int Zxgs_id=-1;
+    Zxgs mZxgs;
     TemplateHorizontalListAdapter templateHorizontalListAdapter;
 
     @Override
     public void initDate() {
         Zxgs_id = getIntent().getIntExtra("Zxgs_id",-1);
 
+        if(Zxgs_id==-1){
+
+        }
         NetWork.getZxService().getZxgs(Zxgs_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -83,7 +87,7 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
                         String _tel = zxgs.getTel();
                         belowTxt.setText(_tel);
                         Picasso.with(ZxgsDetailActivity.this).load(zxgs.getLogo_img()).error(R.drawable.demo2).into(image);
-
+                        mZxgs=zxgs;
                     }
                 });
 
@@ -143,6 +147,7 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.template_loan_lin:
+                LoanApplyActivity.companyId=mZxgs.getCompany_id();
                 startActivity(new Intent(ZxgsDetailActivity.this, LoanApplyActivity.class));
                 break;
             case R.id.template_subscribe_lin:
