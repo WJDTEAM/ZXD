@@ -214,12 +214,13 @@ public class LoanApplyActivity extends BaseActivity {
                 .subscribe(new Observer<ResuleInfo>() {
                     @Override
                     public void onCompleted() {
-
+                        Log.i("gqf","onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
 
+                        Log.i("gqf","onError"+e.getMessage());
                     }
 
                     @Override

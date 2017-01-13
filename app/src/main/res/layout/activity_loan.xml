@@ -112,6 +112,7 @@
         <EditText
             android:id="@+id/store_phone_num_edi"
             style="@style/apply_for_edi_style"
+            android:inputType="number"
             />
     </LinearLayout>
     <LinearLayout
@@ -127,6 +128,7 @@
         <EditText
             android:id="@+id/loan_num_edi"
             style="@style/apply_for_edi_style"
+            android:digits="1234567890."
             />
     </LinearLayout>
     <TextView
@@ -208,5 +210,6 @@
         android:textColor="@drawable/apply_for_text_color_selector"
         android:text="提交申请"
         android:textSize="@dimen/bigsp"
+
         />
 </RelativeLayout>
