@@ -160,6 +160,8 @@ public class YBJFragment extends Fragment {
         String style=houseStyle+"";
         String type=houseType+"";
         String area=houseArea+"";
+
+
                 if(houseStyle==0){
                     style="";
                 }if(houseType==0){
