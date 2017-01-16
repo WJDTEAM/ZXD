@@ -28,14 +28,14 @@
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:gravity="center_vertical"
 
         >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             android:orientation="horizontal"
             android:layout_weight="1"
             >
@@ -57,12 +57,12 @@
             <TextView
                 android:text="电话："
                 style="@style/apply_for_text_style"
-                android:layout_width="wrap_content"
-                android:gravity="center_vertical|left"
+
                 />
             <EditText
                 android:id="@+id/phone_num_edi"
                 style="@style/apply_for_edi_style"
+                android:inputType="number"
                 />
         </LinearLayout>
 
@@ -111,64 +111,70 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:gravity="center_vertical"
 
         >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             android:orientation="horizontal"
             android:layout_weight="1"
             >
             <TextView
                 android:text="面积："
                 style="@style/apply_for_text_style"
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
+
                 />
             <TextView
                 android:id="@+id/house_area_edi"
                 style="@style/apply_for_edi_style"
+                android:gravity="center"
                 />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            >
-            <TextView
-                android:text="户型："
-                style="@style/apply_for_text_style"
-                android:layout_width="wrap_content"
-                android:gravity="center_vertical|left"
-                />
-            <TextView
-                android:id="@+id/house_type_edi"
-                style="@style/apply_for_edi_style"
-                android:hint="@string/house_typeHint"
-                />
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+
+                <TextView
+                    android:text="户型："
+                    style="@style/apply_for_text_style"
+
+                    android:id="@+id/textView3"/>
+
+                <TextView
+                    android:id="@+id/house_type_edi"
+                    style="@style/apply_for_edi_style"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:text="风格："
+                    style="@style/apply_for_text_style"
+
+                    />
+                <TextView
+                    android:id="@+id/house_style_edi"
+                    style="@style/apply_for_edi_style"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            >
-            <TextView
-                android:text="风格："
-                style="@style/apply_for_text_style"
-                android:layout_width="wrap_content"
-                android:gravity="center_vertical|left"
-                />
-            <TextView
-                android:id="@+id/house_style_edi"
-                style="@style/apply_for_edi_style"
-                />
-        </LinearLayout>
 
     </LinearLayout>
 

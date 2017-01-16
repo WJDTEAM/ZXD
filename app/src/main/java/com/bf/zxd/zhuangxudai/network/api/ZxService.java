@@ -69,8 +69,8 @@ public interface ZxService {
          "full_name":String 申请人
         "phone":String 联系电话
      */
-    @FormUrlEncoded
     @POST("saveRzsq")
+    @FormUrlEncoded
     Observable<ResuleInfo> saveRzsq(@Field("unit_name") String unit_name, @Field("unit_addr") String unit_addr, @Field("full_name") String full_name, @Field("phone") String phone);
 
     /**
