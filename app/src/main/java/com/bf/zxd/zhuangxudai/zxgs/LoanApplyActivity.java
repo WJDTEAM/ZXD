@@ -22,7 +22,11 @@ import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
 import com.bf.zxd.zhuangxudai.pojo.Zxd;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
+import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
+import com.bf.zxd.zhuangxudai.util.Phone;
 import com.jakewharton.rxbinding.widget.RxTextView;
+
+import java.net.URLEncoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -198,17 +202,29 @@ public class LoanApplyActivity extends BaseActivity {
 
     @OnClick(R.id.loan_apply_for_btn)
     public void onClick() {
-        saveDksq();
-    }
+        String _phone =storePhoneNumEdi.getText().toString();
+        if (Phone.IsMobileNO(_phone)){
 
+            saveDksq();
+        }
+        else{
+
+            Toast.makeText(this, "手机格式不正确！", Toast.LENGTH_SHORT).show();
+            storePhoneNumEdi.setText("");
+        }
+    }
+private dksqinfo mDksqInfo;
     private void saveDksq() {
-        String _full_name = storeNameEdi.getText().toString();
-        String _phone = storePhoneNumEdi.getText().toString();
+        mDksqInfo = new dksqinfo();
+        String _full_name = URLEncoder.encode(storeNameEdi.getText().toString()) ;
+        String _phone =URLEncoder.encode(storePhoneNumEdi.getText().toString()) ;
         int _company_id = companyId;
 
-        String _apply_money = loanNumEdi.getText().toString();
+        String _apply_money =URLEncoder.encode(loanNumEdi.getText().toString()) ;
         int _bank_id = mZxd.getBank_id();
-        NetWork.getZxService().saveDksq(_full_name, _phone, _company_id, mSex, _apply_money, _bank_id)
+
+        NetWork.getZxService().saveDksq(_full_name,
+                _phone, _company_id, mSex, _apply_money,_bank_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResuleInfo>() {

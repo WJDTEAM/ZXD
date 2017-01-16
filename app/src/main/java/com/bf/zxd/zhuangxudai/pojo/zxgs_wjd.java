@@ -15,6 +15,15 @@ public class zxgs_wjd {
     private String logo_img;
     private String zxgs_name;
     private int zxgs_id;
+    private String addr;
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
 
     public String getLogo_img() {
         return logo_img;

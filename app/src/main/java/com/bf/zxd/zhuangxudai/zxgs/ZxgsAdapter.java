@@ -69,6 +69,7 @@ public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
         final zxgs_wjd data = datas.get(position);
         Picasso.with(mContext).load(data.getLogo_img()).into(holder.img);
         holder.gsTitleTxt.setText(data.getZxgs_name());
+        holder.gsAddressTxt.setText(data.getAddr());
         holder.jdggImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -19,9 +19,11 @@ import com.bf.zxd.zhuangxudai.picker.AddressPickTask;
 import com.bf.zxd.zhuangxudai.pojo.DictData;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
+import com.bf.zxd.zhuangxudai.util.Phone;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -337,7 +339,16 @@ public class AppointmentActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.loan_apply_for_btn:
-                saveZxyy();
+                String _phone =phoneNumEdi.getText().toString() ;
+                if (Phone.IsMobileNO(_phone)){
+
+                    saveZxyy();
+                }
+                else{
+
+                    Toast.makeText(this, "手机格式不正确！", Toast.LENGTH_SHORT).show();
+                    phoneNumEdi.setText("");
+                }
                 break;
             case R.id.address_tv:
                 onAddressPicker();
@@ -358,10 +369,10 @@ public class AppointmentActivity extends BaseActivity {
     }
 
     private void saveZxyy() {
-        String _full_name = storeNameEdi.getText().toString();
-        String _phone = phoneNumEdi.getText().toString();
-        String _address = addressTv.getText().toString() + addressDownEdi.getText().toString();
-        String _areaMsg = houseAreaEdi.getText().toString();
+        String _full_name = URLEncoder.encode(storeNameEdi.getText().toString()) ;
+        String _phone =URLEncoder.encode(phoneNumEdi.getText().toString()) ;
+        String _address =URLEncoder.encode((addressTv.getText().toString() + addressDownEdi.getText().toString())) ;
+        String _areaMsg =houseAreaEdi.getText().toString();
         int areaNum = -1;
         for (int i = 0; i < area.size(); i++) {
             String _area = area.get(i).getDict_desc();

@@ -23,6 +23,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
@@ -68,11 +76,85 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
 
     }
 
+    /**
+     * 发送POST请求
+     * @return
+     */
+    protected String submitPostRequest(String urlAddress, Map<String, String> params) {
+        String result = null;
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL(urlAddress);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+
+            //connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows 7)");
+            connection.setRequestProperty("Accept", "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-powerpoint, application/vnd.ms-excel, application/msword, */*");
+            connection.setRequestProperty("Accept-Language", "zh-cn");
+            //connection.setRequestProperty("UA-CPU", "x86");
+            //connection.setRequestProperty("Accept-Encoding", "gzip");
+            // 很重要
+            connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded;charset=UTF-8");
+            connection.setRequestProperty("connection", "Keep-Alive");
+            connection.setConnectTimeout(6 * 1000);
+            connection.setReadTimeout(6 * 1000);
+            // 发送POST请求必须设置这两项
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setRequestProperty("Charset", "utf-8");
+
+            connection.connect();
+
+            if (params != null) {
+                // 请求参数
+                int paramSize = params.size();
+                int index = 1;
+                StringBuilder paramsBuilder = new StringBuilder();
+                for (String key : params.keySet()) {
+                    paramsBuilder.append(key).append("=").append(params.get(key));
+                    if (index < paramSize) {
+                        paramsBuilder.append("&");
+                        index++;
+                    }
+                }
+
+                OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+                writer.write(paramsBuilder.toString());
+                writer.flush();
+                writer.close();
+            }
+
+            if (HttpURLConnection.HTTP_OK == connection.getResponseCode()) {
+                InputStream inputStream = null;
+                inputStream = connection.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
+                StringBuilder builder = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line).append("\n");
+                }
+                result = builder.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+        return result;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+//        Test t = new Test();
+//        Map<String, String> params = new HashMap<>();
+//        params.put("unit_name", "测试公司");
+//        submitPostRequest("http://211.149.235.17:8080/zxd/app/saveRzsq", params);
         //加入activity列表
         ((BaseApplication) getApplication()).addActivity(this);
         EventBus.getDefault().register(this);
