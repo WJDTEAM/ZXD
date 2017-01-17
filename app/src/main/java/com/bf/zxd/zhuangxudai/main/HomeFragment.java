@@ -66,6 +66,7 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
     RelativeLayout bigLoanBtn;
     private Realm realm;
     private Unbinder unbinder;
+    private  RecommendBankAdapter recommendBankAdapter;
     private int[] carousels = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
     private CompositeSubscription mCompositeSubscription;
 
@@ -136,9 +137,12 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
     private void setAdapter(List<RecommendBank> recommendBanks) {
         //init context view
         recyclerviewFragmentHome.setLayoutManager(new LinearLayoutManager(getActivity()));
-        RecommendBankAdapter recommendBankAdapter = new RecommendBankAdapter(recommendBanks, getActivity());
-        recommendBankAdapter.setOnItemClickListener(this);
+        if (recommendBankAdapter==null){
+
+            recommendBankAdapter = new RecommendBankAdapter(recommendBanks, getActivity());
+        }
         recyclerviewFragmentHome.setAdapter(recommendBankAdapter);
+        recommendBankAdapter.setOnItemClickListener(this);
     }
 
     private void initView() {

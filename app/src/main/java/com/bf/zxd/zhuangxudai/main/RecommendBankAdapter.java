@@ -1,7 +1,6 @@
 package com.bf.zxd.zhuangxudai.main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.pojo.EnterActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -75,7 +77,8 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
           public void onClick(View view) {
 
                 LoanApplyActivity.mZxd=data;
-                mContext.startActivity(new Intent(mContext, LoanApplyActivity.class));
+                EventBus.getDefault().post(new EnterActivityEvent(LoanApplyActivity.class));
+//                mContext.startActivity(new Intent(mContext, LoanApplyActivity.class));
 
 
             }
@@ -95,7 +98,6 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        View rootView;
         MyItemClickListener mListener;
 
         @BindView(R.id.bankname_recommendBank_tv)
@@ -110,7 +112,6 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
 
         ViewHolder(View view, MyItemClickListener listener) {
             super(view);
-            rootView = view;
             ButterKnife.bind(this, view);
             this.mListener = listener;
             view.setOnClickListener(this);
