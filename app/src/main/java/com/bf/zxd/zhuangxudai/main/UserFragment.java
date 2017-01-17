@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.User.MyAppointmentActivity;
+import com.bf.zxd.zhuangxudai.User.MyLoanActivity;
 import com.bf.zxd.zhuangxudai.my.ApplyForActivity;
 
 import butterknife.BindView;
@@ -24,6 +26,10 @@ public class UserFragment extends Fragment {
     Realm realm;
     @BindView(R.id.apply_linear)
     LinearLayout applyLinear;
+    @BindView(R.id.memoryCode)
+    LinearLayout memoryCode;
+    @BindView(R.id.myApointment_linear)
+    LinearLayout myApointmentLinear;
 
     public static UserFragment newInstance() {
         UserFragment fragment = new UserFragment();
@@ -41,11 +47,17 @@ public class UserFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.apply_linear)
+    @OnClick({R.id.apply_linear,R.id.memoryCode,R.id.myApointment_linear})
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.apply_linear:
-                startActivity(new Intent(getActivity(),ApplyForActivity.class));
+                startActivity(new Intent(getActivity(), ApplyForActivity.class));
+                break;
+            case R.id.memoryCode:
+                startActivity(new Intent(getActivity(), MyLoanActivity.class));
+                break;
+            case R.id.myApointment_linear:
+                startActivity(new Intent(getActivity(), MyAppointmentActivity.class));
                 break;
         }
     }

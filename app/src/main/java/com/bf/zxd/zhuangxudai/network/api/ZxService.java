@@ -1,8 +1,10 @@
 package com.bf.zxd.zhuangxudai.network.api;
 
 import com.bf.zxd.zhuangxudai.pojo.Dkhd;
+import com.bf.zxd.zhuangxudai.pojo.DksqItem;
+import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.ZxdItem;
+import com.bf.zxd.zhuangxudai.pojo.YysqItem;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dict;
 import com.bf.zxd.zhuangxudai.pojo.jzzt;
@@ -116,11 +118,32 @@ public interface ZxService {
     @GET("getZxgs/{company_id}")
     Observable<Zxgs> getZxgs(@Path("company_id")int company_id);
 
+    /**
+     * 我的贷款列表
+     * @return
+     */
+    @GET("getDksqItem")
+    Observable<List<DksqItem>> getDksqItem();
+
+    /**
+     * 我的预约列表
+     * @return
+     */
+    @GET("getYysqItem")
+    Observable<List<YysqItem>> getYysqItem();
+
+    /**
+     * 我的预约列表
+     * @return
+     */
+    @GET("getBankItem")
+    Observable<List<RecommendBank>> getBankItem();
+
 
     /**
      * http://211.149.235.17:8080/zxd/app/getZxdItem/
      * 获取装修贷
      */
     @GET("getZxdItem/{dkfw}")
-    Observable<List<ZxdItem>> getZxdItem(@Path("dkfw")String dkfw);
+    Observable<List<RecommendBank>> getZxdItem(@Path("dkfw")String dkfw);
 }

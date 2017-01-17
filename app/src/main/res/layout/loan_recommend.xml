@@ -1,31 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
     >
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="推荐"
-            android:gravity="center"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ok"
-            android:paddingRight="15dp"
-            android:layout_centerVertical="true"
-            />
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,24 +18,27 @@
 
         >
         <TextView
+            android:id="@+id/bankname_recommendBank_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             android:text="中国银行"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
+            android:textSize="15sp"
             />
 
         <TextView
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="0.02%"
             android:gravity="center_vertical"
-            android:id="@+id/textView"/>
+            android:id="@+id/rate_recommendBank_tv"/>
 
         <TextView
+            android:id="@+id/maxMoney_recommendBank_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

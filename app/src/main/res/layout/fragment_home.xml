@@ -22,7 +22,7 @@
             <com.daimajia.slider.library.SliderLayout
                 android:id="@+id/slider"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="130dp"
                 app:auto_cycle="false"
                 />
 
@@ -53,9 +53,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:background="@color/whitesmoke"/>
-            <include layout="@layout/loan_recommend"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="推荐"
+                    android:gravity="center"
+                    android:paddingTop="8dp"
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ok"
+                    android:paddingRight="15dp"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_fragment_home"
                 android:layout_width="match_parent"
