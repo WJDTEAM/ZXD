@@ -45,6 +45,8 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     BottomSheetBehavior mBottomSheetBehavior;
 
 
+
+
     int CompanyId;
 
     public int toolBarheight = 0;
@@ -247,7 +249,9 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                 startActivity(new Intent(TemplateActivity.this, LoanApplyActivity.class));
                 break;
             case R.id.template_subscribe_lin:
-                startActivity(new Intent(TemplateActivity.this, AppointmentActivity.class));
+                Intent _intent = new Intent(TemplateActivity.this, AppointmentActivity.class);
+                _intent.putExtra("Zxgs_id",CompanyId);
+                startActivity(new Intent(_intent));
                 break;
         }
     }

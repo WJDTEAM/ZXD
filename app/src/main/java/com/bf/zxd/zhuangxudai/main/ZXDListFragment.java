@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.ZxdItem;
 
 import java.util.List;
@@ -85,16 +86,16 @@ public class ZXDListFragment extends Fragment {
 
         subscription = NetWork.getZxService().getZxdItem(dkfw).subscribeOn(Schedulers.io())
                 //过滤
-                .flatMap(new Func1<List<ZxdItem>, Observable<ZxdItem>>() {
+                .flatMap(new Func1<List<RecommendBank>, Observable<RecommendBank>>() {
                     @Override
-                    public Observable<ZxdItem> call(List<ZxdItem> zxdItems) {
+                    public Observable<RecommendBank> call(List<RecommendBank> zxdItems) {
                         Log.i("gqf","Observable"+zxdItems.toString());
                         return Observable.from(zxdItems);
                     }
                 })
-                .filter(new Func1<ZxdItem, Boolean>() {
+                .filter(new Func1<RecommendBank, Boolean>() {
                     @Override
-                    public Boolean call(ZxdItem zxdItem) {
+                    public Boolean call(RecommendBank zxdItem) {
                             switch (type) {
                             case 1:
                                 return zxdItem.getDkfw().equals("大额贷");
@@ -106,7 +107,7 @@ public class ZXDListFragment extends Fragment {
                 })
                 .toList()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<ZxdItem>>() {
+                .subscribe(new Observer<List<RecommendBank>>() {
                     @Override
                     public void onCompleted() {
                         Log.i("gqf","onCompleted");
@@ -118,7 +119,7 @@ public class ZXDListFragment extends Fragment {
                     }
 
                     @Override
-                    public void onNext(List<ZxdItem> zxdItem) {
+                    public void onNext(List<RecommendBank> zxdItem) {
 
                         Log.i("gqf",zxdItem.toString());
                         initList(zxdItem);
@@ -126,7 +127,7 @@ public class ZXDListFragment extends Fragment {
                 });
         mcompositeSubscription.add(subscription);
     }
-    public void initList(List<ZxdItem> zxdItem){
+    public void initList(List<RecommendBank> zxdItem){
             loanBankList2Adapter=new LoanBankList2Adapter(getActivity(),zxdItem);
             zxd_recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
             zxd_recyclerview.setAdapter(loanBankList2Adapter);

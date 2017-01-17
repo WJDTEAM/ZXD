@@ -106,12 +106,16 @@
         >
 
         <LinearLayout
+            android:id="@+id/myApointment_linear"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
             android:paddingTop="8dp"
             android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackground"
             >
 
             <ImageView
@@ -120,14 +124,14 @@
                 android:layout_weight="5"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
-                android:src="@drawable/my_computer"/>
+                android:src="@drawable/myapointment"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="计算机"
+                android:text="我的预约"
                 />
         </LinearLayout>
 

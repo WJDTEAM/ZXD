@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.pojo.EnterActivityEvent;
-import com.bf.zxd.zhuangxudai.pojo.ZxdItem;
+import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 import com.squareup.picasso.Picasso;
 
@@ -31,17 +31,17 @@ public class LoanBankList2Adapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     private Context mContext;
-    private List<ZxdItem> mDatas;
+    private List<RecommendBank> mDatas;
     private final LayoutInflater mLayoutInflater;
     private MyItemClickListener mItemClickListener;
 
-    public LoanBankList2Adapter(Context mContext, List<ZxdItem> mDatas) {
+    public LoanBankList2Adapter(Context mContext, List<RecommendBank> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
-    public void update(List<ZxdItem> mDatas) {
+    public void update(List<RecommendBank> mDatas) {
         this.mDatas = mDatas;
         this.notifyDataSetChanged();
     }

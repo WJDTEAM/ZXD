@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +16,9 @@ import android.widget.TextView;
 import com.bf.zxd.zhuangxudai.Dkhd.LoanActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.jzzt.JzztActivity;
+import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.zxgl.ZxglActivity;
-import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 import com.bf.zxd.zhuangxudai.zxgs.ZxgsActivity;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
@@ -29,17 +32,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import hugo.weaving.DebugLog;
 import io.realm.Realm;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by johe on 2017/1/5.
  */
 
-public class HomeFragment extends Fragment {
-    //    @BindView(toolbar_title)
-    //    TextView toolbarTitle;
-    //    @BindView(R.id.base_toolBar)
-    //    Toolbar baseToolBar;
+public class HomeFragment extends Fragment implements RecommendBankAdapter.MyItemClickListener  {
+
     @BindView(R.id.zhuangxiugonglue_home)
     TextView zhuangxiugonglueHome;
     @BindView(R.id.daikuanhongdong_home)
@@ -54,8 +60,6 @@ public class HomeFragment extends Fragment {
     SliderLayout slider;
     @BindView(R.id.marqueeView)
     MarqueeView marqueeView;
-    @BindView(R.id.home_applyLoan_btn)
-    TextView homeApplyLoanBtn;
     @BindView(R.id.little_loan_btn)
     RelativeLayout littleLoanBtn;
     @BindView(R.id.big_loan_btn)
@@ -63,6 +67,7 @@ public class HomeFragment extends Fragment {
     private Realm realm;
     private Unbinder unbinder;
     private int[] carousels = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
+    private CompositeSubscription mCompositeSubscription;
 
 
     public static HomeFragment newInstance() {
@@ -76,10 +81,12 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
+        mCompositeSubscription =  new CompositeSubscription();
         realm = Realm.getDefaultInstance();
+        initDate();
         initView();
 
-        //        MarqueeView marqueeView = (MarqueeView) findViewById(R.id.marqueeView);
+//        MarqueeView marqueeView = (MarqueeView) findViewById(R.id.marqueeView);
 
         List<String> info = new ArrayList<>();
         info.add("张小姐                                20万                         158*****111");
@@ -89,16 +96,53 @@ public class HomeFragment extends Fragment {
         info.add("刘小姐                                40万                         156*****123");
         info.add("孙先姐                                60万                         159*****876");
         marqueeView.startWithList(info);
-        //        String notice = "张小姐                   20万                  158*****111";
-        //        marqueeView.startWithText(notice);
+//        String notice = "张小姐                   20万                  158*****111";
+//        marqueeView.startWithText(notice);
         setViewPager(carousels);
 
 
         return view;
     }
 
+    private void initDate() {
+        getBankItem();
+    }
+
+    private void getBankItem() {
+        Subscription Subscription_getBankItem = NetWork.getZxService().getBankItem()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<RecommendBank>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @DebugLog
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Daniel", "请求推荐银行列表数据失败！");
+
+                    }
+
+                    @Override
+                    public void onNext(List<RecommendBank> recommendBanks) {
+                        setAdapter(recommendBanks);
+                    }
+                });
+        mCompositeSubscription.add(Subscription_getBankItem);
+    }
+
+    private void setAdapter(List<RecommendBank> recommendBanks) {
+        //init context view
+        recyclerviewFragmentHome.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecommendBankAdapter recommendBankAdapter = new RecommendBankAdapter(recommendBanks, getActivity());
+        recommendBankAdapter.setOnItemClickListener(this);
+        recyclerviewFragmentHome.setAdapter(recommendBankAdapter);
+    }
+
     private void initView() {
-        //        setToolbar();
+//        setToolbar();
 
     }
 
@@ -116,11 +160,17 @@ public class HomeFragment extends Fragment {
 
     private void setToolbar() {
         //让原始的toolbar的title不显示
-        //        baseToolBar.setTitle("");
-        //        ((AppCompatActivity) getActivity()).setSupportActionBar(baseToolBar);
-        //        toolbarTitle.setText(getResources().getString(R.string.home_title));
+//        baseToolBar.setTitle("");
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(baseToolBar);
+//        toolbarTitle.setText(getResources().getString(R.string.home_title));
     }
 
+    @Override
+    public void onItemClick(View view, int postion) {
+        Log.e("Daniel","追踪");
+
+
+    }
 
     public interface mDetailsListener {
         void setContent(int id);
@@ -140,9 +190,11 @@ public class HomeFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        mCompositeSubscription.unsubscribe();
+
     }
 
-    @OnClick({R.id.little_loan_btn, R.id.big_loan_btn,R.id.home_applyLoan_btn, R.id.zhuangxiugonglue_home, R.id.daikuanhongdong_home, R.id.jiazhuangzhuanti_home, R.id.zhuangxiugongsi_home})
+    @OnClick({R.id.little_loan_btn, R.id.big_loan_btn, R.id.zhuangxiugonglue_home, R.id.daikuanhongdong_home, R.id.jiazhuangzhuanti_home, R.id.zhuangxiugongsi_home})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.zhuangxiugonglue_home:
@@ -157,15 +209,15 @@ public class HomeFragment extends Fragment {
             case R.id.zhuangxiugongsi_home:
                 startActivity(new Intent(getActivity(), ZxgsActivity.class));
                 break;
-            case R.id.home_applyLoan_btn:
-                startActivity(new Intent(getActivity(), LoanApplyActivity.class));
-                break;
             case R.id.little_loan_btn:
                 mListener.changePageAndSetPagePosition(2);
                 break;
             case R.id.big_loan_btn:
                 mListener.changePageAndSetPagePosition(1);
                 break;
+//            case R.id.home_applyLoan_btn:
+//                startActivity(new Intent(getActivity(), LoanApplyActivity.class));
+//                break;
         }
     }
 }

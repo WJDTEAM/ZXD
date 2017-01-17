@@ -99,12 +99,14 @@ public class AppointmentActivity extends BaseActivity {
     public void initDate() {
         mcompositeSubscription = new CompositeSubscription();
         CompanyId = getIntent().getIntExtra("Zxgs_id",-1);
+        Log.e("Daniel","---CompanyId---"+CompanyId);
         getDictData();
         getZxgs(CompanyId);
 
     }
 
     private void getZxgs(int companyId) {
+        Log.e("Daniel","---CompanyId---"+CompanyId);
         Subscription subscription_getZxgs = NetWork.getZxService().getZxgs(companyId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -399,18 +401,18 @@ public class AppointmentActivity extends BaseActivity {
            }
         }
 
-        int company_id = 16;
+//        int company_id = 16;
 
         Log.e("Daniel","---_full_name---"+_full_name);
         Log.e("Daniel","---_phone---"+_phone);
-        Log.e("Daniel","---company_id---"+company_id);
+        Log.e("Daniel","---CompanyId---"+CompanyId);
         Log.e("Daniel","---_address---"+_address);
         Log.e("Daniel","---areaNum---"+areaNum);
         Log.e("Daniel","---houseTypeNum---"+houseTypeNum);
         Log.e("Daniel","---houseStyleNum---"+houseStyleNum);
 
 
-        NetWork.getZxService().saveZxyy(_full_name, _phone, company_id, _address, areaNum, houseTypeNum, houseStyleNum)
+        NetWork.getZxService().saveZxyy(_full_name, _phone, CompanyId, _address, areaNum, houseTypeNum, houseStyleNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResuleInfo>() {

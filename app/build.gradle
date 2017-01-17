@@ -15,7 +15,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi', 'arm64-v8a', 'armeabi-v7a', 'x86' , 'x86_64'
+            abiFilters 'armeabi', 'arm64-v8a', 'armeabi-v7a' //, 'x86' , 'x86_64'
         }
     }
     buildTypes {
@@ -27,7 +27,7 @@ android {
     // apk name def
     android.applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            output.outputFile = new File(output.outputFile.parent, defaultConfig.applicationId + "-" + buildType.name + "-v" +
+            output.outputFile = new File(output.outputFile.parent,"ZXD"+ "-" + buildType.name + "-v" +
                     defaultConfig.versionName + "-" + defaultConfig.versionCode + ".apk" );
         }
     }

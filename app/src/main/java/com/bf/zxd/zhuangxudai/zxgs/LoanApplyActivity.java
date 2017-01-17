@@ -8,8 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,12 +22,13 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.dialog.CommitDialogFragment;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.ZxdItem;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
 import com.bf.zxd.zhuangxudai.util.Phone;
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.squareup.picasso.Picasso;
 
 import java.net.URLEncoder;
 
@@ -65,11 +69,31 @@ public class LoanApplyActivity extends BaseActivity {
     TextView bankName;
     @BindView(R.id.choose_bank)
     Button chooseBank;
+    @BindView(R.id.bankpic_img)
+    ImageView bankpicImg;
+    @BindView(R.id.bank_name_tv)
+    TextView bankNameTv;
+    @BindView(R.id.money_range_tv)
+    TextView moneyRangeTv;
+    @BindView(R.id.cycle_unit_tv)
+    TextView cycleUnitTv;
+    @BindView(R.id.cycle_tv)
+    TextView cycleTv;
+    @BindView(R.id.rate_unit_tv)
+    TextView rateUnitTv;
+    @BindView(R.id.rate_tv)
+    TextView rateTv;
+    @BindView(R.id.bank_top_linear)
+    LinearLayout bankTopLinear;
+    @BindView(R.id.apply_money_tv)
+    TextView applyMoneyTv;
+    @BindView(R.id.top_style)
+    RelativeLayout topStyle;
     private int mSex = 1;
 
     public static int companyId = 0;
     Zxgs mZxgs;
-    public static ZxdItem mZxd;
+    public static RecommendBank mZxd;
     CompositeSubscription mcompositeSubscription;
 
     @Override
@@ -107,9 +131,10 @@ public class LoanApplyActivity extends BaseActivity {
                 boolean userNameBl = !TextUtils.isEmpty(charSequence);
                 boolean phoneNumBl = !TextUtils.isEmpty(charSequence2);
                 boolean loanNumBl = !TextUtils.isEmpty(charSequence3);
-                boolean companyAndbank=false;
-                if(companyId!=0&&mZxd!=null)companyAndbank=true;
-                return userNameBl && phoneNumBl && loanNumBl&&companyAndbank;
+                boolean companyAndbank = false;
+                if (companyId != 0 && mZxd != null)
+                    companyAndbank = true;
+                return userNameBl && phoneNumBl && loanNumBl && companyAndbank;
             }
         }).subscribe(new Observer<Boolean>() {
             @Override
@@ -151,30 +176,30 @@ public class LoanApplyActivity extends BaseActivity {
 
     public void initCompanyMsg() {
         if (companyId != 0) {
-                Log.i("gqf", "companyId" + companyId);
-                Subscription subscription = NetWork.getZxService().getZxgs(companyId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<Zxgs>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.i("gqf", "onCompleted");
-                            }
+            Log.i("gqf", "companyId" + companyId);
+            Subscription subscription = NetWork.getZxService().getZxgs(companyId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Zxgs>() {
+                        @Override
+                        public void onCompleted() {
+                            Log.i("gqf", "onCompleted");
+                        }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.i("gqf", "onError" + e.getMessage());
-                            }
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.i("gqf", "onError" + e.getMessage());
+                        }
 
-                            @Override
-                            public void onNext(Zxgs zxgs) {
-                                Log.i("gqf", "mListener" + zxgs.toString());
-                                mZxgs = zxgs;
-                                companyName.setText(mZxgs.getCompany_name());
-                                chooseCompany.setText("点击更换公司");
-                            }
-                        });
-                mcompositeSubscription.add(subscription);
+                        @Override
+                        public void onNext(Zxgs zxgs) {
+                            Log.i("gqf", "mListener" + zxgs.toString());
+                            mZxgs = zxgs;
+                            companyName.setText(mZxgs.getCompany_name());
+                            chooseCompany.setText("点击更换公司");
+                        }
+                    });
+            mcompositeSubscription.add(subscription);
 
         } else {
             companyName.setText("当前没有选择公司");
@@ -184,11 +209,21 @@ public class LoanApplyActivity extends BaseActivity {
 
     public void initBank() {
         if (mZxd != null) {
+            bankTopLinear.setVisibility(View.VISIBLE);
+            applyMoneyTv.setText("申请金额（元）");
             bankName.setText(mZxd.getBank_name());
+            Picasso.with(this).load(mZxd.getBank_img()).into(bankpicImg);
+            bankNameTv.setText(mZxd.getBank_name());
+            moneyRangeTv.setText(mZxd.getMoney_range());
+            cycleUnitTv.setText("申请期限（" + mZxd.getCycle_unit() + ")");
+            cycleTv.setText(mZxd.getCycle());
+            rateUnitTv.setText(mZxd.getCycle_unit() + "费率");
+            rateTv.setText(mZxd.getRate());
             chooseBank.setText("点击更换银行");
         } else {
             bankName.setText("当前没有选择银行");
             chooseBank.setText("点击选择银行");
+            bankTopLinear.setVisibility(View.GONE);
         }
     }
 
@@ -197,46 +232,47 @@ public class LoanApplyActivity extends BaseActivity {
         super.onDestroy();
         companyId = 0;
         mZxd = null;
-        mZxgs=null;
+        mZxgs = null;
     }
 
     @OnClick(R.id.loan_apply_for_btn)
     public void onClick() {
-        String _phone =storePhoneNumEdi.getText().toString();
-        if (Phone.IsMobileNO(_phone)){
+        String _phone = storePhoneNumEdi.getText().toString();
+        if (Phone.IsMobileNO(_phone)) {
 
             saveDksq();
-        }
-        else{
+        } else {
 
             Toast.makeText(this, "手机格式不正确！", Toast.LENGTH_SHORT).show();
             storePhoneNumEdi.setText("");
         }
     }
-private dksqinfo mDksqInfo;
+
+    private dksqinfo mDksqInfo;
+
     private void saveDksq() {
         mDksqInfo = new dksqinfo();
-        String _full_name = URLEncoder.encode(storeNameEdi.getText().toString()) ;
-        String _phone =URLEncoder.encode(storePhoneNumEdi.getText().toString()) ;
+        String _full_name = URLEncoder.encode(storeNameEdi.getText().toString());
+        String _phone = URLEncoder.encode(storePhoneNumEdi.getText().toString());
         int _company_id = companyId;
 
-        String _apply_money =URLEncoder.encode(loanNumEdi.getText().toString()) ;
+        String _apply_money = URLEncoder.encode(loanNumEdi.getText().toString());
         int _bank_id = mZxd.getBank_id();
 
         NetWork.getZxService().saveDksq(_full_name,
-                _phone, _company_id, mSex, _apply_money,_bank_id)
+                _phone, _company_id, mSex, _apply_money, _bank_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResuleInfo>() {
                     @Override
                     public void onCompleted() {
-                        Log.i("gqf","onCompleted");
+                        Log.i("gqf", "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
 
-                        Log.i("gqf","onError"+e.getMessage());
+                        Log.i("gqf", "onError" + e.getMessage());
                     }
 
                     @Override
@@ -259,18 +295,11 @@ private dksqinfo mDksqInfo;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onRestart() {
         super.onRestart();
         initCompanyMsg();
         initBank();
-        if(companyId!=0&&mZxd!=null&&!storeNameEdi.getText().toString().equals("")&&!storePhoneNumEdi.getText().toString().equals("")&&!loanNumEdi.getText().toString().equals("")){
+        if (companyId != 0 && mZxd != null && !storeNameEdi.getText().toString().equals("") && !storePhoneNumEdi.getText().toString().equals("") && !loanNumEdi.getText().toString().equals("")) {
             loanApplyForBtn.setEnabled(true);
         }
     }
@@ -284,8 +313,15 @@ private dksqinfo mDksqInfo;
                 break;
             case R.id.choose_bank:
                 //选择银行
-                startActivity(new Intent(LoanApplyActivity.this, MainActivity.class).putExtra("bank","bank"));
+                startActivity(new Intent(LoanApplyActivity.this, MainActivity.class).putExtra("bank", "bank"));
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
