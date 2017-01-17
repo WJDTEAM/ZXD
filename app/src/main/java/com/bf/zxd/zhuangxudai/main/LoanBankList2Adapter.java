@@ -81,7 +81,7 @@ public class LoanBankList2Adapter extends RecyclerView.Adapter<RecyclerView.View
                 .into(myViewHoder.loanTitleImg);
         myViewHoder.loanDkfw.setText("(" + mDatas.get(position).getDkfw() + ")");
         myViewHoder.loanRate.setText("费率：" + mDatas.get(position).getRate() + mDatas.get(position).getRate_unit());
-        myViewHoder.makeLoadDays.setText(mDatas.get(position).getMake_load_days() + "放贷");
+        myViewHoder.makeLoadDays.setText(mDatas.get(position).getMake_load_days() + "天放贷");
         myViewHoder.loanCycle.setText("贷款期限:"+mDatas.get(position).getCycle()+mDatas.get(position).getCycle_unit());
         myViewHoder.loanMaxMoney.setText(mDatas.get(position).getMax_money()+"");
     }
