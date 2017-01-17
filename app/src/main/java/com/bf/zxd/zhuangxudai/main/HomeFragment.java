@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.Dkhd.LoanActivity;
@@ -36,9 +37,9 @@ import io.realm.Realm;
 
 public class HomeFragment extends Fragment {
     //    @BindView(toolbar_title)
-//    TextView toolbarTitle;
-//    @BindView(R.id.base_toolBar)
-//    Toolbar baseToolBar;
+    //    TextView toolbarTitle;
+    //    @BindView(R.id.base_toolBar)
+    //    Toolbar baseToolBar;
     @BindView(R.id.zhuangxiugonglue_home)
     TextView zhuangxiugonglueHome;
     @BindView(R.id.daikuanhongdong_home)
@@ -55,6 +56,10 @@ public class HomeFragment extends Fragment {
     MarqueeView marqueeView;
     @BindView(R.id.home_applyLoan_btn)
     TextView homeApplyLoanBtn;
+    @BindView(R.id.little_loan_btn)
+    RelativeLayout littleLoanBtn;
+    @BindView(R.id.big_loan_btn)
+    RelativeLayout bigLoanBtn;
     private Realm realm;
     private Unbinder unbinder;
     private int[] carousels = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
@@ -74,7 +79,7 @@ public class HomeFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         initView();
 
-//        MarqueeView marqueeView = (MarqueeView) findViewById(R.id.marqueeView);
+        //        MarqueeView marqueeView = (MarqueeView) findViewById(R.id.marqueeView);
 
         List<String> info = new ArrayList<>();
         info.add("张小姐                                20万                         158*****111");
@@ -84,8 +89,8 @@ public class HomeFragment extends Fragment {
         info.add("刘小姐                                40万                         156*****123");
         info.add("孙先姐                                60万                         159*****876");
         marqueeView.startWithList(info);
-//        String notice = "张小姐                   20万                  158*****111";
-//        marqueeView.startWithText(notice);
+        //        String notice = "张小姐                   20万                  158*****111";
+        //        marqueeView.startWithText(notice);
         setViewPager(carousels);
 
 
@@ -93,7 +98,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initView() {
-//        setToolbar();
+        //        setToolbar();
 
     }
 
@@ -111,13 +116,16 @@ public class HomeFragment extends Fragment {
 
     private void setToolbar() {
         //让原始的toolbar的title不显示
-//        baseToolBar.setTitle("");
-//        ((AppCompatActivity) getActivity()).setSupportActionBar(baseToolBar);
-//        toolbarTitle.setText(getResources().getString(R.string.home_title));
+        //        baseToolBar.setTitle("");
+        //        ((AppCompatActivity) getActivity()).setSupportActionBar(baseToolBar);
+        //        toolbarTitle.setText(getResources().getString(R.string.home_title));
     }
+
 
     public interface mDetailsListener {
         void setContent(int id);
+
+        void changePageAndSetPagePosition(int position);
     }
 
     private mDetailsListener mListener;
@@ -133,7 +141,8 @@ public class HomeFragment extends Fragment {
         super.onDestroy();
         unbinder.unbind();
     }
-    @OnClick({R.id.home_applyLoan_btn, R.id.zhuangxiugonglue_home, R.id.daikuanhongdong_home, R.id.jiazhuangzhuanti_home, R.id.zhuangxiugongsi_home})
+
+    @OnClick({R.id.little_loan_btn, R.id.big_loan_btn,R.id.home_applyLoan_btn, R.id.zhuangxiugonglue_home, R.id.daikuanhongdong_home, R.id.jiazhuangzhuanti_home, R.id.zhuangxiugongsi_home})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.zhuangxiugonglue_home:
@@ -150,6 +159,12 @@ public class HomeFragment extends Fragment {
                 break;
             case R.id.home_applyLoan_btn:
                 startActivity(new Intent(getActivity(), LoanApplyActivity.class));
+                break;
+            case R.id.little_loan_btn:
+                mListener.changePageAndSetPagePosition(2);
+                break;
+            case R.id.big_loan_btn:
+                mListener.changePageAndSetPagePosition(1);
                 break;
         }
     }

@@ -2,7 +2,7 @@ package com.bf.zxd.zhuangxudai.network.api;
 
 import com.bf.zxd.zhuangxudai.pojo.Dkhd;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.Zxd;
+import com.bf.zxd.zhuangxudai.pojo.ZxdItem;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dict;
 import com.bf.zxd.zhuangxudai.pojo.jzzt;
@@ -102,11 +102,11 @@ public interface ZxService {
     Observable<ResuleInfo> saveZxyy(@Field("full_name") String full_name, @Field("phone") String phone, @Field("company_id") int company_id, @Field("unit_addr") String unit_addr, @Field("area") int area, @Field("house_type") int house_type, @Field("house_style") int house_style);
 
 
-    /**
-     * 装修贷银行信息
-     */
-    @GET("getZxdItem")
-    Observable<List<Zxd>> getZxdItem();
+//    /**
+//     * 装修贷银行信息
+//     */
+//    @GET("getZxdItem")
+//    Observable<List<Zxd>> getZxdItem();
 
 
     /**
@@ -117,4 +117,10 @@ public interface ZxService {
     Observable<Zxgs> getZxgs(@Path("company_id")int company_id);
 
 
+    /**
+     * http://211.149.235.17:8080/zxd/app/getZxdItem/
+     * 获取装修贷
+     */
+    @GET("getZxdItem/{dkfw}")
+    Observable<List<ZxdItem>> getZxdItem(@Path("dkfw")String dkfw);
 }

@@ -53,7 +53,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     public static final String CHANGE_DETAILS_FRAGMENT="tempalte_details_fragment";
 
     public static final String CHANGE_IMG_FRAGMENT="tempalte_img_fragment";
-    public static final float slidingDistance=200;
+    public static final float slidingDistance=300;
     private void setToolbar(int status, String toolstr) {
 
         baseToolBar.setTitle(toolstr);

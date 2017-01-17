@@ -20,7 +20,7 @@ import com.bf.zxd.zhuangxudai.dialog.CommitDialogFragment;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.Zxd;
+import com.bf.zxd.zhuangxudai.pojo.ZxdItem;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
 import com.bf.zxd.zhuangxudai.util.Phone;
@@ -69,7 +69,7 @@ public class LoanApplyActivity extends BaseActivity {
 
     public static int companyId = 0;
     Zxgs mZxgs;
-    public static Zxd mZxd;
+    public static ZxdItem mZxd;
     CompositeSubscription mcompositeSubscription;
 
     @Override

@@ -116,14 +116,19 @@ public class TemplateImgFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                if(position==1||position==0){
-                    //用户左翻页
-                   index--;
-                }else if(position==3||position==4){
-                    //用户右翻页
-                    index++;
+                    if (position == 1 || position == 0) {
+                        //用户左翻页
+                        index--;
+                    } else if (position == 3 || position == 4) {
+                        //用户右翻页
+                        index++;
+                    }
+                if(index==15){
+                    index=1;
+                }else if(index==0){
+                    index=14;
                 }
-                setViewPager(index);
+                    setViewPager(index);
 
             }
         });
@@ -174,11 +179,25 @@ public class TemplateImgFragment extends Fragment {
     }
 
     public void setViewPager(int index){
-        ((TextView)autoViewPagerAdapter.getImageViewList().get(0).findViewById(R.id.txt)).setText(index-2+"");
-        ((TextView)autoViewPagerAdapter.getImageViewList().get(1).findViewById(R.id.txt)).setText(index-1+"");
-        ((TextView)autoViewPagerAdapter.getImageViewList().get(2).findViewById(R.id.txt)).setText(index+"");
-        ((TextView)autoViewPagerAdapter.getImageViewList().get(3).findViewById(R.id.txt)).setText(index+1+"");
-        ((TextView)autoViewPagerAdapter.getImageViewList().get(4).findViewById(R.id.txt)).setText(index+2+"");
+
+        List<Integer> nums=new ArrayList<>();
+        for(int i=0;i<5;i++){
+            if(index-2+i==0){
+                nums.add(14);
+            }else if(index-2+i==-1){
+                nums.add(13);
+            }
+            else if(index-2+i==15){
+                nums.add(1);
+            }else if(index-2+i==16){
+                nums.add(2);
+            }
+            else{
+                nums.add(index-2+i);
+            }
+            ((TextView)autoViewPagerAdapter.getImageViewList().get(i).findViewById(R.id.txt)).setText(nums.get(i)+"");
+        }
+
         if(index%2==0){
             ((ImageView)autoViewPagerAdapter.getImageViewList().get(0).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo2);
             ((ImageView)autoViewPagerAdapter.getImageViewList().get(1).findViewById(R.id.template_pager_img)).setImageResource(R.drawable.demo);

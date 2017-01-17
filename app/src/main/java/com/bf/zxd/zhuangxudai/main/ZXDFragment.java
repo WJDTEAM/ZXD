@@ -11,20 +11,14 @@ import android.view.ViewGroup;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.AutoHeightLayoutManager;
-import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.Zxd;
 import com.bf.zxd.zhuangxudai.template.TemplateListAdapter;
-import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import rx.Observer;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -57,27 +51,27 @@ public class ZXDFragment extends Fragment {
 
     }
     public void initData(){
-        Subscription Subscription_getZxglItem= NetWork.getZxService().getZxdItem()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<Zxd>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Zxd> zxds) {
-                        mZxds=zxds;
-                        initListView(zxds);
-                    }
-                });
-        mcompositeSubscription.add(Subscription_getZxglItem);
+//        Subscription Subscription_getZxglItem= NetWork.getZxService().getZxdItem()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<List<Zxd>>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<Zxd> zxds) {
+//                        mZxds=zxds;
+//                        initListView(zxds);
+//                    }
+//                });
+//        mcompositeSubscription.add(Subscription_getZxglItem);
     }
     public void initListView(List<Zxd> zxds){
         if(loanBankListAdapter==null){
@@ -89,7 +83,7 @@ public class ZXDFragment extends Fragment {
             loanBankListAdapter.setOnItemClickListener(new TemplateListAdapter.MyItemClickListener() {
                 @Override
                 public void onItemClick(View view, int postion) {
-                    LoanApplyActivity.mZxd=mZxds.get(postion);
+                   // LoanApplyActivity.mZxd=mZxds.get(postion);
                     mListener.startLoanApplyActivity();
                 }
             });

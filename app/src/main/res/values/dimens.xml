@@ -8,9 +8,12 @@
     <dimen name="tinysp">10sp</dimen>
     <dimen name="smallsp">12sp</dimen>
     <dimen name="mediumsp">15sp</dimen>
+    <dimen name="mediumxsp">18sp</dimen>
     <dimen name="bigsp">20sp</dimen>
     <dimen name="hugesp">25sp</dimen>
-
+    <dimen name="hugexsp">30sp</dimen>
+    <dimen name="hugexxsp">35sp</dimen>
+    <dimen name="hugexxxsp">40sp</dimen>
     <!--mdp-->
     <dimen name="tinymdp">5dp</dimen>
     <dimen name="smallmdp">10dp</dimen>
