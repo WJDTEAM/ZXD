@@ -1,36 +1,36 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">10dp</dimen>
-    <dimen name="activity_vertical_margin">10dp</dimen>
+    <dimen name="activity_horizontal_margin">24.0dp</dimen>
+    <dimen name="activity_vertical_margin">24.0dp</dimen>
 
 
     <!--sp-->
-    <dimen name="tinysp">6sp</dimen>
-    <dimen name="smallsp">7sp</dimen>
-    <dimen name="mediumsp">9sp</dimen>
-    <dimen name="mediumxsp">11sp</dimen>
-    <dimen name="bigsp">12sp</dimen>
-    <dimen name="hugesp">15sp</dimen>
-    <dimen name="hugexsp">18sp</dimen>
-    <dimen name="hugexxsp">21sp</dimen>
-    <dimen name="hugexxxsp">24sp</dimen>
+    <dimen name="tinysp">15.0sp</dimen>
+    <dimen name="smallsp">18.0sp</dimen>
+    <dimen name="mediumsp">22.5sp</dimen>
+    <dimen name="mediumxsp">27.0sp</dimen>
+    <dimen name="bigsp">30.0sp</dimen>
+    <dimen name="hugesp">37.5sp</dimen>
+    <dimen name="hugexsp">45.0sp</dimen>
+    <dimen name="hugexxsp">52.5sp</dimen>
+    <dimen name="hugexxxsp">60.0sp</dimen>
     <!--mdp-->
-    <dimen name="tinymdp">3dp</dimen>
-    <dimen name="smallmdp">6dp</dimen>
-    <dimen name="mediummdp">9dp</dimen>
-    <dimen name="bigmdp">12dp</dimen>
-    <dimen name="hugemdp">15dp</dimen>
+    <dimen name="tinymdp">7.5dp</dimen>
+    <dimen name="smallmdp">15.0dp</dimen>
+    <dimen name="mediummdp">22.5dp</dimen>
+    <dimen name="bigmdp">30.0dp</dimen>
+    <dimen name="hugemdp">37.5dp</dimen>
 
     <!--hdp-->
-    <dimen name="tinyhdp">18dp</dimen>
-    <dimen name="smallhdp">24dp</dimen>
-    <dimen name="mediumhdp">30dp</dimen>
-    <dimen name="bighdp">36dp</dimen>
-    <dimen name="hugehdp">42dp</dimen>
-    <dimen name="hugehxxdp">48dp</dimen>
-    <dimen name="hugehxxxdp">54dp</dimen>
-    <dimen name="hugehxxxxdp">60dp</dimen>
-    <dimen name="hugehxxxxxdp">72dp</dimen>
+    <dimen name="tinyhdp">45.0dp</dimen>
+    <dimen name="smallhdp">60.0dp</dimen>
+    <dimen name="mediumhdp">75.0dp</dimen>
+    <dimen name="bighdp">90.0dp</dimen>
+    <dimen name="hugehdp">105.0dp</dimen>
+    <dimen name="hugehxxdp">120.0dp</dimen>
+    <dimen name="hugehxxxdp">135.0dp</dimen>
+    <dimen name="hugehxxxxdp">150.0dp</dimen>
+    <dimen name="hugehxxxxxdp">180.0dp</dimen>
 
 </resources>
 
