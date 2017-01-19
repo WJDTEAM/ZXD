@@ -7,16 +7,16 @@
         android:id="@+id/segment_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textSize="18sp"
+        android:layout_margin="@dimen/smallmdp"
+        android:textSize="@dimen/mediumxsp"
         app:block_direction="horizon"
         app:textColors="@color/white"
         app:backgroundColors="@color/background_color_selector"
-        app:cornerRadius="5dp"
+        app:cornerRadius="@dimen/tinymdp"
         app:texts="贷款|预约"
         app:boundWidth="0dp"
-        app:verticalGap="10dp"
-        app:horizonGap="10dp"
+        app:verticalGap="@dimen/smallmdp"
+        app:horizonGap="@dimen/smallmdp"
         />
 
 </LinearLayout>

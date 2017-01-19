@@ -14,15 +14,15 @@
             android:layout_height="wrap_content"
             android:text="案例展示"
             android:gravity="center"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="@dimen/smallmdp"
+            android:paddingBottom="@dimen/smallmdp"
             />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ok"
             android:layout_centerVertical="true"
-            android:paddingRight="15dp"
+            android:paddingRight="@dimen/mediummdp"
             />
     </RelativeLayout>
 

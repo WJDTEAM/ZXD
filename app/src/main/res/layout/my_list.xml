@@ -5,6 +5,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
     >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,9 +27,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="5"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:src="@drawable/my_myloan"/>
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:src="@drawable/my_myloan"
+
+                android:scaleType="fitCenter"
+
+                />
 
             <TextView
                 android:layout_width="match_parent"
@@ -53,8 +58,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="5"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:scaleType="fitCenter"
                 android:src="@drawable/my_feedback"/>
 
             <TextView
@@ -83,9 +89,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="5"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
                 android:src="@drawable/my_apply"
+                android:scaleType="fitCenter"
                 />
 
             <TextView
@@ -122,8 +129,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="5"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
+                android:scaleType="fitCenter"
                 android:src="@drawable/myapointment"/>
 
             <TextView
@@ -144,12 +152,14 @@
             android:paddingTop="8dp"
             android:layout_marginBottom="8dp"
             >
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="5"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:scaleType="fitCenter"
                 android:src="@drawable/my_helpcenter"/>
 
             <TextView
@@ -175,8 +185,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="5"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:scaleType="fitCenter"
                 android:src="@drawable/my_aboutus"
                 />
 
@@ -189,12 +200,6 @@
         </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        >
-    </LinearLayout>
+
 
 </LinearLayout>

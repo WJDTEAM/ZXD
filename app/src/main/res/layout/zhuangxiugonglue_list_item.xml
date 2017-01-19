@@ -11,10 +11,10 @@
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="130dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="@dimen/hugehxxxxxdp"
+        android:layout_height="@dimen/hugehxxdp"
+        android:layout_marginLeft="@dimen/smallmdp"
+        android:layout_marginRight="@dimen/smallmdp"
         android:src="@drawable/demo"
         android:scaleType="fitXY"
         />
@@ -23,7 +23,7 @@
         android:id="@+id/gsTitle_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/smallmdp"
         android:layout_toRightOf="@id/img"
         android:textColor="@color/black"
         android:text="约看工地客户们该注意哪些细节"
@@ -45,9 +45,9 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@+id/img"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/smallmdp"
+        android:layout_marginRight="@dimen/smallmdp"
         android:background="@drawable/recylist_item_line_shap"
         />
 

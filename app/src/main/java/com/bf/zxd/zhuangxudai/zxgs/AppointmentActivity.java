@@ -296,7 +296,7 @@ public class AppointmentActivity extends BaseActivity {
     private void setToolBar() {
         baseToolBar.setTitle("预约");
         baseToolBar.setTitleTextColor(getResources().getColor(R.color.white));
-        baseToolBar.setNavigationIcon(R.drawable.back);
+        baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);
         setSupportActionBar(baseToolBar);
         baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

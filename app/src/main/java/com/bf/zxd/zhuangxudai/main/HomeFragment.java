@@ -18,12 +18,13 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.jzzt.JzztActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
+import com.bf.zxd.zhuangxudai.util.MarqueeView;
 import com.bf.zxd.zhuangxudai.zxgl.ZxglActivity;
 import com.bf.zxd.zhuangxudai.zxgs.ZxgsActivity;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
-import com.sunfusheng.marqueeview.MarqueeView;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,12 +91,12 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
 //        MarqueeView marqueeView = (MarqueeView) findViewById(R.id.marqueeView);
 
         List<String> info = new ArrayList<>();
-        info.add("张小姐                                20万                         158*****111");
-        info.add("王先生                                30万                         156*****141");
-        info.add("李小姐                                10万                         138*****341");
-        info.add("赵先生                                20万                         137*****468");
-        info.add("刘小姐                                40万                         156*****123");
-        info.add("孙先姐                                60万                         159*****876");
+        info.add("张小姐,20万,158*****111");
+        info.add("王先生,30万,156*****141");
+        info.add("李小姐,10万,138*****341");
+        info.add("赵先生,20万,137*****468");
+        info.add("刘小姐,40万,156*****123");
+        info.add("孙先姐,60万,159*****876");
         marqueeView.startWithList(info);
 //        String notice = "张小姐                   20万                  158*****111";
 //        marqueeView.startWithText(notice);

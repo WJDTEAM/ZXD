@@ -47,7 +47,7 @@ public class JzztActivity extends BaseActivity {
         baseToolBar.setTitle("家装专题");
         baseToolBar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(baseToolBar);
-        baseToolBar.setNavigationIcon(R.drawable.back);
+        baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);
         baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

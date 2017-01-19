@@ -5,11 +5,13 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
     >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="16dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:background="?android:selectableItemBackground"
@@ -23,28 +25,29 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:layout_weight="1.5"
-            android:text="中国银行"
+            android:text="中国工商银行"
             android:textColor="@color/colorPrimary"
-            android:textSize="15sp"
+            android:textSize="@dimen/mediumsp"
             />
 
         <TextView
 
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:text="0.02%"
-            android:gravity="center_vertical"
+            android:textSize="@dimen/mediumsp"
+            android:gravity="center"
             android:id="@+id/rate_recommendBank_tv"/>
 
         <TextView
             android:id="@+id/maxMoney_recommendBank_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="100000"
+            android:layout_weight="1.1"
+            android:text="10000000"
             android:gravity="center_vertical"
-            android:textSize="18sp"
+            android:textSize="@dimen/mediumsp"
 
             />
         <TextView
@@ -55,11 +58,11 @@
             android:padding="3dp"
             android:gravity="center"
             android:text="申请贷款"
-            android:layout_marginRight="16dp"
+            android:lines="1"
             android:textColor="@color/colorPrimary"
             android:clickable="true"
             android:background="@drawable/home_applyloan_txt_sel"
-            android:textSize="15sp"
+            android:textSize="@dimen/smallsp"
             />
     </LinearLayout>
 

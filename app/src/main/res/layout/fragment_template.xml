@@ -8,7 +8,7 @@
         android:id="@+id/dropDownMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:ddmenuTextSize="13sp"
+        app:ddmenuTextSize="@dimen/mediumsp"
         app:ddtextUnselectedColor="@color/black"
         app:ddtextSelectedColor="@color/colorPrimary"
         app:dddividerColor="@color/gary"

@@ -27,29 +27,29 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="@dimen/smallmdp"
+                android:layout_marginRight="@dimen/smallmdp"
                 android:background="@drawable/recylist_item_line_shap"
                 />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="@dimen/tinymdp"
                 android:background="@color/whitesmoke"
                 />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="@dimen/smallmdp"
                 >
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/image"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="@dimen/bighdp"
+                    android:layout_height="@dimen/bighdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="32dp"
+                    android:layout_marginLeft="@dimen/tinyhdp"
                     android:clickable="true"
 
                     />
@@ -58,8 +58,8 @@
                     android:id="@+id/gsTitle_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="@dimen/smallmdp"
+                    android:layout_marginRight="@dimen/smallmdp"
                     android:layout_toRightOf="@+id/image"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/mediumsp"
@@ -79,7 +79,7 @@
                         android:id="@+id/below_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginLeft="@dimen/smallmdp"
                         android:lines="2"
                         android:ellipsize="end"
                         />
@@ -90,19 +90,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/image"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:gravity="center_vertical"
-                    android:paddingTop="8dp"
+                    android:paddingTop="@dimen/smallmdp"
                     >
 
                     <TextView
                         android:id="@+id/address_txt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginLeft="@dimen/smallmdp"
                         android:layout_weight="5"
                         android:drawableLeft="@drawable/address"
-                        android:drawablePadding="5dp"
+                        android:drawablePadding="@dimen/tinymdp"
                         android:ellipsize="end"
                         android:lines="2"
                         android:gravity="center_vertical"
@@ -119,7 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="@dimen/tinymdp"
                         android:layout_toRightOf="@+id/below_txt"
                         android:src="@drawable/like_light"
                         />
@@ -140,7 +140,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="@dimen/tinymdp"
                 android:background="@color/whitesmoke"
                 />
 

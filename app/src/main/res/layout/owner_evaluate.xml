@@ -14,15 +14,15 @@
             android:layout_height="wrap_content"
             android:text="业主评价"
             android:gravity="center"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="@dimen/smallmdp"
+            android:paddingBottom="@dimen/smallmdp"
             />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ok"
-            android:paddingRight="15dp"
+            android:paddingRight="@dimen/mediummdp"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
             android:id="@+id/imageView"/>
@@ -32,14 +32,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="@dimen/smallmdp"
+        android:layout_marginRight="@dimen/smallmdp"
 
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
+            android:paddingBottom="@dimen/smallmdp"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
                 android:text="喆喆"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/bigsp"
-                android:paddingRight="5dp"
+                android:paddingRight="@dimen/tinymdp"
                 />
             <TextView
                 android:layout_width="0dp"
@@ -75,7 +75,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
+            android:paddingTop="@dimen/smallmdp"
             >
             <TextView
                 android:layout_width="0dp"
@@ -86,15 +86,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/detial"
-                android:drawablePadding="5dp"
+                android:drawablePadding="@dimen/tinymdp"
                 android:text="2"
-                android:layout_marginRight="32dp"
+                android:layout_marginRight="@dimen/tinyhdp"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/like_dake"
-                android:drawablePadding="5dp"
+                android:drawablePadding="@dimen/tinymdp"
                 android:text="有用"
                 />
 

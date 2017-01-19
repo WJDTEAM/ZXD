@@ -72,7 +72,7 @@
                 android:text="500000"
                 android:textColor="@color/colorPrimary"
                 android:gravity="center"
-                android:textSize="@dimen/hugexsp"
+                android:textSize="@dimen/hugesp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:paddingBottom="@dimen/smallmdp"
                 android:textStyle="bold"
@@ -109,7 +109,6 @@
                 android:layout_weight="1"
                 android:text="10天放贷"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:paddingLeft="@dimen/smallmdp"
                 android:lines="3"
                 android:textSize="@dimen/mediumsp"
                 android:gravity="bottom"/>
@@ -118,9 +117,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text=" 费率：0.060%月"
+                android:text=" 费率:0.060%月"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:paddingLeft="@dimen/smallmdp"
                 android:lines="3"
                 android:textSize="@dimen/mediumsp"
                 android:gravity="center"/>
@@ -129,20 +127,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="贷款期限:6~48月"
+                android:text="期限:6~48月"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:paddingLeft="@dimen/smallmdp"
                 android:lines="3"
                 android:textSize="@dimen/mediumsp"
                 android:gravity="top"/>
             </LinearLayout>
             <Button
                 android:id="@+id/go_to_loan"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="@dimen/tinyhdp"
                 android:background="@drawable/apply_for_selector"
                 android:textColor="@color/white"
                 android:text="去贷款"
+                android:textSize="@dimen/smallsp"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/mediummdp"
                 />

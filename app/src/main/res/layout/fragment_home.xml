@@ -29,7 +29,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
+                android:layout_height="@dimen/smallmdp"
                 android:background="@color/whitesmoke"/>
 
             <include
@@ -38,20 +38,20 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
+                android:layout_height="@dimen/smallmdp"
                 android:background="@color/whitesmoke"/>
             <!--贷款成功-->
             <include layout="@layout/loan_success"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
+                android:layout_height="@dimen/smallmdp"
                 android:background="@color/whitesmoke"/>
             <!--贷款服务-->
             <include layout="@layout/loan_servicer"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
+                android:layout_height="@dimen/smallmdp"
                 android:background="@color/whitesmoke"/>
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -62,13 +62,13 @@
                     android:layout_height="wrap_content"
                     android:text="推荐"
                     android:gravity="center"
-                    android:paddingTop="8dp"
+                    android:paddingTop="@dimen/smallmdp"
                     />
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ok"
-                    android:paddingRight="15dp"
+                    android:paddingRight="@dimen/mediummdp"
                     android:layout_centerVertical="true"
                     />
             </RelativeLayout>

@@ -68,9 +68,6 @@ public class BaseApplication extends Application {
         mList = new ArrayList<>();
         RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).schemaVersion(2).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfig);
-
-
-
     }
 
     /**

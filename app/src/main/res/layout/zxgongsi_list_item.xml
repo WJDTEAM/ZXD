@@ -15,10 +15,10 @@
         >
         <ImageView
             android:id="@+id/img"
-            android:layout_width="130dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_width="@dimen/hugehxxxxxdp"
+            android:layout_height="@dimen/hugehxxdp"
+            android:layout_marginLeft="@dimen/smallmdp"
+            android:layout_marginRight="@dimen/smallmdp"
             android:src="@drawable/demo"
             android:scaleType="fitXY"
             />
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="好评率：100%"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/tinymdp"
                 android:textSize="@dimen/smallsp"
                 />
         </LinearLayout>
@@ -63,8 +63,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/jdgg_img"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginRight="@dimen/smallmdp"
+            android:layout_marginLeft="@dimen/smallmdp"
             />
 
     </LinearLayout>
@@ -74,10 +74,10 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="@dimen/tinymdp"
+        android:layout_marginLeft="@dimen/smallmdp"
+        android:layout_marginRight="@dimen/smallmdp"
+        android:layout_marginTop="@dimen/smallmdp"
         android:background="@drawable/recylist_item_line_shap"
         />
 
