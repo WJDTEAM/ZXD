@@ -2,8 +2,8 @@ package com.bf.zxd.zhuangxudai.application;
 
 import android.app.Activity;
 import android.app.Application;
-
-import com.bf.zxd.zhuangxudai.util.Utils;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +71,28 @@ public class BaseApplication extends Application {
 
 
 
+    }
+
+    /**
+     * 使用默认字体
+     * @param newConfig
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (newConfig.fontScale != 1)//非默认值
+            getResources();
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        if (res.getConfiguration().fontScale != 1) {//非默认值
+            Configuration newConfig = new Configuration();
+            newConfig.setToDefaults();//设置默认
+            res.updateConfiguration(newConfig, res.getDisplayMetrics());
+        }
+        return res;
     }
 
 }

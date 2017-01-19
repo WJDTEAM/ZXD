@@ -12,8 +12,6 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:paddingEnd="@dimen/bighdp"
-        app:paddingStart="@dimen/bighdp"
         android:layout_alignParentBottom="true"
         app:bb_tabXmlResource="@xml/bottombar_tabs"
         />
