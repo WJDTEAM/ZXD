@@ -136,7 +136,9 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
     }
 
     private void setAdapter(List<RecommendBank> recommendBanks) {
+        recyclerviewFragmentHome.setNestedScrollingEnabled(false);
         //init context view
+
         recyclerviewFragmentHome.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (recommendBankAdapter==null){
 

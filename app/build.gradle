@@ -81,5 +81,7 @@ dependencies {
     compile 'cn.qqtheme.framework:WheelPicker:1.4.2'
     compile 'cn.qqtheme.framework:FilePicker:1.4.2'
     compile 'cn.qqtheme.framework:ColorPicker:1.4.2'
+    /*bottombar*/
+    compile 'com.ashokvarma.android:bottom-navigation-bar:1.2.0'
 
 }

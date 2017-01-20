@@ -22,6 +22,8 @@
 
     <color name="subscribe">#FCC125</color> <!-- 预约背景黄 -->
 
+    <color name="bottom_img">#838282</color> <!--底部图标色 -->
+
 
     <!-- material design black font color -->
     <color name="font_black_0">#212121</color>
