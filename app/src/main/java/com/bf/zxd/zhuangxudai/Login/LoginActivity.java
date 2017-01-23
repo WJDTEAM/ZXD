@@ -98,26 +98,36 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void call(Boolean aBoolean) {
                         SettingsUtils.setPrefRememberPassword(getApplicationContext(), aBoolean);
+                        if(aBoolean==false){
+                            loginAutoLogin.setChecked(false);
+                            SettingsUtils.setPrefAutoLogin(getApplicationContext(), aBoolean);
+                        }
                     }
                 });
-
         RxCompoundButton.checkedChanges(loginAutoLogin)
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
                         SettingsUtils.setPrefAutoLogin(getApplicationContext(), aBoolean);
+                        if(aBoolean==true){
+                            SettingsUtils.setPrefRememberPassword(getApplicationContext(), aBoolean);
+                            loginRememberPassword.setChecked(true);
+                        }
+
                     }
                 });
         if (SettingsUtils.isRememberPassword(getApplicationContext())) {
             user userInfo = realm.where(user.class).findFirst();
-            name = userInfo.getUserName();
-            BaseApplication.username = name;
-            password = userInfo.getUserPassword();
-            loginNameEt.setText(name);
-            loginPasswordEt.setText(password);
-            loginBt.setEnabled(true);
-            if (SettingsUtils.isAutoLogin(getApplicationContext())) {
-                doLogin();
+            if(userInfo!=null) {
+                name = userInfo.getPhone();
+                BaseApplication.username = name;
+                password = userInfo.getPassword();
+                loginNameEt.setText(name);
+                loginPasswordEt.setText(password);
+                loginBt.setEnabled(true);
+                if (SettingsUtils.isAutoLogin(getApplicationContext())) {
+                    doLogin();
+                }
             }
         }
 
@@ -208,7 +218,7 @@ public class LoginActivity extends BaseActivity {
 
     private void doLogin() {
         Log.i("gqf",name+password);
-        Subscription logSc = NetWork.getUserService().loginUsers(name, password)
+        Subscription logSc = NetWork.getUserService().login(name, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<user>() {
@@ -229,10 +239,17 @@ public class LoginActivity extends BaseActivity {
                             Toast.makeText(LoginActivity.this, "登录失败,用户名密码错误", Toast.LENGTH_SHORT).show();
                             deletUser();
                         } else {
+                            user user = realm.where(user.class).findFirst();
+                           if(user!=null){
+                                //删除本地之前保存的用户信息
+                                realm.beginTransaction();
+                                user.deleteFromRealm();
+                                realm.commitTransaction();
+                            }
                             BaseApplication.username = name;
                             realm.beginTransaction();
-                            userInfo.setUserPassword(password);
-                            userInfo.setUserName(name);
+                            userInfo.setPassword(password);
+                            userInfo.setPhone(name);
                             realm.copyToRealmOrUpdate(userInfo);
                             realm.commitTransaction();
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();

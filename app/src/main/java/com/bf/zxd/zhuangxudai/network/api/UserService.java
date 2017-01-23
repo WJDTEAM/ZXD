@@ -12,7 +12,12 @@ import rx.Observable;
 public interface UserService {
 
     @FormUrlEncoded
-    @POST("User/loginUsers")
-    Observable<user> loginUsers(@Field("userName") String user_name, @Field("userPassword") String user_password);
+    @POST("login")
+    Observable<user> login(@Field("phone") String phone, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("register")
+    Observable<user> register(@Field("phone") String phone, @Field("password") String password);
+
 
 }

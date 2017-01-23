@@ -3,28 +3,30 @@ package com.bf.zxd.zhuangxudai.pojo;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * "user_id": long 用户Id
+
+ "user_name":String 用户账号
+
+ "tel":String 用户电话
+ "phone":String 手机号码
+
+ "password":String 密码
+ */
 public class user extends RealmObject {
 	@PrimaryKey
     private Integer userId=0;
 
     private String userName;
 
-    private String userPassword;
+    private String phone;
 
+    private String password;
+    private String tel;
     
     public user(){}
     
-    public user(String userName, String userPassword) {
-		super();
-		this.userName = userName;
-		this.userPassword = userPassword;
-	}
 
-	public user(Integer userId, String userName, String userPassword){
-    	this.userId=userId;
-    	this.userName=userName;
-    	this.userPassword=userPassword;
-    }
     
 
 	public Integer getUserId() {
@@ -43,20 +45,38 @@ public class user extends RealmObject {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword == null ? null : userPassword.trim();
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-	@Override
-	public String toString() {
-		return "user{" +
-				"userId=" + userId +
-				", userName='" + userName + '\'' +
-				", userPassword='" + userPassword + '\'' +
-				'}';
-	}
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    @Override
+    public String toString() {
+        return "user{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", tel='" + tel + '\'' +
+                '}';
+    }
 }
