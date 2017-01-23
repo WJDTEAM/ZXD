@@ -2,7 +2,10 @@ package com.bf.zxd.zhuangxudai.main;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,6 +117,47 @@ public class ZXD3Fragment extends Fragment {
         TextView ok = ButterKnife.findById(constellationView, R.id.ok);
          minMoney=ButterKnife.findById(constellationView, R.id.zxd_money_edi_min);
          maxMoney=ButterKnife.findById(constellationView, R.id.zxd_money_edi_max);
+        minMoney.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if(Integer.parseInt(minMoneyStr)>Integer.parseInt(maxMoneyStr)){
+                    int index = minMoney.getSelectionStart();
+                    editable.delete(index-1, index);
+                }
+                minMoneyStr=editable.toString();
+            }
+        });
+        maxMoney.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(Integer.parseInt(minMoneyStr)<Integer.parseInt(maxMoneyStr)){
+                    int index = minMoney.getSelectionStart();
+                    editable.delete(index-1, index);
+                }
+                maxMoneyStr=editable.toString();
+            }
+        });
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +178,6 @@ public class ZXD3Fragment extends Fragment {
                     minMoneyStr=minMoney.getText().toString();
                     maxMoneyStr=maxMoney.getText().toString();
                 }
-                t.setText("装修贷"+minMoneyStr+maxMoneyStr+"万"+chooseAll+"类型"+chooseRate+"利率"+chooseTime+"期限");
                 dropDownMenuBank.setTabText(chooseMoney);
                 dropDownMenuBank.closeMenu();
                 initData(chooseAll,minMoneyStr,maxMoneyStr,chooseRate,chooseTime);
@@ -176,7 +219,6 @@ public class ZXD3Fragment extends Fragment {
                     dropDownMenuBank.setTabText(Rate.getText().toString()+"%");
                 }
 
-                t.setText("装修贷"+minMoneyStr+maxMoneyStr+"万"+chooseAll+"类型"+chooseRate+"利率"+chooseTime+"期限");
                 dropDownMenuBank.closeMenu();
                 initData(chooseAll,minMoneyStr,maxMoneyStr,chooseRate,chooseTime);
             }
@@ -212,7 +254,6 @@ public class ZXD3Fragment extends Fragment {
                 else{
                     chooseTime=Time.getText().toString()+"个月";
                 }
-                t.setText("装修贷"+minMoneyStr+maxMoneyStr+"万"+chooseAll+"类型"+chooseRate+"利率"+chooseTime+"期限");
 
                 dropDownMenuBank.closeMenu();
                 initData(chooseAll,minMoneyStr,maxMoneyStr,chooseRate,chooseTime);
@@ -243,7 +284,6 @@ public class ZXD3Fragment extends Fragment {
                 }
                 dropDownMenuBank.setTabText(i == 0 ? headers[0] : all[i]);
                 dropDownMenuBank.closeMenu();
-                t.setText("装修贷"+minMoneyStr+maxMoneyStr+"万"+chooseAll+"类型"+chooseRate+"利率"+chooseTime+"期限");
                 initData(chooseAll,minMoneyStr,maxMoneyStr,chooseRate,chooseTime);
             }
         });
@@ -251,10 +291,7 @@ public class ZXD3Fragment extends Fragment {
         popupViews.add(constellationView);
         popupViews.add(rateView);
         popupViews.add(timeView);
-        //contentView = new RecyclerView(getActivity());
-        t=new TextView(getActivity());
-        t.setText("装修贷"+minMoneyStr+maxMoneyStr+"万"+chooseAll+"类型"+chooseRate+"利率"+chooseTime+"期限");
-        dropDownMenuBank.setDropDownMenu(Arrays.asList(headers), popupViews, t);
+        contentView = new RecyclerView(getActivity());
 
 
     }
@@ -273,7 +310,7 @@ public class ZXD3Fragment extends Fragment {
      */
     public void initData(String loan_type,String min_money,String max_money,String rate,String cycle){
 
-        Subscription subscription_getZxgs = NetWork.getZxService().getZxdItem(loan_type,min_money,max_money,rate,cycle)
+        Subscription subscription_getZxgs = NetWork.getNewZxService().getZxdItem(loan_type,min_money,max_money,rate,cycle)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<ZxdBank>>() {
@@ -289,14 +326,25 @@ public class ZXD3Fragment extends Fragment {
 
                     @Override
                     public void onNext(List<ZxdBank> zxdBanks) {
-
                         Log.i("gqf",zxdBanks.toString());
+                        initList(zxdBanks);
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);
 
     }
 
+    LoanBankList3Adapter loanBankList3Adapter;
+    public void initList(List<ZxdBank> zxdBanks){
+        if(loanBankList3Adapter==null) {
+            loanBankList3Adapter = new LoanBankList3Adapter(getActivity(), zxdBanks);
+            contentView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            contentView.setAdapter(loanBankList3Adapter);
+            dropDownMenuBank.setDropDownMenu(Arrays.asList(headers), popupViews, contentView);
+        }else{
+            loanBankList3Adapter.update(zxdBanks);
+        }
+    }
     @Override
     public void onStart() {
         super.onStart();

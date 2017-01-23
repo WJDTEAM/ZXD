@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     }
 
     public void getIntentToBank() {
-        if (LoanApplyActivity.companyId != 0 || LoanApplyActivity.mZxd != null) {
+        if (LoanApplyActivity.companyId != 0 || LoanApplyActivity.bankId != 0) {
 //            bottomBar.selectTabAtPosition(2);
             bottomBar.selectTab(2);
         }

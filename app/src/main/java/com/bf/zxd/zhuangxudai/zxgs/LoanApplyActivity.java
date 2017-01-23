@@ -20,25 +20,21 @@ import com.bf.zxd.zhuangxudai.model.BankDetail;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.functions.Func3;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -88,8 +84,8 @@ public class LoanApplyActivity extends BaseActivity {
     public static int companyId = 0;
     public static int bankId = -1;
     Zxgs mZxgs;
-    public static RecommendBank mRecommendBank;
-    public static BankDetail mZxd;
+    public  RecommendBank mRecommendBank;
+    public  BankDetail mZxd;
     CompositeSubscription mcompositeSubscription;
 
     Realm realm;
@@ -99,50 +95,50 @@ public class LoanApplyActivity extends BaseActivity {
         if (bankId != -1) {
             getBankDetail();
         }
-        getBankItem();
+        //getBankItem();
 
 
     }
-    private void getBankItem() {
-        Subscription Subscription_getBankItem = NetWork.getZxService().getBankItem()
-                .subscribeOn(Schedulers.io())
-                .flatMap(new Func1<List<RecommendBank>, Observable<RecommendBank>>() {
-                    @Override
-                    public Observable<RecommendBank> call(List<RecommendBank> recommendBanks) {
-                        return Observable.from(recommendBanks);
-                    }
-                })
-                .filter(new Func1<RecommendBank, Boolean>() {
-                    @Override
-                    public Boolean call(RecommendBank recommendBank) {
-                        Log.e("Daniel", "----bankId---" + bankId);
-                        Log.e("Daniel", "----recommendBank.getBank_id()---" + recommendBank.getBank_id());
-
-                        return recommendBank.getBank_id()==bankId;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RecommendBank>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                    @DebugLog
-                    @Override
-                    public void onNext(RecommendBank recommendBank) {
-                        mRecommendBank=recommendBank;
-                        Log.e("Daniel", "----mRecommendBank.getBank_id()---" + mRecommendBank.getBank_id());
-
-
-                    }
-                });
-//        mCompositeSubscription.add(Subscription_getBankItem);
-    }
+//    private void getBankItem() {
+//        Subscription Subscription_getBankItem = NetWork.getZxService().getBankItem()
+//                .subscribeOn(Schedulers.io())
+//                .flatMap(new Func1<List<RecommendBank>, Observable<RecommendBank>>() {
+//                    @Override
+//                    public Observable<RecommendBank> call(List<RecommendBank> recommendBanks) {
+//                        return Observable.from(recommendBanks);
+//                    }
+//                })
+//                .filter(new Func1<RecommendBank, Boolean>() {
+//                    @Override
+//                    public Boolean call(RecommendBank recommendBank) {
+//                        Log.e("Daniel", "----bankId---" + bankId);
+//                        Log.e("Daniel", "----recommendBank.getBank_id()---" + recommendBank.getBank_id());
+//
+//                        return recommendBank.getBank_id()==bankId;
+//                    }
+//                })
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<RecommendBank>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//                    @DebugLog
+//                    @Override
+//                    public void onNext(RecommendBank recommendBank) {
+//                        mRecommendBank=recommendBank;
+//                        Log.e("Daniel", "----mRecommendBank.getBank_id()---" + mRecommendBank.getBank_id());
+//
+//
+//                    }
+//                });
+//        mcompositeSubscription.add(Subscription_getBankItem);
+//    }
 
     private void getBankDetail() {
         Log.e("Daniel", "----bankId---" + bankId);
@@ -271,7 +267,11 @@ public class LoanApplyActivity extends BaseActivity {
     @OnClick(R.id.loan_apply_for_btn)
     public void onClick() {
         //跳转sh申请界面
-        applyFor();
+        if(companyId!=0) {
+            applyFor();
+        }else{
+            Toast.makeText(getApplicationContext(),"请选择公司",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -282,6 +282,8 @@ public class LoanApplyActivity extends BaseActivity {
         super.onRestart();
         initCompanyMsg();
         initBank();
+
+
 
     }
 
@@ -294,6 +296,7 @@ public class LoanApplyActivity extends BaseActivity {
                 break;
         }
     }
+
 
     /**
      * 对输入框是否为null进行控制
@@ -309,7 +312,14 @@ public class LoanApplyActivity extends BaseActivity {
                 boolean Bl = !TextUtils.isEmpty(charSequence);
                 boolean B2 = !TextUtils.isEmpty(charSequence2);
                 boolean B3 = !TextUtils.isEmpty(charSequence3);
-                return Bl && B2 &&B3;
+                String [] time=mZxd.getCycle().split("~");
+                String [] money=mZxd.getMoney_range().split("~");
+                Log.i("gqf",mZxd.toString());
+                return Bl && B2 &&B3&&
+                        (Integer.parseInt(loanTimeEdi.getText().toString()) < Integer.parseInt(time[1])
+                                && Integer.parseInt(loanTimeEdi.getText().toString()) > Integer.parseInt(time[0]))&&
+                        (Double.parseDouble(loanMoneyEdi.getText().toString())*10000 < Double.parseDouble(money[1])
+                                && Double.parseDouble(loanMoneyEdi.getText().toString())*10000 > Double.parseDouble(money[0]));
             }
         }).subscribe(new Observer<Boolean>() {
             @Override
@@ -334,9 +344,9 @@ public class LoanApplyActivity extends BaseActivity {
      */
     //提交信息,并跳转页面
     public void applyFor() {
-
-        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),realm.where(User.class).findFirst().getUserId(),companyId,
-               new BigDecimal(loanMoneyEdi.getText().toString()) ,loanUseforEdi.getText().toString(),loanTimeEdi.getText().toString()
+        //realm.where(User.class).findFirst().getUserId()
+        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),6,companyId,
+               new BigDecimal(Double.parseDouble(loanMoneyEdi.getText().toString())*10000) ,loanUseforEdi.getText().toString(),loanTimeEdi.getText().toString()
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -366,8 +376,7 @@ public class LoanApplyActivity extends BaseActivity {
     }
 
     public void initEdi(){
-
-        loanMoneyEdi.addTextChangedListener(new TextWatcher() {
+        loanTimeEdi.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -377,35 +386,17 @@ public class LoanApplyActivity extends BaseActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
-                if(Integer.parseInt(editable.toString())>mRecommendBank.getMax_money()){
-                    loanMoneyEdi.setText(editable.toString().indexOf(0,editable.toString().length()-1));
+                String [] time=mZxd.getCycle().split("~");
+                if(!editable.toString().equals("")) {
+                    if (Integer.parseInt(editable.toString()) > Integer.parseInt(time[1])) {
+                        editable.delete(loanTimeEdi.getSelectionStart()-1, loanTimeEdi.getSelectionStart());
+                    }
                 }
+
             }
         });
-//        loanTimeEdi.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                String [] time=mRecommendBank.getCycle().split("~");
-//                if(Integer.parseInt(editable.toString())>Integer.parseInt(time[1])){
-//                    loanTimeEdi.setText(editable.toString().indexOf(0,editable.toString().length()-1));
-//                }else if(Integer.parseInt(editable.toString())<Integer.parseInt(time[0])){
-//                    loanTimeEdi.setText(editable.toString().indexOf(0,editable.toString().length()-1));
-//                }
-//            }
-//        });
 
     }
 }

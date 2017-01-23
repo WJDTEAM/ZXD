@@ -209,7 +209,7 @@
             <EditText
                 android:id="@+id/loan_money_edi"
                 style="@style/apply_for_edi_style"
-                android:hint="单位（元）"
+                android:hint="单位（万元）"
                 android:textColorHint="@color/gary"
                 android:digits="1234567890."
                 />
@@ -232,7 +232,7 @@
             <EditText
                 android:id="@+id/loan_time_edi"
                 style="@style/apply_for_edi_style"
-                android:hint="单位（元）"
+                android:hint="单位（月）"
                 android:textColorHint="@color/gary"
                 android:digits="1234567890"
                 />

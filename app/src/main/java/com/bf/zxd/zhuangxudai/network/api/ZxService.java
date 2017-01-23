@@ -7,7 +7,6 @@ import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
 import com.bf.zxd.zhuangxudai.pojo.VerificationInfo;
 import com.bf.zxd.zhuangxudai.pojo.YysqItem;
-import com.bf.zxd.zhuangxudai.pojo.ZxdBank;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dict;
 import com.bf.zxd.zhuangxudai.pojo.jzzt;
@@ -167,7 +166,7 @@ public interface ZxService {
      * 获取申请贷款个人基本信息
      * http://ip/app/getLoanPersonBase/{user_id}
      */
-    @GET("getVerificationInfo/{user_id}")
+    @GET("getLoanPersonBase/{user_id}")
     Observable<LoanPersonBase> getLoanPersonBase(@Path("user_id")int user_id);
 
     /**
@@ -183,23 +182,6 @@ public interface ZxService {
 
 
 
-    /**
-     * 获取装修贷列表
-     * http://ip/app/getZxdItem/
-     *  "loan_type":String (非必须) 贷款类型1:房贷;2:装修
 
-     "min_money":String (非必须) 最小金额
-
-     "max_money":String (非必须) 最大金额
-
-     "rate":String (非必须) 费率
-
-     "cycle":String(非必须) 贷款期限
-     */
-    @FormUrlEncoded
-    @POST("saveOrUpdatePersonBase")
-    Observable<List<ZxdBank>> getZxdItem
-    (@Field("loan_type") String  loan_type, @Field("min_money") String min_money, @Field("max_money") String max_money,
-     @Field("rate") String rate, @Field("cycle") String cycle);
 
 }

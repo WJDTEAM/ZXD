@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,6 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.LoanPersonBase;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.User;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import butterknife.BindView;
@@ -154,12 +154,12 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
 
 
 
-    String marital_status;
-    String credit_status;
+    String marital_status="1";
+    String credit_status="1";
     LoanPersonBase mloanPersonBase;
 
     public void initData() {
-        Subscription subscription_getZxgs = NetWork.getZxService().getLoanPersonBase(realm.where(User.class).findFirst().getUserId())
+        Subscription subscription_getZxgs = NetWork.getZxService().getLoanPersonBase(6)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LoanPersonBase>() {
@@ -175,11 +175,12 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(LoanPersonBase loanPersonBase) {
+                        Log.i("gqf","initData+"+"onNext"+loanPersonBase.toString());
                         loanNameEdi.setText(loanPersonBase.getFull_name());
                         loanPhoneEdi.setText(loanPersonBase.getMobile_phone());
                         loanCityEdi.setText(loanPersonBase.getAddr());
                         loanIdNumEdi.setText(loanPersonBase.getId_card());
-                        if (loanPersonBase.getMarital_status().equals("1")) {
+                        if (loanPersonBase.getMarital_status()==1) {
                             loanMarryRadTrue.setChecked(true);
                             loanMarryRadFalse.setChecked(false);
                             marital_status = "1";
@@ -188,13 +189,13 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
                             loanMarryRadTrue.setChecked(false);
                             marital_status = "2";
                         }
-                        if (loanPersonBase.getCredit_status().equals("1")) {
+                        if (loanPersonBase.getCredit_status()==1) {
                             loanCreditRad1.setChecked(true);
                             credit_status = "1";
-                        } else if (loanPersonBase.getCredit_status().equals("2")) {
+                        } else if (loanPersonBase.getCredit_status()==2) {
                             loanCreditRad2.setChecked(true);
                             credit_status = "2";
-                        } else if (loanPersonBase.getCredit_status().equals("3")) {
+                        } else if (loanPersonBase.getCredit_status()==3) {
                             loanCreditRad3.setChecked(true);
                             credit_status = "3";
                         } else {
@@ -214,7 +215,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
      @Field("id_card") String id_card);
      */
     public void applyForLoanPersonBase() {
-        Subscription subscription_getZxgs = NetWork.getZxService().saveOrUpdatePersonBase(realm.where(User.class).findFirst().getUserId(),
+        Subscription subscription_getZxgs = NetWork.getZxService().saveOrUpdatePersonBase(6,
                 loanNameEdi.getText().toString(), loanPhoneEdi.getText().toString(),marital_status,credit_status,loanCityEdi.getText().toString(),loanIdNumEdi.getText().toString()
                 )
                 .subscribeOn(Schedulers.io())

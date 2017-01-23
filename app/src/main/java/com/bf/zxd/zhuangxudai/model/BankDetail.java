@@ -100,4 +100,19 @@ public class BankDetail {
     public void setRequired(String required) {
         this.required = required;
     }
+
+    @Override
+    public String toString() {
+        return "BankDetail{" +
+                "product_desc='" + product_desc + '\'' +
+                ", application='" + application + '\'' +
+                ", rate='" + rate + '\'' +
+                ", bank_id=" + bank_id +
+                ", money_range='" + money_range + '\'' +
+                ", bank_name='" + bank_name + '\'' +
+                ", bank_logo='" + bank_logo + '\'' +
+                ", cycle='" + cycle + '\'' +
+                ", required='" + required + '\'' +
+                '}';
+    }
 }
