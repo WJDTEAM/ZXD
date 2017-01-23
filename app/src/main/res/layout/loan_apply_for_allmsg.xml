@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:background="@color/whitesmoke">
+
+
+    <include  layout="@layout/loan_apply_for_header"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hugehxxdp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_marginBottom="@dimen/smallmdp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/mediumhdp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="个人信息"
+            android:textSize="@dimen/mediumxsp"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/user_msg_is_apply_for"
+            android:layout_width="@dimen/hugehxxxxxdp"
+            android:layout_height="match_parent"
+            android:text="已申请"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/mediumxsp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hugehxxdp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_marginBottom="@dimen/smallmdp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/mediumhdp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="工作信息"
+            android:textSize="@dimen/mediumxsp"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/work_msg_is_apply_for"
+            android:layout_width="@dimen/hugehxxxxxdp"
+            android:layout_height="match_parent"
+            android:text="去申请"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/mediumxsp"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hugehxxdp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_marginBottom="@dimen/smallmdp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/mediumhdp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="资产信息"
+            android:textSize="@dimen/mediumxsp"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/money_msg_is_apply_for"
+            android:layout_width="@dimen/hugehxxxxxdp"
+            android:layout_height="match_parent"
+            android:text="去申请"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/mediumxsp"
+            />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <Button
+        android:id="@+id/loan_apply_for_all_msg_btn"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_margin="@dimen/smallmdp"
+        android:layout_gravity="bottom"
+        android:textSize="@dimen/bigsp"
+        android:textColor="@color/apply_for_color_selector"
+        android:text="提交资料申请"
+        android:background="@drawable/apply_for_selector"/>
+
+</LinearLayout>

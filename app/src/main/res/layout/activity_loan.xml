@@ -37,15 +37,15 @@
                     android:scaleType="fitXY"
                     android:adjustViewBounds="true"
                     />
+
                 <TextView
                     android:id="@+id/bank_name_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/bankpic_img"
                     android:textColor="@color/colorPrimary"
-                    />
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"/>
 
             </RelativeLayout>
             <LinearLayout
@@ -118,115 +118,64 @@
             </LinearLayout>
 
         </LinearLayout>
-        <RelativeLayout
-            android:id="@+id/top_style"
-            android:layout_below="@+id/bank_img"
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/smallmdp"
+            android:background="@color/whitesmoke"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mediumhdp"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="产品介绍"
+                android:textSize="@dimen/bigsp"
+                android:textColor="@color/black"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mediumhdp"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="申请条件"
+                android:textSize="@dimen/bigsp"
+                android:textColor="@color/black"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/mediumhdp"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="所需材料"
+                android:textSize="@dimen/bigsp"
+                android:textColor="@color/black"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="贷款人信息"
-                android:gravity="center"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ok"
-                android:layout_centerVertical="true"
-                android:paddingRight="15dp"
-                />
-        </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:text="姓名："
-            style="@style/apply_for_text_style"
-            />
-        <EditText
-            android:id="@+id/store_name_edi"
-            style="@style/apply_for_edi_style"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:text="性别："
-            style="@style/apply_for_text_style"
-            />
-        <RadioGroup
-            android:id="@+id/sex_radioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <RadioButton
-                android:id="@+id/loan_man_rad"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="男"
-                android:checked="true"
-                android:textColor="@color/black"
-                android:button="@drawable/sex_selector"/>
-            <RadioButton
-                android:id="@+id/loan_woman_rad"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="女"
-                android:textColor="@color/black"
-                android:button="@drawable/sex_selector"
+                android:text="1.二代身份证复印件\n2.近6个月的工资流水 \n3."
+                android:lines="3"
                 />
-        </RadioGroup>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:text="电话："
-            style="@style/apply_for_text_style"
-            />
-        <EditText
-            android:id="@+id/store_phone_num_edi"
-            style="@style/apply_for_edi_style"
-            android:inputType="number"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:orientation="horizontal"
-        >
-        <TextView
+        </LinearLayout>
 
-            android:text="贷款金额："
-            style="@style/apply_for_text_style"
-            />
-        <EditText
-            android:id="@+id/loan_num_edi"
-            style="@style/apply_for_edi_style"
-            android:digits="1234567890."
-            />
-    </LinearLayout>
-    <TextView
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
@@ -256,35 +205,7 @@
                 android:textColor="@color/white"
                 android:text="点击选择公司"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/bank_name"
-                android:text="当前没有选择银行"
-                style="@style/apply_for_text_style"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                />
-            <Button
-                android:id="@+id/choose_bank"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/smallmdp"
-                android:layout_marginTop="@dimen/smallmdp"
-                android:paddingLeft="@dimen/smallmdp"
-                android:paddingRight="@dimen/smallmdp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:background="@drawable/apply_for_selector"
-                android:textColor="@color/white"
-                android:text="点击选择银行"/>
-        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/hugehxxxxxdp"/>
