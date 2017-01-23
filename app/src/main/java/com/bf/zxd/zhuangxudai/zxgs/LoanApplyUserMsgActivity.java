@@ -11,17 +11,25 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.LoanPersonBase;
+import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
+import com.bf.zxd.zhuangxudai.pojo.user;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
-import rx.functions.Func5;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func4;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -59,8 +67,6 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
     RadioGroup creditRadioGroup;
     @BindView(R.id.loan_city_edi)
     EditText loanCityEdi;
-    @BindView(R.id.loan_usefor_edi)
-    EditText loanUseforEdi;
     @BindView(R.id.loan_apply_for_user_msg_btn)
     Button loanApplyForUserMsgBtn;
     @BindView(R.id.base_toolBar)
@@ -68,15 +74,6 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
 
     private CompositeSubscription compositeSubscription;
     private Realm realm;
-
-    String name;
-    String phone;
-    String idNum;
-    String city;
-    String useFor;
-    int isMarry=1;
-    int creditType=1;
-
 
     private void setToolbar(String toolstr) {
         baseToolBar.setTitle(toolstr);
@@ -104,6 +101,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         loanApplyForUserMsgBtn.setEnabled(false);
         initApplyFor();
+        initData();
     }
 
 
@@ -113,22 +111,20 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
     private void initApplyFor() {
 
         Observable<CharSequence> nameOs = RxTextView.textChanges(loanNameEdi).skip(1);
-         Observable<CharSequence> phoneOs = RxTextView.textChanges(loanPhoneEdi).skip(1);
+        Observable<CharSequence> phoneOs = RxTextView.textChanges(loanPhoneEdi).skip(1);
         Observable<CharSequence> idNumOs = RxTextView.textChanges(loanIdNumEdi).skip(1);
         Observable<CharSequence> cityOs = RxTextView.textChanges(loanCityEdi).skip(1);
-        Observable<CharSequence> userForOs = RxTextView.textChanges(loanUseforEdi).skip(1);
 
-        Subscription etSc = Observable.combineLatest(nameOs, phoneOs, idNumOs, cityOs, userForOs, new Func5<CharSequence, CharSequence, CharSequence, CharSequence, CharSequence, Boolean>() {
+        Subscription etSc = Observable.combineLatest(nameOs, phoneOs, idNumOs, cityOs, new Func4<CharSequence, CharSequence, CharSequence, CharSequence, Boolean>() {
             @Override
-            public Boolean call(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, CharSequence charSequence4, CharSequence charSequence5) {
+            public Boolean call(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, CharSequence charSequence4) {
 
                 boolean Bl = !TextUtils.isEmpty(charSequence);
                 boolean B2 = !TextUtils.isEmpty(charSequence2);
                 boolean B3 = !TextUtils.isEmpty(charSequence3);
                 boolean B4 = !TextUtils.isEmpty(charSequence4);
-                boolean B5 = !TextUtils.isEmpty(charSequence5);
 
-                return Bl &&B2&&B3&&B4&&B5;
+                return Bl && B2 && B3 && B4;
             }
         }).subscribe(new Observer<Boolean>() {
             @Override
@@ -143,13 +139,9 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
 
             @Override
             public void onNext(Boolean aBoolean) {
-
                 loanApplyForUserMsgBtn.setEnabled(aBoolean);
-
             }
         });
-
-
         compositeSubscription.add(etSc);
     }
 
@@ -158,5 +150,124 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
         super.onDestroy();
         realm.close();
         compositeSubscription.unsubscribe();
+    }
+
+
+
+    String marital_status;
+    String credit_status;
+    LoanPersonBase mloanPersonBase;
+
+    public void initData() {
+        Subscription subscription_getZxgs = NetWork.getZxService().getLoanPersonBase(realm.where(user.class).findFirst().getUserId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<LoanPersonBase>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(LoanPersonBase loanPersonBase) {
+                        loanNameEdi.setText(loanPersonBase.getFull_name());
+                        loanPhoneEdi.setText(loanPersonBase.getMobile_phone());
+                        loanCityEdi.setText(loanPersonBase.getAddr());
+                        loanIdNumEdi.setText(loanPersonBase.getId_card());
+                        if (loanPersonBase.getMarital_status().equals("1")) {
+                            loanMarryRadTrue.setChecked(true);
+                            loanMarryRadFalse.setChecked(false);
+                            marital_status = "1";
+                        } else {
+                            loanMarryRadFalse.setChecked(true);
+                            loanMarryRadTrue.setChecked(false);
+                            marital_status = "2";
+                        }
+                        if (loanPersonBase.getCredit_status().equals("1")) {
+                            loanCreditRad1.setChecked(true);
+                            credit_status = "1";
+                        } else if (loanPersonBase.getCredit_status().equals("2")) {
+                            loanCreditRad2.setChecked(true);
+                            credit_status = "2";
+                        } else if (loanPersonBase.getCredit_status().equals("3")) {
+                            loanCreditRad3.setChecked(true);
+                            credit_status = "3";
+                        } else {
+                            loanCreditRad4.setChecked(true);
+                            credit_status = "4";
+                        }
+                        mloanPersonBase = loanPersonBase;
+                    }
+                });
+        compositeSubscription.add(subscription_getZxgs);
+
+    }
+
+    /*
+    (@Field("user_id") String user_id, @Field("full_name") String full_name, @Field("mobile_phone") String mobile_phone,
+     @Field("marital_status") String marital_status, @Field("credit_status") String credit_status, @Field("addr") String addr,
+     @Field("id_card") String id_card);
+     */
+    public void applyForLoanPersonBase() {
+        Subscription subscription_getZxgs = NetWork.getZxService().saveOrUpdatePersonBase(realm.where(user.class).findFirst().getUserId(),
+                loanNameEdi.getText().toString(), loanPhoneEdi.getText().toString(),marital_status,credit_status,loanCityEdi.getText().toString(),loanIdNumEdi.getText().toString()
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResuleInfo>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                    @Override
+                    public void onNext(ResuleInfo resuleInfo) {
+                        if(resuleInfo.getCode()==10001){
+                            Toast.makeText(getApplicationContext(),"个人信息提交成功",Toast.LENGTH_SHORT).show();
+                            onBackPressed();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"个人信息提交失败",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+        compositeSubscription.add(subscription_getZxgs);
+
+
+    }
+
+    @OnClick({R.id.loan_apply_for_user_msg_btn,R.id.loan_marry_rad_true, R.id.loan_marry_rad_false, R.id.loan_credit_rad_1, R.id.loan_credit_rad_2, R.id.loan_credit_rad_3, R.id.loan_credit_rad_4})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.loan_marry_rad_true:
+                marital_status="1";
+                break;
+            case R.id.loan_marry_rad_false:
+                marital_status="2";
+                break;
+            case R.id.loan_credit_rad_1:
+                credit_status="1";
+                break;
+            case R.id.loan_credit_rad_2:
+                credit_status="2";
+                break;
+            case R.id.loan_credit_rad_3:
+                credit_status="3";
+                break;
+            case R.id.loan_credit_rad_4:
+                credit_status="4";
+                break;
+            case R.id.loan_apply_for_user_msg_btn:
+                applyForLoanPersonBase();
+                break;
+        }
     }
 }

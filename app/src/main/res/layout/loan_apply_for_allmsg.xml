@@ -10,6 +10,7 @@
 
 
     <LinearLayout
+        android:id="@+id/user_msg_is_apply_for_lin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hugehxxdp"
         android:orientation="horizontal"
@@ -41,6 +42,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/work_msg_is_apply_for_lin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hugehxxdp"
         android:orientation="horizontal"
@@ -72,6 +74,7 @@
 
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/money_msg_is_apply_for_lin"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hugehxxdp"
         android:orientation="horizontal"

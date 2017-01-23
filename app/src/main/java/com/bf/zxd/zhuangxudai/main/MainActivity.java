@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     public void changePageAndSetPagePosition(int position) {
         bottomBar.selectTab(2);
 //        bottomBar.selectTabAtPosition(2);
-        zxdFragment.setPage(position);
     }
 
     @Override
@@ -148,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
      * @param contentHome
      */
     HomeFragment homeFragment;
-    ZXD2Fragment zxdFragment;
+    ZXD3Fragment zxdFragment;
     YBJFragment YBJFragment;
     UserFragment userFragment;
 
@@ -166,9 +165,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
             case CONTENT_ZXD:
                 String zxd_str = getResources().getString(R.string.zxd);
                 setToolbar(zxd_str, CONTENT_ZXD);
-                zxdFragment = (ZXD2Fragment) getSupportFragmentManager().findFragmentByTag(ZXD_TAG);
+                zxdFragment = (ZXD3Fragment) getSupportFragmentManager().findFragmentByTag(ZXD_TAG);
                 if (zxdFragment == null) {
-                    zxdFragment = ZXD2Fragment.newInstance();
+                    zxdFragment = ZXD3Fragment.newInstance();
                 }
                 setFragment(zxdFragment, ZXD_TAG);
                 break;

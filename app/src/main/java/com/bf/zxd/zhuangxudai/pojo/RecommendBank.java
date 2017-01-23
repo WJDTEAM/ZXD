@@ -22,6 +22,28 @@ public class RecommendBank {
      * load_unit : 分钟
      */
 
+
+
+    /**
+     * "max_money": 50000, 最高可贷金额
+
+     "money_range": "1000.00~50000.00",可贷金额范围
+
+     "rate": "0.060%",费率
+
+     "make_load_days": 10,放款时长
+
+     "load_unit": "小时",放款时长单位
+
+     "cycle": "6~48",贷款期限
+
+     "bank_name": "中国建设银行",  银行名称
+
+     "bank_logo": "http://211.149.235.17:8080/zxd/static/upload/jsyh.gif",银行图标
+     "bank_id": 3,银行Id
+
+     "application_num":已申请人数
+     */
     private String cycle_unit;
     private int make_load_days;
     private int max_money;

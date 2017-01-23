@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <GridView
+        android:id="@+id/zxd_money_gird"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/tinymdp"
+        android:horizontalSpacing="3dp"
+        android:verticalSpacing="2dp"
+        android:numColumns="4"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/zxd_money_edi_min"
+            style="@style/apply_for_edi_style"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:digits="0123456789."
+            android:textColorHint="@color/gary"
+            android:hint="输入最小金额查询"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:gravity="center"
+            android:textSize="@dimen/mediumxsp"
+            android:textColor="@color/black"
+            />
+        <EditText
+            android:id="@+id/zxd_money_edi_max"
+            style="@style/apply_for_edi_style"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:digits="0123456789."
+            android:textColorHint="@color/gary"
+            android:hint="输入最大金额查询"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/smallmdp"
+        android:textColor="@color/white"
+        android:background="@drawable/ok_bg"
+        android:gravity="center"
+        android:padding="@dimen/smallmdp"
+        android:text="确定"
+        android:textSize="@dimen/mediumxsp"/>
+</LinearLayout>

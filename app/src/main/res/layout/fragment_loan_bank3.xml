@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <com.bf.zxd.zhuangxudai.customview.DropDownMenu
+        android:id="@+id/dropDownMenu_bank"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:ddmenuTextSize="@dimen/mediumsp"
+        app:ddtextUnselectedColor="@color/black"
+        app:ddtextSelectedColor="@color/colorPrimary"
+        app:dddividerColor="@color/gary"
+        app:ddunderlineColor="@color/gary"
+        app:ddmenuSelectedIcon="@drawable/drop_down_selected_icon"
+        app:ddmaskColor="@color/mask_color"
+        app:ddmenuBackgroundColor="@color/white"
+        app:ddmenuUnselectedIcon="@drawable/drop_down_unselected_icon"
+        android:background="@color/whitesmoke"
+        />
+</LinearLayout>

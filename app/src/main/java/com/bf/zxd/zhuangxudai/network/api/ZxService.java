@@ -2,15 +2,19 @@ package com.bf.zxd.zhuangxudai.network.api;
 
 import com.bf.zxd.zhuangxudai.pojo.Dkhd;
 import com.bf.zxd.zhuangxudai.pojo.DksqItem;
+import com.bf.zxd.zhuangxudai.pojo.LoanPersonBase;
 import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
+import com.bf.zxd.zhuangxudai.pojo.VerificationInfo;
 import com.bf.zxd.zhuangxudai.pojo.YysqItem;
+import com.bf.zxd.zhuangxudai.pojo.ZxdBank;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dict;
 import com.bf.zxd.zhuangxudai.pojo.jzzt;
 import com.bf.zxd.zhuangxudai.pojo.zxgl;
 import com.bf.zxd.zhuangxudai.pojo.zxgs_wjd;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import retrofit2.http.Field;
@@ -77,17 +81,21 @@ public interface ZxService {
 
     /**
      * 贷款申请保存
-     * @param full_name
-     * @param phone
-     * @param company_id
-     * @param sex
-     * @param apply_money
-     * @param bank_id
-     * @return
+     * "bank_id":int 银行Id
+
+     "user_id":int 用户Id
+
+     "company_id":int 公司ID
+
+     "apply_money"begdecimal 申请金额
+
+     "loan_purpose":String 贷款用途
+
+     "loan_term":String 贷款期限
      */
     @FormUrlEncoded
     @POST("saveDksq")
-    Observable<ResuleInfo> saveDksq(@Field("full_name") String full_name, @Field("phone") String phone, @Field("company_id") int company_id, @Field("sex") int sex, @Field("apply_money") String apply_money, @Field("bank_id") int bank_id);
+    Observable<ResuleInfo> saveDksq(@Field("bank_id") int bank_id, @Field("user_id") int user_id, @Field("company_id") int company_id, @Field("apply_money") BigDecimal apply_money, @Field("loan_purpose") String loan_purpose, @Field("loan_term") String loan_term);
 
     /**
      * 预约保存
@@ -146,4 +154,52 @@ public interface ZxService {
      */
     @GET("getZxdItem/{dkfw}")
     Observable<List<RecommendBank>> getZxdItem(@Path("dkfw")String dkfw);
+
+
+    /**
+     * 获取用户装修贷申请信息通过结果
+     * http://ip/app/getVerificationInfo/{user_id}
+     */
+    @GET("getVerificationInfo/{user_id}")
+    Observable<VerificationInfo> getVerificationInfo(@Path("user_id")int user_id);
+
+    /**
+     * 获取申请贷款个人基本信息
+     * http://ip/app/getLoanPersonBase/{user_id}
+     */
+    @GET("getVerificationInfo/{user_id}")
+    Observable<LoanPersonBase> getLoanPersonBase(@Path("user_id")int user_id);
+
+    /**
+     * 申请贷款个人基本信息保存或更新
+     * http://ip/app/saveOrUpdatePersonBase
+     */
+    @FormUrlEncoded
+    @POST("saveOrUpdatePersonBase")
+    Observable<ResuleInfo> saveOrUpdatePersonBase
+    (@Field("user_id") int user_id, @Field("full_name") String full_name, @Field("mobile_phone") String mobile_phone,
+     @Field("marital_status") String marital_status, @Field("credit_status") String credit_status, @Field("addr") String addr,
+     @Field("id_card") String id_card);
+
+
+
+    /**
+     * 获取装修贷列表
+     * http://ip/app/getZxdItem/
+     *  "loan_type":String (非必须) 贷款类型1:房贷;2:装修
+
+     "min_money":String (非必须) 最小金额
+
+     "max_money":String (非必须) 最大金额
+
+     "rate":String (非必须) 费率
+
+     "cycle":String(非必须) 贷款期限
+     */
+    @FormUrlEncoded
+    @POST("saveOrUpdatePersonBase")
+    Observable<List<ZxdBank>> getZxdItem
+    (@Field("loan_type") String  loan_type, @Field("min_money") String min_money, @Field("max_money") String max_money,
+     @Field("rate") String rate, @Field("cycle") String cycle);
+
 }

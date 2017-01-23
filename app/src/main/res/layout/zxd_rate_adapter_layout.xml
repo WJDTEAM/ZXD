@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white">
+
+    <GridView
+        android:id="@+id/zxd_rate_gird"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/tinymdp"
+        android:horizontalSpacing="3dp"
+        android:verticalSpacing="2dp"
+        android:numColumns="4"/>
+
+    <EditText
+        android:id="@+id/zxd_rate_edi"
+        style="@style/apply_for_edi_style"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:hint="输入利率查询"
+        android:digits="0123456789."
+        android:textColorHint="@color/gary"
+        />
+
+    <TextView
+        android:id="@+id/ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/smallmdp"
+        android:textColor="@color/white"
+        android:background="@drawable/ok_bg"
+        android:gravity="center"
+        android:padding="@dimen/smallmdp"
+        android:text="确定"
+        android:textSize="@dimen/mediumxsp"/>
+</LinearLayout>
