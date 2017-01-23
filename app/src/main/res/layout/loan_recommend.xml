@@ -7,63 +7,79 @@
     >
 
     <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:background="?android:selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
 
         >
-        <TextView
-            android:id="@+id/bankname_recommendBank_tv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:layout_weight="1.5"
-            android:text="中国工商银行"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/mediumsp"
+        <ImageView
+            android:id="@+id/pic_recommendBank_img"
+            android:layout_width="@dimen/hugehxxxxdp"
+            android:layout_height="@dimen/smallhdp"
+            android:src="@drawable/myhb"
+            android:scaleType="fitXY"
             />
-
-        <TextView
-
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.8"
-            android:text="0.02%"
-            android:textSize="@dimen/mediumsp"
-            android:gravity="center"
-            android:id="@+id/rate_recommendBank_tv"/>
-
-        <TextView
-            android:id="@+id/maxMoney_recommendBank_tv"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.1"
-            android:text="10000000"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/mediumsp"
-
-            />
-        <TextView
-            android:id="@+id/home_applyLoan_btn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="3dp"
-            android:gravity="center"
-            android:text="申请贷款"
-            android:lines="1"
-            android:textColor="@color/colorPrimary"
-            android:clickable="true"
-            android:background="@drawable/home_applyloan_txt_sel"
-            android:textSize="@dimen/smallsp"
-            />
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0.02%"
+                android:textSize="@dimen/mediumsp"
+                android:gravity="center"
+                android:id="@+id/rate_recommendBank_uptv"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="月费率"
+                android:textSize="@dimen/tinysp"
+                android:gravity="center"
+                android:id="@+id/rate_recommendBank_downtv"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/num_recommendBank_uptv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1000"
+                android:gravity="center"
+                android:textSize="@dimen/mediumsp"
+
+                />
+
+            <TextView
+                android:id="@+id/num_recommendBank_downtv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="申请人数"
+                android:gravity="center"
+                android:textSize="@dimen/tinysp"
+
+                />
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>

@@ -56,6 +56,15 @@ public class RecommendBank {
     private String rate_unit;
     private String cycle;
     private String load_unit;
+    private String application_num;
+
+    public String getApplication_num() {
+        return application_num;
+    }
+
+    public void setApplication_num(String application_num) {
+        this.application_num = application_num;
+    }
 
     public String getCycle_unit() {
         return cycle_unit;

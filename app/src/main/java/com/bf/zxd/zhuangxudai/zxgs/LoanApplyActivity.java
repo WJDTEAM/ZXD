@@ -1,7 +1,6 @@
 package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -17,25 +16,29 @@ import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.model.BankDetail;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
+import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
-import com.bf.zxd.zhuangxudai.pojo.user;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.functions.Func3;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -68,6 +71,12 @@ public class LoanApplyActivity extends BaseActivity {
     Button chooseCompany;
     @BindView(R.id.loan_apply_for_btn)
     Button loanApplyForBtn;
+    @BindView(R.id.product_desc_loanapply_tx)
+    TextView productDescLoanapplyTx;
+    @BindView(R.id.application_loanapply_tx)
+    TextView applicationLoanapplyTx;
+    @BindView(R.id.required_loanapply_tx)
+    TextView requiredLoanapplyTx;
     @BindView(R.id.loan_money_edi)
     EditText loanMoneyEdi;
     @BindView(R.id.loan_time_edi)
@@ -77,14 +86,87 @@ public class LoanApplyActivity extends BaseActivity {
     private int mSex = 1;
 
     public static int companyId = 0;
+    public static int bankId = -1;
     Zxgs mZxgs;
-    public static RecommendBank mZxd;
+    public static RecommendBank mRecommendBank;
+    public static BankDetail mZxd;
     CompositeSubscription mcompositeSubscription;
 
     Realm realm;
 
     @Override
     public void initDate() {
+        if (bankId != -1) {
+            getBankDetail();
+        }
+        getBankItem();
+
+
+    }
+    private void getBankItem() {
+        Subscription Subscription_getBankItem = NetWork.getZxService().getBankItem()
+                .subscribeOn(Schedulers.io())
+                .flatMap(new Func1<List<RecommendBank>, Observable<RecommendBank>>() {
+                    @Override
+                    public Observable<RecommendBank> call(List<RecommendBank> recommendBanks) {
+                        return Observable.from(recommendBanks);
+                    }
+                })
+                .filter(new Func1<RecommendBank, Boolean>() {
+                    @Override
+                    public Boolean call(RecommendBank recommendBank) {
+                        Log.e("Daniel", "----bankId---" + bankId);
+                        Log.e("Daniel", "----recommendBank.getBank_id()---" + recommendBank.getBank_id());
+
+                        return recommendBank.getBank_id()==bankId;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<RecommendBank>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                    @DebugLog
+                    @Override
+                    public void onNext(RecommendBank recommendBank) {
+                        mRecommendBank=recommendBank;
+                        Log.e("Daniel", "----mRecommendBank.getBank_id()---" + mRecommendBank.getBank_id());
+
+
+                    }
+                });
+//        mCompositeSubscription.add(Subscription_getBankItem);
+    }
+
+    private void getBankDetail() {
+        Log.e("Daniel", "----bankId---" + bankId);
+        NetWork.getNewZxService().getBankDetail(bankId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BankDetail>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(BankDetail bankDetail) {
+                        mZxd = bankDetail;
+                        initBank();
+
+                    }
+                });
 
     }
 
@@ -159,13 +241,17 @@ public class LoanApplyActivity extends BaseActivity {
             bankTopLinear.setVisibility(View.VISIBLE);
             applyMoneyTv.setText("申请金额（元）");
 
-            Picasso.with(this).load(mZxd.getBank_img()).into(bankpicImg);
+            Picasso.with(this).load(mZxd.getBank_logo()).into(bankpicImg);
             bankNameTv.setText(mZxd.getBank_name());
             moneyRangeTv.setText(mZxd.getMoney_range());
-            cycleUnitTv.setText("申请期限（" + mZxd.getCycle_unit() + ")");
+            cycleUnitTv.setText("申请期限(月)");
             cycleTv.setText(mZxd.getCycle());
-            rateUnitTv.setText(mZxd.getCycle_unit() + "费率");
+            rateUnitTv.setText("月费率");
             rateTv.setText(mZxd.getRate());
+            productDescLoanapplyTx.setText(mZxd.getProduct_desc());
+            applicationLoanapplyTx.setText(mZxd.getApplication());
+            requiredLoanapplyTx.setText(mZxd.getRequired());
+
 
         } else {
             bankTopLinear.setVisibility(View.GONE);
@@ -196,6 +282,7 @@ public class LoanApplyActivity extends BaseActivity {
         super.onRestart();
         initCompanyMsg();
         initBank();
+
     }
 
     @OnClick({R.id.choose_company})
@@ -248,7 +335,7 @@ public class LoanApplyActivity extends BaseActivity {
     //提交信息,并跳转页面
     public void applyFor() {
 
-        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),realm.where(user.class).findFirst().getUserId(),companyId,
+        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),realm.where(User.class).findFirst().getUserId(),companyId,
                new BigDecimal(loanMoneyEdi.getText().toString()) ,loanUseforEdi.getText().toString(),loanTimeEdi.getText().toString()
                 )
                 .subscribeOn(Schedulers.io())
@@ -293,39 +380,32 @@ public class LoanApplyActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(Integer.parseInt(editable.toString())>mZxd.getMax_money()){
+                if(Integer.parseInt(editable.toString())>mRecommendBank.getMax_money()){
                     loanMoneyEdi.setText(editable.toString().indexOf(0,editable.toString().length()-1));
                 }
             }
         });
-        loanTimeEdi.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String [] time=mZxd.getRate_unit().split("~");
-                if(Integer.parseInt(editable.toString())>Integer.parseInt(time[1])){
-                    loanTimeEdi.setText(editable.toString().indexOf(0,editable.toString().length()-1));
-                }else if(Integer.parseInt(editable.toString())<Integer.parseInt(time[0])){
-                    loanTimeEdi.setText(editable.toString().indexOf(0,editable.toString().length()-1));
-                }
-            }
-        });
-
-    }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+//        loanTimeEdi.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                String [] time=mRecommendBank.getCycle().split("~");
+//                if(Integer.parseInt(editable.toString())>Integer.parseInt(time[1])){
+//                    loanTimeEdi.setText(editable.toString().indexOf(0,editable.toString().length()-1));
+//                }else if(Integer.parseInt(editable.toString())<Integer.parseInt(time[0])){
+//                    loanTimeEdi.setText(editable.toString().indexOf(0,editable.toString().length()-1));
+//                }
+//            }
+//        });
 
     }
 }

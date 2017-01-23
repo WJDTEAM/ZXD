@@ -71,7 +71,7 @@ public class LoanBankList2Adapter extends RecyclerView.Adapter<RecyclerView.View
         myViewHoder.goToLoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoanApplyActivity.mZxd=mDatas.get(position);
+                LoanApplyActivity.bankId=mDatas.get(position).getBank_id();
                 EventBus.getDefault().post(new EnterActivityEvent(LoanApplyActivity.class));
             }
         });

@@ -17,7 +17,7 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.LoanPersonBase;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.user;
+import com.bf.zxd.zhuangxudai.pojo.User;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import butterknife.BindView;
@@ -159,7 +159,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
     LoanPersonBase mloanPersonBase;
 
     public void initData() {
-        Subscription subscription_getZxgs = NetWork.getZxService().getLoanPersonBase(realm.where(user.class).findFirst().getUserId())
+        Subscription subscription_getZxgs = NetWork.getZxService().getLoanPersonBase(realm.where(User.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<LoanPersonBase>() {
@@ -214,7 +214,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
      @Field("id_card") String id_card);
      */
     public void applyForLoanPersonBase() {
-        Subscription subscription_getZxgs = NetWork.getZxService().saveOrUpdatePersonBase(realm.where(user.class).findFirst().getUserId(),
+        Subscription subscription_getZxgs = NetWork.getZxService().saveOrUpdatePersonBase(realm.where(User.class).findFirst().getUserId(),
                 loanNameEdi.getText().toString(), loanPhoneEdi.getText().toString(),marital_status,credit_status,loanCityEdi.getText().toString(),loanIdNumEdi.getText().toString()
                 )
                 .subscribeOn(Schedulers.io())

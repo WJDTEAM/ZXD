@@ -6,6 +6,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
@@ -13,7 +15,8 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.user;
+import com.bf.zxd.zhuangxudai.pojo.LoginResult;
+import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.util.SettingsUtils;
 import com.blankj.utilcode.utils.ScreenUtils;
 import com.jakewharton.rxbinding.view.RxView;
@@ -24,6 +27,8 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import rx.Observable;
 import rx.Observer;
@@ -50,10 +55,13 @@ public class LoginActivity extends BaseActivity {
     EditText loginPasswordEt;
     @BindView(R.id.login_rememberPassword)
     CheckBox loginRememberPassword;
-    @BindView(R.id.login_auto_login)
-    CheckBox loginAutoLogin;
     @BindView(R.id.login_bt)
     Button loginBt;
+    @BindView(R.id.imageView3)
+    ImageView imageView3;
+    @BindView(R.id.home_regist_btn)
+    TextView homeRegistBtn;
+
 
     private Realm realm;
 
@@ -91,34 +99,34 @@ public class LoginActivity extends BaseActivity {
      * 登录设置
      */
     private void initLoginSetting() {
-        loginAutoLogin.setChecked(SettingsUtils.isAutoLogin(getApplicationContext()));
+//        loginAutoLogin.setChecked(SettingsUtils.isAutoLogin(getApplicationContext()));
         loginRememberPassword.setChecked(SettingsUtils.isRememberPassword(getApplicationContext()));
         RxCompoundButton.checkedChanges(loginRememberPassword)
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
                         SettingsUtils.setPrefRememberPassword(getApplicationContext(), aBoolean);
-                        if(aBoolean==false){
-                            loginAutoLogin.setChecked(false);
+                        if (aBoolean == false) {
+//                            loginAutoLogin.setChecked(false);
                             SettingsUtils.setPrefAutoLogin(getApplicationContext(), aBoolean);
                         }
                     }
                 });
-        RxCompoundButton.checkedChanges(loginAutoLogin)
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
-                        SettingsUtils.setPrefAutoLogin(getApplicationContext(), aBoolean);
-                        if(aBoolean==true){
-                            SettingsUtils.setPrefRememberPassword(getApplicationContext(), aBoolean);
-                            loginRememberPassword.setChecked(true);
-                        }
-
-                    }
-                });
+//        RxCompoundButton.checkedChanges(loginAutoLogin)
+//                .subscribe(new Action1<Boolean>() {
+//                    @Override
+//                    public void call(Boolean aBoolean) {
+//                        SettingsUtils.setPrefAutoLogin(getApplicationContext(), aBoolean);
+//                        if (aBoolean == true) {
+//                            SettingsUtils.setPrefRememberPassword(getApplicationContext(), aBoolean);
+//                            loginRememberPassword.setChecked(true);
+//                        }
+//
+//                    }
+//                });
         if (SettingsUtils.isRememberPassword(getApplicationContext())) {
-            user userInfo = realm.where(user.class).findFirst();
-            if(userInfo!=null) {
+            User userInfo = realm.where(User.class).findFirst();
+            if (userInfo != null) {
                 name = userInfo.getPhone();
                 BaseApplication.username = name;
                 password = userInfo.getPassword();
@@ -184,7 +192,7 @@ public class LoginActivity extends BaseActivity {
 
     private void deletUser() {
         realm.beginTransaction();
-        user userInfo = realm.where(user.class).findFirst();
+        User userInfo = realm.where(User.class).findFirst();
         if (userInfo != null) {
             userInfo.deleteFromRealm();
         }
@@ -217,33 +225,35 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void doLogin() {
-        Log.i("gqf",name+password);
+        Log.i("gqf", name + password);
         Subscription logSc = NetWork.getUserService().login(name, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<user>() {
+                .subscribe(new Observer<LoginResult>() {
                     @Override
                     public void onCompleted() {
 
                     }
-
+                    @DebugLog
                     @Override
                     public void onError(Throwable e) {
                         Toast.makeText(LoginActivity.this, "登录失败，服务器响应失败", Toast.LENGTH_SHORT).show();
                         deletUser();
                     }
-
+                    @DebugLog
                     @Override
-                    public void onNext(user userInfo) {
-                        if (userInfo.getUserId() == 0) {
+                    public void onNext(LoginResult loginResult) {
+                        User userInfo = loginResult.getUser();
+
+                        if (loginResult.getCode() != 10001) {
                             Toast.makeText(LoginActivity.this, "登录失败,用户名密码错误", Toast.LENGTH_SHORT).show();
                             deletUser();
                         } else {
-                            user user = realm.where(user.class).findFirst();
-                           if(user!=null){
+                            User User = realm.where(User.class).findFirst();
+                            if (User != null) {
                                 //删除本地之前保存的用户信息
                                 realm.beginTransaction();
-                                user.deleteFromRealm();
+                                User.deleteFromRealm();
                                 realm.commitTransaction();
                             }
                             BaseApplication.username = name;
@@ -267,5 +277,11 @@ public class LoginActivity extends BaseActivity {
         super.onDestroy();
         realm.close();
         compositeSubscription.unsubscribe();
+    }
+
+
+    @OnClick(R.id.home_regist_btn)
+    public void onClick() {
+        startActivity(new Intent(LoginActivity.this,RegistActivity.class));
     }
 }

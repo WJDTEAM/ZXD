@@ -17,8 +17,6 @@
             android:layout_weight="1"
             android:paddingLeft="@dimen/smallmdp"
             android:paddingRight="@dimen/smallmdp"
-            android:paddingBottom="@dimen/smallmdp"
-
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -27,7 +25,7 @@
                 android:id="@+id/loanServicer_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/bigsp"
+                android:textSize="@dimen/mediumsp"
                 android:layout_margin="@dimen/smallmdp"
                 android:text="急速小贷"
                 android:textColor="@color/black"
@@ -46,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="最快三分钟到账"
-                android:textSize="@dimen/mediumsp"
+                android:textSize="@dimen/tinysp"
                 android:layout_marginLeft="@dimen/smallmdp"
                 android:layout_below="@id/loanServicer_mid"
                 />
@@ -70,7 +68,6 @@
             android:layout_weight="1"
             android:paddingLeft="@dimen/smallmdp"
             android:paddingRight="@dimen/smallmdp"
-            android:paddingBottom="@dimen/smallmdp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -80,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="大额贷款"
-                android:textSize="@dimen/bigsp"
+                android:textSize="@dimen/mediumsp"
                 android:layout_margin="@dimen/smallmdp"
                 android:textColor="@color/black"
                 />
@@ -98,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="最高可贷100万"
-                android:textSize="@dimen/mediumsp"
+                android:textSize="@dimen/tinysp"
                 android:layout_marginLeft="@dimen/smallmdp"
                 android:layout_below="@id/loanServicer_right_mid"
                 />

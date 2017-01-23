@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
@@ -20,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * 首页-推荐银行列表Adapter
  * Created by wjy on 2016/11/7.
  */
 
@@ -27,7 +30,6 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
 
     List<RecommendBank> datas;
     MyItemClickListener mItemClickListener;
-
 
 
     private Context mContext;
@@ -69,26 +71,29 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final RecommendBank data = datas.get(position);
-        holder.banknameRecommendBankTv.setText(data.getBank_name());
-        holder.maxMoneyRecommendBankTv.setText(""+data.getMax_money());
-        holder.rateRecommendBankTv.setText(data.getRate());
-        holder.homeApplyLoanBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-          public void onClick(View view) {
+//        holder.rateRecommendBankDowntv.setText(data.getRate_unit() + "费率");
+        holder.numRecommendBankUptv.setText(data.getApplication_num()   );
+        holder.rateRecommendBankUptv.setText(data.getRate());
 
-                LoanApplyActivity.mZxd=data;
-                EventBus.getDefault().post(new EnterActivityEvent(LoanApplyActivity.class));
-//                mContext.startActivity(new Intent(mContext, LoanApplyActivity.class));
+//                holder.numRecommendBankUptv.setText(data.getMax_money()+"");
+                holder.linear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        LoanApplyActivity.bankId = data.getBank_id();
+                        EventBus.getDefault().post(new EnterActivityEvent(LoanApplyActivity.class));
+                        //                mContext.startActivity(new Intent(mContext, LoanApplyActivity.class));
 
 
-            }
-        });
+                    }
+                });
+
 
     }
 
     @Override
     public int getItemCount() {
-//        Log.i("Daniel","---datas.size()---"+datas.size());
+        //        Log.i("Daniel","---datas.size()---"+datas.size());
         return datas != null ? datas.size() : 0;
     }
 
@@ -100,14 +105,18 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         MyItemClickListener mListener;
 
-        @BindView(R.id.bankname_recommendBank_tv)
-        TextView banknameRecommendBankTv;
-        @BindView(R.id.rate_recommendBank_tv)
-        TextView rateRecommendBankTv;
-        @BindView(R.id.maxMoney_recommendBank_tv)
-        TextView maxMoneyRecommendBankTv;
-        @BindView(R.id.home_applyLoan_btn)
-        TextView homeApplyLoanBtn;
+        @BindView(R.id.pic_recommendBank_img)
+        ImageView picRecommendBankImg;
+        @BindView(R.id.rate_recommendBank_uptv)
+        TextView rateRecommendBankUptv;
+        @BindView(R.id.rate_recommendBank_downtv)
+        TextView rateRecommendBankDowntv;
+        @BindView(R.id.num_recommendBank_uptv)
+        TextView numRecommendBankUptv;
+        @BindView(R.id.num_recommendBank_downtv)
+        TextView numRecommendBankDowntv;
+        @BindView(R.id.linear)
+        LinearLayout linear;
 
 
         ViewHolder(View view, MyItemClickListener listener) {

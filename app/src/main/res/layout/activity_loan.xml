@@ -137,6 +137,15 @@
                 android:textSize="@dimen/bigsp"
                 android:textColor="@color/black"
                 />
+            <TextView
+                android:id="@+id/product_desc_loanapply_tx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textColor="@color/black"
+                />
+
         </LinearLayout>
 
         <LinearLayout
@@ -150,6 +159,14 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:text="申请条件"
                 android:textSize="@dimen/bigsp"
+                android:textColor="@color/black"
+                />
+            <TextView
+                android:id="@+id/application_loanapply_tx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:textColor="@color/black"
                 />
         </LinearLayout>
@@ -168,10 +185,10 @@
                 android:textColor="@color/black"
                 />
             <TextView
+                android:id="@+id/required_loanapply_tx"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:text="1.二代身份证复印件\n2.近6个月的工资流水 \n3."
                 android:lines="3"
                 />
         </LinearLayout>

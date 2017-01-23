@@ -25,33 +25,27 @@
                 android:layout_height="130dp"
                 app:auto_cycle="false"
                 />
-
-
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/smallmdp"
+                android:layout_height="@dimen/tinymdp"
                 android:background="@color/whitesmoke"/>
 
             <include
                 android:id="@+id/gl_dh_zt_gs"
                 layout="@layout/gl_hd_zt_gs"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/smallmdp"
-                android:background="@color/whitesmoke"/>
             <!--贷款成功-->
             <include layout="@layout/loan_success"/>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/smallmdp"
+                android:layout_height="@dimen/tinymdp"
                 android:background="@color/whitesmoke"/>
             <!--贷款服务-->
             <include layout="@layout/loan_servicer"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/smallmdp"
+                android:layout_height="@dimen/tinymdp"
                 android:background="@color/whitesmoke"/>
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -15,16 +15,13 @@
             android:name=".main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity
             android:name=".Login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+
 
         </activity>
         <activity
@@ -105,11 +102,20 @@
             android:name=".WelcomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
 
         </activity>
         <activity android:name=".User.MyAppointmentActivity">
         </activity>
         <activity android:name=".User.MyLoanActivity">
+        </activity>
+        <activity android:name=".Login.RegistActivity">
+        </activity>
+        <activity android:name=".Login.RegistSuccessActivity">
         </activity>
         <activity android:name=".zxgs.LoanApplyAllMsgActivity"
                   android:launchMode="singleTask"

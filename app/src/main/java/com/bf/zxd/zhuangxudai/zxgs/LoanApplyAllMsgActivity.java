@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.pojo.VerificationInfo;
-import com.bf.zxd.zhuangxudai.pojo.user;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,7 +85,7 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
 
     public void isApplyFor() {
         //判断三种信息是否全部提交
-        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(user.class).findFirst().getUserId())
+        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(User.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<VerificationInfo>() {
@@ -153,6 +153,7 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
                 startActivity(new Intent(LoanApplyAllMsgActivity.this, LoanApplyUserMsgActivity.class));
                 break;
             case R.id.work_msg_is_apply_for_lin:
+
                 break;
             case R.id.money_msg_is_apply_for_lin:
                 break;

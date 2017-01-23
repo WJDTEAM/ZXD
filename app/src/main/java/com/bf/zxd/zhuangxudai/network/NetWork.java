@@ -1,6 +1,7 @@
 package com.bf.zxd.zhuangxudai.network;
 
 import com.bf.zxd.zhuangxudai.network.api.JzztService;
+import com.bf.zxd.zhuangxudai.network.api.NewZxService;
 import com.bf.zxd.zhuangxudai.network.api.UserService;
 import com.bf.zxd.zhuangxudai.network.api.ZxService;
 
@@ -17,6 +18,7 @@ public class NetWork {
     private static UserService userService;
     private static JzztService jzztService;
     private static ZxService zxService;
+    private static NewZxService newZxService;
 
     public static UserService getUserService() {
         if (userService == null) {
@@ -24,6 +26,13 @@ public class NetWork {
             userService = retrofit.create(UserService.class);
         }
         return userService;
+    }
+    public static NewZxService getNewZxService() {
+        if (newZxService == null) {
+            Retrofit retrofit = getRetrofit();
+            newZxService = retrofit.create(NewZxService.class);
+        }
+        return newZxService;
     }
     public static JzztService getJzztService() {
         if (jzztService == null) {

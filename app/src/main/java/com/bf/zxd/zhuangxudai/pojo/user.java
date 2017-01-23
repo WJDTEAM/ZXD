@@ -13,18 +13,15 @@ import io.realm.annotations.PrimaryKey;
 
  "password":String 密码
  */
-public class user extends RealmObject {
+public class User extends RealmObject {
 	@PrimaryKey
     private Integer userId=0;
-
     private String userName;
-
     private String phone;
-
     private String password;
     private String tel;
     
-    public user(){}
+    public User(){}
     
 
     
@@ -71,7 +68,7 @@ public class user extends RealmObject {
 
     @Override
     public String toString() {
-        return "user{" +
+        return "User{" +
                 "userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", phone='" + phone + '\'' +
