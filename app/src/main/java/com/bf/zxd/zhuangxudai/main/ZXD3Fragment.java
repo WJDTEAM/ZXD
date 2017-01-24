@@ -49,7 +49,7 @@ public class ZXD3Fragment extends Fragment {
     @BindView(R.id.dropDownMenu_bank)
     DropDownMenu dropDownMenuBank;
     private String headers[] = {"全部","金额", "利率", "期限"};//
-    private String all[] = {"全部","装修贷","房贷"};
+    private String all[] = {"全部","房贷","装修贷"};
     private String money[] = {"全部","3-20万","20-30万","30-80万","80-200万"};
     private String rate[] = {"全部","0.3%","0.4%","0.5%"};
     private String time[] = {"全部","12个月","24个月","36个月"};
@@ -131,11 +131,6 @@ public class ZXD3Fragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if(Integer.parseInt(minMoneyStr)>Integer.parseInt(maxMoneyStr)){
-                    int index = minMoney.getSelectionStart();
-                    editable.delete(index-1, index);
-                }
-                minMoneyStr=editable.toString();
             }
         });
         maxMoney.addTextChangedListener(new TextWatcher() {
@@ -151,11 +146,7 @@ public class ZXD3Fragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(Integer.parseInt(minMoneyStr)<Integer.parseInt(maxMoneyStr)){
-                    int index = minMoney.getSelectionStart();
-                    editable.delete(index-1, index);
-                }
-                maxMoneyStr=editable.toString();
+
             }
         });
         ok.setOnClickListener(new View.OnClickListener() {
@@ -174,9 +165,11 @@ public class ZXD3Fragment extends Fragment {
                     }
                 }
                 else{
+
                     chooseMoney=minMoney.getText().toString()+"~"+maxMoney.getText().toString()+"万";
                     minMoneyStr=minMoney.getText().toString();
                     maxMoneyStr=maxMoney.getText().toString();
+
                 }
                 dropDownMenuBank.setTabText(chooseMoney);
                 dropDownMenuBank.closeMenu();

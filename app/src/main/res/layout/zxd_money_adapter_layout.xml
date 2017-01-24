@@ -28,7 +28,9 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:digits="0123456789."
             android:textColorHint="@color/gary"
-            android:hint="最小金额查询单位（万元）"/>
+            android:textSize="@dimen/smallsp"
+            android:maxLength="5"
+            android:hint="最小金额单位(万)"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +57,9 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:digits="0123456789."
             android:textColorHint="@color/gary"
-            android:hint="最大金额查询单位（万元）"/>
+            android:maxLength="5"
+            android:textSize="@dimen/smallsp"
+            android:hint="最大金额单位(万)"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
