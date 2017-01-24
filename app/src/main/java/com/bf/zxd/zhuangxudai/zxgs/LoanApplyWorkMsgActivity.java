@@ -237,6 +237,10 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
                 break;
         }
     }
+
+    /**
+     * 保存更新个人工作信息
+     */
     private String income_type;
     private String monthly_income;
     private String local_cpf;
@@ -265,7 +269,6 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
                         }else{
                             Toast.makeText(getApplicationContext(),"个人工作信息提交失败",Toast.LENGTH_SHORT).show();
                         }
-
 
                     }
                 });
