@@ -24,7 +24,7 @@ public class DksqItem {
     private String sq_date;
     private String company_name;
     private String bank_name;
-    private int status;
+    private String status;
 
     public String getFull_name() {
         return full_name;
@@ -82,11 +82,11 @@ public class DksqItem {
         this.bank_name = bank_name;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 }

@@ -2,6 +2,7 @@ package com.bf.zxd.zhuangxudai.User;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,22 +68,28 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         final DksqItem data = datas.get(position);
         holder.nameMyloanTv.setText(data.getFull_name());
+        holder.nameMyloanTv.setVisibility(View.INVISIBLE);
         holder.phoneMyloanTv.setText(data.getPhone());
+        holder.phoneMyloanTv.setVisibility(View.INVISIBLE);
         holder.dateMyloanTv.setText(data.getSq_date());
         holder.companynameMyloanTv.setText(data.getCompany_name());
         holder.banknameMyloanTv.setText(data.getBank_name());
-        holder.applymoneyMyloanTv.setText(data.getApply_money()+"");
+        holder.applymoneyMyloanTv.setText(data.getApply_money()+"万");
+        Log.i("gqf","getStatus"+data.getStatus());
         switch (data.getStatus()){
-            case 1:
+            case "0":
+                holder.statusMyloanTv.setText("未提交");
+                break;
+            case "1":
                 holder.statusMyloanTv.setText("已提交");
                 break;
-            case 2:
+            case "2":
                 holder.statusMyloanTv.setText("审批中");
                 break;
-            case 3:
+            case "3":
                 holder.statusMyloanTv.setText("贷款成功");
                 break;
-            case 4:
+            case "4":
                 holder.statusMyloanTv.setText("贷款失败");
                 break;
         }

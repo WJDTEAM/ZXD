@@ -130,8 +130,8 @@ public interface ZxService {
      * 我的贷款列表
      * @return
      */
-    @GET("getDksqItem")
-    Observable<List<DksqItem>> getDksqItem();
+    @GET("getDksqItem/{user_id}")
+    Observable<List<DksqItem>> getDksqItem(@Path("user_id") int user_id);
 
     /**
      * 我的预约列表

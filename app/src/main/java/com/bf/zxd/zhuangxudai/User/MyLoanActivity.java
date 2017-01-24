@@ -1,6 +1,5 @@
 package com.bf.zxd.zhuangxudai.User;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -8,8 +7,10 @@ import android.view.View;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.customview.AutoHeightLayoutManager;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.DksqItem;
+import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.util.Utils;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import hugo.weaving.DebugLog;
+import io.realm.Realm;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -31,18 +33,28 @@ public class MyLoanActivity extends BaseActivity {
     @BindView(R.id.recyclerview_myLoan)
     RecyclerView recyclerviewMyLoan;
 
+    Realm realm;
     private Unbinder mUnbinder;
     private CompositeSubscription mCompositeSubscription;
 
     @Override
     public void initDate() {
         mCompositeSubscription = new CompositeSubscription();
+        realm=Realm.getDefaultInstance();
         Utils.init(this);
         getDksqItem();
 
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+        mCompositeSubscription.unsubscribe();
+    }
+
     private void getDksqItem() {
-        Subscription Subscription_getDksqItem = NetWork.getZxService().getDksqItem()
+        Subscription Subscription_getDksqItem = NetWork.getZxService().getDksqItem(realm.where(User.class).findFirst().getUser_id())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<DksqItem>>() {
@@ -67,7 +79,7 @@ public class MyLoanActivity extends BaseActivity {
     }
     private void setAdapter(final List<DksqItem> dksqItems) {
         //init context view
-        recyclerviewMyLoan.setLayoutManager(new LinearLayoutManager(this));
+        recyclerviewMyLoan.setLayoutManager(new AutoHeightLayoutManager(this));
 //        recyclerviewZxgongsi.addItemDecoration(new RecycleViewDivider(
 //                this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
         MyLoanAdapter myLoanAdapter = new MyLoanAdapter(dksqItems, this);
