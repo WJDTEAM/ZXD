@@ -28,7 +28,7 @@ public class BaseApplication extends Application {
      * add Activity
      * @param activity
      */
-    public void addActivity(Activity activity) {
+    public static void addActivity(Activity activity) {
         mList.add(activity);
     }
 

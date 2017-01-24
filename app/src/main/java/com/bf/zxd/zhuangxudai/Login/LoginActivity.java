@@ -3,6 +3,7 @@ package com.bf.zxd.zhuangxudai.Login;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -74,14 +75,15 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initView() {
         ScreenUtils.hideStatusBar(this);
+        ((BaseApplication) getApplication()).addActivity(this);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
         loginBt.setEnabled(false);
         //如果activity集合size不为0则遍历退出activity
-        if (((BaseApplication) getApplication()).getListSize() != 0) {
-            ((BaseApplication) getApplication()).exit();
-        }
+//        if (((BaseApplication) getApplication()).getListSize() != 0) {
+//            ((BaseApplication) getApplication()).exit();
+//        }
         compositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
         initLoginSetting();
@@ -93,6 +95,33 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initEvent() {
 
+    }
+
+
+    //退出时的时间
+    private long mExitTime;
+    //对返回键进行监听
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+
+            Toast.makeText(LoginActivity.this, "再按一次退出服务员app", Toast.LENGTH_SHORT).show();
+            mExitTime = System.currentTimeMillis();
+        } else {
+
+            //            MyConfig.clearSharePre(this, "users");
+            ((BaseApplication)getApplication()).exit();
+        }
     }
 
     /**
