@@ -21,6 +21,10 @@
             android:layout_height="@dimen/mediumhdp"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
+            android:src="@drawable/loan_all_msg_1"
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             />
         <TextView
             android:layout_width="0dp"
@@ -54,8 +58,11 @@
             android:layout_height="@dimen/mediumhdp"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
+            android:src="@drawable/loan_all_msg_2"
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/bigmdp"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             />
-
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -63,7 +70,6 @@
             android:text="工作信息"
             android:textSize="@dimen/mediumxsp"
             android:gravity="center_vertical"/>
-
         <TextView
             android:id="@+id/work_msg_is_apply_for"
             android:layout_width="@dimen/hugehxxxxxdp"
@@ -87,6 +93,10 @@
             android:layout_height="@dimen/mediumhdp"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
+            android:src="@drawable/loan_all_msg_3"
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             />
         <TextView
             android:layout_width="0dp"

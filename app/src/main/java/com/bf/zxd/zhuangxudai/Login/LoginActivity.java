@@ -244,7 +244,6 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onNext(LoginResult loginResult) {
                         User userInfo = loginResult.getUser();
-                        Log.i("gqf",userInfo.toString());
                         if (loginResult.getCode() != 10001) {
                             Toast.makeText(LoginActivity.this, "登录失败,用户名密码错误", Toast.LENGTH_SHORT).show();
                             deletUser();
@@ -262,8 +261,6 @@ public class LoginActivity extends BaseActivity {
                             userInfo.setPhone(name);
                             realm.copyToRealmOrUpdate(userInfo);
                             realm.commitTransaction();
-                            Log.i("gqf",userInfo.toString());
-                            Log.i("gqf",realm.where(User.class).findFirst().toString());
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             LoginActivity.this.finish();

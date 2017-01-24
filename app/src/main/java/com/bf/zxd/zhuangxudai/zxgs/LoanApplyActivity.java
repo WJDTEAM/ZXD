@@ -270,10 +270,31 @@ public class LoanApplyActivity extends BaseActivity {
     @OnClick(R.id.loan_apply_for_btn)
     public void onClick() {
         //跳转sh申请界面
-        if(companyId!=0) {
-            applyFor();
-        }else{
+
+        String [] money=mZxd.getMoney_range().split("~");
+        Double d1=Double.parseDouble(loanMoneyEdi.getText().toString());
+        Double d2=Double.parseDouble(money[1]);
+        Double d3=Double.parseDouble(money[0]);
+        String [] time=mZxd.getCycle().split("~");
+
+        Log.i("gqf","onClick"+d1+"onClick"+d2+"onClick"+d3);
+
+        if(companyId==0) {
             Toast.makeText(getApplicationContext(),"请选择公司",Toast.LENGTH_SHORT).show();
+
+        }
+        else if(d1<d3){
+            Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT).show();;
+        }
+        else if(d1>d2){
+            Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT).show();;
+        }
+        else if(!((Integer.parseInt(loanTimeEdi.getText().toString()) < Integer.parseInt(time[1])
+                && Integer.parseInt(loanTimeEdi.getText().toString()) > Integer.parseInt(time[0])))){
+            Toast.makeText(getApplicationContext(),"您所申请的还款时间不符合银行规定",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            applyFor();
         }
 
     }
@@ -315,24 +336,9 @@ public class LoanApplyActivity extends BaseActivity {
                 boolean Bl = !TextUtils.isEmpty(charSequence);
                 boolean B2 = !TextUtils.isEmpty(charSequence2);
                 boolean B3 = !TextUtils.isEmpty(charSequence3);
-                String [] time=mZxd.getCycle().split("~");
-                String [] money=mZxd.getMoney_range().split("~");
-                if((!(Double.parseDouble(loanMoneyEdi.getText().toString())*10000 < Double.parseDouble(money[1])
-                        && Double.parseDouble(loanMoneyEdi.getText().toString())*10000 > Double.parseDouble(money[0])))){
-                    Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT);
-                }
-                if(!(Integer.parseInt(loanTimeEdi.getText().toString()) < Integer.parseInt(time[1])
-                        && Integer.parseInt(loanTimeEdi.getText().toString()) > Integer.parseInt(time[0]))){
-                    Toast.makeText(getApplicationContext(),"您所申请的还款期限不符合银行规定",Toast.LENGTH_SHORT);
-                }
 
 
-                Log.i("gqf",mZxd.toString());
-                return Bl && B2 &&B3&&
-                        (Integer.parseInt(loanTimeEdi.getText().toString()) < Integer.parseInt(time[1])
-                                && Integer.parseInt(loanTimeEdi.getText().toString()) > Integer.parseInt(time[0]))&&
-                        (Double.parseDouble(loanMoneyEdi.getText().toString())*10000 < Double.parseDouble(money[1])
-                                && Double.parseDouble(loanMoneyEdi.getText().toString())*10000 > Double.parseDouble(money[0]));
+                return Bl && B2 &&B3;
             }
         }).subscribe(new Observer<Boolean>() {
             @Override
@@ -359,7 +365,7 @@ public class LoanApplyActivity extends BaseActivity {
     public void applyFor() {
         //realm.where(User.class).findFirst().getUserId()
         Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),realm.where(User.class).findFirst().getUser_id(),companyId,
-               new BigDecimal(Double.parseDouble(loanMoneyEdi.getText().toString())*10000) ,loanUseforEdi.getText().toString(),loanTimeEdi.getText().toString()
+               new BigDecimal(Double.parseDouble(loanMoneyEdi.getText().toString())) ,loanUseforEdi.getText().toString(),loanTimeEdi.getText().toString()
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -402,10 +408,13 @@ public class LoanApplyActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String [] money=mZxd.getMoney_range().split("~");
-                if((!(Double.parseDouble(editable.toString())*10000 < Double.parseDouble(money[1])
-                        && Double.parseDouble(editable.toString())*10000 > Double.parseDouble(money[0])))){
-                    Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT);
+
+                if(!editable.toString().equals("")){
+                    String [] money=mZxd.getMoney_range().split("~");
+                    int m=Integer.parseInt(money[1]);
+                    if(editable.toString().toString().length()>(m+"").length()){
+                        editable.delete(loanMoneyEdi.getSelectionStart()-1, loanMoneyEdi.getSelectionStart());
+                    }
                 }
             }
         });
