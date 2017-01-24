@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.pojo.VerificationInfo;
 
 import butterknife.BindView;
@@ -83,8 +85,9 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
     }
 
     public void isApplyFor() {
+        Log.i("gqf","isApplyFor"+realm.where(User.class).findFirst().getUserId());
         //判断三种信息是否全部提交
-        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(6)
+        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(User.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<VerificationInfo>() {

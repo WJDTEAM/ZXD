@@ -19,6 +19,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.util.SystemBarTintManager;
 import com.bf.zxd.zhuangxudai.zxgs.AppointmentActivity;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
@@ -245,8 +246,13 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.template_loan_lin:
-                LoanApplyActivity.companyId=CompanyId;
-                startActivity(new Intent(TemplateActivity.this, LoanApplyActivity.class));
+                if(LoanApplyActivity.bankId!=0) {
+                    LoanApplyActivity.companyId = CompanyId;
+                    startActivity(new Intent(TemplateActivity.this, LoanApplyActivity.class));
+                }else{
+                    MainActivity.isBottom2=true;
+                    startActivity(new Intent(TemplateActivity.this, MainActivity.class));
+                }
                 break;
             case R.id.template_subscribe_lin:
                 Intent _intent = new Intent(TemplateActivity.this, AppointmentActivity.class);

@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     Realm realm;
     CompositeSubscription mcompositeSubscription;
 
+    public static Boolean isBottom2=false;
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private static final int CONTENT_HOME = 1;
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         setContent(CONTENT_HOME);
         //设置底部栏
         initBottomBar();
+
 
 
     }
@@ -234,9 +237,19 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     protected void onRestart() {
         super.onRestart();
         getIntentToBank();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isBottom2=false;
     }
 
     public void getIntentToBank() {
+        if(isBottom2){
+            bottomBar.selectTab(2);
+        }
         if (LoanApplyActivity.companyId != 0 || LoanApplyActivity.bankId != 0) {
 //            bottomBar.selectTabAtPosition(2);
             bottomBar.selectTab(2);

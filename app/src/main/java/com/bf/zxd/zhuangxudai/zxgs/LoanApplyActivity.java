@@ -20,6 +20,7 @@ import com.bf.zxd.zhuangxudai.model.BankDetail;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
+import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
 import com.jakewharton.rxbinding.widget.RxTextView;
@@ -261,6 +262,7 @@ public class LoanApplyActivity extends BaseActivity {
         companyId = 0;
         mZxd = null;
         mZxgs = null;
+        bankId=0;
         realm.close();
         mcompositeSubscription.unsubscribe();
     }
@@ -315,6 +317,16 @@ public class LoanApplyActivity extends BaseActivity {
                 boolean B3 = !TextUtils.isEmpty(charSequence3);
                 String [] time=mZxd.getCycle().split("~");
                 String [] money=mZxd.getMoney_range().split("~");
+                if((!(Double.parseDouble(loanMoneyEdi.getText().toString())*10000 < Double.parseDouble(money[1])
+                        && Double.parseDouble(loanMoneyEdi.getText().toString())*10000 > Double.parseDouble(money[0])))){
+                    Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT);
+                }
+                if(!(Integer.parseInt(loanTimeEdi.getText().toString()) < Integer.parseInt(time[1])
+                        && Integer.parseInt(loanTimeEdi.getText().toString()) > Integer.parseInt(time[0]))){
+                    Toast.makeText(getApplicationContext(),"您所申请的还款期限不符合银行规定",Toast.LENGTH_SHORT);
+                }
+
+
                 Log.i("gqf",mZxd.toString());
                 return Bl && B2 &&B3&&
                         (Integer.parseInt(loanTimeEdi.getText().toString()) < Integer.parseInt(time[1])
@@ -346,7 +358,7 @@ public class LoanApplyActivity extends BaseActivity {
     //提交信息,并跳转页面
     public void applyFor() {
         //realm.where(User.class).findFirst().getUserId()
-        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),6,companyId,
+        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),realm.where(User.class).findFirst().getUserId(),companyId,
                new BigDecimal(Double.parseDouble(loanMoneyEdi.getText().toString())*10000) ,loanUseforEdi.getText().toString(),loanTimeEdi.getText().toString()
                 )
                 .subscribeOn(Schedulers.io())
@@ -377,6 +389,27 @@ public class LoanApplyActivity extends BaseActivity {
     }
 
     public void initEdi(){
+        loanMoneyEdi.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String [] money=mZxd.getMoney_range().split("~");
+                if((!(Double.parseDouble(loanMoneyEdi.getText().toString())*10000 < Double.parseDouble(money[1])
+                        && Double.parseDouble(loanMoneyEdi.getText().toString())*10000 > Double.parseDouble(money[0])))){
+                    Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT);
+                }
+            }
+        });
+
         loanTimeEdi.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
