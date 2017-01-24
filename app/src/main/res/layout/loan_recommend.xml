@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="0.02%"
                 android:textSize="@dimen/mediumsp"
+                android:textColor="@color/colorPrimary"
                 android:gravity="center"
                 android:id="@+id/rate_recommendBank_uptv"/>
 
@@ -63,6 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1000"
+                android:textColor="@color/colorPrimary"
                 android:gravity="center"
                 android:textSize="@dimen/mediumsp"
 
@@ -81,5 +83,10 @@
 
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/whitesmoke"
+        />
 
 </LinearLayout>

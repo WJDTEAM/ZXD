@@ -9,7 +9,7 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:background="@drawable/user_bg"
-        android:gravity="bottom"
+        android:gravity="center"
         >
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image"
@@ -27,15 +27,7 @@
             android:textColor="@color/black"
             android:gravity="center_horizontal"
             />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="业主ID：102918"
-            android:paddingTop="@dimen/smallmdp"
-            android:textColor="@color/black"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/tinyhdp"
-            />
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

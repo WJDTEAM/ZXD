@@ -21,7 +21,9 @@
         android:layout_weight="1"
         android:paddingTop="@dimen/smallmdp"
         android:paddingBottom="@dimen/tinymdp"
-
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:textSize="@dimen/mediumxsp"
         />
 
     <TextView
@@ -38,7 +40,9 @@
         android:text="@string/DKHD"
         android:gravity="center"
         android:layout_weight="1"
-
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:textSize="@dimen/mediumxsp"
         />
 
     <TextView
@@ -55,6 +59,9 @@
         android:text="@string/JZZT"
         android:gravity="center"
         android:layout_weight="1"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:textSize="@dimen/mediumxsp"
         />
     <TextView
         android:id="@+id/zhuangxiugongsi_home"
@@ -68,8 +75,11 @@
         android:clickable="true"
         android:focusable="true"
         android:text="@string/ZXGS"
+        android:textSize="@dimen/mediumxsp"
         android:gravity="center"
         android:layout_weight="1"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
         />
 
 </LinearLayout>

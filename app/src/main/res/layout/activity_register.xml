@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="16dp"
-                android:background="@mipmap/s001"
+                android:background="@drawable/login_bg"
     >
 
     <ScrollView
@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/logintop"
+                android:src="@drawable/logintop"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:scaleX="0.6"
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/regist_bt"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 android:enabled="true"
                 android:text="@string/r_regist"
                 android:background="@drawable/login_btn_selector"

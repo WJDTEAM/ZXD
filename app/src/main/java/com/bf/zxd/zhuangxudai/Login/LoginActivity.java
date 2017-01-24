@@ -115,7 +115,7 @@ public class LoginActivity extends BaseActivity {
     public void exit() {
         if ((System.currentTimeMillis() - mExitTime) > 2000) {
 
-            Toast.makeText(LoginActivity.this, "再按一次退出服务员app", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "再按一次退出装修贷app", Toast.LENGTH_SHORT).show();
             mExitTime = System.currentTimeMillis();
         } else {
 

@@ -105,6 +105,21 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
         });
         loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_3);
 
+        income_type="1";
+        local_cpf="1";
+        local_ss="1";
+
+
+//        wageWayRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                group.getId()
+//                Log.e("Daniel","----checkedId----"+checkedId);
+//
+//
+//            }
+//        });
+
     }
 
     @Override

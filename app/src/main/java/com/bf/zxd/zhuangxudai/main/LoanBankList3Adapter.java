@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
@@ -68,28 +69,29 @@ public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHoder myViewHoder = (ViewHoder) holder;
         myViewHoder.loanTitleName.setText("");
-        myViewHoder.goToLoan.setOnClickListener(new View.OnClickListener() {
+        myViewHoder.goToLoan.setVisibility(View.GONE);
+        myViewHoder.loanTitleLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoanApplyActivity.bankId=mDatas.get(position).getBank_id();
+                LoanApplyActivity.bankId = mDatas.get(position).getBank_id();
                 EventBus.getDefault().post(new EnterActivityEvent(LoanApplyActivity.class));
             }
         });
-        if(mDatas.get(position).getBank_logo()!=null&&!mDatas.get(position).getBank_logo().equals("")) {
+        if (mDatas.get(position).getBank_logo() != null && !mDatas.get(position).getBank_logo().equals("")) {
             Picasso.with(mContext).load(mDatas.get(position).getBank_logo())
                     .placeholder(R.drawable.bank_log)
                     .error(R.drawable.bank_log)
                     .into(myViewHoder.loanTitleImg);
         }
-        if(mDatas.get(position).getLoan_type()==1){
+        if (mDatas.get(position).getLoan_type() == 2) {
             myViewHoder.loanDkfw.setText("(" + "装修贷" + ")");
-        }else{
+        } else {
             myViewHoder.loanDkfw.setText("(" + "房贷" + ")");
         }
-        myViewHoder.loanRate.setText("费率：" + mDatas.get(position).getRate() );
-        myViewHoder.makeLoadDays.setText(mDatas.get(position).getMake_load_days() + mDatas.get(position).getLoad_unit()+"放贷");
-        myViewHoder.loanCycle.setText("贷款期限:"+mDatas.get(position).getCycle()+"月");
-        myViewHoder.loanMaxMoney.setText(mDatas.get(position).getMax_money()+"万");
+        myViewHoder.loanRate.setText("费率：" + mDatas.get(position).getRate());
+        myViewHoder.makeLoadDays.setText(mDatas.get(position).getMake_load_days() + mDatas.get(position).getLoad_unit() + "放贷");
+        myViewHoder.loanCycle.setText("贷款期限:" + mDatas.get(position).getCycle() + "月");
+        myViewHoder.loanMaxMoney.setText(mDatas.get(position).getMax_money() + "万");
     }
 
     @Override
@@ -120,6 +122,9 @@ public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.View
         Button goToLoan;
         @BindView(R.id.loan_cycle)
         TextView loanCycle;
+
+        @BindView(R.id.loan_title_lin)
+        LinearLayout loanTitleLin;
         public ViewHoder(View view) {
             super(view);
             ButterKnife.bind(this, view);

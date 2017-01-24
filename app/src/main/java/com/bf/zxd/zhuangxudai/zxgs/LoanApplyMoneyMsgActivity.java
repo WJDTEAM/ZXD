@@ -114,6 +114,11 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
         loanApplyForUserMsgBtn.setEnabled(false);
         initApplyFor();
         loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_4);
+        my_house="0";
+        house_type="1";
+        house_guaranty="1";
+        my_car="1";
+        car_guaranty = "1";
 
     }
 

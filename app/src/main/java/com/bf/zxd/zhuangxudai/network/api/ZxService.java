@@ -1,5 +1,6 @@
 package com.bf.zxd.zhuangxudai.network.api;
 
+import com.bf.zxd.zhuangxudai.model.BankItemInfo;
 import com.bf.zxd.zhuangxudai.model.LoanApplyResult;
 import com.bf.zxd.zhuangxudai.pojo.Dkhd;
 import com.bf.zxd.zhuangxudai.pojo.DksqItem;
@@ -141,11 +142,11 @@ public interface ZxService {
     Observable<List<YysqItem>> getYysqItem();
 
     /**
-     * 我的预约列表
+     * 推荐银行列表
      * @return
      */
     @GET("getBankItem")
-    Observable<List<RecommendBank>> getBankItem();
+    Observable<List<BankItemInfo>> getBankItem();
 
 
     /**

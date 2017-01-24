@@ -7,21 +7,6 @@ package com.bf.zxd.zhuangxudai.pojo;
 public class RecommendBank {
 
 
-    /**
-     * cycle_unit : 月
-     * make_load_days : 30
-     * max_money : 500000
-     * rate : 0.040%
-     * bank_img : http://211.149.235.17:8080/zxd/static/upload/zsyh.gif
-     * bank_id : 1
-     * money_range : 20000.00~500000.00
-     * dkfw : 大额贷
-     * bank_name : 招商银行
-     * rate_unit : 月
-     * cycle : 6~24
-     * load_unit : 分钟
-     */
-
 
 
     /**

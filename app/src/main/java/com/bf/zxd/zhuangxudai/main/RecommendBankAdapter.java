@@ -2,7 +2,6 @@ package com.bf.zxd.zhuangxudai.main;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.model.BankItemInfo;
 import com.bf.zxd.zhuangxudai.pojo.EnterActivityEvent;
-import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +29,7 @@ import butterknife.ButterKnife;
 
 public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdapter.ViewHolder> {
 
-    List<RecommendBank> datas;
+    List<BankItemInfo> datas;
     MyItemClickListener mItemClickListener;
 
 
@@ -42,7 +41,7 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
         return R.layout.loan_recommend;
     }
 
-    public RecommendBankAdapter(List<RecommendBank> datas, Context mContext) {
+    public RecommendBankAdapter(List<BankItemInfo> datas, Context mContext) {
         this.mContext = mContext;
         this.datas = datas;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -72,16 +71,15 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final RecommendBank data = datas.get(position);
+        final BankItemInfo data = datas.get(position);
 //        holder.rateRecommendBankDowntv.setText(data.getRate_unit() + "费率");
-        Log.e("Daniel","-data.getBank_img()----"+data.getBank_img());
-        if (data.getBank_img()!=null){
-            Picasso.with(mContext).load(data.getBank_img()).error(R.drawable.myhb).into(holder.picRecommendBankImg);
+        if (data.getBank_logo()!=null){
+            Picasso.with(mContext).load(data.getBank_logo()).error(R.drawable.myhb).into(holder.picRecommendBankImg);
         }else {
             holder.picRecommendBankImg.setImageResource(R.drawable.myhb);
         }
 
-        holder.numRecommendBankUptv.setText(data.getApplication_num()   );
+        holder.numRecommendBankUptv.setText(data.getApplication_num()+"");
         holder.rateRecommendBankUptv.setText(data.getRate());
 
 //                holder.numRecommendBankUptv.setText(data.getMax_money()+"");
@@ -106,7 +104,7 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
         return datas != null ? datas.size() : 0;
     }
 
-    public void setdatas(List<RecommendBank> datas) {
+    public void setdatas(List<BankItemInfo> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
