@@ -103,34 +103,55 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(VerificationInfo verificationInfo) {
-                        if (verificationInfo.getBase()) {
-                            userMsgIsApplyFor.setText("已申请");
-                            userMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                        } else {
-                            workMsgIsApplyFor.setText("未申请");
-                            workMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
-                        }
-                        if (verificationInfo.getAsset()) {
 
+                        if(verificationInfo.getWork()==false&&verificationInfo.getAsset()==false&&verificationInfo.getBase()==false){
+                            userMsgIsApplyForLin.setEnabled(true);
+                            userMsgIsApplyFor.setText("去申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
+                            workMsgIsApplyForLin.setEnabled(false);
+                            workMsgIsApplyFor.setText("未申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.gary));
+                            moneyMsgIsApplyForLin.setEnabled(false);
+                            moneyMsgIsApplyFor.setText("未申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.gary));
+                            loanApplyForAllMsgBtn.setEnabled(false);
+
+                        }else if(verificationInfo.getWork()==true&&verificationInfo.getAsset()==false&&verificationInfo.getBase()==false){
+                            userMsgIsApplyForLin.setEnabled(true);
+                            userMsgIsApplyFor.setText("已申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            workMsgIsApplyForLin.setEnabled(true);
+                            workMsgIsApplyFor.setText("去申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
+                            moneyMsgIsApplyForLin.setEnabled(false);
+                            moneyMsgIsApplyFor.setText("未申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.gary));
+                            loanApplyForAllMsgBtn.setEnabled(false);
+                        }else if(verificationInfo.getWork()==true&&verificationInfo.getAsset()==true&&verificationInfo.getBase()==false){
+                            userMsgIsApplyForLin.setEnabled(true);
+                            userMsgIsApplyFor.setText("已申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            workMsgIsApplyForLin.setEnabled(true);
+                            workMsgIsApplyFor.setText("已申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            moneyMsgIsApplyForLin.setEnabled(true);
+                            moneyMsgIsApplyFor.setText("去申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
+                            loanApplyForAllMsgBtn.setEnabled(false);
+                        }else{
+                            userMsgIsApplyForLin.setEnabled(true);
+                            userMsgIsApplyFor.setText("已申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            workMsgIsApplyForLin.setEnabled(true);
+                            workMsgIsApplyFor.setText("已申请");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            moneyMsgIsApplyForLin.setEnabled(true);
                             moneyMsgIsApplyFor.setText("已申请");
                             moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                        } else {
-                            workMsgIsApplyFor.setText("未申请");
-                            workMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
-                        }
-                        if (verificationInfo.getWork()) {
-
-                            workMsgIsApplyFor.setText("已申请");
-                            workMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                        } else {
-                            workMsgIsApplyFor.setText("未申请");
-                            workMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
-                        }
-                        if (verificationInfo.getBase() && verificationInfo.getAsset() && verificationInfo.getWork()) {
                             loanApplyForAllMsgBtn.setEnabled(true);
-                        } else {
-                            loanApplyForAllMsgBtn.setEnabled(false);
                         }
+
+
                     }
                 });
         mcompositeSubscription.add(subscription_getZxgs);

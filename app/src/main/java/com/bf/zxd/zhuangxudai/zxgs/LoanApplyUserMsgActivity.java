@@ -19,6 +19,7 @@ import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.LoanPersonBase;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
 import com.bf.zxd.zhuangxudai.pojo.User;
+import com.bf.zxd.zhuangxudai.util.UrlEncoded;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import butterknife.BindView;
@@ -103,6 +104,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
         loanApplyForUserMsgBtn.setEnabled(false);
         initApplyFor();
         initData();
+        loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_3);
     }
 
 
@@ -217,7 +219,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
      */
     public void applyForLoanPersonBase() {
         Subscription subscription_getZxgs = NetWork.getZxService().saveOrUpdatePersonBase(realm.where(User.class).findFirst().getUser_id(),
-                loanNameEdi.getText().toString(), loanPhoneEdi.getText().toString(),marital_status,credit_status,loanCityEdi.getText().toString(),loanIdNumEdi.getText().toString()
+                UrlEncoded.toURLEncoded(loanNameEdi.getText().toString()), loanPhoneEdi.getText().toString(),marital_status,credit_status,UrlEncoded.toURLEncoded(loanCityEdi.getText().toString()),loanIdNumEdi.getText().toString()
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

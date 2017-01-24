@@ -103,7 +103,7 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
 
             }
         });
-
+        loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_2);
 
     }
 

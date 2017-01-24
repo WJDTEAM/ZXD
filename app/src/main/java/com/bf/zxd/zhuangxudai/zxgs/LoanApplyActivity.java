@@ -23,6 +23,7 @@ import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
 import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
+import com.bf.zxd.zhuangxudai.util.UrlEncoded;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
 
@@ -365,7 +366,7 @@ public class LoanApplyActivity extends BaseActivity {
     public void applyFor() {
         //realm.where(User.class).findFirst().getUserId()
         Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),realm.where(User.class).findFirst().getUser_id(),companyId,
-               new BigDecimal(Double.parseDouble(loanMoneyEdi.getText().toString())) ,loanUseforEdi.getText().toString(),loanTimeEdi.getText().toString()
+               new BigDecimal(Double.parseDouble(loanMoneyEdi.getText().toString())) , UrlEncoded.toURLEncoded(loanUseforEdi.getText().toString()),loanTimeEdi.getText().toString()
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -411,7 +412,7 @@ public class LoanApplyActivity extends BaseActivity {
 
                 if(!editable.toString().equals("")){
                     String [] money=mZxd.getMoney_range().split("~");
-                    int m=Integer.parseInt(money[1]);
+                    int m=Integer.parseInt(money[1].substring(0,money[1].indexOf(".")));
                     if(editable.toString().toString().length()>(m+"").length()){
                         editable.delete(loanMoneyEdi.getSelectionStart()-1, loanMoneyEdi.getSelectionStart());
                     }
