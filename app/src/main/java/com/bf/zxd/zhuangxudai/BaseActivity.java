@@ -12,6 +12,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+//        ((BaseApplication)getApplication()).addActivity(this);
 //        setTheme(EatApplication.getInstance().getCurrentTheme());
         //初始化
         init();

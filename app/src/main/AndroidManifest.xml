@@ -20,9 +20,8 @@
         <activity
             android:name=".Login.LoginActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
-
-
 
         </activity>
         <activity
@@ -110,13 +109,22 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".User.MyAppointmentActivity">
+
+        <activity android:name=".User.MyAppointmentActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".User.MyLoanActivity">
+        <activity android:name=".User.MyLoanActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Login.RegistActivity">
+        <activity android:name=".Login.RegistActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Login.RegistSuccessActivity">
+        <activity android:name=".Login.RegistSuccessActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name=".zxgs.LoanApplyAllMsgActivity"
                   android:launchMode="singleTask"
