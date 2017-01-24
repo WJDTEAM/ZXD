@@ -128,7 +128,7 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
     }
     public void isApplyFor() {
         //判断三种信息是否全部提交
-        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(User.class).findFirst().getUserId())
+        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(User.class).findFirst().getUser_id())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<VerificationInfo>() {
@@ -158,7 +158,7 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
     }
 
     private void initAssetInfo() {
-        NetWork.getNewZxService().getLoanPersonAsset(realm.where(User.class).findFirst().getUserId())
+        NetWork.getNewZxService().getLoanPersonAsset(realm.where(User.class).findFirst().getUser_id())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<PersonAssetInfo>() {
@@ -339,7 +339,7 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
     private void saveOrUpdatePersonWork() {
         house_value = loanWageEdi.getText().toString();
         car_value = loanCityEdi.getText().toString();
-        NetWork.getNewZxService().saveOrUpdatePersonAsset(realm.where(User.class).findFirst().getUserId(),my_house,house_value,house_type,house_guaranty,my_car,car_value,car_guaranty)
+        NetWork.getNewZxService().saveOrUpdatePersonAsset(realm.where(User.class).findFirst().getUser_id(),my_house,house_value,house_type,house_guaranty,my_car,car_value,car_guaranty)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResuleInfo>() {

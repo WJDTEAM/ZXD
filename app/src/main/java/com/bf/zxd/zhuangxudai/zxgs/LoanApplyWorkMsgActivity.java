@@ -119,7 +119,7 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
     }
     public void isApplyFor() {
         //判断三种信息是否全部提交
-        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(User.class).findFirst().getUserId())
+        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(User.class).findFirst().getUser_id())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<VerificationInfo>() {
@@ -149,7 +149,7 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
     }
 
     private void initWorkInfo() {
-        NetWork.getNewZxService().getLoanPersonWork(realm.where(User.class).findFirst().getUserId())
+        NetWork.getNewZxService().getLoanPersonWork(realm.where(User.class).findFirst().getUser_id())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<PersonWorkInfo>() {
@@ -247,7 +247,7 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
     private String local_ss;
     private void saveOrUpdatePersonWork() {
         monthly_income = loanWageEdi.getText().toString();
-        NetWork.getNewZxService().saveOrUpdatePersonWork(realm.where(User.class).findFirst().getUserId(),income_type,monthly_income,local_cpf,local_ss)
+        NetWork.getNewZxService().saveOrUpdatePersonWork(realm.where(User.class).findFirst().getUser_id(),income_type,monthly_income,local_cpf,local_ss)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResuleInfo>() {

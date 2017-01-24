@@ -14,32 +14,27 @@ import io.realm.annotations.PrimaryKey;
  "password":String 密码
  */
 public class User extends RealmObject {
-	@PrimaryKey
-    private Integer userId=0;
-    private String userName;
+    /**
+     * user_id : 33
+     * user_name : 15632323232
+     * tel : 15632323232
+     */
+    @PrimaryKey
+    private int user_id;
+    private String user_name;
+    private String tel;
     private String phone;
     private String password;
-    private String tel;
-    
-    public User(){}
-    
 
-    
-
-	public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", user_name='" + user_name + '\'' +
+                ", tel='" + tel + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 
     public String getPhone() {
@@ -58,6 +53,22 @@ public class User extends RealmObject {
         this.password = password;
     }
 
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
     public String getTel() {
         return tel;
     }
@@ -66,14 +77,6 @@ public class User extends RealmObject {
         this.tel = tel;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", phone='" + phone + '\'' +
-                ", password='" + password + '\'' +
-                ", tel='" + tel + '\'' +
-                '}';
-    }
+
+
 }

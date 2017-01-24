@@ -358,7 +358,7 @@ public class LoanApplyActivity extends BaseActivity {
     //提交信息,并跳转页面
     public void applyFor() {
         //realm.where(User.class).findFirst().getUserId()
-        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),realm.where(User.class).findFirst().getUserId(),companyId,
+        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),realm.where(User.class).findFirst().getUser_id(),companyId,
                new BigDecimal(Double.parseDouble(loanMoneyEdi.getText().toString())*10000) ,loanUseforEdi.getText().toString(),loanTimeEdi.getText().toString()
                 )
                 .subscribeOn(Schedulers.io())
@@ -403,8 +403,8 @@ public class LoanApplyActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String [] money=mZxd.getMoney_range().split("~");
-                if((!(Double.parseDouble(loanMoneyEdi.getText().toString())*10000 < Double.parseDouble(money[1])
-                        && Double.parseDouble(loanMoneyEdi.getText().toString())*10000 > Double.parseDouble(money[0])))){
+                if((!(Double.parseDouble(editable.toString())*10000 < Double.parseDouble(money[1])
+                        && Double.parseDouble(editable.toString())*10000 > Double.parseDouble(money[0])))){
                     Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT);
                 }
             }

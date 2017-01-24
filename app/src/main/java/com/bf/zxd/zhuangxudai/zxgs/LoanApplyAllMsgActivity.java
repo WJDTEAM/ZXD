@@ -85,9 +85,9 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
     }
 
     public void isApplyFor() {
-        Log.i("gqf","isApplyFor"+realm.where(User.class).findFirst().getUserId());
+        Log.i("gqf","isApplyFor"+realm.where(User.class).findFirst().getUser_id());
         //判断三种信息是否全部提交
-        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(User.class).findFirst().getUserId())
+        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(User.class).findFirst().getUser_id())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<VerificationInfo>() {
