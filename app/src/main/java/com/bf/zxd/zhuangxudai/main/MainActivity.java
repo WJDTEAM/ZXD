@@ -86,10 +86,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((BaseApplication) getApplication()).addActivity(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         //加入activity列表
-        ((BaseApplication) getApplication()).addActivity(this);
+
         EventBus.getDefault().register(this);
         realm = Realm.getDefaultInstance();
         mcompositeSubscription = new CompositeSubscription();
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         } else {
 
             //            MyConfig.clearSharePre(this, "users");
-//            ((BaseApplication)getApplication()).exit();
+            ((BaseApplication)getApplication()).exit();
         }
     }
 

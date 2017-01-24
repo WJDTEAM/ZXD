@@ -75,14 +75,15 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initView() {
         ScreenUtils.hideStatusBar(this);
+        ((BaseApplication) getApplication()).addActivity(this);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
         loginBt.setEnabled(false);
         //如果activity集合size不为0则遍历退出activity
-        if (((BaseApplication) getApplication()).getListSize() != 0) {
-            ((BaseApplication) getApplication()).exit();
-        }
+//        if (((BaseApplication) getApplication()).getListSize() != 0) {
+//            ((BaseApplication) getApplication()).exit();
+//        }
         compositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
         initLoginSetting();
@@ -119,7 +120,7 @@ public class LoginActivity extends BaseActivity {
         } else {
 
             //            MyConfig.clearSharePre(this, "users");
-//            ((BaseApplication)getApplication()).exit();
+            ((BaseApplication)getApplication()).exit();
         }
     }
 
