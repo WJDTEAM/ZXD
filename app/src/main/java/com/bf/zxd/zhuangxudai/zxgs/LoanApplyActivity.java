@@ -236,8 +236,9 @@ public class LoanApplyActivity extends BaseActivity {
         if (mZxd != null) {
             bankTopLinear.setVisibility(View.VISIBLE);
             applyMoneyTv.setText("申请金额（元）");
-
-            Picasso.with(this).load(mZxd.getBank_logo()).into(bankpicImg);
+            if (mZxd.getBank_logo()!=null) {
+                Picasso.with(this).load(mZxd.getBank_logo()).error(R.drawable.myhb).into(bankpicImg);
+            }
             bankNameTv.setText(mZxd.getBank_name());
             moneyRangeTv.setText(mZxd.getMoney_range());
             cycleUnitTv.setText("申请期限(月)");

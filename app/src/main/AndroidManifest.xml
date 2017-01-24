@@ -123,6 +123,12 @@
         <activity android:name=".zxgs.LoanApplyUserMsgActivity"
                   android:launchMode="singleTask"
                   android:screenOrientation="portrait"></activity>
+        <activity android:name=".zxgs.LoanApplyWorkMsgActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"></activity>
+        <activity android:name=".zxgs.LoanApplyMoneyMsgActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -83,7 +83,7 @@
                     <RadioButton
                         android:id="@+id/loan_accumulation_rad_true"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="有"
@@ -135,6 +135,7 @@
                         android:checked="true"
                         android:textColor="@color/black"
                         android:button="@drawable/sex_selector"/>
+
                     <RadioButton
                         android:id="@+id/loan_social_security_rad_false"
                         android:layout_width="0dp"

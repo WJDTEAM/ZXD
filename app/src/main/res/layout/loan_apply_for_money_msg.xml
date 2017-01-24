@@ -51,16 +51,17 @@
                         android:checked="true"
                         android:textColor="@color/black"
                         android:button="@drawable/sex_selector"/>
-                    <RadioButton
-                        android:id="@+id/loan_home_rad_have"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:text="有房，已抵押"
-                        android:textColor="@color/black"
-                        android:button="@drawable/sex_selector"
-                        />
+
+                        <RadioButton
+                            android:id="@+id/loan_home_rad_have"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/activity_horizontal_margin"
+                            android:text="有房，已抵押"
+                            android:textColor="@color/black"
+                            android:button="@drawable/sex_selector"
+                            />
                     </LinearLayout>
                     <RadioButton
                         android:id="@+id/loan_home_rad_have_no"
@@ -156,6 +157,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <RadioButton
                             android:id="@+id/loan_home_type_rad_4"
                             android:layout_width="0dp"
@@ -166,6 +168,7 @@
                             android:checked="true"
                             android:textColor="@color/black"
                             android:button="@drawable/sex_selector"/>
+
                         <RadioButton
                             android:id="@+id/loan_home_type_rad_5"
                             android:layout_width="0dp"

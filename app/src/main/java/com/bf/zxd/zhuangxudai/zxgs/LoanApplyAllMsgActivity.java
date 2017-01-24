@@ -152,13 +152,14 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
                 startActivity(new Intent(LoanApplyAllMsgActivity.this, LoanApplyUserMsgActivity.class));
                 break;
             case R.id.work_msg_is_apply_for_lin:
+                startActivity(new Intent(LoanApplyAllMsgActivity.this, LoanApplyWorkMsgActivity.class));
 
                 break;
             case R.id.money_msg_is_apply_for_lin:
+                startActivity(new Intent(LoanApplyAllMsgActivity.this, LoanApplyMoneyMsgActivity.class));
                 break;
             case R.id.loan_apply_for_all_msg_btn:
                 //提交全部资料
-
 
                 break;
 
