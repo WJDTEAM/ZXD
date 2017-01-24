@@ -2,9 +2,7 @@ package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +15,9 @@ import android.widget.Toast;
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.model.BankDetail;
+import com.bf.zxd.zhuangxudai.model.LoanApplyResult;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
-import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
 import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
@@ -32,6 +30,7 @@ import java.math.BigDecimal;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import rx.Observable;
 import rx.Observer;
@@ -175,10 +174,12 @@ public class LoanApplyActivity extends BaseActivity {
         setToolBar();
         mcompositeSubscription = new CompositeSubscription();
         realm=Realm.getDefaultInstance();
+        int userId=realm.where(User.class).findFirst().getUser_id();
+        Log.e("Daniel","------userId-----"+userId);
         initApplyFor();
         initCompanyMsg();
         initBank();
-        initEdi();
+//        initEdi();
     }
 
 
@@ -237,19 +238,22 @@ public class LoanApplyActivity extends BaseActivity {
     public void initBank() {
         if (mZxd != null) {
             bankTopLinear.setVisibility(View.VISIBLE);
-            applyMoneyTv.setText("申请金额（元）");
+            applyMoneyTv.setText("申请金额（万）");
+            Log.e("Daniel",""+mZxd.getBank_logo());
             if (mZxd.getBank_logo()!=null) {
-                Picasso.with(this).load(mZxd.getBank_logo()).error(R.drawable.myhb).into(bankpicImg);
+                Picasso.with(this).load(mZxd.getBank_logo()).into(bankpicImg);
             }
             bankNameTv.setText(mZxd.getBank_name());
             moneyRangeTv.setText(mZxd.getMoney_range());
-            cycleUnitTv.setText("申请期限(月)");
+            cycleUnitTv.setText("申请期限（月）");
             cycleTv.setText(mZxd.getCycle());
             rateUnitTv.setText("月费率");
             rateTv.setText(mZxd.getRate());
             productDescLoanapplyTx.setText(mZxd.getProduct_desc());
             applicationLoanapplyTx.setText(mZxd.getApplication());
             requiredLoanapplyTx.setText(mZxd.getRequired());
+            loanMoneyEdi.setHint(mZxd.getMoney_range()+"/万");
+            loanTimeEdi.setHint(""+mZxd.getCycle()+"/月");
 
 
         } else {
@@ -307,6 +311,8 @@ public class LoanApplyActivity extends BaseActivity {
         super.onRestart();
         initCompanyMsg();
         initBank();
+//        Log.e("Daniel","------onRestart-----");
+//        initApplyFor();
 
 
 
@@ -350,9 +356,10 @@ public class LoanApplyActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
             }
-
+            @DebugLog
             @Override
             public void onNext(Boolean aBoolean) {
+                Log.e("Daniel","---aBoolean---"+aBoolean);
                 loanApplyForBtn.setEnabled(aBoolean);
             }
         });
@@ -370,7 +377,7 @@ public class LoanApplyActivity extends BaseActivity {
                 )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResuleInfo>() {
+                .subscribe(new Observer<LoanApplyResult>() {
                     @Override
                     public void onCompleted() {
 
@@ -382,9 +389,11 @@ public class LoanApplyActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(ResuleInfo resuleInfo) {
+                    public void onNext(LoanApplyResult resuleInfo) {
                         if(resuleInfo.getCode()==10001) {
-                            startActivity(new Intent(LoanApplyActivity.this, LoanApplyAllMsgActivity.class));
+                            Intent _intent = new Intent(LoanApplyActivity.this, LoanApplyAllMsgActivity.class);
+                            _intent.putExtra("Apply_base_id",resuleInfo.getApply_base_id());
+                            startActivity(_intent);
                         }else{
                             Toast.makeText(getApplicationContext(),"信息提交失败",Toast.LENGTH_SHORT).show();
                         }
@@ -395,52 +404,52 @@ public class LoanApplyActivity extends BaseActivity {
 
     }
 
-    public void initEdi(){
-        loanMoneyEdi.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                if(!editable.toString().equals("")){
-                    String [] money=mZxd.getMoney_range().split("~");
-                    int m=Integer.parseInt(money[1].substring(0,money[1].indexOf(".")));
-                    if(editable.toString().toString().length()>(m+"").length()){
-                        editable.delete(loanMoneyEdi.getSelectionStart()-1, loanMoneyEdi.getSelectionStart());
-                    }
-                }
-            }
-        });
-
-        loanTimeEdi.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String [] time=mZxd.getCycle().split("~");
-                if(!editable.toString().equals("")) {
-                    if (Integer.parseInt(editable.toString()) > Integer.parseInt(time[1])) {
-                        editable.delete(loanTimeEdi.getSelectionStart()-1, loanTimeEdi.getSelectionStart());
-                    }
-                }
-
-            }
-        });
-
-    }
+//    public void initEdi(){
+//        loanMoneyEdi.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//                if(!editable.toString().equals("")){
+//                    String [] money=mZxd.getMoney_range().split("~");
+//                    int m=Integer.parseInt(money[1]);
+//                    if(editable.toString().toString().length()>(m+"").length()){
+//                        editable.delete(loanMoneyEdi.getSelectionStart()-1, loanMoneyEdi.getSelectionStart());
+//                    }
+//                }
+//            }
+//        });
+//
+//        loanTimeEdi.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                String [] time=mZxd.getCycle().split("~");
+//                if(!editable.toString().equals("")) {
+//                    if (Integer.parseInt(editable.toString()) > Integer.parseInt(time[1])) {
+//                        editable.delete(loanTimeEdi.getSelectionStart()-1, loanTimeEdi.getSelectionStart());
+//                    }
+//                }
+//
+//            }
+//        });
+//
+//    }
 }

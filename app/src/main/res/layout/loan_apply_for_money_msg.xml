@@ -37,14 +37,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="center">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
                     <RadioButton
                         android:id="@+id/loan_home_rad_no"
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/activity_horizontal_margin"
                         android:text="无房"
@@ -54,15 +49,13 @@
 
                         <RadioButton
                             android:id="@+id/loan_home_rad_have"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingLeft="@dimen/activity_horizontal_margin"
                             android:text="有房，已抵押"
                             android:textColor="@color/black"
                             android:button="@drawable/sex_selector"
                             />
-                    </LinearLayout>
                     <RadioButton
                         android:id="@+id/loan_home_rad_have_no"
                         android:layout_width="match_parent"
@@ -120,14 +113,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="center">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
                         <RadioButton
                             android:id="@+id/loan_home_type_rad_1"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.6"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="商品住宅"
                             android:lines="1"
@@ -136,8 +124,7 @@
                             android:button="@drawable/sex_selector"/>
                         <RadioButton
                             android:id="@+id/loan_home_type_rad_2"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.5"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="商铺"
                             android:textColor="@color/black"
@@ -145,23 +132,15 @@
                             />
                         <RadioButton
                             android:id="@+id/loan_home_type_rad_3"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="厂房"
                             android:textColor="@color/black"
                             android:button="@drawable/sex_selector"
                             />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
                         <RadioButton
                             android:id="@+id/loan_home_type_rad_4"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.4"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="办公楼"
                             android:lines="1"
@@ -171,8 +150,7 @@
 
                         <RadioButton
                             android:id="@+id/loan_home_type_rad_5"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.45"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="危改房"
                             android:textColor="@color/black"
@@ -181,22 +159,15 @@
 
                         <RadioButton
                             android:id="@+id/loan_home_type_rad_6"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="经济适用房"
                             android:textColor="@color/black"
                             android:button="@drawable/sex_selector"
                             />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
                         <RadioButton
                             android:id="@+id/loan_home_type_rad_7"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.6"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="其他"
                             android:lines="1"
@@ -204,7 +175,6 @@
                             android:textColor="@color/black"
                             android:button="@drawable/sex_selector"/>
 
-                    </LinearLayout>
                 </RadioGroup>
             </LinearLayout>
             <LinearLayout
@@ -295,14 +265,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="center">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
                         <RadioButton
                             android:id="@+id/loan_car_rad_1"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.6"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="有车无抵押"
                             android:lines="1"
@@ -311,23 +276,15 @@
                             android:button="@drawable/sex_selector"/>
                         <RadioButton
                             android:id="@+id/loan_car_rad_2"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="有车已抵押"
                             android:textColor="@color/black"
                             android:button="@drawable/sex_selector"
                             />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
                         <RadioButton
                             android:id="@+id/loan_car_rad_3"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.7"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="无车，准备购买"
                             android:lines="1"
@@ -336,15 +293,12 @@
                             android:button="@drawable/sex_selector"/>
                         <RadioButton
                             android:id="@+id/loan_car_rad_4"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="无车"
                             android:textColor="@color/black"
                             android:button="@drawable/sex_selector"
                             />
-
-                    </LinearLayout>
                 </RadioGroup>
             </LinearLayout>
             <LinearLayout

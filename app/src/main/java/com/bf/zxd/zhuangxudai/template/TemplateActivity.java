@@ -246,7 +246,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.template_loan_lin:
-                if(LoanApplyActivity.bankId!=0) {
+                if(LoanApplyActivity.bankId>0) {
                     LoanApplyActivity.companyId = CompanyId;
                     startActivity(new Intent(TemplateActivity.this, LoanApplyActivity.class));
                 }else{

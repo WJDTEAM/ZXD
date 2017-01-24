@@ -1,5 +1,6 @@
 package com.bf.zxd.zhuangxudai.network.api;
 
+import com.bf.zxd.zhuangxudai.model.LoanApplyResult;
 import com.bf.zxd.zhuangxudai.pojo.Dkhd;
 import com.bf.zxd.zhuangxudai.pojo.DksqItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanPersonBase;
@@ -94,7 +95,7 @@ public interface ZxService {
      */
     @FormUrlEncoded
     @POST("saveDksq")
-    Observable<ResuleInfo> saveDksq(@Field("bank_id") int bank_id, @Field("user_id") int user_id, @Field("company_id") int company_id, @Field("apply_money") BigDecimal apply_money, @Field("loan_purpose") String loan_purpose, @Field("loan_term") String loan_term);
+    Observable<LoanApplyResult> saveDksq(@Field("bank_id") int bank_id, @Field("user_id") int user_id, @Field("company_id") int company_id, @Field("apply_money") BigDecimal apply_money, @Field("loan_purpose") String loan_purpose, @Field("loan_term") String loan_term);
 
     /**
      * 预约保存

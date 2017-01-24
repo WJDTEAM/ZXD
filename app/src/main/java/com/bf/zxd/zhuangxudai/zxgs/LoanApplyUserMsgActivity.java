@@ -101,8 +101,8 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
         setToolbar("填写个人信息");
         compositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
-        loanApplyForUserMsgBtn.setEnabled(false);
-        initApplyFor();
+        loanApplyForUserMsgBtn.setEnabled(true);
+//        initApplyFor();
         initData();
         loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_3);
     }

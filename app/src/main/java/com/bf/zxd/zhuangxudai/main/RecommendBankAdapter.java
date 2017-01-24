@@ -2,6 +2,7 @@ package com.bf.zxd.zhuangxudai.main;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.pojo.EnterActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -72,6 +74,13 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final RecommendBank data = datas.get(position);
 //        holder.rateRecommendBankDowntv.setText(data.getRate_unit() + "费率");
+        Log.e("Daniel","-data.getBank_img()----"+data.getBank_img());
+        if (data.getBank_img()!=null){
+            Picasso.with(mContext).load(data.getBank_img()).error(R.drawable.myhb).into(holder.picRecommendBankImg);
+        }else {
+            holder.picRecommendBankImg.setImageResource(R.drawable.myhb);
+        }
+
         holder.numRecommendBankUptv.setText(data.getApplication_num()   );
         holder.rateRecommendBankUptv.setText(data.getRate());
 

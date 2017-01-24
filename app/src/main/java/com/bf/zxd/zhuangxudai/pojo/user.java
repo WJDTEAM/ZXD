@@ -37,22 +37,6 @@ public class User extends RealmObject {
                 '}';
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public int getUser_id() {
         return user_id;
     }
@@ -77,6 +61,19 @@ public class User extends RealmObject {
         this.tel = tel;
     }
 
+    public String getPhone() {
+        return phone;
+    }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

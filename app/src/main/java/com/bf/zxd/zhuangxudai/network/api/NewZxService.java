@@ -1,13 +1,11 @@
 package com.bf.zxd.zhuangxudai.network.api;
 
 import com.bf.zxd.zhuangxudai.model.BankDetail;
-import com.bf.zxd.zhuangxudai.pojo.ZxdBank;
 import com.bf.zxd.zhuangxudai.model.PersonAssetInfo;
 import com.bf.zxd.zhuangxudai.model.PersonWorkInfo;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
+import com.bf.zxd.zhuangxudai.pojo.ZxdBank;
 
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import java.util.List;
 
 import retrofit2.http.Field;
@@ -78,4 +76,10 @@ public interface NewZxService {
     Observable<List<ZxdBank>> getZxdItem
     (@Field("loan_type") String  loan_type, @Field("min_money") String min_money, @Field("max_money") String max_money,
      @Field("rate") String rate, @Field("cycle") String cycle);
+
+
+    @FormUrlEncoded
+    @POST("updateStatus")
+    Observable<ResuleInfo> updateStatus
+            (@Field("apply_base_id") int  apply_base_id);
 }

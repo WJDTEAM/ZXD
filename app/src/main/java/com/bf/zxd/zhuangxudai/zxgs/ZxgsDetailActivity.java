@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.template.TemplateHorizontalListAdapter;
@@ -151,8 +152,15 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.template_loan_lin:
-                LoanApplyActivity.companyId=mZxgs.getCompany_id();
-                startActivity(new Intent(ZxgsDetailActivity.this, LoanApplyActivity.class));
+                if(LoanApplyActivity.bankId>0) {
+                    LoanApplyActivity.companyId = mZxgs.getCompany_id();
+                    startActivity(new Intent(ZxgsDetailActivity.this, LoanApplyActivity.class));
+                }else{
+                    MainActivity.isBottom2=true;
+                    startActivity(new Intent(ZxgsDetailActivity.this, MainActivity.class));
+                }
+//                LoanApplyActivity.companyId=mZxgs.getCompany_id();
+//                startActivity(new Intent(ZxgsDetailActivity.this, LoanApplyActivity.class));
                 break;
             case R.id.template_subscribe_lin:
                 Intent _intent = new Intent(ZxgsDetailActivity.this, AppointmentActivity.class);

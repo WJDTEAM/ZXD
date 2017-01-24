@@ -259,6 +259,7 @@ public class LoginActivity extends BaseActivity {
                             realm.beginTransaction();
                             userInfo.setPassword(password);
                             userInfo.setPhone(name);
+
                             realm.copyToRealmOrUpdate(userInfo);
                             realm.commitTransaction();
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
