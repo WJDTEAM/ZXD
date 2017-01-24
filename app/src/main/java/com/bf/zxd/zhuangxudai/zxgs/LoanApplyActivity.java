@@ -2,7 +2,9 @@ package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -179,7 +181,7 @@ public class LoanApplyActivity extends BaseActivity {
         initApplyFor();
         initCompanyMsg();
         initBank();
-//        initEdi();
+       initEdi();
     }
 
 
@@ -391,6 +393,7 @@ public class LoanApplyActivity extends BaseActivity {
                     @Override
                     public void onNext(LoanApplyResult resuleInfo) {
                         if(resuleInfo.getCode()==10001) {
+                            LoanApplyAllMsgActivity.APPLYBASEID=resuleInfo.getApply_base_id();
                             Intent _intent = new Intent(LoanApplyActivity.this, LoanApplyAllMsgActivity.class);
                             _intent.putExtra("Apply_base_id",resuleInfo.getApply_base_id());
                             startActivity(_intent);
@@ -404,52 +407,52 @@ public class LoanApplyActivity extends BaseActivity {
 
     }
 
-//    public void initEdi(){
-//        loanMoneyEdi.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//                if(!editable.toString().equals("")){
-//                    String [] money=mZxd.getMoney_range().split("~");
-//                    int m=Integer.parseInt(money[1]);
-//                    if(editable.toString().toString().length()>(m+"").length()){
-//                        editable.delete(loanMoneyEdi.getSelectionStart()-1, loanMoneyEdi.getSelectionStart());
-//                    }
-//                }
-//            }
-//        });
-//
-//        loanTimeEdi.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//                String [] time=mZxd.getCycle().split("~");
-//                if(!editable.toString().equals("")) {
-//                    if (Integer.parseInt(editable.toString()) > Integer.parseInt(time[1])) {
-//                        editable.delete(loanTimeEdi.getSelectionStart()-1, loanTimeEdi.getSelectionStart());
-//                    }
-//                }
-//
-//            }
-//        });
-//
-//    }
+    public void initEdi(){
+        loanMoneyEdi.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if(!editable.toString().equals("")){
+                    String [] money=mZxd.getMoney_range().split("~");
+                    int m=Integer.parseInt(money[1].substring(0,money[1].indexOf(".")));
+                    if(editable.toString().toString().length()>(m+"").length()){
+                        editable.delete(loanMoneyEdi.getSelectionStart()-1, loanMoneyEdi.getSelectionStart());
+                    }
+                }
+            }
+        });
+
+        loanTimeEdi.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String [] time=mZxd.getCycle().split("~");
+                if(!editable.toString().equals("")) {
+                    if (Integer.parseInt(editable.toString()) > Integer.parseInt(time[1])) {
+                        editable.delete(loanTimeEdi.getSelectionStart()-1, loanTimeEdi.getSelectionStart());
+                    }
+                }
+
+            }
+        });
+
+    }
 }

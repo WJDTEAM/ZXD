@@ -113,7 +113,7 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
         realm = Realm.getDefaultInstance();
         loanApplyForUserMsgBtn.setEnabled(false);
         initApplyFor();
-        loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_1);
+        loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_4);
 
     }
 

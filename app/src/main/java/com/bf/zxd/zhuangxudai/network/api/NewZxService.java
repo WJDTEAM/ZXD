@@ -78,8 +78,11 @@ public interface NewZxService {
      @Field("rate") String rate, @Field("cycle") String cycle);
 
 
-    @FormUrlEncoded
-    @POST("updateStatus")
-    Observable<ResuleInfo> updateStatus
-            (@Field("apply_base_id") int  apply_base_id);
+    @GET("updateStatus/{apply_base_id}")
+    Observable<ResuleInfo> updateStatus(@Path("apply_base_id") int apply_base_id);
+
+//    @FormUrlEncoded
+//    @POST("updateStatus")
+//    Observable<ResuleInfo> updateStatus
+//            (@Field("apply_base_id") int  apply_base_id);
 }

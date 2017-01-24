@@ -104,7 +104,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
         loanApplyForUserMsgBtn.setEnabled(true);
 //        initApplyFor();
         initData();
-        loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_3);
+        loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_2);
     }
 
 

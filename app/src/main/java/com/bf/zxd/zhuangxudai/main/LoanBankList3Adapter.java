@@ -89,7 +89,7 @@ public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.View
         myViewHoder.loanRate.setText("费率：" + mDatas.get(position).getRate() );
         myViewHoder.makeLoadDays.setText(mDatas.get(position).getMake_load_days() + mDatas.get(position).getLoad_unit()+"放贷");
         myViewHoder.loanCycle.setText("贷款期限:"+mDatas.get(position).getCycle()+"月");
-        myViewHoder.loanMaxMoney.setText(mDatas.get(position).getMax_money()+"");
+        myViewHoder.loanMaxMoney.setText(mDatas.get(position).getMax_money()+"万");
     }
 
     @Override

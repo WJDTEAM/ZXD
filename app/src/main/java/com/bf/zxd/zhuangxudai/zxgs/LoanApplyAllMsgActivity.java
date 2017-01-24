@@ -83,15 +83,17 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loan_apply_for_allmsg);
         ButterKnife.bind(this);
-        setToolbar("贷款申请");
+        setToolbar("贷款验证");
         loanApplyForAllMsgBtn.setEnabled(false);
         mcompositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
         int userId=realm.where(User.class).findFirst().getUser_id();
         Log.e("Daniel","------userId-----"+userId);
         Log.e("Daniel","------APPLYBASEID-----"+APPLYBASEID);
-        APPLYBASEID=getIntent().getIntExtra("Apply_base_id",-1);
-        Log.e("Daniel","------APPLYBASEID-----"+APPLYBASEID);
+        if(APPLYBASEID==-1) {
+            APPLYBASEID = getIntent().getIntExtra("Apply_base_id", -1);
+            Log.e("Daniel", "------APPLYBASEID-----" + APPLYBASEID);
+        }
     }
 
     public void isApplyFor() {
@@ -111,70 +113,64 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
 
                     }
 
-                    @DebugLog
                     @Override
                     public void onNext(VerificationInfo verificationInfo) {
-                        Log.e("Daniel", "------verificationInfo.getBase()-----" + verificationInfo.getBase());
-                        Log.e("Daniel", "------verificationInfo.getAsset()-----" + verificationInfo.getAsset());
-                        Log.e("Daniel", "------verificationInfo.getWork()-----" + verificationInfo.getWork());
-                        if (verificationInfo.getBase()) {
+
+                        if(verificationInfo.getWork()==false&&verificationInfo.getAsset()==false&&verificationInfo.getBase()==false){
+                            userMsgIsApplyForLin.setEnabled(true);
+                            userMsgIsApplyFor.setText("去验证");
+                            userMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
+                            workMsgIsApplyForLin.setEnabled(false);
+                            workMsgIsApplyFor.setText("未验证");
+                            workMsgIsApplyFor.setTextColor(getResources().getColor(R.color.gary));
+                            moneyMsgIsApplyForLin.setEnabled(false);
+                            moneyMsgIsApplyFor.setText("未验证");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.gary));
+                            loanApplyForAllMsgBtn.setEnabled(false);
+                            loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_2);
+
+                        }else if(verificationInfo.getWork()==false&&verificationInfo.getAsset()==false&&verificationInfo.getBase()==true){
+                            userMsgIsApplyForLin.setEnabled(true);
                             userMsgIsApplyFor.setText("已验证");
                             userMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                        } else {
-
-                            if (verificationInfo.getWork() == false && verificationInfo.getAsset() == false && verificationInfo.getBase() == false) {
-                                userMsgIsApplyForLin.setEnabled(true);
-                                userMsgIsApplyFor.setText("去验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
-                                workMsgIsApplyForLin.setEnabled(false);
-                                workMsgIsApplyFor.setText("未验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.gary));
-                                moneyMsgIsApplyForLin.setEnabled(false);
-                                moneyMsgIsApplyFor.setText("未验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.gary));
-                                loanApplyForAllMsgBtn.setEnabled(false);
-
-                            } else if (verificationInfo.getWork() == true && verificationInfo.getAsset() == false && verificationInfo.getBase() == false) {
-                                userMsgIsApplyForLin.setEnabled(true);
-                                userMsgIsApplyFor.setText("已验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                                workMsgIsApplyForLin.setEnabled(true);
-                                workMsgIsApplyFor.setText("去验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
-                                moneyMsgIsApplyForLin.setEnabled(false);
-                                moneyMsgIsApplyFor.setText("未验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.gary));
-                                loanApplyForAllMsgBtn.setEnabled(false);
-                            } else if (verificationInfo.getWork() == true && verificationInfo.getAsset() == true && verificationInfo.getBase() == false) {
-                                userMsgIsApplyForLin.setEnabled(true);
-                                userMsgIsApplyFor.setText("已验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                                workMsgIsApplyForLin.setEnabled(true);
-                                workMsgIsApplyFor.setText("已验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                                moneyMsgIsApplyForLin.setEnabled(true);
-                                moneyMsgIsApplyFor.setText("去验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
-                                loanApplyForAllMsgBtn.setEnabled(false);
-                            } else {
-                                userMsgIsApplyForLin.setEnabled(true);
-                                userMsgIsApplyFor.setText("已验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                                workMsgIsApplyForLin.setEnabled(true);
-                                workMsgIsApplyFor.setText("已验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                                moneyMsgIsApplyForLin.setEnabled(true);
-                                moneyMsgIsApplyFor.setText("已验证");
-                                moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
-                                loanApplyForAllMsgBtn.setEnabled(true);
-                            }
+                            workMsgIsApplyForLin.setEnabled(true);
+                            workMsgIsApplyFor.setText("去验证");
+                            workMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
+                            moneyMsgIsApplyForLin.setEnabled(false);
+                            moneyMsgIsApplyFor.setText("未验证");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.gary));
+                            loanApplyForAllMsgBtn.setEnabled(false);
+                            loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_3);
+                        }else if(verificationInfo.getWork()==true&&verificationInfo.getAsset()==false&&verificationInfo.getBase()==true){
+                            userMsgIsApplyForLin.setEnabled(true);
+                            userMsgIsApplyFor.setText("已验证");
+                            userMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            workMsgIsApplyForLin.setEnabled(true);
+                            workMsgIsApplyFor.setText("已验证");
+                            workMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            moneyMsgIsApplyForLin.setEnabled(true);
+                            moneyMsgIsApplyFor.setText("去验证");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.black));
+                            loanApplyForAllMsgBtn.setEnabled(false);
+                            loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_4);
+                        }else if(verificationInfo.getWork()==true&&verificationInfo.getAsset()==true&&verificationInfo.getBase()==true){
+                            userMsgIsApplyForLin.setEnabled(true);
+                            userMsgIsApplyFor.setText("已验证");
+                            userMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            workMsgIsApplyForLin.setEnabled(true);
+                            workMsgIsApplyFor.setText("已验证");
+                            workMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            moneyMsgIsApplyForLin.setEnabled(true);
+                            moneyMsgIsApplyFor.setText("已验证");
+                            moneyMsgIsApplyFor.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            loanApplyForAllMsgBtn.setEnabled(true);
+                            loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_1);
                         }
+
+
                     }
-
-    }
-                );
+                });
         mcompositeSubscription.add(subscription_getZxgs);
-
     }
 
     @Override
@@ -185,6 +181,7 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        APPLYBASEID=-1;
         realm.close();
         mcompositeSubscription.unsubscribe();
     }
@@ -216,6 +213,7 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
     }
 
     private void updateStatus() {
+        Log.i("gqf","updateStatus"+APPLYBASEID);
         NetWork.getNewZxService().updateStatus(APPLYBASEID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -232,11 +230,12 @@ public class LoanApplyAllMsgActivity extends AppCompatActivity {
                     @DebugLog
                     @Override
                     public void onNext(ResuleInfo resuleInfo) {
+                        Log.i("gqf","onNext"+resuleInfo.toString());
                         if(resuleInfo.getCode()==10001){
-                            Toast.makeText(getApplicationContext(),"申请资料提交成功",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"验证资料提交成功",Toast.LENGTH_SHORT).show();
                             onBackPressed();
                         }else{
-                            Toast.makeText(getApplicationContext(),"申请资料提交失败",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),"验证资料提交失败",Toast.LENGTH_SHORT).show();
                         }
 
 
