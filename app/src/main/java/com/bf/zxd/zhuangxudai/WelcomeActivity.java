@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bf.zxd.zhuangxudai.Login.LoginActivity;
+import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.blankj.utilcode.utils.ScreenUtils;
 import com.squareup.picasso.Picasso;
 
@@ -67,7 +67,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 .subscribe(new Observer<Long>() {
                     @Override
                     public void onCompleted() {
-                       startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+                       startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                         WelcomeActivity.this.finish();
                     }
 
