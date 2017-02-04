@@ -35,7 +35,7 @@ public class MyAppointmentActivity extends BaseActivity {
     @Override
     public void initDate() {
         mCompositeSubscription = new CompositeSubscription();
-
+        getYysqItem();
 
     }
 
@@ -77,7 +77,7 @@ public class MyAppointmentActivity extends BaseActivity {
         setContentView(R.layout.activity_my_appointment);
         mUnbinder = ButterKnife.bind(this);
         setToolBar();
-        getYysqItem();
+
     }
 
     @Override

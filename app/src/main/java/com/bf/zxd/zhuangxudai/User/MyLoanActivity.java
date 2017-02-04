@@ -45,7 +45,7 @@ public class MyLoanActivity extends BaseActivity {
         realm=Realm.getDefaultInstance();
         Utils.init(this);
 
-
+        getDksqItem();
     }
 
     @Override
