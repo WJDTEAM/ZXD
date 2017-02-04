@@ -180,9 +180,10 @@ public class LoanApplyActivity extends BaseActivity {
         loginHelper=LoginHelper.getInstence();
         return loginHelper.startActivityWithLogin(this, LoanApplyActivity.class);
     }
+
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         boolean isLogin=initLogin();
         if(isLogin){
             int userId=realm.where(User.class).findFirst().getUser_id();
@@ -190,8 +191,23 @@ public class LoanApplyActivity extends BaseActivity {
             initCompanyMsg();
             initBank();
             initEdi();
+        }else {
+            finish();
         }
     }
+
+//    @Override
+//    protected void onP() {
+//        super.onStart();
+//        boolean isLogin=initLogin();
+//        if(isLogin){
+//            int userId=realm.where(User.class).findFirst().getUser_id();
+//            initApplyFor();
+//            initCompanyMsg();
+//            initBank();
+//            initEdi();
+//        }
+//    }
     @Override
     public void initView() {
         setContentView(R.layout.activity_loan);

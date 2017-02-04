@@ -3,6 +3,7 @@ package com.bf.zxd.zhuangxudai.Login;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -101,18 +102,19 @@ public class LoginActivity extends BaseActivity {
     //退出时的时间
     private long mExitTime;
     //对返回键进行监听
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//
-//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-//
-//            exit();
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-//
-//    public void exit() {
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        onBackPressed();
 //        if ((System.currentTimeMillis() - mExitTime) > 2000) {
 //
 //            Toast.makeText(LoginActivity.this, "再按一次退出装修贷app", Toast.LENGTH_SHORT).show();
@@ -122,7 +124,7 @@ public class LoginActivity extends BaseActivity {
 //            //            MyConfig.clearSharePre(this, "users");
 //            ((BaseApplication)getApplication()).exit();
 //        }
-//    }
+    }
 
     /**
      * 登录设置
