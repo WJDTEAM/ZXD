@@ -312,8 +312,8 @@ public class LoginActivity extends BaseActivity {
         if(activity!=null){
             if(realm.where(User.class).findFirst()!=null) {
                 loginHelper.changeActivity(activity);
-                activity = null;
             }
+            activity = null;
         }
     }
 
