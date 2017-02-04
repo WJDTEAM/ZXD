@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.main.MainActivity;
+import com.bf.zxd.zhuangxudai.pojo.User;
 import com.blankj.utilcode.utils.ScreenUtils;
 import com.squareup.picasso.Picasso;
 
@@ -17,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import hugo.weaving.DebugLog;
+import io.realm.Realm;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -37,6 +39,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final int TIMETOCOUNT = 3;
     private static Unbinder mUnbinder;
 
+    Realm realm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,16 @@ public class WelcomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Picasso.with(WelcomeActivity.this).load(R.drawable.startpage).into(startPageImg);
         countToEnter();
+        realm=Realm.getDefaultInstance();
+        User User = realm.where(User.class).findFirst();
+        if (User != null) {
+            //删除本地之前保存的用户信息
+
+            realm.beginTransaction();
+            User.deleteFromRealm();
+            realm.commitTransaction();
+
+        }
     }
 
     /**

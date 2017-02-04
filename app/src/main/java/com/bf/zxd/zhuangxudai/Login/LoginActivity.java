@@ -3,7 +3,6 @@ package com.bf.zxd.zhuangxudai.Login;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
-import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.LoginResult;
 import com.bf.zxd.zhuangxudai.pojo.User;
@@ -63,9 +61,11 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.home_regist_btn)
     TextView homeRegistBtn;
 
+    public static Class activity;
 
     private Realm realm;
 
+    LoginHelper loginHelper;
 
     @Override
     public void initDate() {
@@ -89,7 +89,7 @@ public class LoginActivity extends BaseActivity {
         initLoginSetting();
         initLogin();
         initLoginBt();
-
+        loginHelper=LoginHelper.getInstence();
     }
 
     @Override
@@ -101,28 +101,28 @@ public class LoginActivity extends BaseActivity {
     //退出时的时间
     private long mExitTime;
     //对返回键进行监听
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-
-            exit();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    public void exit() {
-        if ((System.currentTimeMillis() - mExitTime) > 2000) {
-
-            Toast.makeText(LoginActivity.this, "再按一次退出装修贷app", Toast.LENGTH_SHORT).show();
-            mExitTime = System.currentTimeMillis();
-        } else {
-
-            //            MyConfig.clearSharePre(this, "users");
-            ((BaseApplication)getApplication()).exit();
-        }
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+//
+//            exit();
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+//
+//    public void exit() {
+//        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+//
+//            Toast.makeText(LoginActivity.this, "再按一次退出装修贷app", Toast.LENGTH_SHORT).show();
+//            mExitTime = System.currentTimeMillis();
+//        } else {
+//
+//            //            MyConfig.clearSharePre(this, "users");
+//            ((BaseApplication)getApplication()).exit();
+//        }
+//    }
 
     /**
      * 登录设置
@@ -292,8 +292,9 @@ public class LoginActivity extends BaseActivity {
                             realm.copyToRealmOrUpdate(userInfo);
                             realm.commitTransaction();
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            //startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             LoginActivity.this.finish();
+
                         }
                     }
                 });
@@ -306,6 +307,10 @@ public class LoginActivity extends BaseActivity {
         super.onDestroy();
         realm.close();
         compositeSubscription.unsubscribe();
+        if(activity!=null){
+            loginHelper.changeActivity(activity);
+            activity=null;
+        }
     }
 
 

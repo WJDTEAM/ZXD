@@ -29,8 +29,6 @@ import butterknife.ButterKnife;
 
 public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
-
     private Context mContext;
     private List<ZxdBank> mDatas;
     private final LayoutInflater mLayoutInflater;

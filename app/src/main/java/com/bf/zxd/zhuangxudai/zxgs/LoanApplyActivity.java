@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
+import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.model.BankDetail;
 import com.bf.zxd.zhuangxudai.model.LoanApplyResult;
@@ -169,20 +170,35 @@ public class LoanApplyActivity extends BaseActivity {
 
     }
 
+    LoginHelper loginHelper;
+    public boolean initLogin(){
+        loginHelper=LoginHelper.getInstence();
+        return loginHelper.startActivityWithLogin(this, LoanApplyActivity.class);
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        boolean isLogin=initLogin();
+        if(isLogin){
+            int userId=realm.where(User.class).findFirst().getUser_id();
+            initApplyFor();
+            initCompanyMsg();
+            initBank();
+            initEdi();
+        }
+    }
     @Override
     public void initView() {
         setContentView(R.layout.activity_loan);
         ButterKnife.bind(this);
         setToolBar();
+        Log.i("gqf","activity_loan");
         mcompositeSubscription = new CompositeSubscription();
         realm=Realm.getDefaultInstance();
-        int userId=realm.where(User.class).findFirst().getUser_id();
-        Log.e("Daniel","------userId-----"+userId);
-        initApplyFor();
-        initCompanyMsg();
-        initBank();
-       initEdi();
+
+
     }
+
 
 
     @Override

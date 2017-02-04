@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndTemplateActivityEvent;
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     @BindView(R.id.activity_main)
     RelativeLayout activityMain;
 
+    LoginHelper loginHelper;
+
     private void setToolbar(String toolstr, int flag) {
         if (flag == 1) {
             mToolbar.setTitle("");
@@ -97,8 +101,14 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         setContent(CONTENT_HOME);
         //设置底部栏
         initBottomBar();
-
-
+        loginHelper=LoginHelper.getInstence();
+        loginHelper.setmLinsener(new LoginHelper.Linsener() {
+            @Override
+            public void changeActivity(Class activity) {
+                Log.i("gqf","loginHelperactivity");
+                startActivity(new Intent(MainActivity.this,activity));
+            }
+        });
 
     }
 

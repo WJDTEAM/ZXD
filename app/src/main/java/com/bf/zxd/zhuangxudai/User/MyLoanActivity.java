@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
+import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.AutoHeightLayoutManager;
 import com.bf.zxd.zhuangxudai.network.NetWork;
@@ -37,12 +38,26 @@ public class MyLoanActivity extends BaseActivity {
     private Unbinder mUnbinder;
     private CompositeSubscription mCompositeSubscription;
 
+    LoginHelper loginHelper;
+    public boolean initLogin(){
+        loginHelper=LoginHelper.getInstence();
+        return loginHelper.startActivityWithLogin(this, MyLoanActivity.class);
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        boolean isLogin=initLogin();
+        if(isLogin){
+            getDksqItem();
+        }
+    }
+
     @Override
     public void initDate() {
         mCompositeSubscription = new CompositeSubscription();
         realm=Realm.getDefaultInstance();
         Utils.init(this);
-        getDksqItem();
+
 
     }
 
