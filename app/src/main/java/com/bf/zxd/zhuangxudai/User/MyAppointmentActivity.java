@@ -40,12 +40,15 @@ public class MyAppointmentActivity extends BaseActivity {
 
 
 
+
     @Override
-    protected void onStart() {
+    protected void onResume() {
         super.onStart();
         boolean isLogin=initLogin();
         if(isLogin){
             getYysqItem();
+        }else{
+            finish();
         }
     }
     @Override

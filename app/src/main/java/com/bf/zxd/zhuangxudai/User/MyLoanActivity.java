@@ -43,12 +43,16 @@ public class MyLoanActivity extends BaseActivity {
         loginHelper=LoginHelper.getInstence();
         return loginHelper.startActivityWithLogin(this, MyLoanActivity.class);
     }
+
+
     @Override
-    protected void onStart() {
+    protected void onResume() {
         super.onStart();
         boolean isLogin=initLogin();
         if(isLogin){
             getDksqItem();
+        }else{
+            finish();
         }
     }
 
