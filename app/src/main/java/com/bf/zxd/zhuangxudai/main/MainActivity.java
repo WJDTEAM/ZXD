@@ -273,12 +273,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void startLoanApplyActivity(EnterActivityEvent enterActivityEventy) {
-
-        boolean isLogin=initLogin();
-        if(isLogin){
             startActivity(new Intent(MainActivity.this, enterActivityEventy.getActivityClass()));
-        }
-
     }
 
     @Override

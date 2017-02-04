@@ -39,6 +39,8 @@ public class MyAppointmentActivity extends BaseActivity {
 
     }
 
+
+
     private void getYysqItem() {
         Subscription Subscription_getYysqItem = NetWork.getZxService().getYysqItem()
                 .subscribeOn(Schedulers.io())

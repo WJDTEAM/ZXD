@@ -301,6 +301,7 @@ public class LoanApplyActivity extends BaseActivity {
         companyId = -1;
         mZxd = null;
         mZxgs = null;
+        isApply=false;
         bankId=-1;
         realm.close();
         mcompositeSubscription.unsubscribe();
@@ -328,22 +329,22 @@ public class LoanApplyActivity extends BaseActivity {
         else if(d1>d2){
             Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT).show();;
         }
-        else if(!((Integer.parseInt(loanTimeEdi.getText().toString()) < Integer.parseInt(time[1])
-                && Integer.parseInt(loanTimeEdi.getText().toString()) > Integer.parseInt(time[0])))){
+        else if(!((Integer.parseInt(loanTimeEdi.getText().toString()) <= Integer.parseInt(time[1])
+                && Integer.parseInt(loanTimeEdi.getText().toString()) >= Integer.parseInt(time[0])))){
             Toast.makeText(getApplicationContext(),"您所申请的还款时间不符合银行规定",Toast.LENGTH_SHORT).show();
         }
         else {
+            isApply=true;
             boolean isLogin=initLogin();
             LoginActivity.activity=null;
             if(isLogin){
-            }else {
                 applyFor();
             }
 
         }
 
     }
-
+    Boolean isApply=false;
     private dksqinfo mDksqInfo;
 
     @Override
@@ -351,9 +352,11 @@ public class LoanApplyActivity extends BaseActivity {
         super.onRestart();
         initCompanyMsg();
         initBank();
-//        Log.e("Daniel","------onRestart-----");
-//        initApplyFor();
-
+        if(isApply&&realm.where(User.class).findFirst()!=null){
+            applyFor();
+        }else{
+            isApply=false;
+        }
 
 
     }
@@ -496,6 +499,7 @@ public class LoanApplyActivity extends BaseActivity {
                             Intent _intent = new Intent(LoanApplyActivity.this, LoanApplyAllMsgActivity.class);
                             _intent.putExtra("Apply_base_id",resuleInfo.getApply_base_id());
                             startActivity(_intent);
+                            finish();
                         }else{
                             Toast.makeText(getApplicationContext(),"信息提交失败",Toast.LENGTH_SHORT).show();
                         }

@@ -70,7 +70,7 @@
         <!-- 贷款 -->
         <activity
             android:name=".zxgs.LoanApplyActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
         </activity>

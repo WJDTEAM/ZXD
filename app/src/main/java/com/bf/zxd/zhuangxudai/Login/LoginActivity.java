@@ -296,7 +296,12 @@ public class LoginActivity extends BaseActivity {
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                             //startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             isLogin=true;
-                            LoginActivity.this.finish();
+                            if(activity==null){
+                                onBackPressed();
+                            }else{
+                                LoginActivity.this.finish();
+                            }
+
                         }
                     }
                 });
