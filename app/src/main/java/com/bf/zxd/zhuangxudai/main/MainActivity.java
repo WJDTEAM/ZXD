@@ -22,7 +22,6 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndTemplateActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.EnterActivityEvent;
-import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 import com.blankj.utilcode.utils.KeyboardUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -289,9 +288,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         if(isBottom2){
             bottomBar.selectTab(2);
         }
-        if (LoanApplyActivity.companyId != 0 || LoanApplyActivity.bankId != 0) {
-//            bottomBar.selectTabAtPosition(2);
-            bottomBar.selectTab(2);
-        }
+//        if (LoanApplyActivity.companyId != -1 || LoanApplyActivity.bankId != -1) {
+////            bottomBar.selectTabAtPosition(2);
+//            bottomBar.selectTab(2);
+//        }
     }
 }

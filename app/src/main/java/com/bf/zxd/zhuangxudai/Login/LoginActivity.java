@@ -293,9 +293,8 @@ public class LoginActivity extends BaseActivity {
                             realm.commitTransaction();
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                             //startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
+                            isLogin=true;
                             LoginActivity.this.finish();
-
                         }
                     }
                 });
@@ -304,13 +303,14 @@ public class LoginActivity extends BaseActivity {
     }
 
 
+    boolean isLogin=false;
     @Override
     protected void onDestroy() {
         super.onDestroy();
         realm.close();
         compositeSubscription.unsubscribe();
         if(activity!=null){
-            if(realm.where(User.class).findFirst()!=null) {
+            if(realm.where(User.class).findFirst()!=null&&isLogin) {
                 loginHelper.changeActivity(activity);
             }
             activity = null;

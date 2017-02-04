@@ -85,7 +85,7 @@ public class LoanApplyActivity extends BaseActivity {
     EditText loanUseforEdi;
     private int mSex = 1;
 
-    public static int companyId = 0;
+    public static int companyId = -1;
     public static int bankId = -1;
     Zxgs mZxgs;
     public  RecommendBank mRecommendBank;
@@ -221,7 +221,7 @@ public class LoanApplyActivity extends BaseActivity {
     }
 
     public void initCompanyMsg() {
-        if (companyId != 0) {
+        if (companyId != -1) {
             Log.i("gqf", "companyId" + companyId);
             Subscription subscription = NetWork.getZxService().getZxgs(companyId)
                     .subscribeOn(Schedulers.io())
@@ -282,10 +282,10 @@ public class LoanApplyActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        companyId = 0;
+        companyId = -1;
         mZxd = null;
         mZxgs = null;
-        bankId=0;
+        bankId=-1;
         realm.close();
         mcompositeSubscription.unsubscribe();
     }
