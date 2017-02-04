@@ -47,13 +47,12 @@
                 />
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:textSize="@dimen/mediumsp"
                 android:textColor="@color/white"
                 android:gravity="center_vertical"
-                android:text="贷款"
-
-                />
+                android:text="贷款"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/template_subscribe_lin"
