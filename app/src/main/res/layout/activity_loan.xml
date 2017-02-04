@@ -152,6 +152,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/mediumhdp"
@@ -160,7 +161,8 @@
                 android:text="申请条件"
                 android:textSize="@dimen/bigsp"
                 android:textColor="@color/black"
-                />
+                android:id="@+id/textView"/>
+
             <TextView
                 android:id="@+id/application_loanapply_tx"
                 android:layout_width="match_parent"

@@ -24,15 +24,20 @@ import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
+import com.bf.zxd.zhuangxudai.pojo.zxgs_wjd;
 import com.bf.zxd.zhuangxudai.util.UrlEncoded;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.qqtheme.framework.picker.OptionPicker;
+import cn.qqtheme.framework.widget.WheelView;
 import hugo.weaving.DebugLog;
 import io.realm.Realm;
 import rx.Observable;
@@ -336,14 +341,75 @@ public class LoanApplyActivity extends BaseActivity {
 
     }
 
+    public void onOptionPicker(String[] datas) {
+        Log.e("Daniel", "---" + datas.length);
+        OptionPicker picker = new OptionPicker(this, datas);
+        picker.setOffset(1);
+        picker.setSelectedIndex(0);
+        picker.setTextSize(11);
+        picker.setLineConfig(new WheelView.LineConfig(0));//使用最长的线
+        picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+            @Override
+            public void onOptionPicked(int index, String item) {
+                //                showToast("index=" + index + ", item=" + item);
+                companyName.setText(item);
+                companyId = map.get(item);
+                Log.e("Daniel", "-companyId--" + companyId);
+
+
+
+            }
+        });
+
+        picker.show();
+    }
+
     @OnClick({R.id.choose_company})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.choose_company:
                 //选择公司
-                startActivity(new Intent(LoanApplyActivity.this, ZxgsActivity.class));
+                getZxgsItem();
+
                 break;
         }
+    }
+    private String[] mCompanyDatas;
+    private HashMap<String,Integer> map;
+    private void getZxgsItem() {
+        Subscription subscription_getZxgsItem = NetWork.getZxService().getZxgsItem()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<zxgs_wjd>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<zxgs_wjd> zxgs_wjds) {
+                        int _length = zxgs_wjds.size();
+                        mCompanyDatas = new String[_length];
+                        map = new HashMap();
+                        for (int i = 0; i < _length; i++) {
+                            zxgs_wjd _company =zxgs_wjds.get(i);
+                            mCompanyDatas[i]=_company.getZxgs_name();
+
+                            map.put(_company.getZxgs_name(),_company.getZxgs_id());
+
+                        }
+
+                        onOptionPicker(mCompanyDatas);
+
+                    }
+                });
+        mcompositeSubscription.add(subscription_getZxgsItem);
+
     }
 
 
