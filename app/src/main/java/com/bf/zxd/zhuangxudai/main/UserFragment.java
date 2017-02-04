@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.User.MyAppointmentActivity;
 import com.bf.zxd.zhuangxudai.User.MyLoanActivity;
@@ -47,6 +48,11 @@ public class UserFragment extends Fragment {
         return view;
     }
 
+    LoginHelper loginHelper;
+    public boolean initLogin(Class activity){
+        loginHelper=LoginHelper.getInstence();
+        return loginHelper.startActivityWithLogin(getActivity(), activity);
+    }
     @OnClick({R.id.apply_linear,R.id.memoryCode,R.id.myApointment_linear})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -54,10 +60,14 @@ public class UserFragment extends Fragment {
                 startActivity(new Intent(getActivity(), ApplyForActivity.class));
                 break;
             case R.id.memoryCode:
-                startActivity(new Intent(getActivity(), MyLoanActivity.class));
+                if(initLogin(MyLoanActivity.class)){
+                    startActivity(new Intent(getActivity(), MyLoanActivity.class));
+                }
                 break;
             case R.id.myApointment_linear:
-                startActivity(new Intent(getActivity(), MyAppointmentActivity.class));
+                if(initLogin(MyAppointmentActivity.class)) {
+                    startActivity(new Intent(getActivity(), MyAppointmentActivity.class));
+                }
                 break;
         }
     }

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
-import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.YysqItem;
@@ -32,25 +31,7 @@ public class MyAppointmentActivity extends BaseActivity {
     private Unbinder mUnbinder;
     private CompositeSubscription mCompositeSubscription;
 
-    LoginHelper loginHelper;
-    public boolean initLogin(){
-        loginHelper=LoginHelper.getInstence();
-        return loginHelper.startActivityWithLogin(this, MyAppointmentActivity.class);
-    }
 
-
-
-
-    @Override
-    protected void onResume() {
-        super.onStart();
-        boolean isLogin=initLogin();
-        if(isLogin){
-            getYysqItem();
-        }else{
-            finish();
-        }
-    }
     @Override
     public void initDate() {
         mCompositeSubscription = new CompositeSubscription();
@@ -96,7 +77,7 @@ public class MyAppointmentActivity extends BaseActivity {
         setContentView(R.layout.activity_my_appointment);
         mUnbinder = ButterKnife.bind(this);
         setToolBar();
-
+        getYysqItem();
     }
 
     @Override

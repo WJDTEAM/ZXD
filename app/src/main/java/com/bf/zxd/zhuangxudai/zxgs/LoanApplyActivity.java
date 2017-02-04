@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
+import com.bf.zxd.zhuangxudai.Login.LoginActivity;
 import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.model.BankDetail;
@@ -184,16 +185,7 @@ public class LoanApplyActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        boolean isLogin=initLogin();
-        if(isLogin){
-            int userId=realm.where(User.class).findFirst().getUser_id();
-            initApplyFor();
-            initCompanyMsg();
-            initBank();
-            initEdi();
-        }else {
-            finish();
-        }
+
     }
 
 //    @Override
@@ -216,7 +208,10 @@ public class LoanApplyActivity extends BaseActivity {
         Log.i("gqf","activity_loan");
         mcompositeSubscription = new CompositeSubscription();
         realm=Realm.getDefaultInstance();
-
+        initApplyFor();
+        initCompanyMsg();
+        initBank();
+        initEdi();
 
     }
 
@@ -338,7 +333,13 @@ public class LoanApplyActivity extends BaseActivity {
             Toast.makeText(getApplicationContext(),"您所申请的还款时间不符合银行规定",Toast.LENGTH_SHORT).show();
         }
         else {
-            applyFor();
+            boolean isLogin=initLogin();
+            LoginActivity.activity=null;
+            if(isLogin){
+            }else {
+                applyFor();
+            }
+
         }
 
     }

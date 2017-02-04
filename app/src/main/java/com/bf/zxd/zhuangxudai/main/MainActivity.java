@@ -19,6 +19,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.User.MyAppointmentActivity;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndTemplateActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.EnterActivityEvent;
@@ -266,9 +267,18 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         }
     }
 
+    public boolean initLogin(){
+        loginHelper=LoginHelper.getInstence();
+        return loginHelper.startActivityWithLogin(this, MyAppointmentActivity.class);
+    }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void startLoanApplyActivity(EnterActivityEvent enterActivityEventy) {
-        startActivity(new Intent(MainActivity.this, enterActivityEventy.getActivityClass()));
+
+        boolean isLogin=initLogin();
+        if(isLogin){
+            startActivity(new Intent(MainActivity.this, enterActivityEventy.getActivityClass()));
+        }
+
     }
 
     @Override
