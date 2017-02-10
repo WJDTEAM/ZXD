@@ -1,6 +1,9 @@
 package com.bf.zxd.zhuangxudai.template;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
@@ -10,13 +13,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
@@ -24,6 +32,9 @@ import com.bf.zxd.zhuangxudai.util.SystemBarTintManager;
 import com.bf.zxd.zhuangxudai.zxgs.AppointmentActivity;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 import com.bf.zxd.zhuangxudai.zxgs.ZxgsDetailActivity;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,8 +52,12 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 //    TextView toolbarTitle;
     @BindView(R.id.base_toolBar)
     Toolbar baseToolBar;
+    @BindView(R.id.template_rel)
+    RelativeLayout template_rel;
+
     @BindView(R.id.template_details_fragment)
     FrameLayout templateDetailsFragment;
+
     BottomSheetBehavior mBottomSheetBehavior;
 
 
@@ -108,8 +123,67 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         mTemplateDetailsFragment=TemplateDetailsFragment.newInstance();
 
         changeFragment(templateImgFragment,CHANGE_IMG_FRAGMENT);
+
+
+
     }
 
+
+    PopupWindow window;
+    static boolean isPopuShow=false;
+    public void popuWindow(){
+        isPopuShow=true;
+        // 利用layoutInflater获得View
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.template_popuwindow, null);
+
+        // 下面是两种方法得到宽度和高度 getWindow().getDecorView().getWidth()
+
+        RelativeLayout rel=(RelativeLayout)view.findViewById(R.id.tempopu_rel);
+
+        rel.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                window.dismiss();
+                return false;
+            }
+        });
+        window = new PopupWindow(view,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT);
+
+        // 设置popWindow弹出窗体可点击，这句话必须添加，并且是true
+        window.setFocusable(true);
+
+        // 必须要给调用这个方法，否则点击popWindow以外部分，popWindow不会消失
+        window.setBackgroundDrawable(new BitmapDrawable());
+
+        // 实例化一个ColorDrawable颜色为半透明
+        ColorDrawable dw = new ColorDrawable(0xb0000000);
+        window.setBackgroundDrawable(dw);
+
+        // 在参照的View控件下方显示
+        // window.showAsDropDown(MainActivity.this.findViewById(R.id.start));
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.5f;
+        getWindow().setAttributes(lp);
+
+        // 设置popWindow的显示和消失动画
+        window.setAnimationStyle(R.style.mypopwindow_anim_style);
+        // 在底部显示
+        window.showAtLocation(template_rel,
+                            Gravity.CENTER, 0, 0);
+
+        // popWindow消失监听方法
+        window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -121,7 +195,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     protected void onStart() {
         super.onStart();
     }
-
+    Timer timer;
     @Override
     protected void onResume() {
         super.onResume();
@@ -137,6 +211,21 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                     Log.i("gqf","onResume");
                 }
             });
+        }
+        if(!isPopuShow) {
+            TimerTask task = new TimerTask(){
+                public void run() {
+                    template_rel.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            popuWindow();
+                            timer.cancel();
+                        }
+                    });
+                }
+            };
+            timer = new Timer(true);
+            timer.schedule(task,200, 10000000);
         }
     }
     //隐藏toolbar和底部栏

@@ -5,6 +5,7 @@
                                                  android:id="@+id/tetroot"
                                                  android:layout_height="match_parent">
 <RelativeLayout
+    android:id="@+id/template_rel"
               android:orientation="vertical"
                 android:fitsSystemWindows="true"
               android:layout_width="match_parent"

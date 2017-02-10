@@ -1,152 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="@color/white"
-    android:layout_marginTop="@dimen/mediummdp">
+    android:orientation="vertical"
+    >
     <LinearLayout
         android:id="@+id/loan_title_lin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/hugehxxxxdp"
         android:background="?android:selectableItemBackground"
         android:clickable="true"
-        android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/mediumhdp">
+        android:layout_marginBottom="@dimen/tinymdp"
+        android:layout_marginTop="@dimen/tinymdp"
+        android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/loan_title_img"
-            android:layout_height="@dimen/smallhdp"
-            android:layout_width="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_height="@dimen/hugehxxdp"
+            android:layout_width="@dimen/hugehxxdp"
+            android:layout_margin="@dimen/smallmdp"
             android:src="@drawable/bank_log"
-            android:scaleType="fitStart"
+            android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             />
-        <TextView
-            android:id="@+id/loan_title_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="@dimen/mediumxsp"
-            android:layout_toRightOf="@+id/loan_title_img"
-            android:layout_centerVertical="true"
-            android:visibility="gone"
-            />
-        <TextView
-            android:id="@+id/loan_dkfw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="(小额贷)"
-            android:textColor="@color/black"
-            android:textSize="@dimen/mediumsp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/smallmdp"
+            android:paddingBottom="@dimen/smallmdp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tinyhdp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/loan_title_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="中国工商银行"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/mediumxsp"
+                    />
+                <TextView
+                    android:id="@+id/loan_dkfw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-小额贷"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/mediumxsp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tinyhdp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/make_load_days"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="10天放贷"
+                    android:textSize="@dimen/mediumsp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"/>
+                <TextView
+                    android:id="@+id/loan_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="0.060%"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="@dimen/mediumxsp"
+                    android:gravity="bottom"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="/月"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:textSize="@dimen/smallsp"
+                    android:gravity="bottom"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bigmdp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/loan_max_money"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="最高可贷500000"
+                    android:textColor="@color/colorPrimary"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/smallsp"
+                    />
+                <TextView
+                    android:id="@+id/loan_cycle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="期限:6~48月"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:lines="3"
+                    android:textSize="@dimen/smallsp"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+        </LinearLayout>
 
-    </RelativeLayout>
-
+ </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/whitesmoke"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/hugehxxxxxdp"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.1"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+        android:background="@color/gary"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        />
 
-            <TextView
-                android:id="@+id/loan_max_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="500000"
-                android:textColor="@color/colorPrimary"
-                android:gravity="center"
-                android:textSize="@dimen/hugesp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:paddingBottom="@dimen/smallmdp"
-                android:textStyle="bold"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="最高额度(万元)"
-                android:textColor="@color/gary"
-                android:textSize="@dimen/mediumsp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
-        </LinearLayout>
-        <View
-            android:layout_width="1dp"
-            android:layout_height="@dimen/hugehdp"
-            android:background="@color/whitesmoke"
-            android:layout_gravity="center"
-            />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
-            <TextView
-                android:id="@+id/make_load_days"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="10天放贷"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:lines="3"
-                android:textSize="@dimen/mediumsp"
-                android:gravity="bottom"/>
-            <TextView
-                android:id="@+id/loan_rate"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text=" 费率:0.060%月"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:lines="3"
-                android:textSize="@dimen/mediumsp"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/loan_cycle"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="期限:6~48月"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:lines="3"
-                android:textSize="@dimen/mediumsp"
-                android:gravity="top"/>
-            </LinearLayout>
-            <Button
-                android:id="@+id/go_to_loan"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="@dimen/tinyhdp"
-                android:background="@drawable/apply_for_selector"
-                android:textColor="@color/white"
-                android:text="去贷款"
-                android:textSize="@dimen/smallsp"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/mediummdp"
-                />
-        </LinearLayout>
-    </LinearLayout>
-    </LinearLayout>
 </LinearLayout>

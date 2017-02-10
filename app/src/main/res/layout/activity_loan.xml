@@ -5,10 +5,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
     >
+
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="?actionBarSize"
         android:paddingBottom="25dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
@@ -18,106 +20,136 @@
         android:orientation="vertical"
         android:layout_marginTop="?actionBarSize"
         >
-        <LinearLayout
-            android:id="@+id/bank_top_linear"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            >
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/loan_bg"
+                android:scaleType="fitXY"
+                android:layout_alignBottom="@+id/bank_top_linear"
+                android:layout_alignTop="@+id/bank_top_linear"
+                />
             <LinearLayout
+                android:id="@+id/bank_top_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:background="#a0000000"
+                android:alpha="0.8"
+                android:padding="16dp"
                 >
-                <ImageView
-                    android:id="@+id/bankpic_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="?actionBarSize"
-                    android:scaleType="fitXY"
-                    android:adjustViewBounds="true"
-                    />
 
-                <TextView
-                    android:id="@+id/bank_name_tv"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentEnd="true"/>
+                    android:gravity="center_vertical"
+                    >
+                    <ImageView
+                        android:id="@+id/bankpic_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="?actionBarSize"
+                        android:scaleType="fitXY"
+                        android:adjustViewBounds="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/bank_name_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="@dimen/bigsp"
+                        android:textColor="@color/white"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1.8"
+                        android:gravity="center_horizontal"
+                        >
+                        <TextView
+                            android:id="@+id/apply_money_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/money_range_tv"
+                            android:textColor="@color/white"/>
+
+                    </LinearLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/hugehxxxxdp"
+                        android:layout_gravity="center"
+                        android:background="@color/white"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1.5"
+                        android:gravity="center_horizontal"
+                        >
+                        <TextView
+                            android:id="@+id/cycle_unit_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            />
+                        <TextView
+                            android:id="@+id/cycle_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            />
+
+                    </LinearLayout>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/hugehxxxxdp"
+                        android:layout_gravity="center"
+                        android:background="@color/white"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        >
+                        <TextView
+                            android:id="@+id/rate_unit_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            />
+                        <TextView
+                            android:id="@+id/rate_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:orientation="horizontal"
-                android:paddingTop="8dp"
-                >
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1.8"
-                    android:gravity="center_horizontal"
-                    >
-                    <TextView
-                        android:id="@+id/apply_money_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        />
+        </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/money_range_tv"/>
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1.5"
-                    android:gravity="center_horizontal"
-                    >
-                    <TextView
-                        android:id="@+id/cycle_unit_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        />
-                    <TextView
-                        android:id="@+id/cycle_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    >
-                    <TextView
-                        android:id="@+id/rate_unit_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        />
-                    <TextView
-                        android:id="@+id/rate_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -335,13 +367,9 @@
         android:enabled="false"
         android:layout_alignParentBottom="true"
         android:background="@drawable/apply_for_selector"
-        android:layout_marginLeft="@dimen/hugemdp"
-        android:layout_marginRight="@dimen/hugemdp"
-        android:layout_marginBottom="@dimen/hugemdp"
         android:textColor="@drawable/apply_for_text_color_selector"
         android:text="提交申请"
         android:textSize="@dimen/bigsp"
-
         />
     <include layout="@layout/toolbar"/>
 </RelativeLayout>

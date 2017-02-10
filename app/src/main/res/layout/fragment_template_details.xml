@@ -146,13 +146,13 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:padding="@dimen/smallmdp"
                     >
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/image"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/bighdp"
+                        android:layout_height="@dimen/bighdp"
                         android:layout_gravity="center"
                         android:clickable="true"
                         android:src="@drawable/home_zxgs"
@@ -163,11 +163,13 @@
                         android:id="@+id/above_txt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
+                        android:layout_margin="@dimen/smallmdp"
                         android:layout_toRightOf="@+id/image"
                         android:text="苹果有限公司"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/bigsp"
+                        android:lines="1"
+                        android:ellipsize="end"
                         />
 
                     <LinearLayout
@@ -183,9 +185,9 @@
                             android:id="@+id/below_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
+                            android:layout_marginLeft="@dimen/smallmdp"
                             android:background="@drawable/home_applyloan_light_shap"
-                            android:padding="4dp"
+                            android:padding="@dimen/tinymdp"
                             android:textColor="@color/black"
                             android:text="进店逛逛"
                             />
@@ -200,7 +202,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
+                            android:layout_marginRight="@dimen/tinymdp"
                             android:layout_toRightOf="@+id/below_txt"
                             android:src="@drawable/spzs_03"
                             />
@@ -220,7 +222,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_margin="8dp"
+                    android:layout_margin="@dimen/smallmdp"
                     android:background="@drawable/recylist_item_line_shap"
                     />
 
@@ -230,8 +232,8 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/spzs_04"
                     android:text="0371-12345678"
-                    android:drawablePadding="5dp"
-                    android:layout_margin="8dp"
+                    android:drawablePadding="@dimen/tinymdp"
+                    android:layout_margin="@dimen/smallmdp"
                     android:textColor="@color/black"
                     />
                 <TextView
@@ -240,14 +242,14 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/spzs_02"
                     android:text="金水区农业路国贸360D座1601室"
-                    android:drawablePadding="5dp"
-                    android:layout_marginLeft="8dp"
+                    android:drawablePadding="@dimen/tinymdp"
+                    android:layout_marginLeft="@dimen/smallmdp"
                     android:textColor="@color/black"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="@dimen/smallmdp"
                     />
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
+                    android:layout_height="@dimen/tinymdp"
                     android:background="@color/whitesmoke"
                     />
 

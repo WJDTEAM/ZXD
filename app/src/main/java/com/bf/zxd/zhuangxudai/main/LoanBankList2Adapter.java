@@ -5,8 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
@@ -68,10 +68,10 @@ public class LoanBankList2Adapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHoder myViewHoder = (ViewHoder) holder;
         myViewHoder.loanTitleName.setText("");
-        myViewHoder.goToLoan.setOnClickListener(new View.OnClickListener() {
+        myViewHoder.loanTitleLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoanApplyActivity.bankId=mDatas.get(position).getBank_id();
+                LoanApplyActivity.bankId = mDatas.get(position).getBank_id();
                 EventBus.getDefault().post(new EnterActivityEvent(LoanApplyActivity.class));
             }
         });
@@ -82,8 +82,8 @@ public class LoanBankList2Adapter extends RecyclerView.Adapter<RecyclerView.View
         myViewHoder.loanDkfw.setText("(" + mDatas.get(position).getDkfw() + ")");
         myViewHoder.loanRate.setText("费率：" + mDatas.get(position).getRate() + mDatas.get(position).getRate_unit());
         myViewHoder.makeLoadDays.setText(mDatas.get(position).getMake_load_days() + "天放贷");
-        myViewHoder.loanCycle.setText("贷款期限:"+mDatas.get(position).getCycle()+mDatas.get(position).getCycle_unit());
-        myViewHoder.loanMaxMoney.setText(mDatas.get(position).getMax_money()+"");
+        myViewHoder.loanCycle.setText("贷款期限:" + mDatas.get(position).getCycle() + mDatas.get(position).getCycle_unit());
+        myViewHoder.loanMaxMoney.setText(mDatas.get(position).getMax_money() + "");
     }
 
     @Override
@@ -110,10 +110,10 @@ public class LoanBankList2Adapter extends RecyclerView.Adapter<RecyclerView.View
         TextView makeLoadDays;
         @BindView(R.id.loan_rate)
         TextView loanRate;
-        @BindView(R.id.go_to_loan)
-        Button goToLoan;
         @BindView(R.id.loan_cycle)
         TextView loanCycle;
+        @BindView(R.id.loan_title_lin)
+        LinearLayout loanTitleLin;
         public ViewHoder(View view) {
             super(view);
             ButterKnife.bind(this, view);

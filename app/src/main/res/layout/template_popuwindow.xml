@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:clickable="true"
+    android:background="@color/transparent"
+                android:id="@+id/tempopu_rel"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:id="@+id/tempopu_img"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/template_popuwindow"
+        android:scaleType="centerCrop"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/tempopu_txt"
+        android:layout_below="@+id/tempopu_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上划即可查看店铺详情"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/bigsp"/>
+
+</RelativeLayout>

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,7 +47,7 @@ public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = mLayoutInflater.inflate(R.layout.loan_bank_msg_list_item2, parent, false);
-        RecyclerView.ViewHolder viewHolder = new ViewHoder(v);
+        RecyclerView.ViewHolder viewHolder = new ViewHolder(v);
 
         return viewHolder;
     }
@@ -65,9 +64,8 @@ public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        final ViewHoder myViewHoder = (ViewHoder) holder;
-        myViewHoder.loanTitleName.setText("");
-        myViewHoder.goToLoan.setVisibility(View.GONE);
+        final ViewHolder myViewHoder = (ViewHolder) holder;
+        myViewHoder.loanTitleName.setText(mDatas.get(position).getBank_name());
         myViewHoder.loanTitleLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,14 +80,14 @@ public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.View
                     .into(myViewHoder.loanTitleImg);
         }
         if (mDatas.get(position).getLoan_type() == 2) {
-            myViewHoder.loanDkfw.setText("(" + "装修贷" + ")");
+            myViewHoder.loanDkfw.setText("-" + "装修贷" );
         } else {
-            myViewHoder.loanDkfw.setText("(" + "房贷" + ")");
+            myViewHoder.loanDkfw.setText("-" + "房贷" );
         }
-        myViewHoder.loanRate.setText("费率：" + mDatas.get(position).getRate());
+        myViewHoder.loanRate.setText( mDatas.get(position).getRate());
         myViewHoder.makeLoadDays.setText(mDatas.get(position).getMake_load_days() + mDatas.get(position).getLoad_unit() + "放贷");
-        myViewHoder.loanCycle.setText("贷款期限:" + mDatas.get(position).getCycle() + "月");
-        myViewHoder.loanMaxMoney.setText(mDatas.get(position).getMax_money() + "万");
+        myViewHoder.loanCycle.setText("还款期限:" + mDatas.get(position).getCycle() + "月");
+        myViewHoder.loanMaxMoney.setText("最高可贷"+mDatas.get(position).getMax_money() + "万");
     }
 
     @Override
@@ -102,32 +100,29 @@ public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.View
         public void onItemClick(View view, int postion);
     }
 
-    static class ViewHoder extends RecyclerView.ViewHolder {
 
+
+    static class ViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.loan_title_img)
         ImageView loanTitleImg;
         @BindView(R.id.loan_title_name)
         TextView loanTitleName;
         @BindView(R.id.loan_dkfw)
         TextView loanDkfw;
-        @BindView(R.id.loan_max_money)
-        TextView loanMaxMoney;
         @BindView(R.id.make_load_days)
         TextView makeLoadDays;
         @BindView(R.id.loan_rate)
         TextView loanRate;
-        @BindView(R.id.go_to_loan)
-        Button goToLoan;
+        @BindView(R.id.loan_max_money)
+        TextView loanMaxMoney;
         @BindView(R.id.loan_cycle)
         TextView loanCycle;
-
         @BindView(R.id.loan_title_lin)
         LinearLayout loanTitleLin;
-        public ViewHoder(View view) {
+
+        ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-
         }
-
     }
 }
