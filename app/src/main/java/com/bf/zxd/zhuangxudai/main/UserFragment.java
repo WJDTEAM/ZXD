@@ -1,23 +1,30 @@
 package com.bf.zxd.zhuangxudai.main;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.User.MyAppointmentActivity;
+import com.bf.zxd.zhuangxudai.User.MyCollectActivity;
 import com.bf.zxd.zhuangxudai.User.MyLoanActivity;
+import com.bf.zxd.zhuangxudai.User.UserInfoActivity;
 import com.bf.zxd.zhuangxudai.my.ApplyForActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by johe on 2017/1/5.
@@ -31,6 +38,13 @@ public class UserFragment extends Fragment {
     LinearLayout memoryCode;
     @BindView(R.id.myApointment_linear)
     LinearLayout myApointmentLinear;
+    @BindView(R.id.aboutOur_tv)
+    LinearLayout aboutOurTv;
+    @BindView(R.id.image)
+    CircleImageView image;
+    @BindView(R.id.nick_tv)
+    TextView nickTv;
+
 
     public static UserFragment newInstance() {
         UserFragment fragment = new UserFragment();
@@ -49,26 +63,55 @@ public class UserFragment extends Fragment {
     }
 
     LoginHelper loginHelper;
-    public boolean initLogin(Class activity){
-        loginHelper=LoginHelper.getInstence();
+
+    public boolean initLogin(Class activity) {
+        loginHelper = LoginHelper.getInstence();
         return loginHelper.startActivityWithLogin(getActivity(), activity);
     }
-    @OnClick({R.id.apply_linear,R.id.memoryCode,R.id.myApointment_linear})
+
+    @OnClick({R.id.apply_linear, R.id.memoryCode, R.id.myApointment_linear, R.id.aboutOur_tv, R.id.myCollect_linearLayout,R.id.nick_tv,R.id.image})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.apply_linear:
                 startActivity(new Intent(getActivity(), ApplyForActivity.class));
                 break;
             case R.id.memoryCode:
-                if(initLogin(MyLoanActivity.class)){
+                if (initLogin(MyLoanActivity.class)) {
                     startActivity(new Intent(getActivity(), MyLoanActivity.class));
                 }
                 break;
             case R.id.myApointment_linear:
-                if(initLogin(MyAppointmentActivity.class)) {
+                if (initLogin(MyAppointmentActivity.class)) {
                     startActivity(new Intent(getActivity(), MyAppointmentActivity.class));
                 }
                 break;
+            case R.id.aboutOur_tv:
+                //                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                //                startActivityForResult(intent, 0);
+                break;
+            case R.id.myCollect_linearLayout:
+                if (initLogin(MyCollectActivity.class)) {
+                    startActivity(new Intent(getActivity(), MyCollectActivity.class));
+                }
+                break;
+            case R.id.nick_tv:
+                if (initLogin(MyCollectActivity.class)) {
+                    startActivity(new Intent(getActivity(), UserInfoActivity.class));
+                }
+                break;
+            case R.id.image:
+                if (initLogin(MyCollectActivity.class)) {
+                    startActivity(new Intent(getActivity(), UserInfoActivity.class));
+                }
+                break;
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            image.setImageBitmap(imageBitmap);
         }
     }
 }

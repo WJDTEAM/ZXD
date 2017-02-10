@@ -30,7 +30,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical"
             >
 
@@ -40,6 +40,7 @@
                 android:text="0.02%"
                 android:textSize="@dimen/mediumsp"
                 android:textColor="@color/colorPrimary"
+                android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:id="@+id/rate_recommendBank_uptv"/>
 
@@ -49,6 +50,7 @@
                 android:layout_weight="1"
                 android:text="月费率"
                 android:textSize="@dimen/tinysp"
+                android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:id="@+id/rate_recommendBank_downtv"/>
 
@@ -58,6 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:layout_marginLeft="@dimen/hugemdp"
             >
 
             <TextView

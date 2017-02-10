@@ -21,6 +21,9 @@
             android:orientation="vertical"
             android:paddingTop="8dp"
             android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackground"
             >
 
             <ImageView
@@ -40,18 +43,51 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="我的贷款"
+                android:text="@string/myLoan"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/myApointment_linear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackground"
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5"
+                android:scaleX="0.75"
+                android:scaleY="0.75"
+                android:scaleType="fitCenter"
+                android:src="@drawable/myapointment"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="@string/myAppointment"
                 />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/myCollect_linearLayout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:clickable="true"
             android:orientation="vertical"
             android:paddingTop="8dp"
             android:layout_marginBottom="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:selectableItemBackground"
             >
             <ImageView
                 android:id="@+id/imageView2"
@@ -68,9 +104,19 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="意见反馈"
+                android:text="@string/myCollect"
                 />
         </LinearLayout>
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        >
 
         <LinearLayout
             android:id="@+id/apply_linear"
@@ -101,46 +147,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="入驻申请"/>
-        </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1"
-        >
-
-        <LinearLayout
-            android:id="@+id/myApointment_linear"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:selectableItemBackground"
-            >
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
-                android:scaleX="0.75"
-                android:scaleY="0.75"
-                android:scaleType="fitCenter"
-                android:src="@drawable/myapointment"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="我的预约"
-                />
+                android:text="@string/myApply"/>
         </LinearLayout>
 
         <LinearLayout
@@ -167,11 +174,12 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="帮助中心"
+                android:text="@string/helpCenter"
                 />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/aboutOur_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -182,6 +190,7 @@
             >
 
             <ImageView
+
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="5"
@@ -196,7 +205,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="关于我们"/>
+                android:text="@string/aboutOurs"/>
         </LinearLayout>
 
     </LinearLayout>

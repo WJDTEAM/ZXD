@@ -9,14 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+
         >
+
         <RelativeLayout
             android:id="@+id/little_loan_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="@dimen/smallmdp"
-            android:paddingRight="@dimen/smallmdp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -26,7 +28,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/mediumsp"
-                android:layout_margin="@dimen/smallmdp"
                 android:text="急速小贷"
                 android:textColor="@color/black"
                 />
@@ -35,7 +36,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100-10000"
-                android:layout_marginLeft="@dimen/smallmdp"
                 android:textSize="@dimen/smallsp"
                 android:layout_below="@id/loanServicer_up"
                 />
@@ -45,7 +45,6 @@
                 android:layout_height="wrap_content"
                 android:text="最快三分钟到账"
                 android:textSize="@dimen/tinysp"
-                android:layout_marginLeft="@dimen/smallmdp"
                 android:layout_below="@id/loanServicer_mid"
                 />
             <ImageView
@@ -66,8 +65,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="@dimen/smallmdp"
-            android:paddingRight="@dimen/smallmdp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -78,7 +77,6 @@
                 android:layout_height="wrap_content"
                 android:text="大额贷款"
                 android:textSize="@dimen/mediumsp"
-                android:layout_margin="@dimen/smallmdp"
                 android:textColor="@color/black"
                 />
             <TextView
@@ -87,7 +85,6 @@
                 android:layout_height="wrap_content"
                 android:text="1万-100万"
                 android:textSize="@dimen/smallsp"
-                android:layout_marginLeft="@dimen/smallmdp"
                 android:layout_below="@id/loanServicer_right_up"
                 />
             <TextView
@@ -96,7 +93,6 @@
                 android:layout_height="wrap_content"
                 android:text="最高可贷100万"
                 android:textSize="@dimen/tinysp"
-                android:layout_marginLeft="@dimen/smallmdp"
                 android:layout_below="@id/loanServicer_right_mid"
                 />
             <ImageView

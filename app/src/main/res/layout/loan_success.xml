@@ -14,15 +14,12 @@
             android:layout_height="wrap_content"
             android:text="贷款成功"
             android:gravity="center"
-            android:paddingTop="@dimen/smallmdp"
-            android:paddingBottom="@dimen/smallmdp"
             />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ok"
             android:layout_centerVertical="true"
-            android:paddingRight="@dimen/mediummdp"
             />
     </RelativeLayout>
 
@@ -30,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         >
 
         <com.bf.zxd.zhuangxudai.util.MarqueeView

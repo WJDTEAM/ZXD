@@ -56,13 +56,11 @@
                     android:layout_height="wrap_content"
                     android:text="推荐"
                     android:gravity="center"
-                    android:paddingTop="@dimen/smallmdp"
                     />
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ok"
-                    android:paddingRight="@dimen/mediummdp"
                     android:layout_centerVertical="true"
                     />
             </RelativeLayout>

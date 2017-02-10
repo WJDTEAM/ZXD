@@ -1,8 +1,8 @@
 package com.bf.zxd.zhuangxudai.User;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,24 +75,14 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
         holder.companynameMyloanTv.setText(data.getCompany_name());
         holder.banknameMyloanTv.setText(data.getBank_name());
         holder.applymoneyMyloanTv.setText(data.getApply_money()+"万");
-        Log.i("gqf","getStatus"+data.getStatus());
-        switch (data.getStatus()){
-            case "0":
-                holder.statusMyloanTv.setText("未提交");
-                break;
-            case "1":
-                holder.statusMyloanTv.setText("已提交");
-                break;
-            case "2":
-                holder.statusMyloanTv.setText("审批中");
-                break;
-            case "3":
-                holder.statusMyloanTv.setText("贷款成功");
-                break;
-            case "4":
-                holder.statusMyloanTv.setText("贷款失败");
-                break;
-        }
+        holder.statusMyloanTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 2017/2/9 进度申请
+                mContext.startActivity(new Intent(mContext, ApplyScheduleActivity.class));
+            }
+        });
+     
 
 
 

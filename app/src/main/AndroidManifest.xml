@@ -3,6 +3,8 @@
           package="com.bf.zxd.zhuangxudai">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".application.BaseApplication"
@@ -15,14 +17,12 @@
             android:name=".main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
-
         </activity>
         <activity
             android:name=".Login.LoginActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
         <activity
             android:name=".my.ApplyForActivity"
@@ -107,37 +107,53 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
-
-        <activity android:name=".User.MyAppointmentActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".User.MyAppointmentActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".User.MyLoanActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".User.MyLoanActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Login.RegistActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".Login.RegistActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Login.RegistSuccessActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".Login.RegistSuccessActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".zxgs.LoanApplyAllMsgActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait"></activity>
-        <activity android:name=".zxgs.LoanApplyUserMsgActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait"></activity>
-        <activity android:name=".zxgs.LoanApplyWorkMsgActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait"></activity>
-        <activity android:name=".zxgs.LoanApplyMoneyMsgActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".zxgs.LoanApplyAllMsgActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".zxgs.LoanApplyUserMsgActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".zxgs.LoanApplyWorkMsgActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".zxgs.LoanApplyMoneyMsgActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <!-- 我的收藏 -->
+        <activity
+            android:name=".User.MyCollectActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".User.ApplyScheduleActivity">
+        </activity>
+        <activity android:name=".User.UserInfoActivity">
+        </activity>
     </application>
 
 </manifest>
