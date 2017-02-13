@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:background="@color/stepView_color"
         >
-        <com.baoyachi.stepview.VerticalStepView
+        <com.bf.zxd.zhuangxudai.User.VerticalStepView
             android:id="@+id/step_view0"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

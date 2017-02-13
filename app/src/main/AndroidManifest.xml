@@ -3,8 +3,13 @@
           package="com.bf.zxd.zhuangxudai">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- 读取 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 写入权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 创建与删除权限 -->
+    <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS" />
 
     <application
         android:name=".application.BaseApplication"
@@ -13,29 +18,37 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!-- 主页 -->
         <activity
             android:name=".main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:hardwareAccelerated="false">
         </activity>
+        <!-- 登录页面 -->
         <activity
             android:name=".Login.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <!-- 入驻申请 -->
         <activity
             android:name=".my.ApplyForActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
+        <!-- 我的贷款 -->
         <activity
             android:name=".my.LoanApplyForActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".jzzt.ProductExhibitionActivity">
+        <!-- 公司详情 -->
+        <activity android:name=".jzzt.ProductExhibitionActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+            >
         </activity>
         <activity
             android:name=".template.TemplateActivity"
@@ -99,6 +112,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
+        <!-- 欢迎页面 -->
         <activity
             android:name=".WelcomeActivity"
             android:launchMode="singleTask"
@@ -108,39 +122,48 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
+        <!-- 我的预约-->
         <activity
             android:name=".User.MyAppointmentActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
+        <!-- 我的贷款 -->
         <activity
             android:name=".User.MyLoanActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
+        <!-- 注册页面 -->
         <activity
             android:name=".Login.RegistActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
+
         <activity
             android:name=".Login.RegistSuccessActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
+        <!-- 所有信息 -->
         <activity
             android:name=".zxgs.LoanApplyAllMsgActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+        <!-- 个人信息 -->
         <activity
             android:name=".zxgs.LoanApplyUserMsgActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+        <!-- 工作信息 -->
         <activity
             android:name=".zxgs.LoanApplyWorkMsgActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
+        <!-- 资产信息 -->
         <activity
             android:name=".zxgs.LoanApplyMoneyMsgActivity"
             android:launchMode="singleTask"
@@ -151,9 +174,17 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".User.ApplyScheduleActivity">
+        <!-- 申请进度 -->
+        <activity android:name=".User.ApplyScheduleActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+            >
         </activity>
-        <activity android:name=".User.UserInfoActivity">
+        <!-- 个人中心 -->
+        <activity android:name=".User.UserInfoActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"
+            >
         </activity>
     </application>
 

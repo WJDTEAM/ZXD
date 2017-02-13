@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.model.PersonWorkInfo;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
@@ -77,6 +78,7 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        ((BaseApplication)getApplication()).addActivity(this);
         setContentView(R.layout.loan_apply_for_work_msg);
         ButterKnife.bind(this);
         setToolbar("填写工作信息");

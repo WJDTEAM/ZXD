@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.model.PersonAssetInfo;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
@@ -106,6 +107,7 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        ((BaseApplication)getApplication()).addActivity(this);
         setContentView(R.layout.loan_apply_for_money_msg);
         ButterKnife.bind(this);
         setToolbar("填写资产信息");

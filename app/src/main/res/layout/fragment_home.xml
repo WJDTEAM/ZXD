@@ -62,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ok"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/smallmdp"
                     />
             </RelativeLayout>
             <android.support.v7.widget.RecyclerView

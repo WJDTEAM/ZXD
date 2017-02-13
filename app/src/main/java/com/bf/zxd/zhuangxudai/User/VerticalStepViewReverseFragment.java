@@ -7,8 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.baoyachi.stepview.VerticalStepView;
 import com.bf.zxd.zhuangxudai.R;
 
 import java.util.ArrayList;

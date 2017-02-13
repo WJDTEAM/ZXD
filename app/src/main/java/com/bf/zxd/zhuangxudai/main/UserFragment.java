@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bf.zxd.zhuangxudai.Login.LoginActivity;
 import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.User.MyAppointmentActivity;
@@ -17,6 +19,7 @@ import com.bf.zxd.zhuangxudai.User.MyCollectActivity;
 import com.bf.zxd.zhuangxudai.User.MyLoanActivity;
 import com.bf.zxd.zhuangxudai.User.UserInfoActivity;
 import com.bf.zxd.zhuangxudai.my.ApplyForActivity;
+import com.bf.zxd.zhuangxudai.pojo.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +48,8 @@ public class UserFragment extends Fragment {
     @BindView(R.id.nick_tv)
     TextView nickTv;
 
+    private User mUser;
+
 
     public static UserFragment newInstance() {
         UserFragment fragment = new UserFragment();
@@ -58,7 +63,6 @@ public class UserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
-
         return view;
     }
 
@@ -67,6 +71,20 @@ public class UserFragment extends Fragment {
     public boolean initLogin(Class activity) {
         loginHelper = LoginHelper.getInstence();
         return loginHelper.startActivityWithLogin(getActivity(), activity);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mUser = realm.where(User.class).findFirst();
+        Log.e("Daniel","----mUser.getUser_name()---"+mUser);
+        if (mUser==null) {
+            nickTv.setText("请点击登录！");
+        }else {
+
+            nickTv.setText(mUser.getUser_name());
+        }
     }
 
     @OnClick({R.id.apply_linear, R.id.memoryCode, R.id.myApointment_linear, R.id.aboutOur_tv, R.id.myCollect_linearLayout,R.id.nick_tv,R.id.image})
@@ -95,12 +113,15 @@ public class UserFragment extends Fragment {
                 }
                 break;
             case R.id.nick_tv:
-                if (initLogin(MyCollectActivity.class)) {
+                if (mUser==null) {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }else {
+
                     startActivity(new Intent(getActivity(), UserInfoActivity.class));
                 }
                 break;
             case R.id.image:
-                if (initLogin(MyCollectActivity.class)) {
+                if (initLogin(UserInfoActivity.class)) {
                     startActivity(new Intent(getActivity(), UserInfoActivity.class));
                 }
                 break;

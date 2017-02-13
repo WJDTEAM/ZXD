@@ -78,7 +78,6 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
         holder.statusMyloanTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2017/2/9 进度申请
                 mContext.startActivity(new Intent(mContext, ApplyScheduleActivity.class));
             }
         });
