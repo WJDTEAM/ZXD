@@ -10,7 +10,7 @@ import com.bf.zxd.zhuangxudai.Interfaces.DialogFragmentDismissLinsener;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.dialog.RegistSuccessDialogFragment;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.RegistResult;
+import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithUser;
 import com.bf.zxd.zhuangxudai.util.Phone;
 
 import butterknife.BindView;
@@ -68,10 +68,10 @@ public class RegistActivity extends AppCompatActivity {
     }
 
     private void register(String phone, String password) {
-        NetWork.getUserService().register(phone,password)
+        NetWork.getNewZXD1_4Service().register(phone,password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RegistResult>() {
+                .subscribe(new Observer<ResultCodeWithUser>() {
                     @Override
                     public void onCompleted() {
 
@@ -83,7 +83,7 @@ public class RegistActivity extends AppCompatActivity {
                     }
 @DebugLog
                     @Override
-                    public void onNext(RegistResult registResult) {
+                    public void onNext(ResultCodeWithUser registResult) {
 
                         if ((registResult.getCode()==10001)) {
 //                            Log.e("Daniel","---userRequestResult.getT().getPassword()----"+userRequestResult.getT().getTel());

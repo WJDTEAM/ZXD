@@ -1,10 +1,12 @@
 package com.bf.zxd.zhuangxudai.pojo;
 
+import io.realm.RealmObject;
+
 /**
  * Created by johe on 2017/2/13.
  */
 
-public class NewUser {
+public class NewUser extends RealmObject {
     /**
      * userId : 3
      * userName : 15670702651

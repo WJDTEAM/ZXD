@@ -15,8 +15,8 @@ import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.LoginResult;
-import com.bf.zxd.zhuangxudai.pojo.User;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
+import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithUser;
 import com.bf.zxd.zhuangxudai.util.SettingsUtils;
 import com.blankj.utilcode.utils.ScreenUtils;
 import com.jakewharton.rxbinding.view.RxView;
@@ -156,9 +156,9 @@ public class LoginActivity extends BaseActivity {
 //                    }
 //                });
         if (SettingsUtils.isRememberPassword(getApplicationContext())) {
-            User userInfo = realm.where(User.class).findFirst();
+            NewUser userInfo = realm.where(NewUser.class).findFirst();
             if (userInfo != null) {
-                name = userInfo.getPhone();
+                name = userInfo.getUserName();
                 BaseApplication.username = name;
                 password = userInfo.getPassword();
                 loginNameEt.setText(name);
@@ -223,7 +223,7 @@ public class LoginActivity extends BaseActivity {
 
     private void deletUser() {
         realm.beginTransaction();
-        User userInfo = realm.where(User.class).findFirst();
+        NewUser userInfo = realm.where(NewUser.class).findFirst();
         if (userInfo != null) {
             userInfo.deleteFromRealm();
         }
@@ -257,10 +257,10 @@ public class LoginActivity extends BaseActivity {
 
     private void doLogin() {
         Log.i("gqf", name + password);
-        Subscription logSc = NetWork.getUserService().login(name, password)
+        Subscription logSc = NetWork.getNewZXD1_4Service().login(name, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<LoginResult>() {
+                .subscribe(new Observer<ResultCodeWithUser>() {
                     @Override
                     public void onCompleted() {
 
@@ -273,13 +273,13 @@ public class LoginActivity extends BaseActivity {
                     }
                     @DebugLog
                     @Override
-                    public void onNext(LoginResult loginResult) {
-                        User userInfo = loginResult.getUser();
+                    public void onNext(ResultCodeWithUser loginResult) {
+                        NewUser userInfo = loginResult.getUser();
                         if (loginResult.getCode() != 10001) {
                             Toast.makeText(LoginActivity.this, "登录失败,用户名密码错误", Toast.LENGTH_SHORT).show();
                             deletUser();
                         } else {
-                            User User = realm.where(User.class).findFirst();
+                            NewUser User = realm.where(NewUser.class).findFirst();
                             if (User != null) {
                                 //删除本地之前保存的用户信息
                                 realm.beginTransaction();
@@ -289,7 +289,7 @@ public class LoginActivity extends BaseActivity {
                             BaseApplication.username = name;
                             realm.beginTransaction();
                             userInfo.setPassword(password);
-                            userInfo.setPhone(name);
+                            userInfo.setUserName(name);
 
                             realm.copyToRealmOrUpdate(userInfo);
                             realm.commitTransaction();
@@ -317,7 +317,7 @@ public class LoginActivity extends BaseActivity {
         realm.close();
         compositeSubscription.unsubscribe();
         if(activity!=null){
-            if(realm.where(User.class).findFirst()!=null&&isLogin) {
+            if(realm.where(NewUser.class).findFirst()!=null&&isLogin) {
                 loginHelper.changeActivity(activity);
             }
             activity = null;
