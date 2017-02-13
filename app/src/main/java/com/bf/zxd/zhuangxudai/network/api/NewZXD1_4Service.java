@@ -1,5 +1,7 @@
 package com.bf.zxd.zhuangxudai.network.api;
 
+import android.text.Html;
+
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
 import com.bf.zxd.zhuangxudai.pojo.DkhdItem;
@@ -73,7 +75,7 @@ public interface NewZXD1_4Service {
      * @return
      */
     @GET("getDetail/{articleId}")
-    Observable<String> getDetail(@Path("articleId") int articleId);
+    Observable<Html> getDetail(@Path("articleId") int articleId);
 
     /**
      * 获取贷款活动列表
