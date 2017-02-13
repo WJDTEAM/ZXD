@@ -18,4 +18,11 @@ public class ResultCodeWithImg  extends ResultCode{
     public void setLogoImg(String logoImg) {
         this.logoImg = logoImg;
     }
+
+    @Override
+    public String toString() {
+        return "ResultCodeWithImg{" +
+                "logoImg='" + logoImg + '\'' +
+                '}';
+    }
 }

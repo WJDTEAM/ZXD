@@ -52,7 +52,7 @@ public interface NewZXD1_4Service {
      * @return
      */
     @Multipart
-    @POST("User/uploadAvatars")
+    @POST("uploadAvatars")
     Observable<ResultCodeWithImg> uploadAvatars(@Part("userId") Integer userId,@Part MultipartBody.Part file);
 
     /**
@@ -61,7 +61,7 @@ public interface NewZXD1_4Service {
      */
     @FormUrlEncoded
     @POST("editNickname")
-    Observable<ResultCode> editNickname(@Field("userId") Integer userId, @Field("nickname") String  nickname);
+        Observable<ResultCode> editNickname(@Field("userId") Integer userId, @Field("nickname") String  nickname);
 
     /**
      * 获取装修攻略列表

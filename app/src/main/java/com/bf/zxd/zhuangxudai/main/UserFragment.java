@@ -19,7 +19,8 @@ import com.bf.zxd.zhuangxudai.User.MyCollectActivity;
 import com.bf.zxd.zhuangxudai.User.MyLoanActivity;
 import com.bf.zxd.zhuangxudai.User.UserInfoActivity;
 import com.bf.zxd.zhuangxudai.my.ApplyForActivity;
-import com.bf.zxd.zhuangxudai.pojo.User;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,7 +49,7 @@ public class UserFragment extends Fragment {
     @BindView(R.id.nick_tv)
     TextView nickTv;
 
-    private User mUser;
+    private NewUser mUser;
 
 
     public static UserFragment newInstance() {
@@ -77,13 +78,22 @@ public class UserFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        mUser = realm.where(User.class).findFirst();
-        Log.e("Daniel","----mUser.getUser_name()---"+mUser);
+        mUser = realm.where(NewUser.class).findFirst();
+        Log.e("Daniel","----mUser---"+mUser.toString());
         if (mUser==null) {
             nickTv.setText("请点击登录！");
-        }else {
+        }else{
+            if(mUser.getNickname().equals("")){
+                nickTv.setText(mUser.getUserName());
+            }else {
+                nickTv.setText(mUser.getNickname());
+            }
+            if (mUser.getLogoImg().equals("")){
+                Picasso.with(getActivity()).load(R.drawable.demo).into(image);
+            }else {
 
-            nickTv.setText(mUser.getUser_name());
+                Picasso.with(getActivity()).load(mUser.getLogoImg()).into(image);
+            }
         }
     }
 
@@ -121,7 +131,10 @@ public class UserFragment extends Fragment {
                 }
                 break;
             case R.id.image:
-                if (initLogin(UserInfoActivity.class)) {
+                if (mUser==null) {
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }else {
+
                     startActivity(new Intent(getActivity(), UserInfoActivity.class));
                 }
                 break;

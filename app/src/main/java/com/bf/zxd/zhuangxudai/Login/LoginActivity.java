@@ -274,6 +274,7 @@ public class LoginActivity extends BaseActivity {
                     @DebugLog
                     @Override
                     public void onNext(ResultCodeWithUser loginResult) {
+                        Log.e("Daniel",loginResult.toString());
                         NewUser userInfo = loginResult.getUser();
                         if (loginResult.getCode() != 10001) {
                             Toast.makeText(LoginActivity.this, "登录失败,用户名密码错误", Toast.LENGTH_SHORT).show();
@@ -290,7 +291,6 @@ public class LoginActivity extends BaseActivity {
                             realm.beginTransaction();
                             userInfo.setPassword(password);
                             userInfo.setUserName(name);
-
                             realm.copyToRealmOrUpdate(userInfo);
                             realm.commitTransaction();
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();

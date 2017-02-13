@@ -36,6 +36,9 @@
     <string name="helpCenter">帮助中心</string>
     <string name="aboutOurs">关于我们</string>
 
+    <string name="nickname">昵称</string>
+    <string name="confrim">确定</string>
+
 
     <!--预约-->
     <string name="house_typeHint">×室×厅×厨×卫×阳台</string>
