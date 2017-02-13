@@ -5,11 +5,18 @@
     android:orientation="vertical"
     >
     <include layout="@layout/toolbar"/>
-    <FrameLayout
-        android:id="@+id/framelayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<FrameLayout-->
+        <!--android:id="@+id/framelayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-    </FrameLayout>
+    <!--</FrameLayout>-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/jzhd_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/whitesmoke">
+
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

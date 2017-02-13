@@ -4,21 +4,20 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.zxgs_wjd;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
 import com.bf.zxd.zhuangxudai.util.Utils;
+import com.google.gson.Gson;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import hugo.weaving.DebugLog;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -50,32 +49,30 @@ public class ZxgsActivity extends BaseActivity {
     }
 
     private void getZxgsItem() {
-        Subscription Subscription_getZxglItem = NetWork.getZxService().getZxgsItem()
+        Subscription Subscription_getZxglItem = NetWork.getNewZXD1_4Service().getDecoCompanyItem()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<zxgs_wjd>>() {
+                .subscribe(new Observer<List<DecoCompanyItem>>() {
                     @Override
                     public void onCompleted() {
 
                     }
 
-                    @DebugLog
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("Daniel", "请求装修公司列表数据失败！");
 
                     }
 
                     @Override
-                    public void onNext(List<zxgs_wjd> zxgss) {
-                        setAdapter(zxgss);
+                    public void onNext(List<DecoCompanyItem> decoCompanyItems) {
+                        setAdapter(decoCompanyItems);
                     }
                 });
         mCompositeSubscription.add(Subscription_getZxglItem);
     }
 
 
-    private void setAdapter(final List<zxgs_wjd> zxgses) {
+    private void setAdapter(final List<DecoCompanyItem> zxgses) {
         //init context view
         recyclerviewZxgongsi.setLayoutManager(new LinearLayoutManager(this));
 //        recyclerviewZxgongsi.addItemDecoration(new RecycleViewDivider(
@@ -86,9 +83,11 @@ public class ZxgsActivity extends BaseActivity {
         zxgsAdapter.setOnItemClickListener(new ZxgsAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                int  Zxgs_id = zxgses.get(postion).getZxgs_id();
+                int  Zxgs_id = zxgses.get(postion).getCompanyId();
+                Gson g=new Gson();
                 Intent intent = new Intent(ZxgsActivity.this,ZxgsDetailActivity.class);
                 intent.putExtra("Zxgs_id",Zxgs_id);
+                intent.putExtra("DecoCompanyItemJson",g.toJson(zxgses.get(postion)));
                 startActivity(intent);
             }
         });

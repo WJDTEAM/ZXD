@@ -10,7 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.pojo.zxgs_wjd;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
 
 public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
 
-    List<zxgs_wjd> datas;
+    List<DecoCompanyItem> datas;
     MyItemClickListener mItemClickListener;
 
     private Context mContext;
@@ -36,7 +37,7 @@ public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
         return R.layout.zxgongsi_list_item;
     }
 
-    public ZxgsAdapter(List<zxgs_wjd> datas, Context mContext) {
+    public ZxgsAdapter(List<DecoCompanyItem> datas, Context mContext) {
         this.mContext = mContext;
         this.datas = datas;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -66,21 +67,27 @@ public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final zxgs_wjd data = datas.get(position);
-        Picasso.with(mContext).load(data.getLogo_img()).into(holder.img);
-        holder.gsTitleTxt.setText(data.getZxgs_name());
+        final DecoCompanyItem data = datas.get(position);
+        if(data.getCompanyIcon()!=null){
+            if(!data.getCompanyIcon().equals("")){
+                Picasso.with(mContext).load(data.getCompanyIcon()).into(holder.img);
+            }
+        }
+
+        holder.gsTitleTxt.setText(data.getCompanyName());
         holder.gsAddressTxt.setText(data.getAddr());
         holder.jdggImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int Zxgs_id = data.getZxgs_id();
+                int Zxgs_id = data.getCompanyId();
                 Intent intent = new Intent(mContext, ZxgsDetailActivity.class);
                 intent.putExtra("Zxgs_id", Zxgs_id);
+                Gson g=new Gson();
+                intent.putExtra("DecoCompanyItemJson", g.toJson(data));
+
                 mContext.startActivity(intent);
             }
         });
-
-
     }
 
     @Override
@@ -89,7 +96,7 @@ public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
         return datas != null ? datas.size() : 0;
     }
 
-    public void setdatas(List<zxgs_wjd> datas) {
+    public void setdatas(List<DecoCompanyItem> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }

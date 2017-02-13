@@ -1,20 +1,25 @@
 package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.Zxgs;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
 import com.bf.zxd.zhuangxudai.template.TemplateHorizontalListAdapter;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,7 +28,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 import rx.Observer;
 import rx.Subscription;
@@ -31,7 +35,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-public class ZxgsDetailActivity extends BaseActivity implements View.OnClickListener {
+public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.base_toolBar)
     Toolbar baseToolBar;
@@ -57,20 +61,33 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.all_imgs_RecyclerView)
     RecyclerView allImgsRecyclerView;
     private int Zxgs_id=-1;
-    Zxgs mZxgs;
+    String DecoCompanyItemJson;
+    DecoCompanyItem mZxgs;
     private CompositeSubscription compositeSubscription;
-    private Unbinder mUnbinder;
     TemplateHorizontalListAdapter templateHorizontalListAdapter;
 
-    @Override
     public void initDate() {
         compositeSubscription = new CompositeSubscription();
+        Gson g=new Gson();
         Zxgs_id = getIntent().getIntExtra("Zxgs_id",-1);
+        DecoCompanyItemJson=getIntent().getStringExtra("DecoCompanyItemJson");
+        mZxgs=g.fromJson(DecoCompanyItemJson,DecoCompanyItem.class);
+        Log.i("gqf",Zxgs_id+"DecoCompanyItem"+mZxgs.toString());
+        setToolBar(mZxgs.getCompanyName());
+        gsTitleTxt.setText(mZxgs.getCompanyName());
+        addressTxt.setText( mZxgs.getAddr());
+        belowTxt.setText(mZxgs.getTel());
+        if(mZxgs.getCompanyIcon()!=null){
+            if(!mZxgs.equals("")){
+                Picasso.with(ZxgsDetailActivity.this).load(mZxgs.getCompanyIcon()).error(R.drawable.demo2).into(image);
+            }
+        }
 
-        Subscription subscription_getZxgs= NetWork.getZxService().getZxgs(Zxgs_id)
+        //获取案例列表
+        Subscription subscription_getZxgs= NetWork.getNewZXD1_4Service().getDecoCompanyCase(Zxgs_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Zxgs>() {
+                .subscribe(new Observer<List<DecoCompanyCase>>() {
                     @Override
                     public void onCompleted() {
 
@@ -82,16 +99,8 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
                     }
 
                     @Override
-                    public void onNext(Zxgs zxgs) {
-                        String _title = zxgs.getCompany_name();
-                        setToolBar(_title);
-                        gsTitleTxt.setText(_title);
-                        String _address = zxgs.getAddr();
-                        addressTxt.setText(_address);
-                        String _tel = zxgs.getTel();
-                        belowTxt.setText(_tel);
-                        Picasso.with(ZxgsDetailActivity.this).load(zxgs.getLogo_img()).error(R.drawable.demo2).into(image);
-                        mZxgs=zxgs;
+                    public void onNext(List<DecoCompanyCase> zxgs) {
+
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);
@@ -99,20 +108,17 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
 
     }
 
+
+
     @Override
-    public void initView() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zxgs_detail);
-        mUnbinder=ButterKnife.bind(this);
+        ButterKnife.bind(this);
 
+        compositeSubscription = new CompositeSubscription();
+        initDate();
         initListView();
-
-
-    }
-
-    @Override
-    public void initEvent() {
-
-
     }
 
     List<String> data;
@@ -153,7 +159,7 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.template_loan_lin:
                 if(LoanApplyActivity.bankId>0) {
-                    LoanApplyActivity.companyId = mZxgs.getCompany_id();
+                    LoanApplyActivity.companyId = mZxgs.getCompanyId();
                     startActivity(new Intent(ZxgsDetailActivity.this, LoanApplyActivity.class));
                 }else{
                     MainActivity.isBottom2=true;
@@ -174,6 +180,5 @@ public class ZxgsDetailActivity extends BaseActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         compositeSubscription.unsubscribe();
-        mUnbinder.unbind();
     }
 }

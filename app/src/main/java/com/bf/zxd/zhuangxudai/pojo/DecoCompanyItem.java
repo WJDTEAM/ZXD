@@ -19,6 +19,17 @@ public class DecoCompanyItem {
     private String addr;
     private String companyIcon;
 
+    @Override
+    public String toString() {
+        return "DecoCompanyItem{" +
+                "companyId=" + companyId +
+                ", companyName='" + companyName + '\'' +
+                ", tel='" + tel + '\'' +
+                ", addr='" + addr + '\'' +
+                ", companyIcon='" + companyIcon + '\'' +
+                '}';
+    }
+
     public int getCompanyId() {
         return companyId;
     }

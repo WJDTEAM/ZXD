@@ -1,45 +1,80 @@
-package com.bf.zxd.zhuangxudai.jzzt;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+package com.bf.zxd.zhuangxudai.JZZT;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.bf.zxd.zhuangxudai.BaseActivity;
+import com.bf.zxd.zhuangxudai.Dkhd.LoanDetailsActivity;
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.main.YBJFragment;
+import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.JzhdItem;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import hugo.weaving.DebugLog;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Daniel on 2017/1/10.
  */
 
-public class JzztActivity extends BaseActivity {
+public class JzztActivity extends AppCompatActivity {
 
     @BindView(R.id.base_toolBar)
     Toolbar baseToolBar;
 
     private static final String YBJ_TAG = "ybj_flag";
+    @BindView(R.id.jzhd_list)
+    RecyclerView jzhdList;
+    CompositeSubscription compositeSubscription;
 
-    @Override
-    public void initDate() {
 
+
+    public void initData() {
+        Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getJzhdItem()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<JzhdItem>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<JzhdItem> jzhdItems) {
+                        initList(jzhdItems);
+                    }
+                });
+        compositeSubscription.add(subscription_getZxgs);
     }
-
-    @Override
-    public void initView() {
-        setContentView(R.layout.activity_jzzt);
-        ButterKnife.bind(this);
-//        String orders_str = getResources().getString(R.string.ybj);
-        setToolbar();
-        YBJFragment YBJFragment = (YBJFragment) getSupportFragmentManager().findFragmentByTag(YBJ_TAG);
-        if (YBJFragment == null) {
-            YBJFragment = YBJFragment.newInstance();
+    JzztListAdapter jzztListAdapter;
+    public void initList(List<JzhdItem> jzhdItems){
+        if(jzztListAdapter==null){
+            jzztListAdapter=new JzztListAdapter(this,jzhdItems);
+            jzhdList.setLayoutManager(new LinearLayoutManager(this));
+            jzhdList.setAdapter(jzztListAdapter);
+            jzztListAdapter.setOnItemClickListener(new JzztListAdapter.MyItemClickListener() {
+                @Override
+                public void onItemClick(View view, int postion) {
+                    startActivity(new Intent(JzztActivity.this,LoanDetailsActivity.class).putExtra("activity_id",jzztListAdapter.getmDatas().get(postion).getArticleId()));
+                }
+            });
+        }else{
+            jzztListAdapter.setmDatas(jzhdItems);
         }
-        setFragment(YBJFragment, YBJ_TAG);
 
     }
 
@@ -56,21 +91,21 @@ public class JzztActivity extends BaseActivity {
         });
     }
 
-    /**
-     * 设置fragment
-     *
-     * @param fragment
-     */
-    @DebugLog
-    private void setFragment(Fragment fragment, String tag) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.framelayout, fragment, tag);
-        fragmentTransaction.commit();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_jzzt);
+        ButterKnife.bind(this);
+        //        String orders_str = getResources().getString(R.string.ybj);
+        setToolbar();
+        compositeSubscription=new CompositeSubscription();
+        initData();
     }
 
     @Override
-    public void initEvent() {
-
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeSubscription.unsubscribe();
     }
-
 }

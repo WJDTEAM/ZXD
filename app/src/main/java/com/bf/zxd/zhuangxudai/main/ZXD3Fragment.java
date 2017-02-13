@@ -23,7 +23,7 @@ import com.bf.zxd.zhuangxudai.ZXD.timeAdapter;
 import com.bf.zxd.zhuangxudai.customview.DropDownMenu;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
-import com.bf.zxd.zhuangxudai.pojo.ZxdBank;
+import com.bf.zxd.zhuangxudai.pojo.LoanTypes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class ZXD3Fragment extends Fragment {
     private String rate[] = {"全部","0.3%","0.4%","0.5%"};
     private String time[] = {"全部","12个月","24个月","36个月"};
 
-    String chooseAll;
+    String chooseAll="0";
     String chooseMoney;
     String chooseRate;
     String chooseTime;
@@ -83,7 +83,7 @@ public class ZXD3Fragment extends Fragment {
         ButterKnife.bind(this, view);
         unbinder = ButterKnife.bind(this, view);
         compositeSubscription=new CompositeSubscription();
-        dropMenu();
+        getLoanTypes();
 
         return view;
     }
@@ -107,6 +107,36 @@ public class ZXD3Fragment extends Fragment {
     EditText Time;
 
     private int rateAdapterPosition = 0;
+
+    public  List<LoanTypes>  loanTypes;
+
+    public void getLoanTypes(){
+        Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getLoanTypes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<LoanTypes>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<LoanTypes> loanTyp) {
+                        LoanTypes l=new LoanTypes();
+                        l.setLoanTypeId(0);
+                        l.setLoanTypeName("全部");
+                        loanTypes=loanTyp;
+                        loanTypes.add(0,l);
+                        dropMenu();
+                    }
+                });
+        compositeSubscription.add(subscription_getZxgs);
+    }
 
     public void dropMenu(){
         //init money
@@ -265,17 +295,15 @@ public class ZXD3Fragment extends Fragment {
         //init type menu
         final ListView allView = new ListView(getActivity());
         allView.setDividerHeight(0);
-        allAdapter = new allAdapter(getActivity(), all);
+        allAdapter = new allAdapter(getActivity(), loanTypes);
         allView.setAdapter(allAdapter);
         allView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 allAdapter.setCheckItem(i);
-                chooseAll= i+"";
-                if(i==0){
-                    chooseAll="";
-                }
-                dropDownMenuBank.setTabText(i == 0 ? headers[0] : all[i]);
+                chooseAll= loanTypes.get(i).getLoanTypeId()+"";
+
+                dropDownMenuBank.setTabText(i == 0 ? loanTypes.get(0).getLoanTypeName() : loanTypes.get(i).getLoanTypeName());
                 dropDownMenuBank.closeMenu();
                 initData(chooseAll,minMoneyStr,maxMoneyStr,chooseRate,chooseTime);
             }
@@ -288,9 +316,9 @@ public class ZXD3Fragment extends Fragment {
 
 
     }
-    TextView t;
 
     public void initData(String loan_type,String min_money,String max_money,String rate,String cycle){
+
         Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getLoanCompanyItem(Integer.parseInt(loan_type),
                 min_money,max_money,rate,cycle)
                 .subscribeOn(Schedulers.io())
@@ -308,16 +336,15 @@ public class ZXD3Fragment extends Fragment {
 
                     @Override
                     public void onNext(List<LoanCompanyItem> loanCompanyItems) {
-
+                        initList(loanCompanyItems);
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);
 
-
     }
 
     LoanBankList3Adapter loanBankList3Adapter;
-    public void initList(List<ZxdBank> zxdBanks){
+    public void initList(List<LoanCompanyItem> zxdBanks){
         if(loanBankList3Adapter==null) {
             loanBankList3Adapter = new LoanBankList3Adapter(getActivity(), zxdBanks);
             contentView.setLayoutManager(new LinearLayoutManager(getActivity()));

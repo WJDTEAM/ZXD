@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.pojo.EnterActivityEvent;
-import com.bf.zxd.zhuangxudai.pojo.ZxdBank;
+import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 import com.squareup.picasso.Picasso;
 
@@ -29,17 +29,17 @@ import butterknife.ButterKnife;
 public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<ZxdBank> mDatas;
+    private List<LoanCompanyItem> mDatas;
     private final LayoutInflater mLayoutInflater;
     private MyItemClickListener mItemClickListener;
 
-    public LoanBankList3Adapter(Context mContext, List<ZxdBank> mDatas) {
+    public LoanBankList3Adapter(Context mContext, List<LoanCompanyItem> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
         mLayoutInflater = LayoutInflater.from(mContext);
     }
 
-    public void update(List<ZxdBank> mDatas) {
+    public void update(List<LoanCompanyItem> mDatas) {
         this.mDatas = mDatas;
         this.notifyDataSetChanged();
     }
@@ -65,29 +65,27 @@ public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder myViewHoder = (ViewHolder) holder;
-        myViewHoder.loanTitleName.setText(mDatas.get(position).getBank_name());
+        myViewHoder.loanTitleName.setText(mDatas.get(position).getCompanyName());
         myViewHoder.loanTitleLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoanApplyActivity.bankId = mDatas.get(position).getBank_id();
+                LoanApplyActivity.bankId = mDatas.get(position).getCompanyId();
                 EventBus.getDefault().post(new EnterActivityEvent(LoanApplyActivity.class));
             }
         });
-        if (mDatas.get(position).getBank_logo() != null && !mDatas.get(position).getBank_logo().equals("")) {
-            Picasso.with(mContext).load(mDatas.get(position).getBank_logo())
+        if (mDatas.get(position).getCompanyIcon() != null && !mDatas.get(position).getCompanyIcon().equals("")) {
+            Picasso.with(mContext).load(mDatas.get(position).getCompanyIcon())
                     .placeholder(R.drawable.bank_log)
                     .error(R.drawable.bank_log)
                     .into(myViewHoder.loanTitleImg);
         }
-        if (mDatas.get(position).getLoan_type() == 2) {
-            myViewHoder.loanDkfw.setText("-" + "装修贷" );
-        } else {
-            myViewHoder.loanDkfw.setText("-" + "房贷" );
-        }
+
+        myViewHoder.loanDkfw.setText("-" + mDatas.get(position).getLoanTypeName());
+
         myViewHoder.loanRate.setText( mDatas.get(position).getRate());
-        myViewHoder.makeLoadDays.setText(mDatas.get(position).getMake_load_days() + mDatas.get(position).getLoad_unit() + "放贷");
+        myViewHoder.makeLoadDays.setText(mDatas.get(position).getMakeLoadDays() + mDatas.get(position).getLoadUnit() + "放贷");
         myViewHoder.loanCycle.setText("还款期限:" + mDatas.get(position).getCycle() + "月");
-        myViewHoder.loanMaxMoney.setText("最高可贷"+mDatas.get(position).getMax_money() + "万");
+        myViewHoder.loanMaxMoney.setText("最高可贷"+mDatas.get(position).getMaxMoney() + "万");
     }
 
     @Override

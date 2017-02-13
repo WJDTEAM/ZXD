@@ -13,7 +13,7 @@ import android.view.View;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.Dkhd;
+import com.bf.zxd.zhuangxudai.pojo.DkhdItem;
 import com.bf.zxd.zhuangxudai.template.TemplateListAdapter;
 import com.blankj.utilcode.utils.KeyboardUtils;
 
@@ -82,7 +82,7 @@ public class LoanActivity extends AppCompatActivity {
         startActivity(new Intent(LoanActivity.this,activity));
     }
 
-    Observer<List<Dkhd>> observer=new Observer<List<Dkhd>>() {
+    Observer<List<DkhdItem>> observer=new Observer<List<DkhdItem>>() {
         @Override
         public void onCompleted() {
 
@@ -94,20 +94,20 @@ public class LoanActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onNext(List<Dkhd> Dkhds) {
+        public void onNext(List<DkhdItem> Dkhds) {
             initListView(Dkhds);
         }
     };
 
     public void initDkhdData(){
-        Subscription Subscription_getZxglItem= NetWork.getZxService().getDkhdItem()
+        Subscription Subscription_getZxglItem= NetWork.getNewZXD1_4Service().getDkhdItem()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
         mcompositeSubscription.add(Subscription_getZxglItem);
     }
 
-    public void initListView(List<Dkhd> Dkhds){
+    public void initListView(List<DkhdItem> Dkhds){
         if(loanActivityListAdapter==null){
             loanActivityListAdapter=new LoanActivityListAdapter(this,Dkhds);
             loanActivityList.setLayoutManager(new LinearLayoutManager(this));
@@ -115,7 +115,7 @@ public class LoanActivity extends AppCompatActivity {
             loanActivityListAdapter.setOnItemClickListener(new TemplateListAdapter.MyItemClickListener() {
                 @Override
                 public void onItemClick(View view, int postion) {
-                    startActivity(new Intent(LoanActivity.this,LoanDetailsActivity.class).putExtra("activity_id",loanActivityListAdapter.getmDatas().get(postion).getArticle_id()));
+                    startActivity(new Intent(LoanActivity.this,LoanDetailsActivity.class).putExtra("activity_id",loanActivityListAdapter.getmDatas().get(postion).getArticleId()));
                 }
             });
         }

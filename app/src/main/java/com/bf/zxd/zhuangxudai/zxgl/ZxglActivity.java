@@ -4,15 +4,15 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
+import com.bf.zxd.zhuangxudai.Dkhd.LoanDetailsActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.RecycleViewDivider;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.ActivityIdAndZxglDetailActivityEvent;
-import com.bf.zxd.zhuangxudai.pojo.zxgl;
+import com.bf.zxd.zhuangxudai.pojo.ZxglItem;
 import com.bf.zxd.zhuangxudai.util.Utils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -54,37 +54,42 @@ public class ZxglActivity extends BaseActivity {
     }
 
     private void getZxglItem() {
-        Subscription Subscription_getZxglItem = NetWork.getZxService().getZxglItem()
+        Subscription Subscription_getZxglItem = NetWork.getNewZXD1_4Service().getZxglItem()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<zxgl>>() {
+                .subscribe(new Observer<List<ZxglItem>>() {
                     @Override
                     public void onCompleted() {
 
                     }
 
-                    @DebugLog
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("Daniel", "请求装修攻略列表数据失败！");
 
                     }
 
                     @Override
-                    public void onNext(List<zxgl> zxgls) {
-                        setAdapter(zxgls);
+                    public void onNext(List<ZxglItem> zxglItems) {
+                        setAdapter(zxglItems);
                     }
                 });
         mCompositeSubscription.add(Subscription_getZxglItem);
     }
-
-    private void setAdapter(List<zxgl> zxgls) {
+    ZxglAdapter zxglAdapter;
+    private void setAdapter(List<ZxglItem> zxgls) {
         //init context view
         recyclerviewZhuangxiugonglue.setLayoutManager(new LinearLayoutManager(this));
         recyclerviewZhuangxiugonglue.addItemDecoration(new RecycleViewDivider(
                 this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
-        ZxglAdapter zxglAdapter = new ZxglAdapter(zxgls, this);
+         zxglAdapter = new ZxglAdapter(zxgls, this);
         recyclerviewZhuangxiugonglue.setAdapter(zxglAdapter);
+        zxglAdapter.setOnItemClickListener(new ZxglAdapter.MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                startActivity(new Intent(ZxglActivity.this,LoanDetailsActivity.class).putExtra("activity_id",zxglAdapter.getDatas().get(postion).getArticleId()));
+
+            }
+        });
     }
 
     @Override

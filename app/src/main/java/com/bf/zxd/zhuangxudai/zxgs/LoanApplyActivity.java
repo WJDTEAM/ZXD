@@ -20,9 +20,9 @@ import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.Login.LoginActivity;
 import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.model.BankDetail;
 import com.bf.zxd.zhuangxudai.model.LoanApplyResult;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
@@ -93,13 +93,15 @@ public class LoanApplyActivity extends BaseActivity {
     EditText loanTimeEdi;
     @BindView(R.id.loan_usefor_edi)
     EditText loanUseforEdi;
+    @BindView(R.id.makeLoadDays_txt)
+    TextView makeLoadDays_txt;
     private int mSex = 1;
 
     public static int companyId = -1;
     public static int bankId = -1;
     Zxgs mZxgs;
     public  RecommendBank mRecommendBank;
-    public  BankDetail mZxd;
+    public LoanCompanyDetail mZxd;
     CompositeSubscription mcompositeSubscription;
 
     Realm realm;
@@ -109,57 +111,17 @@ public class LoanApplyActivity extends BaseActivity {
         if (bankId != -1) {
             getBankDetail();
         }
-        //getBankItem();
 
 
     }
-//    private void getBankItem() {
-//        Subscription Subscription_getBankItem = NetWork.getZxService().getBankItem()
-//                .subscribeOn(Schedulers.io())
-//                .flatMap(new Func1<List<RecommendBank>, Observable<RecommendBank>>() {
-//                    @Override
-//                    public Observable<RecommendBank> call(List<RecommendBank> recommendBanks) {
-//                        return Observable.from(recommendBanks);
-//                    }
-//                })
-//                .filter(new Func1<RecommendBank, Boolean>() {
-//                    @Override
-//                    public Boolean call(RecommendBank recommendBank) {
-//                        Log.e("Daniel", "----bankId---" + bankId);
-//                        Log.e("Daniel", "----recommendBank.getBank_id()---" + recommendBank.getBank_id());
-//
-//                        return recommendBank.getBank_id()==bankId;
-//                    }
-//                })
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<RecommendBank>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//                    @DebugLog
-//                    @Override
-//                    public void onNext(RecommendBank recommendBank) {
-//                        mRecommendBank=recommendBank;
-//                        Log.e("Daniel", "----mRecommendBank.getBank_id()---" + mRecommendBank.getBank_id());
-//
-//
-//                    }
-//                });
-//        mcompositeSubscription.add(Subscription_getBankItem);
-//    }
+
 
     private void getBankDetail() {
         Log.e("Daniel", "----bankId---" + bankId);
-        NetWork.getNewZxService().getBankDetail(bankId)
+        NetWork.getNewZXD1_4Service().getLoanCompanyDetail(bankId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BankDetail>() {
+                .subscribe(new Observer<LoanCompanyDetail>() {
                     @Override
                     public void onCompleted() {
 
@@ -171,10 +133,9 @@ public class LoanApplyActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(BankDetail bankDetail) {
-                        mZxd = bankDetail;
+                    public void onNext(LoanCompanyDetail loanCompanyDetail) {
+                        mZxd = loanCompanyDetail;
                         initBank();
-
                     }
                 });
 
@@ -277,9 +238,8 @@ public class LoanApplyActivity extends BaseActivity {
         if (mZxd != null) {
             bankTopLinear.setVisibility(View.VISIBLE);
             applyMoneyTv.setText("申请金额(万)");
-            Log.e("Daniel",""+mZxd.getBank_logo());
-            if (mZxd.getBank_logo()!=null&&!mZxd.getBank_logo().equals("")) {
-                Picasso.with(this).load(mZxd.getBank_logo()).into(new Target() {
+            if (mZxd.getCompanyIcon()!=null&&!mZxd.getCompanyIcon().equals("")) {
+                Picasso.with(this).load(mZxd.getCompanyIcon()).into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                         if(bitmap!=null){
@@ -299,18 +259,18 @@ public class LoanApplyActivity extends BaseActivity {
                     }
                 });
             }
-            bankNameTv.setText(mZxd.getBank_name());
-            moneyRangeTv.setText(mZxd.getMoney_range());
-            cycleUnitTv.setText("申请期限(月)");
-            cycleTv.setText(mZxd.getCycle());
+            bankNameTv.setText(mZxd.getCompanyName());
+            moneyRangeTv.setText(mZxd.getMinMoney().intValue()+"-"+mZxd.getMaxMoney().intValue()+"/万");
+            cycleUnitTv.setText("还款期限(月)");
+            cycleTv.setText(""+mZxd.getMinCycle()+"-"+mZxd.getMaxCycle()+"/月");
             rateUnitTv.setText("月费率");
             rateTv.setText(mZxd.getRate());
-            productDescLoanapplyTx.setText(mZxd.getProduct_desc());
+            productDescLoanapplyTx.setText(mZxd.getProductDesc());
             applicationLoanapplyTx.setText(mZxd.getApplication());
             requiredLoanapplyTx.setText(mZxd.getRequired());
-            loanMoneyEdi.setHint(mZxd.getMoney_range()+"/万");
-            loanTimeEdi.setHint(""+mZxd.getCycle()+"/月");
-
+            loanMoneyEdi.setHint(mZxd.getMinMoney()+"-"+mZxd.getMaxMoney()+"/万");
+            loanTimeEdi.setHint(""+mZxd.getMinCycle()+"-"+mZxd.getMaxCycle()+"/月");
+            makeLoadDays_txt.setText("放贷速度："+mZxd.getMakeLoadDays()+mZxd.getLoadUnit()+"内");
 
         } else {
             bankTopLinear.setVisibility(View.GONE);
@@ -333,11 +293,10 @@ public class LoanApplyActivity extends BaseActivity {
     public void onClick() {
         //跳转sh申请界面
 
-        String [] money=mZxd.getMoney_range().split("~");
         Double d1=Double.parseDouble(loanMoneyEdi.getText().toString());
-        Double d2=Double.parseDouble(money[1]);
-        Double d3=Double.parseDouble(money[0]);
-        String [] time=mZxd.getCycle().split("~");
+        Double d2=Double.parseDouble(mZxd.getMinMoney()+"");
+        Double d3=Double.parseDouble(mZxd.getMaxMoney()+"");
+
 
         Log.i("gqf","onClick"+d1+"onClick"+d2+"onClick"+d3);
 
@@ -351,8 +310,8 @@ public class LoanApplyActivity extends BaseActivity {
         else if(d1>d2){
             Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT).show();;
         }
-        else if(!((Integer.parseInt(loanTimeEdi.getText().toString()) <= Integer.parseInt(time[1])
-                && Integer.parseInt(loanTimeEdi.getText().toString()) >= Integer.parseInt(time[0])))){
+        else if(!((Integer.parseInt(loanTimeEdi.getText().toString()) <= Integer.parseInt(mZxd.getMinCycle()+"")
+                && Integer.parseInt(loanTimeEdi.getText().toString()) >= Integer.parseInt(mZxd.getMaxCycle()+"")))){
             Toast.makeText(getApplicationContext(),"您所申请的还款时间不符合银行规定",Toast.LENGTH_SHORT).show();
         }
         else {
@@ -498,7 +457,7 @@ public class LoanApplyActivity extends BaseActivity {
     //提交信息,并跳转页面
     public void applyFor() {
         //realm.where(User.class).findFirst().getUserId()
-        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getBank_id(),realm.where(User.class).findFirst().getUser_id(),companyId,
+        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getCompanyId(),realm.where(User.class).findFirst().getUser_id(),companyId,
                new BigDecimal(Double.parseDouble(loanMoneyEdi.getText().toString())) , UrlEncoded.toURLEncoded(loanUseforEdi.getText().toString()),loanTimeEdi.getText().toString()
                 )
                 .subscribeOn(Schedulers.io())
@@ -548,8 +507,7 @@ public class LoanApplyActivity extends BaseActivity {
             public void afterTextChanged(Editable editable) {
 
                 if(!editable.toString().equals("")){
-                    String [] money=mZxd.getMoney_range().split("~");
-                    int m=Integer.parseInt(money[1].substring(0,money[1].indexOf(".")));
+                    int m=Integer.parseInt(mZxd.getMaxMoney()+"");
                     if(editable.toString().toString().length()>(m+"").length()){
                         editable.delete(loanMoneyEdi.getSelectionStart()-1, loanMoneyEdi.getSelectionStart());
                     }
@@ -569,9 +527,9 @@ public class LoanApplyActivity extends BaseActivity {
             }
             @Override
             public void afterTextChanged(Editable editable) {
-                String [] time=mZxd.getCycle().split("~");
+
                 if(!editable.toString().equals("")) {
-                    if (Integer.parseInt(editable.toString()) > Integer.parseInt(time[1])) {
+                    if (Integer.parseInt(editable.toString()) > Integer.parseInt(mZxd.getMaxCycle()+"")) {
                         editable.delete(loanTimeEdi.getSelectionStart()-1, loanTimeEdi.getSelectionStart());
                     }
                 }

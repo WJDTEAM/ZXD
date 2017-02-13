@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.pojo.LoanTypes;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +22,7 @@ import butterknife.ButterKnife;
 public class allAdapter extends BaseAdapter {
 
     private Context context;
-    private String [] list;
+    private List<LoanTypes> list;
     private int checkItemPosition = 0;
 
     public void setCheckItem(int position) {
@@ -27,19 +30,19 @@ public class allAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public allAdapter(Context context, String []  list) {
+    public allAdapter(Context context, List<LoanTypes>  list) {
         this.context = context;
         this.list = list;
     }
 
     @Override
     public int getCount() {
-        return list.length;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return list.get(position);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class allAdapter extends BaseAdapter {
     }
 
     private void fillValue(int position, allAdapter.ViewHolder viewHolder) {
-        viewHolder.mText.setText(list[position]);
+        viewHolder.mText.setText(list.get(position).getLoanTypeName());
         if (checkItemPosition != -1) {
             if (checkItemPosition == position) {
                 viewHolder.mText.setTextColor(context.getResources().getColor(R.color.colorPrimary));

@@ -105,7 +105,7 @@ public interface NewZXD1_4Service {
      * @returnhttp://ip/app/getDecoCompanyCase/{companyId}/01
      */
     @GET("getDecoCompanyCase/{companyId}/01")
-    Observable<DecoCompanyCase> getDecoCompanyCase(@Path("companyId") int companyId);
+    Observable<List<DecoCompanyCase>> getDecoCompanyCase(@Path("companyId") int companyId);
 
     /**
      * 获取某个案例下图片

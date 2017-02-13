@@ -1,6 +1,7 @@
 package com.bf.zxd.zhuangxudai.pojo;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by johe on 2017/2/13.
@@ -14,7 +15,7 @@ public class NewUser extends RealmObject {
      * nickname :
      * logoImg :
      */
-
+    @PrimaryKey
     private int userId;
     private String userName;
     private String password;

@@ -29,8 +29,8 @@ public class LoanCompanyDetail {
     private int makeLoadDays;
     private String loadUnit;
     private String rate;
-    private BigDecimal minCycle;
-    private BigDecimal maxCycle;
+    private Integer minCycle;
+    private Integer maxCycle;
     private BigDecimal minMoney;
     private BigDecimal maxMoney;
     private String  productDesc;
@@ -85,19 +85,19 @@ public class LoanCompanyDetail {
         this.minMoney = minMoney;
     }
 
-    public BigDecimal getMaxCycle() {
+    public Integer getMaxCycle() {
         return maxCycle;
     }
 
-    public void setMaxCycle(BigDecimal maxCycle) {
+    public void setMaxCycle(Integer maxCycle) {
         this.maxCycle = maxCycle;
     }
 
-    public BigDecimal getMinCycle() {
+    public Integer getMinCycle() {
         return minCycle;
     }
 
-    public void setMinCycle(BigDecimal minCycle) {
+    public void setMinCycle(Integer minCycle) {
         this.minCycle = minCycle;
     }
 

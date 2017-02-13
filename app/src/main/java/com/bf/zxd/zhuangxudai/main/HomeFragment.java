@@ -14,8 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.Dkhd.LoanActivity;
+import com.bf.zxd.zhuangxudai.JZZT.JzztActivity;
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.jzzt.JzztActivity;
 import com.bf.zxd.zhuangxudai.model.BankItemInfo;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.util.MarqueeView;

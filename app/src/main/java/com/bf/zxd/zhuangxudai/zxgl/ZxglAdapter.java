@@ -10,11 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.pojo.ActivityIdAndZxglDetailActivityEvent;
-import com.bf.zxd.zhuangxudai.pojo.zxgl;
+import com.bf.zxd.zhuangxudai.pojo.ZxglItem;
 import com.squareup.picasso.Picasso;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -27,7 +24,7 @@ import butterknife.ButterKnife;
 
 public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
 
-    List<zxgl> datas;
+    List<ZxglItem> datas;
     MyItemClickListener mItemClickListener;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
@@ -37,7 +34,15 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
         return R.layout.zhuangxiugonglue_list_item;
     }
 
-    public ZxglAdapter(List<zxgl> datas,Context mContext) {
+    public List<ZxglItem> getDatas() {
+        return datas;
+    }
+
+    public void setDatas(List<ZxglItem> datas) {
+        this.datas = datas;
+    }
+
+    public ZxglAdapter(List<ZxglItem> datas, Context mContext) {
         this.mContext= mContext;
         this.datas = datas;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -66,18 +71,23 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        final zxgl data = datas.get(position);
-        Picasso.with(mContext).load(data.getThumbnails()).into(holder.img);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final ZxglItem data = datas.get(position);
+        if(data.getThumbnails()!=null){
+            if(!data.getThumbnails().equals("")){
+                Picasso.with(mContext).load(data.getThumbnails()).into(holder.img);
+            }
+        }
         holder.aboveTxt.setText(data.getTitle());
         holder.bottomTxt.setText(data.getDescription());
-
 
         holder.RelativeLayoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityIdAndZxglDetailActivityEvent activityIdAndZxglDetailActivityEvent = new ActivityIdAndZxglDetailActivityEvent(data.getArticle_id(),ZxglDetailsActivity.class);
-                EventBus.getDefault().post(activityIdAndZxglDetailActivityEvent);
+                if(mItemClickListener!=null){
+                    mItemClickListener.onItemClick(null,position);
+                }
+
             }
         });
 
@@ -90,7 +100,7 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
         return datas != null ? datas.size() : 0;
     }
 
-    public void setdatas(List<zxgl> datas) {
+    public void setdatas(List<ZxglItem> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }

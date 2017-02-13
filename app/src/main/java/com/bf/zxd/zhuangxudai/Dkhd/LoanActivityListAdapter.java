@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.pojo.Dkhd;
+import com.bf.zxd.zhuangxudai.pojo.DkhdItem;
 import com.bf.zxd.zhuangxudai.template.TemplateListAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -26,19 +26,19 @@ import butterknife.ButterKnife;
 public class LoanActivityListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<Dkhd> mDatas;
+    private List<DkhdItem> mDatas;
     private final LayoutInflater mLayoutInflater;
     private TemplateListAdapter.MyItemClickListener mItemClickListener;
 
-    public List<Dkhd> getmDatas() {
+    public List<DkhdItem> getmDatas() {
         return mDatas;
     }
 
-    public void setmDatas(List<Dkhd> mDatas) {
+    public void setmDatas(List<DkhdItem> mDatas) {
         this.mDatas = mDatas;
     }
 
-    public LoanActivityListAdapter(Context mContext, List<Dkhd> mDatas) {
+    public LoanActivityListAdapter(Context mContext, List<DkhdItem> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -70,7 +70,7 @@ public class LoanActivityListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 .error(R.drawable.demo)
                 .into(myViewHoder.loanActivityImg);
         myViewHoder.loanActivityTitle.setText(mDatas.get(position).getTitle());
-        myViewHoder.loanActivityTime.setText(mDatas.get(position).getCreate_time());
+        myViewHoder.loanActivityTime.setText("");
         myViewHoder.loan_activity_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
