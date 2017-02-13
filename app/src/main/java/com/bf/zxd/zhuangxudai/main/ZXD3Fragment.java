@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import com.bf.zxd.zhuangxudai.ZXD.rateAdapter;
 import com.bf.zxd.zhuangxudai.ZXD.timeAdapter;
 import com.bf.zxd.zhuangxudai.customview.DropDownMenu;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
 import com.bf.zxd.zhuangxudai.pojo.ZxdBank;
 
 import java.util.ArrayList;
@@ -290,40 +290,29 @@ public class ZXD3Fragment extends Fragment {
     }
     TextView t;
 
-    /**
-     *  "loan_type":String (非必须) 贷款类型1:房贷;2:装修
-
-     "min_money":String (非必须) 最小金额
-
-     "max_money":String (非必须) 最大金额
-
-     "rate":String (非必须) 费率
-
-     "cycle":String(非必须) 贷款期限
-     */
     public void initData(String loan_type,String min_money,String max_money,String rate,String cycle){
-
-        Subscription subscription_getZxgs = NetWork.getNewZxService().getZxdItem(loan_type,min_money,max_money,rate,cycle)
+        Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getLoanCompanyItem(Integer.parseInt(loan_type),
+                min_money,max_money,rate,cycle)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<ZxdBank>>() {
+                .subscribe(new Observer<List<LoanCompanyItem>>() {
                     @Override
                     public void onCompleted() {
-                        Log.i("gqf","onCompleted");
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("gqf","onError"+e.toString());
+
                     }
 
                     @Override
-                    public void onNext(List<ZxdBank> zxdBanks) {
-                        Log.i("gqf",zxdBanks.toString());
-                        initList(zxdBanks);
+                    public void onNext(List<LoanCompanyItem> loanCompanyItems) {
+
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);
+
 
     }
 

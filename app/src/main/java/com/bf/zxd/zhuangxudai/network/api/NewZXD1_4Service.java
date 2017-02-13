@@ -14,6 +14,8 @@ import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithImg;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithUser;
 import com.bf.zxd.zhuangxudai.pojo.ZxglItem;
 
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -66,7 +68,7 @@ public interface NewZXD1_4Service {
      * @return
      */
     @GET("getZxglItem")
-    Observable<ZxglItem> getZxglItem();
+    Observable<List<ZxglItem>> getZxglItem();
 
     /**
      * 获取攻略内容详情
@@ -82,21 +84,21 @@ public interface NewZXD1_4Service {
      * @return
      */
     @GET("getDkhdItem")
-    Observable<DkhdItem> getDkhdItem();
+    Observable<List<DkhdItem>> getDkhdItem();
 
     /**
      * 获取家装活动列表
      * @return
      */
     @GET("getJzhdItem")
-    Observable<JzhdItem> getJzhdItem();
+    Observable<List<JzhdItem>> getJzhdItem();
 
     /**
      * 获取装修公司列表
      * @return
      */
     @GET("getDecoCompanyItem")
-    Observable<DecoCompanyItem> getDecoCompanyItem();
+    Observable<List<DecoCompanyItem>> getDecoCompanyItem();
 
     /**
      * 获取装修公司案例
@@ -117,7 +119,7 @@ public interface NewZXD1_4Service {
      * @return
      */
     @GET("getLoanTypes ")
-    Observable<LoanTypes> getLoanTypes ();
+    Observable<List<LoanTypes>> getLoanTypes ();
 
     /**
      * 获取贷款机构列表
@@ -125,8 +127,8 @@ public interface NewZXD1_4Service {
      */
     @FormUrlEncoded
     @POST("getLoanCompanyItem")
-    Observable<LoanCompanyItem> getLoanCompanyItem(@Field("loanTypeId") Integer loanTypeId, @Field("minMoney") String  minMoney,
-                                                   @Field("maxMoney") String maxMoney, @Field("rate") String rate, @Field("cycle") String cycle);
+    Observable<List<LoanCompanyItem>> getLoanCompanyItem(@Field("loanTypeId") Integer loanTypeId, @Field("minMoney") String  minMoney,
+                                                        @Field("maxMoney") String maxMoney, @Field("rate") String rate, @Field("cycle") String cycle);
 
     /**
      * 获取贷款信息详情
