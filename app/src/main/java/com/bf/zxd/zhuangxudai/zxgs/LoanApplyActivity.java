@@ -1,6 +1,8 @@
 package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -26,9 +28,11 @@ import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
 import com.bf.zxd.zhuangxudai.pojo.zxgs_wjd;
+import com.bf.zxd.zhuangxudai.util.BitmapDeleteNoUseSpaceUtil;
 import com.bf.zxd.zhuangxudai.util.UrlEncoded;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -272,14 +276,32 @@ public class LoanApplyActivity extends BaseActivity {
     public void initBank() {
         if (mZxd != null) {
             bankTopLinear.setVisibility(View.VISIBLE);
-            applyMoneyTv.setText("申请金额（万）");
+            applyMoneyTv.setText("申请金额(万)");
             Log.e("Daniel",""+mZxd.getBank_logo());
-            if (mZxd.getBank_logo()!=null) {
-                Picasso.with(this).load(mZxd.getBank_logo()).into(bankpicImg);
+            if (mZxd.getBank_logo()!=null&&!mZxd.getBank_logo().equals("")) {
+                Picasso.with(this).load(mZxd.getBank_logo()).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        if(bitmap!=null){
+                            bankpicImg.setImageBitmap(BitmapDeleteNoUseSpaceUtil.getTransparentBitmap2(bitmap,50,10));
+                            bankpicImg.setBackgroundResource(R.color.transparent);
+                        }
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
             }
             bankNameTv.setText(mZxd.getBank_name());
             moneyRangeTv.setText(mZxd.getMoney_range());
-            cycleUnitTv.setText("申请期限（月）");
+            cycleUnitTv.setText("申请期限(月)");
             cycleTv.setText(mZxd.getCycle());
             rateUnitTv.setText("月费率");
             rateTv.setText(mZxd.getRate());
