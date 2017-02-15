@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,21 +22,37 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.Login.LoginActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
+import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
+import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithImg;
 import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.util.FileUitlity;
 import com.bf.zxd.zhuangxudai.util.SettingsUtils;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileOutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
+import hugo.weaving.DebugLog;
 import io.realm.Realm;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class UserInfoActivity extends AppCompatActivity {
 
@@ -50,6 +67,9 @@ public class UserInfoActivity extends AppCompatActivity {
     @BindView(R.id.circleImageView)
     CircleImageView circleImageView;
     private Realm realm;
+    private NewUser userInfo;
+    private Unbinder mUnbinder;
+    private CompositeSubscription compositeSubscription;
 
     public static int REQUEST_CODE = 1;
     public static int RESULT_PHOTO = 2;
@@ -60,11 +80,37 @@ public class UserInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ((BaseApplication)getApplication()).addActivity(this);
         setContentView(R.layout.activity_user_info);
-        ButterKnife.bind(this);
+        mUnbinder= ButterKnife.bind(this);
+        compositeSubscription = new CompositeSubscription();
         setToolBar();
         realm = Realm.getDefaultInstance();
-        User userInfo = realm.where(User.class).findFirst();
-        userName.setText(userInfo.getUser_name());
+
+
+    }
+    @DebugLog
+    @Override
+    protected void onStart() {
+        super.onStart();
+        userInfo = realm.where(NewUser.class).findFirst();
+        Log.e("Daniel","userInfo:::"+userInfo.toString());
+        if(userInfo.getNickname().equals("")){
+            userName.setText(userInfo.getUserName());
+        }else {
+            userName.setText(userInfo.getNickname());
+        }
+        if (userInfo.getLogoImg().equals("")){
+            Picasso.with(this).load(R.drawable.demo).into(circleImageView);
+        }else {
+            Picasso.with(this).load(userInfo.getLogoImg()).into(circleImageView);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeSubscription.unsubscribe();
+        mUnbinder.unbind();
+
     }
 
     private void setToolBar() {
@@ -86,17 +132,32 @@ public class UserInfoActivity extends AppCompatActivity {
                 break;
             case R.id.icon_img:
                 ChangeIcon();
-
                 break;
             case R.id.nick_linearlayout:
-
+                Intent _intent = new Intent(UserInfoActivity.this,ChangeNickActivity.class);
+                String _nick = userName.getText().toString();
+                _intent.putExtra("nickName",_nick);
+                startActivity(_intent);
+//                changeNickName(_nick);
                 break;
             case R.id.logout:
                 logout();
-
                 break;
         }
     }
+
+//    private void changeNickName(String nick) {
+//        new MaterialDialog.Builder(getActivity())
+//                .title(R.string.search)
+//                .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
+//                    @Override
+//                    public void onInput(MaterialDialog dialog, CharSequence input) {
+//                        if (!TextUtils.isEmpty(input)) {
+////                            doSearch(input.toString());
+//                        }
+//                    }
+//                }).show();
+//    }
 
     private String path;
 
@@ -186,9 +247,91 @@ public class UserInfoActivity extends AppCompatActivity {
             if (bundle != null) {
                 Bitmap bitmap = bundle.getParcelable("data");
                 //将裁剪后得到的位图在组件中显示
-                circleImageView.setImageBitmap(bitmap);
+                // TODO: 2017/2/13 修改头像
+                Log.e("Daniel","---bitmap.toString()---"+bitmap.toString());
+                uploadAvatars(bitmap);
+//
             }
         }
+    }
+
+
+    private void uploadAvatars(Bitmap bitmap) {
+        File dcimFile =new File(getApplicationContext().getExternalCacheDir()+"yyy.png");
+        FileOutputStream ostream = null;
+        try {
+            ostream = new FileOutputStream(dcimFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, ostream);
+            ostream.flush();
+            ostream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e("Daniel","---dcimFile.getAbsolutePath()---"+dcimFile.getAbsolutePath());
+        Log.e("Daniel","---dcimFile---"+dcimFile);
+        Log.e("Daniel","---userInfo.getUserId()---"+userInfo.getUserId());
+        if (dcimFile.exists()){
+            Log.e("Daniel","---文件存在---");
+
+            MultipartBody.Builder builder = new MultipartBody.Builder();
+            RequestBody photoRequestBody = RequestBody.create(MediaType.parse("image/*"), dcimFile);
+            builder.addFormDataPart("zichifile", dcimFile.getName(), photoRequestBody);
+            builder.setType(MultipartBody.FORM);
+            MultipartBody mb=builder.build();
+
+
+//            List<MultipartBody.Part> zichifile=new ArrayList<>();
+//            for(int i=0;i<mb.size();i++){
+//                zichifile.add(mb.part(i));
+//            }
+
+           Subscription uploadAvatars= NetWork.getNewZXD1_4Service().uploadAvatars(userInfo.getUserId(),mb.part(0))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ResultCodeWithImg>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("Daniel","---onError---"+e.toString());
+                            Toast.makeText(UserInfoActivity.this, "头像更新失败！", Toast.LENGTH_SHORT).show();
+
+                        }
+                        @DebugLog
+                        @Override
+                        public void onNext(ResultCodeWithImg resultCodeWithImg) {
+                            Log.e("Daniel","---onNext---");
+                            if (resultCodeWithImg.getCode()==10001){
+                                saveLogoImg(resultCodeWithImg.getLogoImg());
+                                Picasso.with(UserInfoActivity.this).load(resultCodeWithImg.getLogoImg()).into(circleImageView);
+                                Toast.makeText(UserInfoActivity.this, ""+resultCodeWithImg.getMsg(), Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(UserInfoActivity.this, ""+resultCodeWithImg.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+
+                    });
+            compositeSubscription.add(uploadAvatars);
+        }else {
+            Log.e("Daniel","---文件不存在---");
+        }
+
+
+
+    }
+
+    /**
+     * 保存头像图片
+     */
+    private void saveLogoImg(String imgStr) {
+        realm.beginTransaction();
+        userInfo.setLogoImg(imgStr);
+        realm.copyToRealmOrUpdate(userInfo);
+        realm.commitTransaction();
     }
 
     //调用系统裁剪的方法

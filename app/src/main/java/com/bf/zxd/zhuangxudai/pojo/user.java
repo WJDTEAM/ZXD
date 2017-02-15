@@ -25,6 +25,24 @@ public class User extends RealmObject {
     private String tel;
     private String phone;
     private String password;
+    private String nickname;
+    private String logoImg;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getLogoImg() {
+        return logoImg;
+    }
+
+    public void setLogoImg(String logoImg) {
+        this.logoImg = logoImg;
+    }
 
     @Override
     public String toString() {
@@ -34,6 +52,8 @@ public class User extends RealmObject {
                 ", tel='" + tel + '\'' +
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", logoImg='" + logoImg + '\'' +
                 '}';
     }
 

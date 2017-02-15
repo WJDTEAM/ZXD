@@ -6,7 +6,7 @@
     android:id="@+id/activity_product_exhibition"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bf.zxd.zhuangxudai.jzzt.ProductExhibitionActivity">
+    tools:context="com.bf.zxd.zhuangxudai.JZZT.ProductExhibitionActivity">
     <!--toolBar-->
     <include
         android:id="@+id/toolbar"

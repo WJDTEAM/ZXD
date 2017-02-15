@@ -2,23 +2,15 @@ package com.bf.zxd.zhuangxudai.network.api;
 
 import android.text.Html;
 
-import com.bf.zxd.zhuangxudai.pojo.ApplyPersonAsset;
-import com.bf.zxd.zhuangxudai.pojo.ApplyPersonBase;
-import com.bf.zxd.zhuangxudai.pojo.ApplyPersonWork;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
-import com.bf.zxd.zhuangxudai.pojo.DecoCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
-import com.bf.zxd.zhuangxudai.pojo.DecoCompanyYbjDetail;
-import com.bf.zxd.zhuangxudai.pojo.DecoCompanyYbjItem;
 import com.bf.zxd.zhuangxudai.pojo.DkhdItem;
-import com.bf.zxd.zhuangxudai.pojo.HouseBaseInfo;
 import com.bf.zxd.zhuangxudai.pojo.JzhdItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanTypes;
 import com.bf.zxd.zhuangxudai.pojo.ResultCode;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithImg;
-import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithLoanInfoId;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithUser;
 import com.bf.zxd.zhuangxudai.pojo.ZxglItem;
 
@@ -60,7 +52,7 @@ public interface NewZXD1_4Service {
      * @return
      */
     @Multipart
-    @POST("User/uploadAvatars")
+    @POST("uploadAvatars")
     Observable<ResultCodeWithImg> uploadAvatars(@Part("userId") Integer userId,@Part MultipartBody.Part file);
 
     /**
@@ -69,7 +61,7 @@ public interface NewZXD1_4Service {
      */
     @FormUrlEncoded
     @POST("editNickname")
-    Observable<ResultCode> editNickname(@Field("userId") Integer userId, @Field("nickname") String  nickname);
+        Observable<ResultCode> editNickname(@Field("userId") Integer userId, @Field("nickname") String  nickname);
 
     /**
      * 获取装修攻略列表
@@ -152,6 +144,23 @@ public interface NewZXD1_4Service {
      */
     @GET("getHouseBaseInfo")
     Observable<List<HouseBaseInfo>> getHouseBaseInfo();
+
+    /**
+     * 入驻申请文件上传
+     * @return
+     */
+    @Multipart
+    @POST("uploadCompanyFile")
+    Observable<ResultCodeWithCompanyFile> uploadCompanyFile(@Part MultipartBody.Part file);
+
+    /**
+     * 入驻申请信息保存
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("saveEnter")
+    Observable<ResultCode> saveEnter(@Field("enter") String  enter );
+
 
     /**
      *  获取样板间列表
