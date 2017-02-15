@@ -13,12 +13,14 @@ import android.widget.Toast;
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
-import com.bf.zxd.zhuangxudai.model.PersonAssetInfo;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.User;
-import com.bf.zxd.zhuangxudai.pojo.VerificationInfo;
+import com.bf.zxd.zhuangxudai.pojo.ApplyPersonAsset;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
+import com.bf.zxd.zhuangxudai.pojo.ResultCode;
+import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -131,44 +133,14 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        isApplyFor();
-    }
-    public void isApplyFor() {
-        //判断三种信息是否全部提交
-        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(User.class).findFirst().getUser_id())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<VerificationInfo>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(VerificationInfo verificationInfo) {
-
-                        if (verificationInfo.getAsset()) {
-                            initAssetInfo();
-
-                        } else {
-
-                        }
-
-                    }
-                });
-        compositeSubscription.add(subscription_getZxgs);
+        initAssetInfo();
     }
 
     private void initAssetInfo() {
-        NetWork.getNewZxService().getLoanPersonAsset(realm.where(User.class).findFirst().getUser_id())
+        NetWork.getNewZXD1_4Service().getPersonAsset(realm.where(NewUser.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PersonAssetInfo>() {
+                .subscribe(new Observer<ApplyPersonAsset>() {
                     @Override
                     public void onCompleted() {
 
@@ -180,36 +152,36 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(PersonAssetInfo personAssetInfo) {
-                        loanWageEdi.setText(personAssetInfo.getHouse_value());
-                        loanCityEdi.setText(personAssetInfo.getCar_value());
-                        switch (personAssetInfo.getMy_house()){
-                            case "1":loanHomeRadHave.setChecked(true);break;
-                            case "2":loanHomeRadHaveNo.setChecked(true); break;
-                            case "0":loanHomeRadNo.setChecked(true); break;
+                    public void onNext(ApplyPersonAsset personAssetInfo) {
+                        loanWageEdi.setText(personAssetInfo.getHouseValue()+"");
+                        loanCityEdi.setText(personAssetInfo.getCarValue()+"");
+                        switch (personAssetInfo.getMyHouse()){
+                            case 1:loanHomeRadHave.setChecked(true);break;
+                            case 2:loanHomeRadHaveNo.setChecked(true); break;
+                            case 3:loanHomeRadNo.setChecked(true); break;
                         }
-                        switch (personAssetInfo.getHouse_type()){
-                            case "1":loanHomeTypeRad1.setChecked(true);break;
-                            case "2":loanHomeTypeRad2.setChecked(true);break;
-                            case "3":loanHomeTypeRad3.setChecked(true);break;
-                            case "4":loanHomeTypeRad4.setChecked(true);break;
-                            case "5":loanHomeTypeRad5.setChecked(true);break;
-                            case "6":loanHomeTypeRad6.setChecked(true);break;
-                            case "7":loanHomeTypeRad7.setChecked(true);break;
+                        switch (personAssetInfo.getHouseType()){
+                            case 1:loanHomeTypeRad1.setChecked(true);break;
+                            case 2:loanHomeTypeRad2.setChecked(true);break;
+                            case 3:loanHomeTypeRad3.setChecked(true);break;
+                            case 4:loanHomeTypeRad4.setChecked(true);break;
+                            case 5:loanHomeTypeRad5.setChecked(true);break;
+                            case 6:loanHomeTypeRad6.setChecked(true);break;
+                            case 7:loanHomeTypeRad7.setChecked(true);break;
                         }
-                        switch (personAssetInfo.getHouse_guaranty()){
-                            case "1":loanUseHomeRadTrue.setChecked(true);break;
-                            case "2":loanUseHomeRadFalse.setChecked(true); break;
+                        switch (personAssetInfo.getHouseGuaranty()){
+                            case 1:loanUseHomeRadTrue.setChecked(true);break;
+                            case 2:loanUseHomeRadFalse.setChecked(true); break;
                         }
-                        switch (personAssetInfo.getMy_car()){
-                            case "1":loanCarRad1.setChecked(true);break;
-                            case "2":loanCarRad2.setChecked(true);break;
-                            case "3":loanCarRad3.setChecked(true);break;
-                            case "4":loanCarRad4.setChecked(true);break;
+                        switch (personAssetInfo.getMyCar()){
+                            case 1:loanCarRad1.setChecked(true);break;
+                            case 2:loanCarRad2.setChecked(true);break;
+                            case 3:loanCarRad3.setChecked(true);break;
+                            case 4:loanCarRad4.setChecked(true);break;
                         }
-                        switch (personAssetInfo.getCar_guaranty()){
-                            case "1":loanUseCarRadTrue.setChecked(true);break;
-                            case "2":loanUseCarRadFalse.setChecked(true); break;
+                        switch (personAssetInfo.getCarGuaranty()){
+                            case 1:loanUseCarRadTrue.setChecked(true);break;
+                            case 2:loanUseCarRadFalse.setChecked(true); break;
                         }
                     }
                 });
@@ -235,17 +207,13 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
      * 对输入框是否为null进行控制
      */
     private void initApplyFor() {
-
         Observable<CharSequence> loanWage = RxTextView.textChanges(loanWageEdi).skip(1);
         Observable<CharSequence> loanCity = RxTextView.textChanges(loanCityEdi).skip(1);
         Subscription etSc = Observable.combineLatest(loanWage, loanCity, new Func2<CharSequence, CharSequence, Boolean>() {
             @Override
             public Boolean call(CharSequence charSequence, CharSequence charSequence2) {
-
                 boolean Bl = !TextUtils.isEmpty(charSequence);
                 boolean B2 = !TextUtils.isEmpty(charSequence2);
-
-
                 return Bl && B2 ;
             }
         }).subscribe(new Observer<Boolean>() {
@@ -344,12 +312,24 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
     String  car_value;
     String  car_guaranty;
     private void saveOrUpdatePersonWork() {
+        loanApplyForUserMsgBtn.setEnabled(false);
         house_value = loanWageEdi.getText().toString();
         car_value = loanCityEdi.getText().toString();
-        NetWork.getNewZxService().saveOrUpdatePersonAsset(realm.where(User.class).findFirst().getUser_id(),my_house,house_value,house_type,house_guaranty,my_car,car_value,car_guaranty)
+        ApplyPersonAsset applyPersonAsset=new ApplyPersonAsset();
+        applyPersonAsset.setPersonId(realm.where(NewUser.class).findFirst().getUserId());
+        applyPersonAsset.setCarGuaranty(Integer.parseInt(car_guaranty));
+        applyPersonAsset.setCarValue(new BigDecimal(car_value));
+        applyPersonAsset.setHouseGuaranty(Integer.parseInt(house_guaranty));
+        applyPersonAsset.setHouseType(Integer.parseInt(house_type));
+        applyPersonAsset.setHouseValue(Integer.parseInt(house_value));
+        applyPersonAsset.setMyCar(Integer.parseInt(my_car));
+        applyPersonAsset.setMyHouse(Integer.parseInt(my_house));
+        Gson g=new Gson();
+
+        NetWork.getNewZXD1_4Service().saveOrUpdatePersonAsset(g.toJson(applyPersonAsset))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResuleInfo>() {
+                .subscribe(new Observer<ResultCode>() {
                     @Override
                     public void onCompleted() {
 
@@ -361,12 +341,13 @@ public class LoanApplyMoneyMsgActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(ResuleInfo resuleInfo) {
+                    public void onNext(ResultCode resuleInfo) {
                         if(resuleInfo.getCode()==10001){
                             Toast.makeText(getApplicationContext(),"个人资产信息提交成功",Toast.LENGTH_SHORT).show();
                             onBackPressed();
                         }else{
                             Toast.makeText(getApplicationContext(),"个人资产信息提交失败",Toast.LENGTH_SHORT).show();
+                            loanApplyForUserMsgBtn.setEnabled(true);
                         }
                     }
                 });

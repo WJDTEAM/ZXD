@@ -2,15 +2,23 @@ package com.bf.zxd.zhuangxudai.network.api;
 
 import android.text.Html;
 
+import com.bf.zxd.zhuangxudai.pojo.ApplyPersonAsset;
+import com.bf.zxd.zhuangxudai.pojo.ApplyPersonBase;
+import com.bf.zxd.zhuangxudai.pojo.ApplyPersonWork;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyYbjDetail;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyYbjItem;
 import com.bf.zxd.zhuangxudai.pojo.DkhdItem;
+import com.bf.zxd.zhuangxudai.pojo.HouseBaseInfo;
 import com.bf.zxd.zhuangxudai.pojo.JzhdItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanTypes;
 import com.bf.zxd.zhuangxudai.pojo.ResultCode;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithImg;
+import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithLoanInfoId;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithUser;
 import com.bf.zxd.zhuangxudai.pojo.ZxglItem;
 
@@ -109,10 +117,11 @@ public interface NewZXD1_4Service {
 
     /**
      * 获取某个案例下图片
+     * 获取样板间图片
      * @return
      */
     @GET("getDecoCompanyCaseImages/{caseId}")
-    Observable<String> getDecoCompanyCaseImages(@Path("caseId") int caseId);
+    Observable<List<String>> getDecoCompanyCaseImages(@Path("caseId") int caseId);
 
     /**
      * 获取贷款类型
@@ -137,6 +146,116 @@ public interface NewZXD1_4Service {
     @GET("getLoanCompanyDetail/{companyId}")
     Observable<LoanCompanyDetail> getLoanCompanyDetail(@Path("companyId") int companyId);
 
+    /**
+     * 获取房屋风格、户型、面积信息
+     * @return
+     */
+    @GET("getHouseBaseInfo")
+    Observable<List<HouseBaseInfo>> getHouseBaseInfo();
 
+    /**
+     *  获取样板间列表
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("getDecoCompanyYbjItem")
+    Observable<List<DecoCompanyYbjItem>> getDecoCompanyYbjItem(@Field("houseStyle") Integer houseStyle, @Field("houseType") Integer houseType, @Field("houseArea") Integer houseArea);
+
+    /**
+     *  获取样板间详情
+     * @return
+     */
+    @GET("getDecoCompanyYbjDetail/{caseId}")
+    Observable<DecoCompanyYbjDetail> getDecoCompanyYbjDetail(@Path("caseId") int caseId);
+
+    /**
+     * 获取公司信息
+     * @return
+     */
+    @GET("getDecoCompanyDetail/{companyId}")
+    Observable<DecoCompanyDetail> getDecoCompanyDetail(@Path("companyId") int companyId);
+
+    /**
+     *  贷款申请人资产信息保存
+     *  "personId": Integer 用户ID
+     "myHouse":Integer名下房产：0-无房；1-有房，已抵押；2-有房，无抵押
+     "houseValue":Bidecimal房产估值
+     "houseType":Interger房产类型：1-商品住宅；2-商铺；3-厂房；4-办公楼；5-危改房；6-经济适用房；7-其他
+     "houseGuaranty":Integer房产抵押：1-能接受；2-不能接受
+     "myCar":Integer名下车产：1-有车，无抵押；2-有车，已抵押；3-无车，准备购买；4-无车
+     "carValue":Bigdecimal车辆估值
+     "carGuaranty":Integer车辆抵押：1-能接受；2-不能接受
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("saveOrUpdatePersonAsset")
+    Observable<ResultCode> saveOrUpdatePersonAsset
+    (@Field("personAsset") String personAsset);
+
+    /**
+     * 获取贷款申请人资产信息
+     * @return
+     */
+    @GET("getPersonAsset/{personId}")
+    Observable<ApplyPersonAsset> getPersonAsset(@Path("personId") int personId);
+
+    /**
+     *   贷款申请人工作信息保存
+     *  "personId": Integer 用户ID
+     " incomeType":Integer收入形势：1-银行代发；2-转账工资；3-现金发放
+     " localCpf":Integer本地公积金：0-无；1-有
+     " localSs": Interger本地社保：0-无；1-有
+     " monthlyIncome": String每月收入
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("saveOrUpdatePersonWork")
+    Observable<ResultCode> saveOrUpdatePersonWork
+            (@Field("personWork") String personWork);
+
+    /**
+     * 获取贷款申请人工作信息
+     * @return
+     */
+    @GET("getPersonWork/{personId}")
+    Observable<ApplyPersonWork> getPersonWork(@Path("personId") int personId);
+
+    /**
+     *   贷款申请人基本信息保存
+     *  "personId": Integer 用户ID
+     "fullName": String 申请人姓名
+     " mobilePhone":String 联系方式
+     " maritalStatus": Interger婚姻情况：0-未婚；1-已婚
+     "creditStatus": Integer信用状况：1-无信用卡和贷款；2-信用良好；3-一年内预期少于3次且少于90天；4:-一年内预期三次或超过90天
+     "addr": String 地址
+     "idCard": String 身份证号
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("saveOrUpdatePersonBase")
+    Observable<ResultCode> saveOrUpdatePersonBase
+            (@Field("personBase") String personBase);
+
+    /**
+     * 获取贷款申请人基本信息
+     * @return
+     */
+    @GET("getPersonBase/{personId}")
+    Observable<ApplyPersonBase> getPersonBase(@Path("personId") int personId);
+
+    /**
+     *   贷款基本信息保存
+     *  "fromUserId":Integer 用户ID
+     "toLoanCompanyId":Integer 借贷公司ID
+     "toDecoCompanyId":Integer 装修公司ID（若无，则默认为0）
+     "loanPurpose":String 贷款用途
+     "loanTerm":Integer 贷款周期
+     "loanAmount":String 贷款金额
+     "referrer":String 推荐人
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("saveLoanInfo")
+    Observable<ResultCodeWithLoanInfoId> saveLoanInfo(@Field("loan") String loan);
 
 }

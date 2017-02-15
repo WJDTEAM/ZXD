@@ -28,17 +28,28 @@ import android.widget.RelativeLayout;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
+import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
 import com.bf.zxd.zhuangxudai.util.SystemBarTintManager;
 import com.bf.zxd.zhuangxudai.zxgs.AppointmentActivity;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 import com.bf.zxd.zhuangxudai.zxgs.ZxgsDetailActivity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
+
+import static com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity.companyId;
 
 /**
  * Created by johe on 2017/1/9.
@@ -61,10 +72,10 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     BottomSheetBehavior mBottomSheetBehavior;
 
 
-
+    CompositeSubscription mcompositeSubscription;
 
     int CompanyId;
-
+    List<DecoCompanyCase> decoCompanyCases;//公司案例
     public int toolBarheight = 0;
 
     public boolean isToolBarShow = false;
@@ -112,7 +123,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tempalte_details);
         ButterKnife.bind(this);
-
+        mcompositeSubscription=new CompositeSubscription();
         changeSystemBarColor(R.color.black_dark);
         setToolbar(1, "");
         CompanyId=getIntent().getIntExtra("CompanyId",0);
@@ -123,7 +134,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         mTemplateDetailsFragment=TemplateDetailsFragment.newInstance();
 
         changeFragment(templateImgFragment,CHANGE_IMG_FRAGMENT);
-
+        initImgData(CompanyId);
 
 
     }
@@ -187,7 +198,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        mcompositeSubscription.unsubscribe();
 
     }
 
@@ -246,7 +257,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
             if(!baseToolBar.getTitle().equals("")){
-                changeFragmentByTAG(CHANGE_IMG_FRAGMENT,0);
+                changeFragmentByTAG(CHANGE_IMG_FRAGMENT,1);
             }else{
                 onBackPressed();
             }
@@ -265,11 +276,8 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
             //imgfragment下划入屏幕，隐藏toolbar和底部栏
             setToolbar(1, "");
             changeFragment(templateImgFragment,fragment);
-            if(index!=0){
                 templateImgFragment.index=index;
                 templateImgFragment.setViewPager(index);
-            }
-
             hide();
         }
     }
@@ -336,7 +344,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         switch (view.getId()) {
             case R.id.template_loan_lin:
                 if(LoanApplyActivity.bankId>0) {
-                    LoanApplyActivity.companyId = CompanyId;
+                    companyId = CompanyId;
                     startActivity(new Intent(TemplateActivity.this, LoanApplyActivity.class));
                 }else{
                     MainActivity.isBottom2=true;
@@ -350,6 +358,37 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                 break;
         }
     }
+
+    List<String> imgAddress;
+    public void initImgData(int caseeId){
+        imgAddress=new ArrayList<>();
+        Subscription subscription = NetWork.getNewZXD1_4Service().getDecoCompanyCaseImages(caseeId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<String>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("gqf","e"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<String> strings) {
+
+                        templateImgFragment.initImg(strings);
+                        mTemplateDetailsFragment.initListView(strings);
+                    }
+                });
+        mcompositeSubscription.add(subscription);
+    }
+    public List<String> getImgAddress(){
+        return  imgAddress;
+    }
+
 }
 
 

@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.pojo.jzzt;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyYbjItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -28,11 +28,11 @@ public class TemplateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     private Context mContext;
-    private List<jzzt> mDatas;
+    private List<DecoCompanyYbjItem> mDatas;
     private LayoutInflater mLayoutInflater;
     private MyItemClickListener mItemClickListener;
 
-    public TemplateListAdapter(Context mContext, List<jzzt> mDatas) {
+    public TemplateListAdapter(Context mContext, List<DecoCompanyYbjItem> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -46,11 +46,11 @@ public class TemplateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return viewHolder;
     }
 
-    public List<jzzt> getmDatas() {
+    public List<DecoCompanyYbjItem> getmDatas() {
         return mDatas;
     }
 
-    public void setmDatas(List<jzzt> mDatas) {
+    public void setmDatas(List<DecoCompanyYbjItem> mDatas) {
         this.mDatas = mDatas;
     }
 
@@ -63,7 +63,7 @@ public class TemplateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mItemClickListener= listener;
     }
 
-    public void update(List<jzzt> mDatas){
+    public void update(List<DecoCompanyYbjItem> mDatas){
         this.mDatas=mDatas;
         this.notifyDataSetChanged();
     }
@@ -79,12 +79,17 @@ public class TemplateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
         });
-        myViewHoder.templateItemTitle.setText(mDatas.get(position).getTitle());
-        myViewHoder.templateItemDetails.setText(mDatas.get(position).getDescription());
-        Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
-                .placeholder(R.drawable.demo)
-                .error(R.drawable.demo)
-                .into(myViewHoder.templateItemImg);
+        myViewHoder.templateItemTitle.setText(mDatas.get(position).getCaseName());
+        myViewHoder.templateItemDetails.setText(mDatas.get(position).getDesignInspiration());
+        if(mDatas.get(position).getThumbnails()!=null){
+            if(!mDatas.get(position).getThumbnails().equals("")){
+                Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
+                        .placeholder(R.drawable.demo)
+                        .error(R.drawable.demo)
+                        .into(myViewHoder.templateItemImg);
+            }
+        }
+
 
     }
 

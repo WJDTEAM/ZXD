@@ -3,7 +3,7 @@ package com.bf.zxd.zhuangxudai.Login;
 import android.content.Context;
 import android.content.Intent;
 
-import com.bf.zxd.zhuangxudai.pojo.User;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
 
 import io.realm.Realm;
 
@@ -32,7 +32,7 @@ public class LoginHelper {
         if(realm==null){
             realm=Realm.getDefaultInstance();
         }
-        if(realm.where(User.class).findFirst()==null){
+        if(realm.where(NewUser.class).findFirst()==null){
             Intent intent=new Intent(mContext,LoginActivity.class);
             LoginActivity.activity=activity;
             mContext.startActivity(intent);

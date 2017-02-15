@@ -15,11 +15,13 @@ import android.widget.Toast;
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
-import com.bf.zxd.zhuangxudai.model.PersonWorkInfo;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.User;
-import com.bf.zxd.zhuangxudai.pojo.VerificationInfo;
+import com.bf.zxd.zhuangxudai.pojo.ApplyPersonWork;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
+import com.bf.zxd.zhuangxudai.pojo.ResultCode;
+import com.google.gson.Gson;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -111,17 +113,6 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
         local_cpf="1";
         local_ss="1";
 
-
-//        wageWayRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                group.getId()
-//                Log.e("Daniel","----checkedId----"+checkedId);
-//
-//
-//            }
-//        });
-
     }
 
     @Override
@@ -136,10 +127,10 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
     }
     public void isApplyFor() {
         //判断三种信息是否全部提交
-        Subscription subscription_getZxgs = NetWork.getZxService().getVerificationInfo(realm.where(User.class).findFirst().getUser_id())
+        Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getPersonWork(realm.where(NewUser.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<VerificationInfo>() {
+                .subscribe(new Observer<ApplyPersonWork>() {
                     @Override
                     public void onCompleted() {
 
@@ -151,13 +142,23 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(VerificationInfo verificationInfo) {
+                    public void onNext(ApplyPersonWork personWorkInfo) {
 
-                        if (verificationInfo.getWork()) {
-                            initWorkInfo();
-
-                        } else {
-
+                        if(personWorkInfo!=null){
+                            loanWageEdi.setText(personWorkInfo.getMonthlyIncome()+"");
+                            switch (personWorkInfo.getIncomeType()){
+                                case 1:loanWageWayRad1.setChecked(true);break;
+                                case 2:loanWageWayRad2.setChecked(true); break;
+                                case 3:loanWageWayRad3.setChecked(true); break;
+                            }
+                            switch (personWorkInfo.getLocalCpf()){
+                                case 1:loanAccumulationRadTrue.setChecked(true);break;
+                                case 0:loanAccumulationRadFalse.setChecked(true); break;
+                            }
+                            switch (personWorkInfo.getLocalSs()){
+                                case 0:loanSocialSecurityRadFalse.setChecked(true);break;
+                                case 1:loanSocialSecurityRadTrue.setChecked(true); break;
+                            }
                         }
 
                     }
@@ -165,42 +166,7 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
         compositeSubscription.add(subscription_getZxgs);
     }
 
-    private void initWorkInfo() {
-        NetWork.getNewZxService().getLoanPersonWork(realm.where(User.class).findFirst().getUser_id())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PersonWorkInfo>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(PersonWorkInfo personWorkInfo) {
-                        loanWageEdi.setText(personWorkInfo.getMonthly_income());
-                        switch (personWorkInfo.getIncome_type()){
-                            case "1":loanWageWayRad1.setChecked(true);break;
-                            case "2":loanWageWayRad2.setChecked(true); break;
-                            case "3":loanWageWayRad3.setChecked(true); break;
-                        }
-                        switch (personWorkInfo.getLocal_cpf()){
-                            case "1":loanAccumulationRadTrue.setChecked(true);break;
-                            case "0":loanAccumulationRadFalse.setChecked(true); break;
-                        }
-                        switch (personWorkInfo.getLocal_ss()){
-                            case "0":loanSocialSecurityRadFalse.setChecked(true);break;
-                            case "1":loanSocialSecurityRadTrue.setChecked(true); break;
-                        }
-
-                    }
-                });
-
-    }
 
     private void setToolbar(String toolstr) {
         baseToolBar.setTitle(toolstr);
@@ -264,10 +230,19 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
     private String local_ss;
     private void saveOrUpdatePersonWork() {
         monthly_income = loanWageEdi.getText().toString();
-        NetWork.getNewZxService().saveOrUpdatePersonWork(realm.where(User.class).findFirst().getUser_id(),income_type,monthly_income,local_cpf,local_ss)
+
+        loanApplyForUserMsgBtn.setEnabled(false);
+        ApplyPersonWork applyPersonWork=new ApplyPersonWork();
+        applyPersonWork.setPersonId(realm.where(NewUser.class).findFirst().getUserId());
+        applyPersonWork.setIncomeType(Integer.parseInt(income_type));
+        applyPersonWork.setLocalCpf(Integer.parseInt(local_cpf));
+        applyPersonWork.setLocalSs(Integer.parseInt(local_ss));
+        applyPersonWork.setMonthlyIncome(new BigDecimal(monthly_income));
+        Gson g=new Gson();
+        NetWork.getNewZXD1_4Service().saveOrUpdatePersonWork(g.toJson(applyPersonWork))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResuleInfo>() {
+                .subscribe(new Observer<ResultCode>() {
                     @Override
                     public void onCompleted() {
 
@@ -279,12 +254,13 @@ public class LoanApplyWorkMsgActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(ResuleInfo resuleInfo) {
-                        if(resuleInfo.getCode()==10001){
-                            Toast.makeText(getApplicationContext(),"个人工作信息提交成功",Toast.LENGTH_SHORT).show();
+                    public void onNext(ResultCode resuleInfo) {
+                        if (resuleInfo.getCode() == 10001) {
+                            Toast.makeText(getApplicationContext(), "信息提交成功", Toast.LENGTH_SHORT).show();
                             onBackPressed();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"个人工作信息提交失败",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "信息提交失败", Toast.LENGTH_SHORT).show();
+                            loanApplyForUserMsgBtn.setEnabled(true);
                         }
 
                     }

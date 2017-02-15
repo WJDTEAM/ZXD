@@ -15,24 +15,17 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
-import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
 import com.bf.zxd.zhuangxudai.template.TemplateHorizontalListAdapter;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-import rx.Observer;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -83,27 +76,6 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
-        //获取案例列表
-        Subscription subscription_getZxgs= NetWork.getNewZXD1_4Service().getDecoCompanyCase(Zxgs_id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<DecoCompanyCase>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<DecoCompanyCase> zxgs) {
-
-                    }
-                });
-        compositeSubscription.add(subscription_getZxgs);
 
 
     }
@@ -118,16 +90,11 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
 
         compositeSubscription = new CompositeSubscription();
         initDate();
-        initListView();
+
     }
 
-    List<String> data;
-    public void initListView(){
-        data=new ArrayList<>();
-        for(int i=0;i<14;i++){
-            data.add("");
-        }
-        templateHorizontalListAdapter=new TemplateHorizontalListAdapter(ZxgsDetailActivity.this,data);
+    public void initListView(List<String> zxgs){
+        templateHorizontalListAdapter=new TemplateHorizontalListAdapter(ZxgsDetailActivity.this,zxgs);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(ZxgsDetailActivity.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         allImgsRecyclerView.setLayoutManager(linearLayoutManager);

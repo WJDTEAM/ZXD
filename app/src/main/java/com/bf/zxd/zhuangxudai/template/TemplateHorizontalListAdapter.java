@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bf.zxd.zhuangxudai.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -71,10 +72,13 @@ public class TemplateHorizontalListAdapter extends RecyclerView.Adapter<Recycler
                 mItemClickListener.onItemClick(myViewHoder.listImg,position);
             }
         });
-        if((position+1)%2==0){
-            myViewHoder.listImg.setImageResource(R.drawable.demo2);
-        }else{
-            myViewHoder.listImg.setImageResource(R.drawable.demo);
+        if(mDatas.get(position)!=null){
+            if(!mDatas.get(position).equals("")){
+                Picasso.with(mContext).load(mDatas.get(position))
+                        .placeholder(R.drawable.demo)
+                        .error(R.drawable.demo2)
+                        .into(myViewHoder.listImg);
+            }
         }
     }
 

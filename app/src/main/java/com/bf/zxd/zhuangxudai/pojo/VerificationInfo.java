@@ -5,9 +5,9 @@ package com.bf.zxd.zhuangxudai.pojo;
  */
 
 public class VerificationInfo {
-    Boolean base;
-    Boolean work;
-    Boolean asset;
+    Boolean base=false;
+    Boolean work=false;
+    Boolean asset=false;
 
     public Boolean getBase() {
         return base;

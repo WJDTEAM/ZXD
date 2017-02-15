@@ -3,10 +3,9 @@ package com.bf.zxd.zhuangxudai.zxgs;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,16 +19,17 @@ import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.Login.LoginActivity;
 import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.model.LoanApplyResult;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.ApplyLoan;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
 import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
-import com.bf.zxd.zhuangxudai.pojo.User;
+import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithLoanInfoId;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
 import com.bf.zxd.zhuangxudai.pojo.zxgs_wjd;
 import com.bf.zxd.zhuangxudai.util.BitmapDeleteNoUseSpaceUtil;
-import com.bf.zxd.zhuangxudai.util.UrlEncoded;
+import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -95,12 +95,14 @@ public class LoanApplyActivity extends BaseActivity {
     EditText loanUseforEdi;
     @BindView(R.id.makeLoadDays_txt)
     TextView makeLoadDays_txt;
+    @BindView(R.id.loan_referrer_edi)
+    EditText loanReferrerEdi;
     private int mSex = 1;
 
-    public static int companyId = -1;
+    public static int companyId = 0;
     public static int bankId = -1;
     Zxgs mZxgs;
-    public  RecommendBank mRecommendBank;
+    public RecommendBank mRecommendBank;
     public LoanCompanyDetail mZxd;
     CompositeSubscription mcompositeSubscription;
 
@@ -142,8 +144,9 @@ public class LoanApplyActivity extends BaseActivity {
     }
 
     LoginHelper loginHelper;
-    public boolean initLogin(){
-        loginHelper=LoginHelper.getInstence();
+
+    public boolean initLogin() {
+        loginHelper = LoginHelper.getInstence();
         return loginHelper.startActivityWithLogin(this, LoanApplyActivity.class);
     }
 
@@ -153,33 +156,19 @@ public class LoanApplyActivity extends BaseActivity {
 
     }
 
-//    @Override
-//    protected void onP() {
-//        super.onStart();
-//        boolean isLogin=initLogin();
-//        if(isLogin){
-//            int userId=realm.where(User.class).findFirst().getUser_id();
-//            initApplyFor();
-//            initCompanyMsg();
-//            initBank();
-//            initEdi();
-//        }
-//    }
     @Override
     public void initView() {
         setContentView(R.layout.activity_loan);
         ButterKnife.bind(this);
         setToolBar();
-        Log.i("gqf","activity_loan");
+        Log.i("gqf", "activity_loan");
         mcompositeSubscription = new CompositeSubscription();
-        realm=Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
         initApplyFor();
         initCompanyMsg();
         initBank();
-        initEdi();
 
     }
-
 
 
     @Override
@@ -202,7 +191,7 @@ public class LoanApplyActivity extends BaseActivity {
     }
 
     public void initCompanyMsg() {
-        if (companyId != -1) {
+        if (companyId != 0) {
             Log.i("gqf", "companyId" + companyId);
             Subscription subscription = NetWork.getZxService().getZxgs(companyId)
                     .subscribeOn(Schedulers.io())
@@ -238,12 +227,12 @@ public class LoanApplyActivity extends BaseActivity {
         if (mZxd != null) {
             bankTopLinear.setVisibility(View.VISIBLE);
             applyMoneyTv.setText("申请金额(万)");
-            if (mZxd.getCompanyIcon()!=null&&!mZxd.getCompanyIcon().equals("")) {
+            if (mZxd.getCompanyIcon() != null && !mZxd.getCompanyIcon().equals("")) {
                 Picasso.with(this).load(mZxd.getCompanyIcon()).into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        if(bitmap!=null){
-                            bankpicImg.setImageBitmap(BitmapDeleteNoUseSpaceUtil.getTransparentBitmap2(bitmap,50,10));
+                        if (bitmap != null) {
+                            bankpicImg.setImageBitmap(BitmapDeleteNoUseSpaceUtil.getTransparentBitmap2(bitmap, 50, 10));
                             bankpicImg.setBackgroundResource(R.color.transparent);
                         }
                     }
@@ -260,17 +249,17 @@ public class LoanApplyActivity extends BaseActivity {
                 });
             }
             bankNameTv.setText(mZxd.getCompanyName());
-            moneyRangeTv.setText(mZxd.getMinMoney().intValue()+"-"+mZxd.getMaxMoney().intValue()+"/万");
+            moneyRangeTv.setText(mZxd.getMinMoney().intValue() + "-" + mZxd.getMaxMoney().intValue() + "/万");
             cycleUnitTv.setText("还款期限(月)");
-            cycleTv.setText(""+mZxd.getMinCycle()+"-"+mZxd.getMaxCycle()+"/月");
+            cycleTv.setText("" + mZxd.getMinCycle() + "-" + mZxd.getMaxCycle() + "/月");
             rateUnitTv.setText("月费率");
             rateTv.setText(mZxd.getRate());
             productDescLoanapplyTx.setText(mZxd.getProductDesc());
             applicationLoanapplyTx.setText(mZxd.getApplication());
             requiredLoanapplyTx.setText(mZxd.getRequired());
-            loanMoneyEdi.setHint(mZxd.getMinMoney()+"-"+mZxd.getMaxMoney()+"/万");
-            loanTimeEdi.setHint(""+mZxd.getMinCycle()+"-"+mZxd.getMaxCycle()+"/月");
-            makeLoadDays_txt.setText("放贷速度："+mZxd.getMakeLoadDays()+mZxd.getLoadUnit()+"内");
+            loanMoneyEdi.setHint(mZxd.getMinMoney() + "-" + mZxd.getMaxMoney() + "/万");
+            loanTimeEdi.setHint("" + mZxd.getMinCycle() + "-" + mZxd.getMaxCycle() + "/月");
+            makeLoadDays_txt.setText("放贷速度：" + mZxd.getMakeLoadDays() + mZxd.getLoadUnit() + "内");
 
         } else {
             bankTopLinear.setVisibility(View.GONE);
@@ -280,11 +269,11 @@ public class LoanApplyActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        companyId = -1;
+        companyId = 0;
         mZxd = null;
         mZxgs = null;
-        isApply=false;
-        bankId=-1;
+        isApply = false;
+        bankId = -1;
         realm.close();
         mcompositeSubscription.unsubscribe();
     }
@@ -293,39 +282,33 @@ public class LoanApplyActivity extends BaseActivity {
     public void onClick() {
         //跳转sh申请界面
 
-        Double d1=Double.parseDouble(loanMoneyEdi.getText().toString());
-        Double d2=Double.parseDouble(mZxd.getMinMoney()+"");
-        Double d3=Double.parseDouble(mZxd.getMaxMoney()+"");
+        Double d1 = Double.parseDouble(loanMoneyEdi.getText().toString());
+        Double d2 = Double.parseDouble(mZxd.getMaxMoney() + "");
+        Double d3 = Double.parseDouble(mZxd.getMinMoney() + "");
 
+        Log.i("gqf", "onClick" + d1 + "onClick" + d2 + "onClick" + d3);
 
-        Log.i("gqf","onClick"+d1+"onClick"+d2+"onClick"+d3);
+        if (d1 < d3) {
+            Toast.makeText(getApplicationContext(), "您所申请的金额不符合银行规定", Toast.LENGTH_SHORT).show();
+        } else if (d1 > d2) {
+            Toast.makeText(getApplicationContext(), "您所申请的金额不符合银行规定", Toast.LENGTH_SHORT).show();
 
-        if(companyId==0) {
-            Toast.makeText(getApplicationContext(),"请选择公司",Toast.LENGTH_SHORT).show();
-
-        }
-        else if(d1<d3){
-            Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT).show();;
-        }
-        else if(d1>d2){
-            Toast.makeText(getApplicationContext(),"您所申请的金额不符合银行规定",Toast.LENGTH_SHORT).show();;
-        }
-        else if(!((Integer.parseInt(loanTimeEdi.getText().toString()) <= Integer.parseInt(mZxd.getMinCycle()+"")
-                && Integer.parseInt(loanTimeEdi.getText().toString()) >= Integer.parseInt(mZxd.getMaxCycle()+"")))){
-            Toast.makeText(getApplicationContext(),"您所申请的还款时间不符合银行规定",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            isApply=true;
-            boolean isLogin=initLogin();
-            LoginActivity.activity=null;
-            if(isLogin){
+        } else if (((Integer.parseInt(loanTimeEdi.getText().toString()) < Integer.parseInt(mZxd.getMinCycle() + "")
+                && Integer.parseInt(loanTimeEdi.getText().toString()) > Integer.parseInt(mZxd.getMaxCycle() + "")))) {
+            Toast.makeText(getApplicationContext(), "您所申请的还款时间不符合银行规定", Toast.LENGTH_SHORT).show();
+        } else {
+            isApply = true;
+            boolean isLogin = initLogin();
+            LoginActivity.activity = null;
+            if (isLogin) {
                 applyFor();
             }
 
         }
 
     }
-    Boolean isApply=false;
+
+    Boolean isApply = false;
     private dksqinfo mDksqInfo;
 
     @Override
@@ -333,10 +316,10 @@ public class LoanApplyActivity extends BaseActivity {
         super.onRestart();
         initCompanyMsg();
         initBank();
-        if(isApply&&realm.where(User.class).findFirst()!=null){
+        if (isApply && realm.where(NewUser.class).findFirst() != null) {
             applyFor();
-        }else{
-            isApply=false;
+        } else {
+            isApply = false;
         }
 
 
@@ -358,7 +341,6 @@ public class LoanApplyActivity extends BaseActivity {
                 Log.e("Daniel", "-companyId--" + companyId);
 
 
-
             }
         });
 
@@ -375,8 +357,10 @@ public class LoanApplyActivity extends BaseActivity {
                 break;
         }
     }
+
     private String[] mCompanyDatas;
-    private HashMap<String,Integer> map;
+    private HashMap<String, Integer> map;
+
     private void getZxgsItem() {
         Subscription subscription_getZxgsItem = NetWork.getZxService().getZxgsItem()
                 .subscribeOn(Schedulers.io())
@@ -398,10 +382,10 @@ public class LoanApplyActivity extends BaseActivity {
                         mCompanyDatas = new String[_length];
                         map = new HashMap();
                         for (int i = 0; i < _length; i++) {
-                            zxgs_wjd _company =zxgs_wjds.get(i);
-                            mCompanyDatas[i]=_company.getZxgs_name();
+                            zxgs_wjd _company = zxgs_wjds.get(i);
+                            mCompanyDatas[i] = _company.getZxgs_name();
 
-                            map.put(_company.getZxgs_name(),_company.getZxgs_id());
+                            map.put(_company.getZxgs_name(), _company.getZxgs_id());
 
                         }
 
@@ -422,15 +406,15 @@ public class LoanApplyActivity extends BaseActivity {
         Observable<CharSequence> phoneOs = RxTextView.textChanges(loanTimeEdi).skip(1);
         Observable<CharSequence> useOs = RxTextView.textChanges(loanUseforEdi).skip(1);
 
-        Subscription etSc = Observable.combineLatest(nameOs, phoneOs,useOs, new Func3<CharSequence, CharSequence, CharSequence,Boolean>() {
+        Subscription etSc = Observable.combineLatest(nameOs, phoneOs, useOs, new Func3<CharSequence, CharSequence, CharSequence, Boolean>() {
             @Override
-            public Boolean call(CharSequence charSequence, CharSequence charSequence2,CharSequence charSequence3) {
+            public Boolean call(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3) {
                 boolean Bl = !TextUtils.isEmpty(charSequence);
                 boolean B2 = !TextUtils.isEmpty(charSequence2);
                 boolean B3 = !TextUtils.isEmpty(charSequence3);
 
 
-                return Bl && B2 &&B3;
+                return Bl && B2 && B3;
             }
         }).subscribe(new Observer<Boolean>() {
             @Override
@@ -441,10 +425,11 @@ public class LoanApplyActivity extends BaseActivity {
             @Override
             public void onError(Throwable e) {
             }
+
             @DebugLog
             @Override
             public void onNext(Boolean aBoolean) {
-                Log.e("Daniel","---aBoolean---"+aBoolean);
+                Log.e("Daniel", "---aBoolean---" + aBoolean);
                 loanApplyForBtn.setEnabled(aBoolean);
             }
         });
@@ -453,16 +438,30 @@ public class LoanApplyActivity extends BaseActivity {
 
     /**
      * 贷款申请保存
+     * "fromUserId":Integer 用户ID
+     * "toLoanCompanyId":Integer 借贷公司ID
+     * "toDecoCompanyId":Integer 装修公司ID（若无，则默认为0）
+     * "loanPurpose":String 贷款用途
+     * "loanTerm":Integer 贷款周期
+     * "loanAmount":String 贷款金额
+     * "referrer":String 推荐人
      */
     //提交信息,并跳转页面
     public void applyFor() {
-        //realm.where(User.class).findFirst().getUserId()
-        Subscription subscription_getZxgs = NetWork.getZxService().saveDksq(mZxd.getCompanyId(),realm.where(User.class).findFirst().getUser_id(),companyId,
-               new BigDecimal(Double.parseDouble(loanMoneyEdi.getText().toString())) , UrlEncoded.toURLEncoded(loanUseforEdi.getText().toString()),loanTimeEdi.getText().toString()
-                )
+        //realm.where(User.class).findFirst().getUserId()  loan
+        ApplyLoan applyLoan=new ApplyLoan();
+        applyLoan.setFromUserId(realm.where(NewUser.class).findFirst().getUserId());
+        applyLoan.setToLoanCompanyId(bankId);
+        applyLoan.setToDecoCompanyId(companyId);
+        applyLoan.setLoanTerm(Integer.parseInt(loanTimeEdi.getText().toString()));
+        applyLoan.setLoanAmount(new BigDecimal(loanMoneyEdi.getText().toString()));
+        applyLoan.setReferrer( loanReferrerEdi.getText().toString());
+        applyLoan.setLoanPurpose(loanUseforEdi.getText().toString());
+        Gson g=new Gson();
+        Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().saveLoanInfo(g.toJson(applyLoan))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<LoanApplyResult>() {
+                .subscribe(new Observer<ResultCodeWithLoanInfoId>() {
                     @Override
                     public void onCompleted() {
 
@@ -474,15 +473,15 @@ public class LoanApplyActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(LoanApplyResult resuleInfo) {
-                        if(resuleInfo.getCode()==10001) {
-                            LoanApplyAllMsgActivity.APPLYBASEID=resuleInfo.getApply_base_id();
+                    public void onNext(ResultCodeWithLoanInfoId resuleInfo) {
+                        if (resuleInfo.getCode() == 10001) {
+                            LoanApplyAllMsgActivity.APPLYBASEID = resuleInfo.getApplyId();
                             Intent _intent = new Intent(LoanApplyActivity.this, LoanApplyAllMsgActivity.class);
-                            _intent.putExtra("Apply_base_id",resuleInfo.getApply_base_id());
+                            _intent.putExtra("Apply_base_id", resuleInfo.getApplyId());
                             startActivity(_intent);
                             finish();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"信息提交失败",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "信息提交失败", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -491,51 +490,12 @@ public class LoanApplyActivity extends BaseActivity {
 
     }
 
-    public void initEdi(){
-        loanMoneyEdi.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                if(!editable.toString().equals("")){
-                    int m=Integer.parseInt(mZxd.getMaxMoney()+"");
-                    if(editable.toString().toString().length()>(m+"").length()){
-                        editable.delete(loanMoneyEdi.getSelectionStart()-1, loanMoneyEdi.getSelectionStart());
-                    }
-                }
-            }
-        });
-
-        loanTimeEdi.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-                if(!editable.toString().equals("")) {
-                    if (Integer.parseInt(editable.toString()) > Integer.parseInt(mZxd.getMaxCycle()+"")) {
-                        editable.delete(loanTimeEdi.getSelectionStart()-1, loanTimeEdi.getSelectionStart());
-                    }
-                }
-
-            }
-        });
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

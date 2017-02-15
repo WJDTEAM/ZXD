@@ -38,4 +38,13 @@ public class DecoCompanyCase {
     public void setThumbnails(String thumbnails) {
         this.thumbnails = thumbnails;
     }
+
+    @Override
+    public String toString() {
+        return "DecoCompanyCase{" +
+                "caseId=" + caseId +
+                ", caseName='" + caseName + '\'' +
+                ", thumbnails='" + thumbnails + '\'' +
+                '}';
+    }
 }

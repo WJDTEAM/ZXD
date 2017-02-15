@@ -20,14 +20,14 @@ import com.bf.zxd.zhuangxudai.Interfaces.ScrollViewListener;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.CustomScrollView;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.Zxgs;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyDetail;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyYbjDetail;
 import com.bf.zxd.zhuangxudai.zxgs.ZxgsDetailActivity;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,8 +53,6 @@ public class TemplateDetailsFragment extends Fragment {
     Toolbar baseToolBar;
     @BindView(R.id.slider)
     SliderLayout slider;
-    @BindView(R.id.textView2)
-    TextView textView2;
     @BindView(R.id.image)
     CircleImageView image;
     @BindView(R.id.above_txt)
@@ -80,6 +78,15 @@ public class TemplateDetailsFragment extends Fragment {
     RecyclerView allImgsRecyclerView;
 
     TemplateHorizontalListAdapter templateHorizontalListAdapter;
+    @BindView(R.id.designInspiration_txt)
+    TextView designInspirationTxt;
+    @BindView(R.id.housingSituation_txt)
+    TextView housingSituationTxt;
+    @BindView(R.id.imgs_num_txt)
+    TextView imgsNumTxt;
+    @BindView(R.id.comments_num_txt)
+    TextView commentsNumTxt;
+
     public static TemplateDetailsFragment newInstance() {
         TemplateDetailsFragment fragment = new TemplateDetailsFragment();
         return fragment;
@@ -100,11 +107,13 @@ public class TemplateDetailsFragment extends Fragment {
 
         public boolean isToolBarShow();
 
-        public void changeFragmentByTAG(String fragment,int index);
+        public void changeFragmentByTAG(String fragment, int index);
 
         public int getCompanyId();
 
         public void startActivity(Class<ZxgsDetailActivity> activity);
+
+        public List<String> getImgAddress();
     }
 
     private mDetailsListener mListener;
@@ -132,7 +141,7 @@ public class TemplateDetailsFragment extends Fragment {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     upY = motionEvent.getY();
                     if ((upY - downY) > TemplateActivity.slidingDistance && scrolHeight == 0) {
-                        mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,0);
+                        mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT, 1);
                         return true;
                     }
                 }
@@ -147,7 +156,6 @@ public class TemplateDetailsFragment extends Fragment {
                 Log.i("gqf", "int x" + x + "int y" + y + "int oldx" + oldx + "int oldy" + oldy);
             }
         });
-        initSliderLayout();
 
         return view;
     }
@@ -155,38 +163,44 @@ public class TemplateDetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initData(mListener.getCompanyId());
-        initListView();
     }
-    List<String> data;
-    public void initListView(){
-        data=new ArrayList<>();
-        for(int i=0;i<14;i++){
-            data.add("");
-        }
-        templateHorizontalListAdapter=new TemplateHorizontalListAdapter(getActivity(),data);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
+
+
+    public void initListView(List<String> imgs) {
+        templateHorizontalListAdapter = new TemplateHorizontalListAdapter(getActivity(), imgs);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         allImgsRecyclerView.setLayoutManager(linearLayoutManager);
         allImgsRecyclerView.setAdapter(templateHorizontalListAdapter);
         templateHorizontalListAdapter.setOnItemClickListener(new TemplateHorizontalListAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,postion+1);
+                mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT, postion + 1);
             }
         });
+        initSliderLayout(imgs);
     }
-    public void initSliderLayout() {
-        TextSliderView textSliderView1 = new TextSliderView(this.getActivity());
-        textSliderView1.image(R.drawable.demo2);
-        textSliderView1.description("新品推荐");
-        TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
-        textSliderView2.image(R.drawable.demo);
-        textSliderView2.description("老品推荐");
 
+    public void initSliderLayout(List<String> imgs) {
+        TextSliderView textSliderView1 = new TextSliderView(this.getActivity());
+        textSliderView1.image(imgs.get(imgs.size()-1));
+
+        textSliderView1.description("新品推荐");
         slider.addSlider(textSliderView1);
-        slider.addSlider(textSliderView2);
+        if(imgs.size()>2) {
+            TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
+            textSliderView2.image(imgs.get(imgs.size() - 2));
+            textSliderView2.description("收藏最多");
+            slider.addSlider(textSliderView2);
+        }
+        if(imgs.size()>3){
+            TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
+            textSliderView2.image(imgs.get(imgs.size() - 3));
+            textSliderView2.description("流行样板");
+            slider.addSlider(textSliderView2);
+        }
+
 
         //阴影显示的动画效果
         slider.setCustomAnimation(new DescriptionAnimation());
@@ -196,10 +210,10 @@ public class TemplateDetailsFragment extends Fragment {
 
 
     public void initData(int id) {
-        Subscription subscription = NetWork.getZxService().getZxgs(id)
+        Subscription subscription = NetWork.getNewZXD1_4Service().getDecoCompanyYbjDetail(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Zxgs>() {
+                .subscribe(new Observer<DecoCompanyYbjDetail>() {
                     @Override
                     public void onCompleted() {
                         Log.i("gqf", "onCompleted");
@@ -211,23 +225,66 @@ public class TemplateDetailsFragment extends Fragment {
                     }
 
                     @Override
-                    public void onNext(Zxgs zxgs) {
+                    public void onNext(DecoCompanyYbjDetail zxgs) {
                         Log.i("gqf", "mListener" + zxgs.toString());
-                        initView(zxgs);
+                        initYBJView(zxgs);
                     }
                 });
         mcompositeSubscription.add(subscription);
     }
 
-    public void initView(Zxgs zxgs) {
-        aboveTxt.setText(zxgs.getCompany_name());
-        companyAddress1.setText(zxgs.getAddr());
-        companyAddress2.setText(zxgs.getAddr());
-        companyPhone.setText(zxgs.getTel());
-        Picasso.with(getActivity()).load(zxgs.getLogo_img())
+    public void initYBJView(DecoCompanyYbjDetail zxgs) {
+        companyAddress1.setText(zxgs.getBuildingAddr());
+        Picasso.with(getActivity()).load(zxgs.getThumbnails())
                 .placeholder(R.drawable.home_zxgs)
                 .error(R.drawable.home_zxgs)
                 .into(image);
+        designInspirationTxt.setText(zxgs.getDesignInspiration());
+        housingSituationTxt.setText(zxgs.getHousingSituation());
+        commentsNumTxt.setText(zxgs.getComments()+"");
+
+        initCompanyData(zxgs.getCompanyId());
+    }
+
+    public void initCompanyData(int companyId) {
+        Subscription subscription = NetWork.getNewZXD1_4Service().getDecoCompanyDetail(companyId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DecoCompanyDetail>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(DecoCompanyDetail decoCompanyDetail) {
+                        initCompanyView(decoCompanyDetail);
+                    }
+                });
+        mcompositeSubscription.add(subscription);
+    }
+
+    public void initCompanyView(DecoCompanyDetail decoCompanyDetail) {
+
+        if(decoCompanyDetail.getCompanyIcon()!=null){
+            if(!decoCompanyDetail.getCompanyIcon().equals("")){
+                Picasso.with(getActivity()).load(decoCompanyDetail.getCompanyIcon())
+                        .placeholder(R.drawable.demo)
+                        .error(R.drawable.demo)
+                        .into(image);
+            }
+        }
+
+        companyAddress2.setText(decoCompanyDetail.getAddr());
+        companyPhone.setText(decoCompanyDetail.getTel());
+        aboveTxt.setText(decoCompanyDetail.getCompanyName());
+
+
     }
 
 }

@@ -16,10 +16,11 @@ import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.LoanPersonBase;
-import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.User;
+import com.bf.zxd.zhuangxudai.pojo.ApplyPersonBase;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
+import com.bf.zxd.zhuangxudai.pojo.ResultCode;
 import com.bf.zxd.zhuangxudai.util.UrlEncoded;
+import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import butterknife.BindView;
@@ -159,13 +160,13 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
 
     String marital_status="1";
     String credit_status="1";
-    LoanPersonBase mloanPersonBase;
+    ApplyPersonBase mloanPersonBase;
 
     public void initData() {
-        Subscription subscription_getZxgs = NetWork.getZxService().getLoanPersonBase(realm.where(User.class).findFirst().getUser_id())
+        Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getPersonBase(realm.where(NewUser.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<LoanPersonBase>() {
+                .subscribe(new Observer<ApplyPersonBase>() {
                     @Override
                     public void onCompleted() {
 
@@ -177,13 +178,13 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(LoanPersonBase loanPersonBase) {
+                    public void onNext(ApplyPersonBase loanPersonBase) {
                         Log.i("gqf","initData+"+"onNext"+loanPersonBase.toString());
-                        loanNameEdi.setText(loanPersonBase.getFull_name());
-                        loanPhoneEdi.setText(loanPersonBase.getMobile_phone());
+                        loanNameEdi.setText(loanPersonBase.getFullName());
+                        loanPhoneEdi.setText(loanPersonBase.getMobilePhone());
                         loanCityEdi.setText(loanPersonBase.getAddr());
-                        loanIdNumEdi.setText(loanPersonBase.getId_card());
-                        if (loanPersonBase.getMarital_status()==1) {
+                        loanIdNumEdi.setText(loanPersonBase.getIdCard());
+                        if (loanPersonBase.getMaritalStatus()==1) {
                             loanMarryRadTrue.setChecked(true);
                             loanMarryRadFalse.setChecked(false);
                             marital_status = "1";
@@ -192,13 +193,13 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
                             loanMarryRadTrue.setChecked(false);
                             marital_status = "2";
                         }
-                        if (loanPersonBase.getCredit_status()==1) {
+                        if (loanPersonBase.getCreditStatus()==1) {
                             loanCreditRad1.setChecked(true);
                             credit_status = "1";
-                        } else if (loanPersonBase.getCredit_status()==2) {
+                        } else if (loanPersonBase.getCreditStatus()==2) {
                             loanCreditRad2.setChecked(true);
                             credit_status = "2";
-                        } else if (loanPersonBase.getCredit_status()==3) {
+                        } else if (loanPersonBase.getCreditStatus()==3) {
                             loanCreditRad3.setChecked(true);
                             credit_status = "3";
                         } else {
@@ -209,7 +210,6 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);
-
     }
 
     /*
@@ -218,12 +218,20 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
      @Field("id_card") String id_card);
      */
     public void applyForLoanPersonBase() {
-        Subscription subscription_getZxgs = NetWork.getZxService().saveOrUpdatePersonBase(realm.where(User.class).findFirst().getUser_id(),
-                UrlEncoded.toURLEncoded(loanNameEdi.getText().toString()), loanPhoneEdi.getText().toString(),marital_status,credit_status,UrlEncoded.toURLEncoded(loanCityEdi.getText().toString()),loanIdNumEdi.getText().toString()
-                )
+        loanApplyForUserMsgBtn.setEnabled(false);
+        ApplyPersonBase applyPersonBase=new ApplyPersonBase();
+        applyPersonBase.setPersonId(realm.where(NewUser.class).findFirst().getUserId());
+        applyPersonBase.setFullName(UrlEncoded.toURLEncoded(loanNameEdi.getText().toString()));
+        applyPersonBase.setMobilePhone(loanPhoneEdi.getText().toString());
+        applyPersonBase.setMaritalStatus(Integer.parseInt(marital_status));
+        applyPersonBase.setCreditStatus(Integer.parseInt(credit_status));
+        applyPersonBase.setAddr(UrlEncoded.toURLEncoded(loanCityEdi.getText().toString()));
+        applyPersonBase.setIdCard(loanIdNumEdi.getText().toString());
+        Gson g=new Gson();
+        Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().saveOrUpdatePersonBase(g.toJson(applyPersonBase))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResuleInfo>() {
+                .subscribe(new Observer<ResultCode>() {
                     @Override
                     public void onCompleted() {
 
@@ -234,13 +242,15 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
 
                     }
                     @Override
-                    public void onNext(ResuleInfo resuleInfo) {
+                    public void onNext(ResultCode resuleInfo) {
                         if(resuleInfo.getCode()==10001){
                             Toast.makeText(getApplicationContext(),"个人信息提交成功",Toast.LENGTH_SHORT).show();
                             onBackPressed();
                         }else{
                             Toast.makeText(getApplicationContext(),"个人信息提交失败",Toast.LENGTH_SHORT).show();
+                            loanApplyForUserMsgBtn.setEnabled(true);
                         }
+
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);

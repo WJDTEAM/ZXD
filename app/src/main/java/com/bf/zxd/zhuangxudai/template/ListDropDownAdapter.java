@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.pojo.DictData;
+import com.bf.zxd.zhuangxudai.pojo.HouseBaseInfo;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 public class ListDropDownAdapter extends BaseAdapter {
 
     private Context context;
-    private List<DictData> list;
+    private List<HouseBaseInfo> list;
     private int checkItemPosition = 0;
 
     public void setCheckItem(int position) {
@@ -27,7 +27,7 @@ public class ListDropDownAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public ListDropDownAdapter(Context context, List<DictData> list) {
+    public ListDropDownAdapter(Context context, List<HouseBaseInfo> list) {
         this.context = context;
         this.list = list;
     }
@@ -62,7 +62,7 @@ public class ListDropDownAdapter extends BaseAdapter {
     }
 
     private void fillValue(int position, ViewHolder viewHolder) {
-        viewHolder.mText.setText(list.get(position).getDict_desc());
+        viewHolder.mText.setText(list.get(position).getDictDesc());
         if (checkItemPosition != -1) {
             if (checkItemPosition == position) {
                 viewHolder.mText.setTextColor(context.getResources().getColor(R.color.colorPrimary));

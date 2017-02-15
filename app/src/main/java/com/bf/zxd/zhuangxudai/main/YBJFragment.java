@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,8 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.DropDownMenu;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndTemplateActivityEvent;
-import com.bf.zxd.zhuangxudai.pojo.DictData;
-import com.bf.zxd.zhuangxudai.pojo.jzzt;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyYbjItem;
+import com.bf.zxd.zhuangxudai.pojo.HouseBaseInfo;
 import com.bf.zxd.zhuangxudai.template.ConstellationAdapter;
 import com.bf.zxd.zhuangxudai.template.GirdDropDownAdapter;
 import com.bf.zxd.zhuangxudai.template.ListDropDownAdapter;
@@ -34,11 +33,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -62,11 +59,11 @@ public class YBJFragment extends Fragment {
     int houseType=0;
     int houseArea=0;
     private String headers[] = {"风格", "户型", "面积"};
-    private List<DictData> style;
-    private List<DictData> model;
-    private List<DictData> area;
+    private List<HouseBaseInfo> style;
+    private List<HouseBaseInfo> model;
+    private List<HouseBaseInfo> area;
 
-    List<DictData> mDictDatas;
+    List<HouseBaseInfo> mDictDatas;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,7 +86,7 @@ public class YBJFragment extends Fragment {
 
         return view;
     }
-    Observer<List<DictData>> observer=new Observer<List<DictData>>() {
+    Observer<List<HouseBaseInfo>> observer=new Observer<List<HouseBaseInfo>>() {
         @Override
         public void onCompleted() {
 
@@ -97,32 +94,33 @@ public class YBJFragment extends Fragment {
 
         @Override
         public void onError(Throwable e) {
-            Log.i("gqf","onError"+e.toString());
+
         }
 
         @Override
-        public void onNext(List<DictData> dictData) {
-            mDictDatas=dictData;
+        public void onNext(List<HouseBaseInfo> dictDatas) {
+            mDictDatas=dictDatas;
             filterDictData();
             initDropDpwnMenu();
         }
     };
+
     //过滤数据
     public void filterDictData(){
         style=new ArrayList<>();
         model=new ArrayList<>();
         area=new ArrayList<>();
-        for(DictData d:mDictDatas){
-            if(d.getDict_code().equals("houseStyle")){
+        for(HouseBaseInfo d:mDictDatas){
+            if(d.getDictCode().equals("houseStyle")){
                 style.add(d);
-            }else if(d.getDict_code().equals("houseType")){
+            }else if(d.getDictCode().equals("houseType")){
                 model.add(d);
             }else{
                 area.add(d);
             }
         }
-        DictData d=new DictData();
-        d.setDict_desc("不限");
+        HouseBaseInfo d=new HouseBaseInfo();
+        d.setDictDesc("不限");
         style.add(0,d);
         model.add(0,d);
         area.add(0,d);
@@ -134,45 +132,19 @@ public class YBJFragment extends Fragment {
     }
     //获得顶部条件数据
     public void getDictData(){
-        Subscription subscription = NetWork.getJzztService().getDictData()
+        Subscription subscription = NetWork.getNewZXD1_4Service().getHouseBaseInfo()
                 .subscribeOn(Schedulers.io())
-                //遍历
-                .flatMap(new Func1<List<DictData>, Observable<DictData>>() {
-                    @Override
-                    public Observable<DictData> call(List<DictData> dictDatas) {
-                        return Observable.from(dictDatas);
-                    }
-                })
                 .observeOn(AndroidSchedulers.mainThread())
-                .toList()
                 .subscribe(observer);
         mcompositeSubscription.add(subscription);
     }
     //获取样板间数据
     public void initJzztData(int houseStyle,int houseType,int houseArea){
-//        if(houseStyle.equals("风格")){
-//            houseStyle="";
-//        }if(houseType.equals("户型")){
-//            houseType="";
-//        }if(houseArea.equals("面积")){
-//            houseArea="";
-//        }
-        String style=houseStyle+"";
-        String type=houseType+"";
-        String area=houseArea+"";
 
-
-                if(houseStyle==0){
-                    style="";
-                }if(houseType==0){
-                    type="";
-                }if(houseArea==0){
-                    area="";
-                }
-        Subscription subscription = NetWork.getZxService().getJzztItem(style,type,area)
+        Subscription subscription = NetWork.getNewZXD1_4Service().getDecoCompanyYbjItem(houseStyle,houseType,houseArea)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<jzzt>>() {
+                .subscribe(new Observer<List<DecoCompanyYbjItem>>() {
                     @Override
                     public void onCompleted() {
 
@@ -184,13 +156,14 @@ public class YBJFragment extends Fragment {
                     }
 
                     @Override
-                    public void onNext(List<jzzt> jzzts) {
-                        initListView(jzzts);
+                    public void onNext(List<DecoCompanyYbjItem> decoCompanyYbjItems) {
+                        initListView(decoCompanyYbjItems);
+
                     }
                 });
         mcompositeSubscription.add(subscription);
     }
-    public void initListView(List<jzzt> lists){
+    public void initListView(List<DecoCompanyYbjItem> lists){
         if(templateListAdapter==null) {
             templateListAdapter = new TemplateListAdapter(getActivity(),lists);
             contentView.setAdapter(templateListAdapter);
@@ -199,7 +172,7 @@ public class YBJFragment extends Fragment {
                 public void onItemClick(View view, int postion) {
                     //发送广播通知mainactivity跳转页面
                     CompanyIdAndTemplateActivityEvent companyIdAndTemplateActivityEvent =new CompanyIdAndTemplateActivityEvent();
-                    companyIdAndTemplateActivityEvent.setCompanyId(templateListAdapter.getmDatas().get(postion).getCompany_id());
+                    companyIdAndTemplateActivityEvent.setCompanyId(templateListAdapter.getmDatas().get(postion).getCaseId());
                     companyIdAndTemplateActivityEvent.setActivityClass(TemplateActivity.class);
                     EventBus.getDefault().post(companyIdAndTemplateActivityEvent);
                 }
@@ -224,9 +197,9 @@ public class YBJFragment extends Fragment {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                houseStyle=constellationPosition == 0 ? 0: style.get(constellationPosition).getDict_id();
+                houseStyle=constellationPosition == 0 ? 0: style.get(constellationPosition).getDictId();
                // houseStyle=constellationPosition == 0 ? headers[0]: style.get(constellationPosition).getDict_desc();
-                mDropDownMenu.setTabText(constellationPosition == 0 ? headers[0]: style.get(constellationPosition).getDict_desc());
+                mDropDownMenu.setTabText(constellationPosition == 0 ? headers[0]: style.get(constellationPosition).getDictDesc());
                 mDropDownMenu.closeMenu();
                 initJzztData(houseStyle,houseType,houseArea);
             }
@@ -252,8 +225,8 @@ public class YBJFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 modelAdapter.setCheckItem(position);
-                houseType=position == 0 ? 0 : model.get(position).getDict_id();
-                mDropDownMenu.setTabText(position == 0 ? headers[1] : model.get(position).getDict_desc());
+                houseType=position == 0 ? 0 : model.get(position).getDictId();
+                mDropDownMenu.setTabText(position == 0 ? headers[1] : model.get(position).getDictDesc());
                 mDropDownMenu.closeMenu();
                 initJzztData(houseStyle,houseType,houseArea);
             }
@@ -263,8 +236,8 @@ public class YBJFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 areaAdapter.setCheckItem(position);
-                houseArea= position == 0 ? 0 : area.get(position).getDict_id();
-                mDropDownMenu.setTabText( position == 0 ? headers[2] : area.get(position).getDict_desc());
+                houseArea= position == 0 ? 0 : area.get(position).getDictId();
+                mDropDownMenu.setTabText( position == 0 ? headers[2] : area.get(position).getDictDesc());
                 mDropDownMenu.closeMenu();
                 initJzztData(houseStyle,houseType,houseArea);
             }
