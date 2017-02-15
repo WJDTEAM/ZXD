@@ -87,11 +87,12 @@ public class UserInfoActivity extends AppCompatActivity {
 
 
     }
-
+    @DebugLog
     @Override
     protected void onStart() {
         super.onStart();
         userInfo = realm.where(NewUser.class).findFirst();
+        Log.e("Daniel","userInfo:::"+userInfo.toString());
         if(userInfo.getNickname().equals("")){
             userName.setText(userInfo.getUserName());
         }else {
@@ -131,19 +132,32 @@ public class UserInfoActivity extends AppCompatActivity {
                 break;
             case R.id.icon_img:
                 ChangeIcon();
-
                 break;
             case R.id.nick_linearlayout:
                 Intent _intent = new Intent(UserInfoActivity.this,ChangeNickActivity.class);
                 String _nick = userName.getText().toString();
                 _intent.putExtra("nickName",_nick);
                 startActivity(_intent);
+//                changeNickName(_nick);
                 break;
             case R.id.logout:
                 logout();
                 break;
         }
     }
+
+//    private void changeNickName(String nick) {
+//        new MaterialDialog.Builder(getActivity())
+//                .title(R.string.search)
+//                .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
+//                    @Override
+//                    public void onInput(MaterialDialog dialog, CharSequence input) {
+//                        if (!TextUtils.isEmpty(input)) {
+////                            doSearch(input.toString());
+//                        }
+//                    }
+//                }).show();
+//    }
 
     private String path;
 
@@ -290,13 +304,16 @@ public class UserInfoActivity extends AppCompatActivity {
                         public void onNext(ResultCodeWithImg resultCodeWithImg) {
                             Log.e("Daniel","---onNext---");
                             if (resultCodeWithImg.getCode()==10001){
-                                Toast.makeText(UserInfoActivity.this, ""+resultCodeWithImg.getMsg(), Toast.LENGTH_SHORT).show();
+                                saveLogoImg(resultCodeWithImg.getLogoImg());
                                 Picasso.with(UserInfoActivity.this).load(resultCodeWithImg.getLogoImg()).into(circleImageView);
+                                Toast.makeText(UserInfoActivity.this, ""+resultCodeWithImg.getMsg(), Toast.LENGTH_SHORT).show();
                             }else {
                                 Toast.makeText(UserInfoActivity.this, ""+resultCodeWithImg.getMsg(), Toast.LENGTH_SHORT).show();
                             }
 
                         }
+
+
                     });
             compositeSubscription.add(uploadAvatars);
         }else {
@@ -305,6 +322,16 @@ public class UserInfoActivity extends AppCompatActivity {
 
 
 
+    }
+
+    /**
+     * 保存头像图片
+     */
+    private void saveLogoImg(String imgStr) {
+        realm.beginTransaction();
+        userInfo.setLogoImg(imgStr);
+        realm.copyToRealmOrUpdate(userInfo);
+        realm.commitTransaction();
     }
 
     //调用系统裁剪的方法

@@ -46,7 +46,7 @@
         </activity>
         <!-- 公司详情 -->
         <activity
-            android:name=".jzzt.ProductExhibitionActivity"
+            android:name=".JZZT.ProductExhibitionActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
@@ -71,7 +71,7 @@
         </activity>
         <!-- 家装专题 -->
         <activity
-            android:name=".jzzt.JzztActivity"
+            android:name=".JZZT.JzztActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>

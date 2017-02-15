@@ -39,6 +39,18 @@
     <string name="nickname">昵称</string>
     <string name="confrim">确定</string>
 
+    <!--入驻申请-->
+    <string name="applyPersonInformation">申请人信息</string>
+    <string name="applyName">姓名</string>
+    <string name="companyName">公司名称</string>
+    <string name="area">所在地区</string>
+    <string name="detailAddress">详细地址</string>
+    <string name="businessLicense">营业执照</string>
+    <string name="idCard">法人身份证</string>
+    <string name="submitInformation">提交资料</string>
+    <string name="organizationName">机构名称</string>
+    <string name="contactWay">联系方式</string>
+
 
     <!--预约-->
     <string name="house_typeHint">×室×厅×厨×卫×阳台</string>

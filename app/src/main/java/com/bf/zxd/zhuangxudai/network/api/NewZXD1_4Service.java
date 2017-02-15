@@ -10,6 +10,7 @@ import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanTypes;
 import com.bf.zxd.zhuangxudai.pojo.ResultCode;
+import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithCompanyFile;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithImg;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithUser;
 import com.bf.zxd.zhuangxudai.pojo.ZxglItem;
@@ -136,6 +137,23 @@ public interface NewZXD1_4Service {
      */
     @GET("getLoanCompanyDetail/{companyId}")
     Observable<LoanCompanyDetail> getLoanCompanyDetail(@Path("companyId") int companyId);
+
+
+    /**
+     * 入驻申请文件上传
+     * @return
+     */
+    @Multipart
+    @POST("uploadCompanyFile")
+    Observable<ResultCodeWithCompanyFile> uploadCompanyFile(@Part MultipartBody.Part file);
+
+    /**
+     * 入驻申请信息保存
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("saveEnter")
+    Observable<ResultCode> saveEnter(@Field("enter") String  enter );
 
 
 

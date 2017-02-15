@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         bottomBar
                 .setActiveColor(R.color.colorPrimary)
                 .setInActiveColor(R.color.bottom_img)
-                .setBarBackgroundColor(R.color.white);
+                .setBarBackgroundColor(R.color.whitesmoke);
         bottomBar.addItem(new BottomNavigationItem(R.drawable.home_dake, R.string.firstPage))
                 .addItem(new BottomNavigationItem(R.drawable.ybj,  R.string.ybj))
                 .addItem(new BottomNavigationItem(R.drawable.zxd, R.string.zxd))

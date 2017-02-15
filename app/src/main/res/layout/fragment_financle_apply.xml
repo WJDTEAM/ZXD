@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:background="@color/white"
+    >
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitInformation_btn"
+        android:enabled="false"
+        android:background="@drawable/apply_for_selector"
+        android:text="@string/submitInformation"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@drawable/apply_for_text_color_selector"
+        />
+
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/smallmdp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/applyPersonInformation"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/smallmdp"
+                    android:paddingBottom="@dimen/smallmdp"
+                    />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ok"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="@dimen/mediummdp"
+                    />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:text="@string/applyName"
+                    style="@style/apply_for_text_style2"
+                    />
+                <EditText
+                    android:id="@+id/apply_name_edi"
+                    style="@style/apply_for_edi_style"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/area_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:text="@string/area"
+                    style="@style/apply_for_text_style2"
+                    />
+
+                <TextView
+                    android:id="@+id/area_tv"
+                    style="@style/apply_address_for_edi_style"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:text="@string/detailAddress"
+                    style="@style/apply_for_text_style2"
+                    />
+                <EditText
+                    android:id="@+id/detail_address_edi"
+                    style="@style/apply_for_edi_style"
+                    android:textColorHint="@color/gary_dark"
+                    android:hint="请输入你所居住的街道及门派信息"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:text="@string/organizationName"
+                    style="@style/apply_for_text_style2"
+                    />
+
+                <EditText
+                    android:id="@+id/companyName_tv"
+                    style="@style/apply_for_edi_style"
+                    />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/businessLicense_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hugehxxxdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/businessLicense"
+                    android:textSize="@dimen/mediumxsp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    />
+
+                <ImageView
+                    android:id="@+id/businessLicense_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/smallmdp"
+                    android:layout_marginBottom="@dimen/smallmdp"
+                    android:src="@drawable/demo"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/go_in"
+                    android:padding="@dimen/activity_vertical_margin"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gary"/>
+            <LinearLayout
+                android:id="@+id/idCard_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hugehxxxdp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="@string/idCard"
+                    android:textSize="@dimen/mediumxsp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/smallmdp"
+                    android:layout_marginBottom="@dimen/smallmdp"
+                    android:src="@drawable/demo"
+                    android:id="@+id/idCard_img"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/go_in"
+                    android:padding="@dimen/activity_vertical_margin"
+                    />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gary"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

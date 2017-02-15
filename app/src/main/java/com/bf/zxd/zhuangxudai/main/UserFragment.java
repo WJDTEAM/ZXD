@@ -18,7 +18,7 @@ import com.bf.zxd.zhuangxudai.User.MyAppointmentActivity;
 import com.bf.zxd.zhuangxudai.User.MyCollectActivity;
 import com.bf.zxd.zhuangxudai.User.MyLoanActivity;
 import com.bf.zxd.zhuangxudai.User.UserInfoActivity;
-import com.bf.zxd.zhuangxudai.my.ApplyForActivity;
+import com.bf.zxd.zhuangxudai.my.LoanApplyForActivity;
 import com.bf.zxd.zhuangxudai.pojo.NewUser;
 import com.squareup.picasso.Picasso;
 
@@ -79,10 +79,10 @@ public class UserFragment extends Fragment {
         super.onStart();
 
         mUser = realm.where(NewUser.class).findFirst();
-        Log.e("Daniel","----mUser---"+mUser.toString());
         if (mUser==null) {
             nickTv.setText("请点击登录！");
         }else{
+            Log.e("Daniel","----mUser---"+mUser.toString());
             if(mUser.getNickname().equals("")){
                 nickTv.setText(mUser.getUserName());
             }else {
@@ -101,7 +101,7 @@ public class UserFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.apply_linear:
-                startActivity(new Intent(getActivity(), ApplyForActivity.class));
+                startActivity(new Intent(getActivity(), LoanApplyForActivity.class));
                 break;
             case R.id.memoryCode:
                 if (initLogin(MyLoanActivity.class)) {

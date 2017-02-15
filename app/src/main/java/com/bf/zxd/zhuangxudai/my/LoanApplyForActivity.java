@@ -2,23 +2,23 @@ package com.bf.zxd.zhuangxudai.my;
 
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
-import com.bf.zxd.zhuangxudai.Interfaces.DialogFragmentDismissLinsener;
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.dialog.CommitDialogFragment;
+import com.bf.zxd.zhuangxudai.my.fragment.CompanyApplyFragment;
+import com.bf.zxd.zhuangxudai.my.fragment.FinancialApplyFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by johe on 2017/1/6.
@@ -26,110 +26,68 @@ import butterknife.OnClick;
 
 public class LoanApplyForActivity extends AppCompatActivity {
 
-
+    @BindView(R.id.tablayout)
+    TabLayout tablayout;
+    @BindView(R.id.viewpager)
+    ViewPager viewpager;
     @BindView(R.id.base_toolBar)
-    Toolbar toolbar;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
-    @BindView(R.id.store_name_edi)
-    EditText storeNameEdi;
-    @BindView(R.id.store_user_name_edi)
-    EditText storeUserNameEdi;
-    @BindView(R.id.store_nphone_edi)
-    EditText storeNphoneEdi;
-    @BindView(R.id.loan_apply_for_btn)
-    Button loanApplyForBtn;
-    @BindView(R.id.loan_man_rad)
-    RadioButton loanManRad;
-    @BindView(R.id.loan_woman_rad)
-    RadioButton loanWomanRad;
+    Toolbar baseToolBar;
 
+    private List<Fragment> fmList;
 
-    String sex="";
     private void setToolbar(String toolstr) {
 
-        toolbar.setTitle(toolstr);
-        toolbar.setNavigationIcon(R.drawable.barcode__back_arrow);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        baseToolBar.setTitle(toolstr);
+        baseToolBar.setTitleTextColor(getResources().getColor(R.color.white));
+        baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);
+        setSupportActionBar(baseToolBar);
+        baseToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
-        setSupportActionBar(toolbar);
 
-    }
 
-    public void initEdi() {
-        sex="男";
-        loanManRad.setChecked(true);
-        storeNameEdi.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-        storeUserNameEdi.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                ediLinsener();
-            }
-        });
-        storeNphoneEdi.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                ediLinsener();
-            }
-        });
-    }
-
-    public void ediLinsener() {
-        if (!storeNameEdi.getText().toString().equals("") &&
-                !storeUserNameEdi.getText().toString().equals("") &&
-                !storeNphoneEdi.getText().toString().equals("")) {
-            loanApplyForBtn.setEnabled(true);
-        } else {
-            loanApplyForBtn.setEnabled(false);
-        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loan_apply);
+        setContentView(R.layout.activity_loan_apply_new);
         ButterKnife.bind(this);
         setToolbar("入驻申请");
-        initEdi();
+        fmList = new ArrayList<Fragment>();
+        fmList.add(CompanyApplyFragment.newInstance("装修公司入驻申请", ""));
+        fmList.add(FinancialApplyFragment.newInstance("金融机构入驻申请", ""));
+        viewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fmList.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return fmList.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position) {
+                    case 0:
+                        return "装修公司";
+                    case 1:
+                        return "金融机构";
+
+                }
+                return super.getPageTitle(position);
+            }
+        });
+
+        tablayout.setupWithViewPager(viewpager);
+
+
+        //        initEdi();
     }
 
     @Override
@@ -137,34 +95,4 @@ public class LoanApplyForActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-
-    CommitDialogFragment dialogFragment;
-
-    public void showDialog() {
-        if (dialogFragment == null) {
-            dialogFragment = new CommitDialogFragment();
-            dialogFragment.setDialogFragmentDismissLinsener(new DialogFragmentDismissLinsener() {
-                @Override
-                public void dialogDismiss() {
-                    onBackPressed();
-                }
-            });
-        }
-        dialogFragment.show(getFragmentManager(), "123");
-    }
-
-    @OnClick({R.id.loan_man_rad, R.id.loan_woman_rad, R.id.loan_apply_for_btn})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.loan_man_rad:
-                sex="男";
-                break;
-            case R.id.loan_woman_rad:
-                sex="女";
-                break;
-            case R.id.loan_apply_for_btn:
-                showDialog();
-                break;
-        }
-    }
 }

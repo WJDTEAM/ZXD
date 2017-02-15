@@ -51,10 +51,17 @@ public class ChangeNickActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mUser = realm.where(NewUser.class).findFirst();
+    }
+
+    private String newNickName;
     @OnClick(R.id.changeNick_bt)
     public void onClick() {
-
-        Subscription  editNickname=NetWork.getNewZXD1_4Service().editNickname(realm.where(NewUser.class).findFirst().getUserId(),changeNickNameEt.getText().toString())
+        newNickName = changeNickNameEt.getText().toString();
+        Subscription  editNickname=NetWork.getNewZXD1_4Service().editNickname(realm.where(NewUser.class).findFirst().getUserId(),newNickName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultCode>() {
@@ -71,7 +78,9 @@ public class ChangeNickActivity extends AppCompatActivity {
                     @Override
                     public void onNext(ResultCode resultCode) {
                         if (resultCode.getCode()==10001){
+                            saveNickName(newNickName);
                             Toast.makeText(ChangeNickActivity.this, ""+resultCode.getMsg(), Toast.LENGTH_SHORT).show();
+                            finish();
                         }else {
                             Toast.makeText(ChangeNickActivity.this, ""+resultCode.getMsg(), Toast.LENGTH_SHORT).show();
                         }
@@ -82,6 +91,18 @@ public class ChangeNickActivity extends AppCompatActivity {
 
         compositeSubscription.add(editNickname);
 
+
+    }
+
+    /**
+     * 保存新昵称
+     * @param newNickName
+     */
+    private void saveNickName(String newNickName) {
+        realm.beginTransaction();
+        mUser.setNickname(newNickName);
+        realm.copyToRealmOrUpdate(mUser);
+        realm.commitTransaction();
 
     }
 
