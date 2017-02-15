@@ -62,9 +62,7 @@ public class MyLoanActivity extends BaseActivity {
                 .subscribe(new Observer<List<DksqItem>>() {
                     @Override
                     public void onCompleted() {
-
                     }
-
                     @DebugLog
                     @Override
                     public void onError(Throwable e) {

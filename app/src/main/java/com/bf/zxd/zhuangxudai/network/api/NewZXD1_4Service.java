@@ -9,6 +9,7 @@ import com.bf.zxd.zhuangxudai.pojo.JzhdItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanTypes;
+import com.bf.zxd.zhuangxudai.pojo.Recommends;
 import com.bf.zxd.zhuangxudai.pojo.ResultCode;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithImg;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithUser;
@@ -160,6 +161,14 @@ public interface NewZXD1_4Service {
     @FormUrlEncoded
     @POST("saveEnter")
     Observable<ResultCode> saveEnter(@Field("enter") String  enter );
+
+    /**
+     * 获取银行信息
+     * @return
+     */
+    @GET("getRecommends")
+    Observable<List<Recommends>> getRecommends ();
+
 
 
     /**

@@ -86,4 +86,6 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+
+    compile 'com.jph.takephoto:takephoto_library:4.0.3'
 }

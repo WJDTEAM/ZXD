@@ -123,6 +123,23 @@
                     />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:text="@string/contactWay"
+                    style="@style/apply_for_text_style2"
+                    />
+                <EditText
+                    android:id="@+id/contactWay_edi"
+                    style="@style/apply_for_edi_style"
+                    android:inputType="phone"
+                    />
+            </LinearLayout>
+
 
 
             <LinearLayout
@@ -158,6 +175,12 @@
                     android:src="@drawable/go_in"
                     android:padding="@dimen/activity_vertical_margin"
                     />
+                <TextView
+                    android:id="@+id/businessLicense_flag"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    />
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -188,6 +211,12 @@
                     android:layout_marginBottom="@dimen/smallmdp"
                     android:src="@drawable/demo"
                     android:id="@+id/idCard_img"
+                    />
+                <TextView
+                    android:id="@+id/idCard_flag"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
                     />
 
                 <ImageView

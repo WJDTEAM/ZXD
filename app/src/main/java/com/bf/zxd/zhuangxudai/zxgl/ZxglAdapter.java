@@ -2,6 +2,7 @@ package com.bf.zxd.zhuangxudai.zxgl;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.support.v7.widget.StaggeredGridLayoutManager.TAG;
 
 /**
  * Created by wjy on 2016/11/7.
@@ -75,6 +78,7 @@ public class ZxglAdapter extends RecyclerView.Adapter<ZxglAdapter.ViewHolder> {
         final ZxglItem data = datas.get(position);
         if(data.getThumbnails()!=null){
             if(!data.getThumbnails().equals("")){
+                Log.e(TAG,"---data.getThumbnails()---"+data.getThumbnails());
                 Picasso.with(mContext).load(data.getThumbnails()).into(holder.img);
             }
         }

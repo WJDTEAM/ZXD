@@ -1,14 +1,12 @@
 package com.bf.zxd.zhuangxudai.User;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,10 +31,21 @@ import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithImg;
 import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.util.FileUitlity;
 import com.bf.zxd.zhuangxudai.util.SettingsUtils;
+import com.jph.takephoto.app.TakePhoto;
+import com.jph.takephoto.app.TakePhotoActivity;
+import com.jph.takephoto.app.TakePhotoImpl;
+import com.jph.takephoto.model.CropOptions;
+import com.jph.takephoto.model.InvokeParam;
+import com.jph.takephoto.model.TContextWrap;
+import com.jph.takephoto.model.TResult;
+import com.jph.takephoto.permission.InvokeListener;
+import com.jph.takephoto.permission.PermissionManager;
+import com.jph.takephoto.permission.TakePhotoInvocationHandler;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,7 +63,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-public class UserInfoActivity extends AppCompatActivity {
+public class UserInfoActivity extends AppCompatActivity implements TakePhoto.TakeResultListener, InvokeListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -70,6 +79,12 @@ public class UserInfoActivity extends AppCompatActivity {
     private NewUser userInfo;
     private Unbinder mUnbinder;
     private CompositeSubscription compositeSubscription;
+    private TakePhoto takePhoto;
+    private InvokeParam invokeParam;
+    private static final String TAG = TakePhotoActivity.class.getName();
+    CropOptions cropOptions;
+    File _file;
+    String _path;
 
     public static int REQUEST_CODE = 1;
     public static int RESULT_PHOTO = 2;
@@ -77,6 +92,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getTakePhoto().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         ((BaseApplication)getApplication()).addActivity(this);
         setContentView(R.layout.activity_user_info);
@@ -84,6 +100,12 @@ public class UserInfoActivity extends AppCompatActivity {
         compositeSubscription = new CompositeSubscription();
         setToolBar();
         realm = Realm.getDefaultInstance();
+
+        cropOptions=new CropOptions.Builder().setAspectX(1).setAspectY(1).setWithOwnCrop(true).create();
+        //创建文件路径,头像保存的路径
+        _file = FileUitlity.getInstance(getApplicationContext()).makeDir("head_image2");
+        //定义图片路径和名称
+        _path = _file.getParent() + File.separatorChar + System.currentTimeMillis() + ".jpg";
 
 
     }
@@ -125,6 +147,8 @@ public class UserInfoActivity extends AppCompatActivity {
         });
     }
 
+
+
     @OnClick({R.id.user_name, R.id.logout, R.id.icon_img, R.id.nick_linearlayout})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -146,18 +170,38 @@ public class UserInfoActivity extends AppCompatActivity {
         }
     }
 
-//    private void changeNickName(String nick) {
-//        new MaterialDialog.Builder(getActivity())
-//                .title(R.string.search)
-//                .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
-//                    @Override
-//                    public void onInput(MaterialDialog dialog, CharSequence input) {
-//                        if (!TextUtils.isEmpty(input)) {
-////                            doSearch(input.toString());
-//                        }
-//                    }
-//                }).show();
-//    }
+    /**
+     * 获取TakePhoto实例
+     *
+     * @return
+     */
+    public TakePhoto getTakePhoto() {
+        if (takePhoto == null) {
+            takePhoto = (TakePhoto) TakePhotoInvocationHandler.of(this).bind(new TakePhotoImpl(this, this));
+        }
+        return takePhoto;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        getTakePhoto().onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        getTakePhoto().onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionManager.TPermissionType type = PermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionManager.handlePermissionsResult(this, type, invokeParam, this);
+    }
+
+
 
     private String path;
 
@@ -196,7 +240,8 @@ public class UserInfoActivity extends AppCompatActivity {
                 backgroundAlpha(1f);
                 popupWindow.dismiss();
                 //调用手机相册的方法,该方法在下面有具体实现
-                allPhoto();
+                takePhoto.onPickFromGalleryWithCrop(Uri.fromFile(new File(_path)),cropOptions);
+//                allPhoto();
             }
         });
         button.setOnClickListener(new View.OnClickListener() {
@@ -204,58 +249,11 @@ public class UserInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 backgroundAlpha(1f);
                 popupWindow.dismiss();
-                //调用手机照相机的方法,通过Intent调用系统相机完成拍照，并调用系统裁剪器裁剪照片
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //创建文件路径,头像保存的路径
-                File file = FileUitlity.getInstance(getApplicationContext()).makeDir("head_image");
-                //定义图片路径和名称
-                path = file.getParent() + File.separatorChar + System.currentTimeMillis() + ".jpg";
-                //保存图片到Intent中，并通过Intent将照片传给系统裁剪器
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(path)));
-                //图片质量
-                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-                //启动有返回的Intent，即返回裁剪好的图片到RoundImageView组件中显示
-                startActivityForResult(intent, REQUEST_CODE);
+//
+                takePhoto.onPickFromCaptureWithCrop(Uri.fromFile(new File(_path)),cropOptions);
             }
         });
     }
-
-    //该方法实现通过何种方式跟换图片
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //如果返回码不为-1，则表示不成功
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
-        if (requestCode == ALL_PHOTO) {
-            //调用相册
-            Cursor cursor = this.getContentResolver().query(data.getData(),
-                    new String[]{MediaStore.Images.Media.DATA}, null, null, null);
-            //游标移到第一位，即从第一位开始读取
-            cursor.moveToFirst();
-            String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            cursor.close();
-            //调用系统裁剪
-            startPhoneZoom(Uri.fromFile(new File(path)));
-        } else if (requestCode == REQUEST_CODE) {
-            //相机返回结果，调用系统裁剪
-            startPhoneZoom(Uri.fromFile(new File(path)));
-        } else if (requestCode == RESULT_PHOTO) {
-            //设置裁剪返回的位图
-            Bundle bundle = data.getExtras();
-            if (bundle != null) {
-                Bitmap bitmap = bundle.getParcelable("data");
-                //将裁剪后得到的位图在组件中显示
-                // TODO: 2017/2/13 修改头像
-                Log.e("Daniel","---bitmap.toString()---"+bitmap.toString());
-                uploadAvatars(bitmap);
-//
-            }
-        }
-    }
-
-
     private void uploadAvatars(Bitmap bitmap) {
         File dcimFile =new File(getApplicationContext().getExternalCacheDir()+"yyy.png");
         FileOutputStream ostream = null;
@@ -324,6 +322,28 @@ public class UserInfoActivity extends AppCompatActivity {
 
     }
 
+    public Bitmap convertToBitmap(String path, int w, int h) {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        // 设置为ture只获取图片大小
+        opts.inJustDecodeBounds = true;
+        opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        // 返回为空
+        BitmapFactory.decodeFile(path, opts);
+        int width = opts.outWidth;
+        int height = opts.outHeight;
+        float scaleWidth = 0.f, scaleHeight = 0.f;
+        if (width > w || height > h) {
+            // 缩放
+            scaleWidth = ((float) width) / w;
+            scaleHeight = ((float) height) / h;
+        }
+        opts.inJustDecodeBounds = false;
+        float scale = Math.max(scaleWidth, scaleHeight);
+        opts.inSampleSize = (int)scale;
+        WeakReference<Bitmap> weak = new WeakReference<Bitmap>(BitmapFactory.decodeFile(path, opts));
+        return Bitmap.createScaledBitmap(weak.get(), w, h, true);
+    }
+
     /**
      * 保存头像图片
      */
@@ -334,28 +354,41 @@ public class UserInfoActivity extends AppCompatActivity {
         realm.commitTransaction();
     }
 
-    //调用系统裁剪的方法
-    private void startPhoneZoom(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        //是否可裁剪
-        intent.putExtra("corp", "true");
-        //裁剪器高宽比
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("aspectX", 1);
-        //设置裁剪框高宽
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        //返回数据
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, RESULT_PHOTO);
+    @Override
+    public void takeSuccess(TResult result) {
+        Log.e(TAG,"takeSuccess：" + result.getImage());
+        Log.e(TAG,"takeSuccess：" + result.getImage().getCompressPath());
+
+        Log.e(TAG,"takeSuccess：" + result.getImage().getOriginalPath());
+
+        Bitmap bitmap = convertToBitmap(result.getImage().getOriginalPath(),200,200);
+
+
+        uploadAvatars(bitmap);
+
+
     }
 
-    //调用手机相册
-    private void allPhoto() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, ALL_PHOTO);
+    @Override
+    public void takeFail(TResult result, String msg) {
+        Log.e(TAG, "takeFail:" + msg);
     }
+
+    @Override
+    public void takeCancel() {
+        Log.e(TAG, getResources().getString(R.string.msg_operation_canceled));
+    }
+
+    @Override
+    public PermissionManager.TPermissionType invoke(InvokeParam invokeParam) {
+        PermissionManager.TPermissionType type = PermissionManager.checkPermission(TContextWrap.of(this), invokeParam.getMethod());
+        if (PermissionManager.TPermissionType.WAIT.equals(type)) {
+            this.invokeParam = invokeParam;
+        }
+        return type;
+    }
+
+
 
     /**
      * 添加PopupWindow关闭的事件，主要是为了将背景透明度改回来

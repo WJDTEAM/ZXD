@@ -35,6 +35,7 @@ import com.bf.zxd.zhuangxudai.pojo.ApplyForInformatin;
 import com.bf.zxd.zhuangxudai.pojo.ResultCode;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithCompanyFile;
 import com.bf.zxd.zhuangxudai.util.FileUitlity;
+import com.bf.zxd.zhuangxudai.util.Phone;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
@@ -57,7 +58,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func4;
+import rx.functions.Func7;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -94,12 +95,19 @@ public class CompanyApplyFragment extends Fragment {
     ImageView idCardImg;
     @BindView(R.id.contactWay_edi)
     EditText contactWayEdi;
+    @BindView(R.id.businessLicense_flag)
+    TextView businessLicenseFlag;
+    @BindView(R.id.idCard_flag)
+    TextView idCardFlag;
+    @BindView(R.id.companyName)
+    TextView companyName;
 
     private String mParam1;
     private String mParam2;
     private boolean isCompanyFile = false;
     private CompositeSubscription mCompositeSubscription;
     private Unbinder mUnbinder;
+    private String mApplyType;
 
 
     public CompanyApplyFragment() {
@@ -132,6 +140,15 @@ public class CompanyApplyFragment extends Fragment {
         mUnbinder = ButterKnife.bind(this, view);
         mCompositeSubscription = new CompositeSubscription();
         initSubmit();
+        if (mParam2.equals("1")) {
+        companyName.setText("机构名称");
+            mApplyType="02";
+            Log.e("Daniel", "--------机构入驻申请---------");
+        }else {
+            companyName.setText("公司名称");
+            mApplyType="01";
+            Log.e("Daniel", "--------公司入驻申请---------");
+        }
         return view;
     }
 
@@ -157,9 +174,24 @@ public class CompanyApplyFragment extends Fragment {
 
     private void submitINformation() {
 
+        String _phone = contactWayEdi.getText().toString();
+        if (Phone.IsMobileNO(_phone)) {
+            saveEnter();
+        } else {
+            showToast("手机格式不正确！");
+            contactWayEdi.setText("");
+        }
+
+
+    }
+
+    /**
+     * 提交申请信息
+     */
+    private void saveEnter() {
         //        Map<String,ApplyForInformatin> map = new HashMap<>();
         ApplyForInformatin applyForInformatin = new ApplyForInformatin();
-        applyForInformatin.setApplyType("01");
+        applyForInformatin.setApplyType(mApplyType);
         applyForInformatin.setContact(contactWayEdi.getText().toString());
         applyForInformatin.setBusinessLicense(mBusinessLicense);
         applyForInformatin.setCompanyName(companyNameTv.getText().toString());
@@ -183,7 +215,6 @@ public class CompanyApplyFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-
                     }
 
                     @DebugLog
@@ -201,8 +232,6 @@ public class CompanyApplyFragment extends Fragment {
                     }
                 });
         mCompositeSubscription.add(saveEnter);
-
-
     }
 
     /*提交按钮控制*/
@@ -211,15 +240,20 @@ public class CompanyApplyFragment extends Fragment {
         Observable<CharSequence> area = RxTextView.textChanges(areaTv).skip(1);
         Observable<CharSequence> detailAddress = RxTextView.textChanges(detailAddressEdi).skip(1);
         Observable<CharSequence> companyName = RxTextView.textChanges(companyNameTv).skip(1);
-
-        Observable.combineLatest(applyName, area, detailAddress, companyName, new Func4<CharSequence, CharSequence, CharSequence, CharSequence, Boolean>() {
+        Observable<CharSequence> contactWay = RxTextView.textChanges(contactWayEdi).skip(1);
+        Observable<CharSequence> businessLicense = RxTextView.textChanges(businessLicenseFlag).skip(1);
+        Observable<CharSequence> idCard = RxTextView.textChanges(idCardFlag).skip(1);
+        Observable.combineLatest(applyName, area, detailAddress, companyName, contactWay, businessLicense, idCard, new Func7<CharSequence, CharSequence, CharSequence, CharSequence, CharSequence, CharSequence, CharSequence, Boolean>() {
             @Override
-            public Boolean call(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, CharSequence charSequence4) {
+            public Boolean call(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, CharSequence charSequence4, CharSequence charSequence5, CharSequence charSequence6, CharSequence charSequence7) {
                 boolean Bl = !TextUtils.isEmpty(charSequence);
                 boolean B2 = !TextUtils.isEmpty(charSequence2);
                 boolean B3 = !TextUtils.isEmpty(charSequence3);
                 boolean B4 = !TextUtils.isEmpty(charSequence4);
-                return Bl && B2 && B3 && B4;
+                boolean B5 = !TextUtils.isEmpty(charSequence5);
+                boolean B6 = !TextUtils.isEmpty(charSequence5);
+                boolean B7 = !TextUtils.isEmpty(charSequence5);
+                return Bl && B2 && B3 && B4 && B5 && B6 && B7;
             }
         }).subscribe(new Observer<Boolean>() {
             @Override
@@ -273,6 +307,9 @@ public class CompanyApplyFragment extends Fragment {
         task.execute("河南", "洛阳", "洛龙");
     }
 
+    /**
+     * 调用相机
+     */
     private String path;
 
     private void ChangeIcon() {
@@ -310,6 +347,7 @@ public class CompanyApplyFragment extends Fragment {
                 backgroundAlpha(1f);
                 popupWindow.dismiss();
                 //调用手机相册的方法,该方法在下面有具体实现
+                Log.i("Daniel", "---调用手机相册---");
                 allPhoto();
             }
         });
@@ -338,6 +376,7 @@ public class CompanyApplyFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.i("Daniel", "---resultCode---"+resultCode);
         //如果返回码不为-1，则表示不成功
         if (resultCode != Activity.RESULT_OK) {
             return;
@@ -349,6 +388,7 @@ public class CompanyApplyFragment extends Fragment {
             //游标移到第一位，即从第一位开始读取
             cursor.moveToFirst();
             String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            Log.i("Daniel", "---path---"+path);
             cursor.close();
             //调用系统裁剪
             startPhoneZoom(Uri.fromFile(new File(path)));
@@ -369,6 +409,9 @@ public class CompanyApplyFragment extends Fragment {
         }
     }
 
+    /**
+     * 得到图片并上传
+     */
     private String mBusinessLicense = "";
     private String mIdCard = "";
 
@@ -425,9 +468,12 @@ public class CompanyApplyFragment extends Fragment {
                                 if (isCompanyFile) {
                                     mBusinessLicense = resultCodeWithCompanyFile.getCompanyFile();
                                     Picasso.with(getActivity()).load(resultCodeWithCompanyFile.getCompanyFile()).into(businessLicenseImg);
+                                    businessLicenseFlag.setText("true");
+
                                 } else {
                                     mIdCard = resultCodeWithCompanyFile.getCompanyFile();
                                     Picasso.with(getActivity()).load(resultCodeWithCompanyFile.getCompanyFile()).into(idCardImg);
+                                    idCardFlag.setText("true");
                                 }
                                 showToast(resultCodeWithCompanyFile.getMsg());
                             } else {
@@ -450,8 +496,12 @@ public class CompanyApplyFragment extends Fragment {
 
     //调用系统裁剪的方法
     private void startPhoneZoom(Uri uri) {
+        Log.e("Daniel", "---uri---"+uri);
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
+        Log.e("Daniel", "--- intent.getDataString()---"+ intent.getDataString());
+        Log.e("Daniel", "---  intent.getData()---"+  intent.getData());
+
         //是否可裁剪
         intent.putExtra("corp", "true");
         //裁剪器高宽比
