@@ -123,8 +123,55 @@
                         android:text="高新区长春路科学大道升龙城9栋1601室"
                         />
 
+
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/to_comments_lin"
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:orientation="horizontal"
+                    android:background="?android:selectableItemBackground"
+                    android:clickable="true"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin">
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/tinymdp"
+                        android:src="@drawable/spzs_03"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="评论总数："
+                        android:textSize="@dimen/mediumxsp"
+                        android:textColor="@color/colorPrimary"/>
+                    <TextView
+                        android:id="@+id/comments_num_txt"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="1586"
+                        android:textSize="@dimen/mediumxsp"
+                        android:textColor="@color/colorPrimary"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="去看评价"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/mediumsp"
+                        android:textColor="@color/black"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/go_in"
+                        android:paddingLeft="@dimen/tinymdp"
+                        />
+                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
@@ -186,24 +233,8 @@
                             android:layout_weight="1"
                             />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/tinymdp"
-                            android:layout_toRightOf="@+id/below_txt"
-                            android:src="@drawable/spzs_03"
-                            />
 
-                        <TextView
-                            android:id="@+id/comments_num_txt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_toRightOf="@+id/below_txt"
-                            android:text="1586"
-                            android:textColor="@color/colorPrimary"
 
-                            />
                     </LinearLayout>
 
 

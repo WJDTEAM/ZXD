@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingTop="@dimen/activity_horizontal_margin"
+              android:paddingBottom="@dimen/activity_horizontal_margin"
+              android:layout_marginTop="1dp"
+    android:paddingLeft="@dimen/tinymdp"
+    android:paddingRight="@dimen/activity_horizontal_margin">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/comments_image"
+        android:layout_width="@dimen/hugehdp"
+        android:layout_height="@dimen/hugehdp"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:src="@drawable/demo"
+        android:layout_margin="@dimen/mediummdp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/hugehdp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/comments_user_name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="用户1"
+                android:textColor="@color/black"
+                android:textSize="@dimen/mediumxsp"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/comments_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="2016年9月18日"
+                android:textSize="@dimen/mediumsp"
+                />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/comments_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="的家啊大家看撒法nhk了撒把付款失败v付款了"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_horizontal_margin"
+            />
+    </LinearLayout>
+
+</LinearLayout>

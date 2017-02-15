@@ -30,7 +30,6 @@ import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.NewUser;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithImg;
-import com.bf.zxd.zhuangxudai.pojo.User;
 import com.bf.zxd.zhuangxudai.util.FileUitlity;
 import com.bf.zxd.zhuangxudai.util.SettingsUtils;
 import com.squareup.picasso.Picasso;
@@ -384,7 +383,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private void logout() {
         //退出账户是删除此用户
         realm.beginTransaction();
-        User userInfo = realm.where(User.class).findFirst();
+        NewUser userInfo = realm.where(NewUser.class).findFirst();
         if (userInfo != null) {
             userInfo.deleteFromRealm();
         }

@@ -92,11 +92,18 @@ public class TemplateDetailsFragment extends Fragment {
         return fragment;
     }
 
-    @OnClick(R.id.below_txt)
-    public void onClick() {
-        //跳转页面
-        mListener.startActivity(ZxgsDetailActivity.class);
+    @OnClick({R.id.to_comments_lin, R.id.below_txt})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.to_comments_lin:
+                mListener.startActivity(CommentsActivity.class);
+                break;
+            case R.id.below_txt:
+                mListener.startActivity(ZxgsDetailActivity.class);
+                break;
+        }
     }
+
 
     public interface mDetailsListener {
         public void show();
@@ -111,7 +118,7 @@ public class TemplateDetailsFragment extends Fragment {
 
         public int getCompanyId();
 
-        public void startActivity(Class<ZxgsDetailActivity> activity);
+        public void startActivity(Class activity);
 
         public List<String> getImgAddress();
     }
@@ -184,17 +191,17 @@ public class TemplateDetailsFragment extends Fragment {
 
     public void initSliderLayout(List<String> imgs) {
         TextSliderView textSliderView1 = new TextSliderView(this.getActivity());
-        textSliderView1.image(imgs.get(imgs.size()-1));
+        textSliderView1.image(imgs.get(imgs.size() - 1));
 
         textSliderView1.description("新品推荐");
         slider.addSlider(textSliderView1);
-        if(imgs.size()>2) {
+        if (imgs.size() > 2) {
             TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
             textSliderView2.image(imgs.get(imgs.size() - 2));
             textSliderView2.description("收藏最多");
             slider.addSlider(textSliderView2);
         }
-        if(imgs.size()>3){
+        if (imgs.size() > 3) {
             TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
             textSliderView2.image(imgs.get(imgs.size() - 3));
             textSliderView2.description("流行样板");
@@ -241,7 +248,7 @@ public class TemplateDetailsFragment extends Fragment {
                 .into(image);
         designInspirationTxt.setText(zxgs.getDesignInspiration());
         housingSituationTxt.setText(zxgs.getHousingSituation());
-        commentsNumTxt.setText(zxgs.getComments()+"");
+        commentsNumTxt.setText(zxgs.getComments() + "");
 
         initCompanyData(zxgs.getCompanyId());
     }
@@ -271,8 +278,8 @@ public class TemplateDetailsFragment extends Fragment {
 
     public void initCompanyView(DecoCompanyDetail decoCompanyDetail) {
 
-        if(decoCompanyDetail.getCompanyIcon()!=null){
-            if(!decoCompanyDetail.getCompanyIcon().equals("")){
+        if (decoCompanyDetail.getCompanyIcon() != null) {
+            if (!decoCompanyDetail.getCompanyIcon().equals("")) {
                 Picasso.with(getActivity()).load(decoCompanyDetail.getCompanyIcon())
                         .placeholder(R.drawable.demo)
                         .error(R.drawable.demo)

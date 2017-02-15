@@ -7,7 +7,7 @@ package com.bf.zxd.zhuangxudai.pojo;
 public class RegistResult {
     int code;
     String msg;
-    User User;
+    NewUser User;
 
     public int getCode() {
         return code;
@@ -25,11 +25,11 @@ public class RegistResult {
         this.msg = msg;
     }
 
-    public User getUser() {
+    public NewUser getUser() {
         return User;
     }
 
-    public void setUser(User User) {
-        this.User = User;
+    public void setUser(NewUser user) {
+        User = user;
     }
 }

@@ -70,7 +70,7 @@ public class LoanActivityListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 .error(R.drawable.demo)
                 .into(myViewHoder.loanActivityImg);
         myViewHoder.loanActivityTitle.setText(mDatas.get(position).getTitle());
-        myViewHoder.loanActivityTime.setText("");
+        myViewHoder.loanActivityTime.setText(mDatas.get(position).getDescription());
         myViewHoder.loan_activity_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

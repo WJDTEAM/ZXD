@@ -26,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
+import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
@@ -33,7 +34,6 @@ import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
 import com.bf.zxd.zhuangxudai.util.SystemBarTintManager;
 import com.bf.zxd.zhuangxudai.zxgs.AppointmentActivity;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
-import com.bf.zxd.zhuangxudai.zxgs.ZxgsDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,10 +74,13 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
     CompositeSubscription mcompositeSubscription;
 
-    int CompanyId;
+    int CompanyId;//样板间CaseId
+
+    public int compId;//公司id
+
     List<DecoCompanyCase> decoCompanyCases;//公司案例
     public int toolBarheight = 0;
-
+    LoginHelper loginHelper;
     public boolean isToolBarShow = false;
     public static final String CHANGE_DETAILS_FRAGMENT="tempalte_details_fragment";
 
@@ -114,8 +117,16 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
     }
 
 
-    public void startActivity(Class<ZxgsDetailActivity> activity){
-        startActivity(new Intent(TemplateActivity.this,activity).putExtra("Zxgs_id",CompanyId));
+    public void startActivity(Class activity){
+        if(activity.equals(CommentsActivity.class)){
+            if(loginHelper.startActivityWithLogin(this,activity)){
+                startActivity(new Intent(TemplateActivity.this,activity).putExtra("Zxgs_id",CompanyId));
+            }
+
+        }else{
+            startActivity(new Intent(TemplateActivity.this,activity).putExtra("Zxgs_id",CompanyId));
+        }
+
     }
 
     @Override
@@ -135,8 +146,13 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
         changeFragment(templateImgFragment,CHANGE_IMG_FRAGMENT);
         initImgData(CompanyId);
-
-
+        loginHelper=LoginHelper.getInstence();
+        loginHelper.setmLinsener(new LoginHelper.Linsener() {
+            @Override
+            public void changeActivity(Class activity) {
+                startActivity(new Intent(TemplateActivity.this,activity).putExtra("Zxgs_id",CompanyId));
+            }
+        });
     }
 
 

@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.main.MainActivity;
-import com.bf.zxd.zhuangxudai.pojo.User;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
 import com.blankj.utilcode.utils.ScreenUtils;
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +50,7 @@ public class WelcomeActivity extends AppCompatActivity {
         Picasso.with(WelcomeActivity.this).load(R.drawable.startpage).into(startPageImg);
         countToEnter();
         realm=Realm.getDefaultInstance();
-        User User = realm.where(User.class).findFirst();
+        NewUser User = realm.where(NewUser.class).findFirst();
         if (User != null) {
             //删除本地之前保存的用户信息
 

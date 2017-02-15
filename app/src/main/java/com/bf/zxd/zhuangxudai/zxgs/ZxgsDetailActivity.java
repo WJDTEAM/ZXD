@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
-import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
+import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyDetail;
 import com.bf.zxd.zhuangxudai.template.TemplateHorizontalListAdapter;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -26,6 +26,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -55,32 +59,53 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
     RecyclerView allImgsRecyclerView;
     private int Zxgs_id=-1;
     String DecoCompanyItemJson;
-    DecoCompanyItem mZxgs;
+    DecoCompanyDetail mZxgs;
     private CompositeSubscription compositeSubscription;
     TemplateHorizontalListAdapter templateHorizontalListAdapter;
 
     public void initDate() {
         compositeSubscription = new CompositeSubscription();
-        Gson g=new Gson();
         Zxgs_id = getIntent().getIntExtra("Zxgs_id",-1);
-        DecoCompanyItemJson=getIntent().getStringExtra("DecoCompanyItemJson");
-        mZxgs=g.fromJson(DecoCompanyItemJson,DecoCompanyItem.class);
-        Log.i("gqf",Zxgs_id+"DecoCompanyItem"+mZxgs.toString());
-        setToolBar(mZxgs.getCompanyName());
-        gsTitleTxt.setText(mZxgs.getCompanyName());
-        addressTxt.setText( mZxgs.getAddr());
-        belowTxt.setText(mZxgs.getTel());
-        if(mZxgs.getCompanyIcon()!=null){
-            if(!mZxgs.equals("")){
-                Picasso.with(ZxgsDetailActivity.this).load(mZxgs.getCompanyIcon()).error(R.drawable.demo2).into(image);
-            }
-        }
+
+        initCompanyData(Zxgs_id);
+
 
 
 
     }
 
 
+    public void initCompanyData(int id){
+        Subscription subscription = NetWork.getNewZXD1_4Service().getDecoCompanyDetail(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DecoCompanyDetail>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("gqf", "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("gqf", "onError" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(DecoCompanyDetail zxgs) {
+                        mZxgs =zxgs;
+                        setToolBar(mZxgs.getCompanyName());
+                        gsTitleTxt.setText(mZxgs.getCompanyName());
+                        addressTxt.setText( mZxgs.getAddr());
+                        belowTxt.setText(mZxgs.getTel());
+                        if(mZxgs.getCompanyIcon()!=null){
+                            if(!mZxgs.equals("")){
+                                Picasso.with(ZxgsDetailActivity.this).load(mZxgs.getCompanyIcon()).error(R.drawable.demo2).into(image);
+                            }
+                        }
+                    }
+                });
+        compositeSubscription.add(subscription);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

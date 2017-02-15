@@ -194,6 +194,12 @@
         </activity>
         <activity android:name=".User.ChooseCompanyActivity">
         </activity>
+        <!-- 评论列表 -->
+        <activity
+            android:name=".template.CommentsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

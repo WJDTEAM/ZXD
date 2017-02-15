@@ -12,8 +12,18 @@
               android:layout_height="wrap_content"
               android:background="?android:selectableItemBackground"
               android:clickable="true"
+    android:paddingTop="@dimen/smallmdp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin">
+
+    <ImageView
+        android:id="@+id/loan_activity_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:src="@drawable/bank_activity_log"
+        />
 
     <TextView
         android:id="@+id/loan_activity_title"
@@ -23,14 +33,6 @@
         android:gravity="center_vertical"
         android:textColor="@color/black"
         android:textSize="@dimen/mediumsp"
-        />
-    <ImageView
-        android:id="@+id/loan_activity_img"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:src="@drawable/bank_activity_log"
         />
 
     <LinearLayout
@@ -42,8 +44,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="2017-4-9 17:33"
+            android:text="详情"
             android:textSize="@dimen/smallsp"
+            android:lines="1"
+            android:ellipsize="end"
             android:gravity="center_vertical"/>
         <TextView
             android:layout_width="wrap_content"

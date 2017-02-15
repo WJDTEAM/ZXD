@@ -87,12 +87,10 @@ public class ZxgsActivity extends BaseActivity {
                 Gson g=new Gson();
                 Intent intent = new Intent(ZxgsActivity.this,ZxgsDetailActivity.class);
                 intent.putExtra("Zxgs_id",Zxgs_id);
-                intent.putExtra("DecoCompanyItemJson",g.toJson(zxgses.get(postion)));
+
                 startActivity(intent);
             }
         });
-
-
 
     }
 

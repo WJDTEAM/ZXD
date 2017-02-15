@@ -10,7 +10,7 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.AutoHeightLayoutManager;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.DksqItem;
-import com.bf.zxd.zhuangxudai.pojo.User;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
 import com.bf.zxd.zhuangxudai.util.Utils;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class MyLoanActivity extends BaseActivity {
     }
 
     private void getDksqItem() {
-        Subscription Subscription_getDksqItem = NetWork.getZxService().getDksqItem(realm.where(User.class).findFirst().getUser_id())
+        Subscription Subscription_getDksqItem = NetWork.getZxService().getDksqItem(realm.where(NewUser.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<DksqItem>>() {
