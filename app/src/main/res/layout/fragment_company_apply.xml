@@ -6,11 +6,25 @@
                 android:background="@color/white"
     >
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitInformation_btn"
+        android:enabled="false"
+        android:background="@drawable/apply_for_selector"
+        android:text="@string/submitInformation"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@drawable/apply_for_text_color_selector"
+        />
+
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
 
 
@@ -99,6 +113,7 @@
                 android:layout_weight="1"
                 >
                 <TextView
+                    android:id="@+id/companyName"
                     android:text="@string/companyName"
                     style="@style/apply_for_text_style2"
                     />
@@ -125,10 +140,6 @@
                     android:inputType="phone"
                     />
             </LinearLayout>
-
-
-
-
 
             <LinearLayout
                 android:id="@+id/businessLicense_linearLayout"
@@ -162,6 +173,12 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/go_in"
                     android:padding="@dimen/activity_vertical_margin"
+                    />
+                <TextView
+                    android:id="@+id/businessLicense_flag"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
                     />
             </LinearLayout>
             <View
@@ -200,6 +217,13 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/go_in"
                     android:padding="@dimen/activity_vertical_margin"
+
+                    />
+                <TextView
+                    android:id="@+id/idCard_flag"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
                     />
             </LinearLayout>
             <View
@@ -210,16 +234,4 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/submitInformation_btn"
-        android:enabled="false"
-        android:background="@drawable/apply_for_selector"
-        android:text="@string/submitInformation"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentBottom="true"
-        android:textColor="@drawable/apply_for_text_color_selector"
-        />
 </RelativeLayout>

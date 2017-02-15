@@ -12,7 +12,6 @@ import android.view.View;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.my.fragment.CompanyApplyFragment;
-import com.bf.zxd.zhuangxudai.my.fragment.FinancialApplyFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,16 +58,16 @@ public class LoanApplyForActivity extends AppCompatActivity {
         setToolbar("入驻申请");
         fmList = new ArrayList<Fragment>();
         fmList.add(CompanyApplyFragment.newInstance("装修公司入驻申请", ""));
-        fmList.add(FinancialApplyFragment.newInstance("金融机构入驻申请", ""));
+//        fmList.add(FinancialApplyFragment.newInstance("金融机构入驻申请", ""));
         viewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return fmList.get(position);
+                return CompanyApplyFragment.newInstance("装修公司入驻申请", ""+position);
             }
 
             @Override
             public int getCount() {
-                return fmList.size();
+                return 2;
             }
 
             @Override

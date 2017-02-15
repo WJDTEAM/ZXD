@@ -35,6 +35,7 @@ import com.bf.zxd.zhuangxudai.pojo.ApplyForInformatin;
 import com.bf.zxd.zhuangxudai.pojo.ResultCode;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithCompanyFile;
 import com.bf.zxd.zhuangxudai.util.FileUitlity;
+import com.bf.zxd.zhuangxudai.util.Phone;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
@@ -57,7 +58,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func4;
+import rx.functions.Func7;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -96,6 +97,12 @@ public class FinancialApplyFragment extends Fragment {
     ScrollView loginForm;
     @BindView(R.id.companyName_tv)
     EditText companyNameTv;
+    @BindView(R.id.contactWay_edi)
+    EditText contactWayEdi;
+    @BindView(R.id.businessLicense_flag)
+    TextView businessLicenseFlag;
+    @BindView(R.id.idCard_flag)
+    TextView idCardFlag;
 
 
     private String mParam1;
@@ -162,17 +169,35 @@ public class FinancialApplyFragment extends Fragment {
 
     private void submitINformation() {
 
+        String _phone = contactWayEdi.getText().toString();
+        if (Phone.IsMobileNO(_phone)){
+            saveEnter();
+        }else {
+            showToast("手机格式不正确！");
+            contactWayEdi.setText("");
+        }
+
+
+    }
+
+    /**
+     * 提交申请信息
+     */
+    private void saveEnter() {
+        //        Map<String,ApplyForInformatin> map = new HashMap<>();
         ApplyForInformatin applyForInformatin = new ApplyForInformatin();
-        applyForInformatin.setApplyType("02");
+        applyForInformatin.setApplyType("01");
+        applyForInformatin.setContact(contactWayEdi.getText().toString());
         applyForInformatin.setBusinessLicense(mBusinessLicense);
         applyForInformatin.setCompanyName(companyNameTv.getText().toString());
         applyForInformatin.setDetailedAddr(detailAddressEdi.getText().toString());
         applyForInformatin.setIdCard(mIdCard);
         applyForInformatin.setLocationArea(areaTv.getText().toString());
         applyForInformatin.setProposer(applyNameEdi.getText().toString());
-        Gson gson = new Gson();
+        //        map.put("enter",applyForInformatin);
+        Gson g = new Gson();
 
-        Subscription saveEnter = NetWork.getNewZXD1_4Service().saveEnter(gson.toJson(applyForInformatin))
+        Subscription saveEnter = NetWork.getNewZXD1_4Service().saveEnter(g.toJson(applyForInformatin))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultCode>() {
@@ -181,24 +206,27 @@ public class FinancialApplyFragment extends Fragment {
 
                     }
 
+                    @DebugLog
+
                     @Override
                     public void onError(Throwable e) {
-
                     }
+
+                    @DebugLog
 
                     @Override
                     public void onNext(ResultCode resultCode) {
+
                         if (resultCode.getCode() == 10001) {
                             showToast(resultCode.getMsg());
                         } else {
                             showToast(resultCode.getMsg());
                         }
+                        Log.e("Daniel", "--------提交資料---------");
 
                     }
                 });
         mCompositeSubscription.add(saveEnter);
-
-
     }
 
     /*提交按钮控制*/
@@ -207,15 +235,20 @@ public class FinancialApplyFragment extends Fragment {
         Observable<CharSequence> area = RxTextView.textChanges(areaTv).skip(1);
         Observable<CharSequence> detailAddress = RxTextView.textChanges(detailAddressEdi).skip(1);
         Observable<CharSequence> companyName = RxTextView.textChanges(companyNameTv).skip(1);
-
-        Observable.combineLatest(applyName, area, detailAddress, companyName, new Func4<CharSequence, CharSequence, CharSequence, CharSequence, Boolean>() {
+        Observable<CharSequence> contactWay = RxTextView.textChanges(contactWayEdi).skip(1);
+        Observable<CharSequence> businessLicense = RxTextView.textChanges(businessLicenseFlag).skip(1);
+        Observable<CharSequence> idCard = RxTextView.textChanges(idCardFlag).skip(1);
+        Observable.combineLatest(applyName, area, detailAddress, companyName, contactWay,businessLicense, idCard,new Func7<CharSequence, CharSequence, CharSequence, CharSequence, CharSequence, CharSequence, CharSequence,Boolean>() {
             @Override
-            public Boolean call(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, CharSequence charSequence4) {
+            public Boolean call(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, CharSequence charSequence4, CharSequence charSequence5, CharSequence charSequence6, CharSequence charSequence7) {
                 boolean Bl = !TextUtils.isEmpty(charSequence);
                 boolean B2 = !TextUtils.isEmpty(charSequence2);
                 boolean B3 = !TextUtils.isEmpty(charSequence3);
                 boolean B4 = !TextUtils.isEmpty(charSequence4);
-                return Bl && B2 && B3 && B4;
+                boolean B5 = !TextUtils.isEmpty(charSequence5);
+                boolean B6 = !TextUtils.isEmpty(charSequence6);
+                boolean B7 = !TextUtils.isEmpty(charSequence7);
+                return Bl && B2 && B3 && B4 && B5 &&B6  &&B7;
             }
         }).subscribe(new Observer<Boolean>() {
             @Override
@@ -420,9 +453,11 @@ public class FinancialApplyFragment extends Fragment {
                                 if (isCompanyFile) {
                                     mBusinessLicense = resultCodeWithCompanyFile.getCompanyFile();
                                     Picasso.with(getActivity()).load(resultCodeWithCompanyFile.getCompanyFile()).into(businessLicenseImg);
+                                    businessLicenseFlag.setText("true");
                                 } else {
                                     mIdCard = resultCodeWithCompanyFile.getCompanyFile();
                                     Picasso.with(getActivity()).load(resultCodeWithCompanyFile.getCompanyFile()).into(idCardImg);
+                                    idCardFlag.setText("true");
                                 }
                                 showToast(resultCodeWithCompanyFile.getMsg());
                             } else {
@@ -495,5 +530,6 @@ public class FinancialApplyFragment extends Fragment {
         super.onDestroy();
         mCompositeSubscription.unsubscribe();
         mUnbinder.unbind();
+
     }
 }

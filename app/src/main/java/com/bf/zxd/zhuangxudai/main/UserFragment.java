@@ -101,7 +101,9 @@ public class UserFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.apply_linear:
-                startActivity(new Intent(getActivity(), LoanApplyForActivity.class));
+                if (initLogin(LoanApplyForActivity.class)) {
+                    startActivity(new Intent(getActivity(), LoanApplyForActivity.class));
+                }
                 break;
             case R.id.memoryCode:
                 if (initLogin(MyLoanActivity.class)) {
