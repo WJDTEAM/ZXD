@@ -31,7 +31,6 @@ public class LoanDetailsActivity extends AppCompatActivity {
 
     private void setToolbar(String toolstr) {
         baseToolBar.setTitle(toolstr);
-        //        ((TextView)baseToolBar.findViewById(R.id.toolbar_title)).setText(toolstr);
         baseToolBar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(baseToolBar);
         baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);

@@ -7,7 +7,7 @@
     android:layout_marginTop="@dimen/tinymdp">
 <LinearLayout
     android:id="@+id/loan_activity_lin"
-              android:orientation="vertical"
+    android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="?android:selectableItemBackground"

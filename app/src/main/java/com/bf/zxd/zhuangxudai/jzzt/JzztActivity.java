@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.bf.zxd.zhuangxudai.Dkhd.LoanDetailsActivity;
@@ -56,6 +57,7 @@ public class JzztActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(List<JzhdItem> jzhdItems) {
+                        Log.i("gqf","JzhdItem"+jzhdItems.toString());
                         initList(jzhdItems);
                     }
                 });
@@ -80,7 +82,7 @@ public class JzztActivity extends AppCompatActivity {
     }
 
     private void setToolbar() {
-        baseToolBar.setTitle("家装专题");
+        baseToolBar.setTitle("家装活动");
         baseToolBar.setTitleTextColor(getResources().getColor(R.color.white));
         setSupportActionBar(baseToolBar);
         baseToolBar.setNavigationIcon(R.drawable.barcode__back_arrow);

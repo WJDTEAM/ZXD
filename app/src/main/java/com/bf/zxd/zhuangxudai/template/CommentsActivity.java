@@ -1,6 +1,9 @@
 package com.bf.zxd.zhuangxudai.template;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bf.zxd.zhuangxudai.Login.LoginActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.Comments;
@@ -87,10 +91,27 @@ public class CommentsActivity extends AppCompatActivity {
 
     @OnClick(R.id.comments_commit_txt)
     public void onClick() {
-        if(commentsEdi.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(),"请输入评论后再提交",Toast.LENGTH_SHORT).show();
+        if(realm.where(NewUser.class).findFirst()!=null) {
+            if (commentsEdi.getText().toString().equals("")) {
+                Toast.makeText(getApplicationContext(), "请输入评论后再提交", Toast.LENGTH_SHORT).show();
+            } else {
+                commitComments(commentsEdi.getText().toString());
+            }
         }else{
-            commitComments(commentsEdi.getText().toString());
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("您当前未登录无法评论,是否去登陆")
+                    .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(CommentsActivity.this, LoginActivity.class));
+                        }
+                    })
+                    .setNegativeButton("否",new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int which) {
+                            commentsEdi.setText("");
+                            dialog.dismiss();
+                        }
+                    });
+            alert.create().show();
         }
 
     }

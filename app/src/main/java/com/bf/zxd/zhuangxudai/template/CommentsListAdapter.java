@@ -69,8 +69,17 @@ public class CommentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         MyViewHoder myViewHoder = (MyViewHoder) holder;
         myViewHoder.commentsTime.setText(mDatas.get(position).getPlrq());
+
+        String userName="";
+        if(!mDatas.get(position).getNickname().equals("")){
+            userName=mDatas.get(position).getNickname();
+        }else{
+            userName=mDatas.get(position).getPhone();
+            userName=userName.substring(0,3)+"****"+userName.substring(7,userName.length());
+        }
+
         myViewHoder.commentsTxt.setText(mDatas.get(position).getContent());
-        myViewHoder.commentsUserName.setText(mDatas.get(position).getNickname());
+        myViewHoder.commentsUserName.setText(userName);
         if(mDatas.get(position).getLogoImg()!=null){
             if(!mDatas.get(position).getLogoImg().equals("")){
                 Picasso.with(mContext).load(mDatas.get(position).getLogoImg())

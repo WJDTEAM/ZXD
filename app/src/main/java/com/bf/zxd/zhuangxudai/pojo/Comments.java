@@ -14,16 +14,25 @@ public class Comments {
     String nickname;
     String plrq;
     String content;
+    String phone;
 
     @Override
-    public String
-    toString() {
+    public String toString() {
         return "Comments{" +
                 "logoImg='" + logoImg + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", plrq='" + plrq + '\'' +
                 ", content='" + content + '\'' +
+                ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getLogoImg() {

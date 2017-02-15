@@ -76,7 +76,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
     int CompanyId;//样板间CaseId
 
-    public int compId;//公司id
+    public int compId=0;//公司id
 
     List<DecoCompanyCase> decoCompanyCases;//公司案例
     public int toolBarheight = 0;
@@ -119,16 +119,17 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
     public void startActivity(Class activity){
         if(activity.equals(CommentsActivity.class)){
-            if(loginHelper.startActivityWithLogin(this,activity)){
-                startActivity(new Intent(TemplateActivity.this,activity).putExtra("Zxgs_id",CompanyId));
-            }
 
-        }else{
             startActivity(new Intent(TemplateActivity.this,activity).putExtra("Zxgs_id",CompanyId));
+        }else{
+            startActivity(new Intent(TemplateActivity.this,activity).putExtra("Zxgs_id",compId));
         }
 
     }
 
+    public void setCompanyId(int id){
+        compId=id;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,13 +147,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
         changeFragment(templateImgFragment,CHANGE_IMG_FRAGMENT);
         initImgData(CompanyId);
-        loginHelper=LoginHelper.getInstence();
-        loginHelper.setmLinsener(new LoginHelper.Linsener() {
-            @Override
-            public void changeActivity(Class activity) {
-                startActivity(new Intent(TemplateActivity.this,activity).putExtra("Zxgs_id",CompanyId));
-            }
-        });
+
     }
 
 

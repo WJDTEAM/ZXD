@@ -81,6 +81,7 @@ public class TemplateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
         myViewHoder.templateItemTitle.setText(mDatas.get(position).getCaseName());
         myViewHoder.templateItemDetails.setText(mDatas.get(position).getDesignInspiration());
+        myViewHoder.templateItemNum.setText(mDatas.get(position).getComments()+"");
         if(mDatas.get(position).getThumbnails()!=null){
             if(!mDatas.get(position).getThumbnails().equals("")){
                 Picasso.with(mContext).load(mDatas.get(position).getThumbnails())

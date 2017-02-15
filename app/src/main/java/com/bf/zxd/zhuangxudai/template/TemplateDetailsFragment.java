@@ -86,7 +86,7 @@ public class TemplateDetailsFragment extends Fragment {
     TextView imgsNumTxt;
     @BindView(R.id.comments_num_txt)
     TextView commentsNumTxt;
-
+    DecoCompanyYbjDetail decoCompanyYbjDetail;
     public static TemplateDetailsFragment newInstance() {
         TemplateDetailsFragment fragment = new TemplateDetailsFragment();
         return fragment;
@@ -99,6 +99,7 @@ public class TemplateDetailsFragment extends Fragment {
                 mListener.startActivity(CommentsActivity.class);
                 break;
             case R.id.below_txt:
+                mListener.setCompanyId(decoCompanyYbjDetail.getCompanyId());
                 mListener.startActivity(ZxgsDetailActivity.class);
                 break;
         }
@@ -121,6 +122,8 @@ public class TemplateDetailsFragment extends Fragment {
         public void startActivity(Class activity);
 
         public List<String> getImgAddress();
+
+        public void setCompanyId(int id);
     }
 
     private mDetailsListener mListener;
@@ -215,6 +218,13 @@ public class TemplateDetailsFragment extends Fragment {
         slider.setDuration(3000);
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            initData(mListener.getCompanyId());
+        }
+    }
 
     public void initData(int id) {
         Subscription subscription = NetWork.getNewZXD1_4Service().getDecoCompanyYbjDetail(id)
@@ -234,6 +244,7 @@ public class TemplateDetailsFragment extends Fragment {
                     @Override
                     public void onNext(DecoCompanyYbjDetail zxgs) {
                         Log.i("gqf", "mListener" + zxgs.toString());
+                        decoCompanyYbjDetail=zxgs;
                         initYBJView(zxgs);
                     }
                 });

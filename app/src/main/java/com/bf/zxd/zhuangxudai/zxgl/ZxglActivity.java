@@ -50,7 +50,6 @@ public class ZxglActivity extends BaseActivity {
         mCompositeSubscription = new CompositeSubscription();
         Utils.init(this);
         getZxglItem();
-
     }
 
     private void getZxglItem() {

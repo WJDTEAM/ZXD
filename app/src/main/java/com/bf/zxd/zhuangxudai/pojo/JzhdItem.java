@@ -22,6 +22,18 @@ public class JzhdItem {
     private String addr;
     private String sponsor;
 
+    @Override
+    public String toString() {
+        return "JzhdItem{" +
+                "articleId=" + articleId +
+                ", title='" + title + '\'' +
+                ", thumbnails='" + thumbnails + '\'' +
+                ", hdrq='" + hdrq + '\'' +
+                ", addr='" + addr + '\'' +
+                ", sponsor='" + sponsor + '\'' +
+                '}';
+    }
+
     public int getArticleId() {
         return articleId;
     }
