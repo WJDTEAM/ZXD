@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:paddingBottom="@dimen/mediumhdp"
         android:layout_below="@id/toolbar"
         >
 
@@ -90,7 +91,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/image"
-                    android:layout_marginTop="@dimen/activity_horizontal_margin"
                     android:gravity="center_vertical"
                     android:paddingTop="@dimen/smallmdp"
                     >

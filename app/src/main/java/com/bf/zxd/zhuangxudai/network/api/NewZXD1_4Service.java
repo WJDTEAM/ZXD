@@ -18,6 +18,7 @@ import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanTypes;
 import com.bf.zxd.zhuangxudai.pojo.Recommends;
+import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
 import com.bf.zxd.zhuangxudai.pojo.ResultCode;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithCompanyFile;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithImg;
@@ -300,6 +301,15 @@ public interface NewZXD1_4Service {
      */
     @GET("getComments/{objectId}")
     Observable<List<Comments>> getComments(@Path("objectId") int objectId);
+
+    /**
+     * 预约保存
+
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("saveZxyy")
+    Observable<ResuleInfo> saveZxyy(@Field("fromUserId ") Integer  fromUserId, @Field("toCompanyId") Integer toCompanyId, @Field("proposer") String proposer, @Field("tel") String tel, @Field("addr") String addr, @Field("area") int area, @Field("houseArea") int houseArea, @Field("houseType") int houseType);
 
 
 

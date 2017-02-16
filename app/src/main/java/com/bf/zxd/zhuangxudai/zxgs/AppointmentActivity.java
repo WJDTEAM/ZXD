@@ -16,9 +16,10 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.dialog.CommitDialogFragment;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.picker.AddressPickTask;
-import com.bf.zxd.zhuangxudai.pojo.DictData;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyDetail;
+import com.bf.zxd.zhuangxudai.pojo.HouseBaseInfo;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
-import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.util.Phone;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
@@ -37,6 +38,7 @@ import cn.qqtheme.framework.picker.OptionPicker;
 import cn.qqtheme.framework.widget.WheelView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import hugo.weaving.DebugLog;
+import io.realm.Realm;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -77,63 +79,73 @@ public class AppointmentActivity extends BaseActivity {
     TextView houseStyleEdi;
 
     private CompositeSubscription mcompositeSubscription;
-    private int CompanyId;
+    public static int CompanyId=-1;
 
     String houseStyle = "";
     String houseType = "";
     String houseArea = "";
     private String headers[] = {"风格", "户型", "面积"};
-    private List<DictData> style;
-    private List<DictData> model;
-    private List<DictData> area;
+    private List<HouseBaseInfo> style;
+    private List<HouseBaseInfo> model;
+    private List<HouseBaseInfo> area;
     private String mData;
 
     private String[] str_style = new String[0];
     private String[] str_model = new String[0];
     private String[] str_area = new String[0];
 
-    List<DictData> mDictDatas = new ArrayList<>();
+    List<HouseBaseInfo> mDictDatas = new ArrayList<>();
+
+    private Realm realm;
+    private NewUser mNewUser;
 
     @DebugLog
     @Override
     public void initDate() {
         mcompositeSubscription = new CompositeSubscription();
-        CompanyId = getIntent().getIntExtra("Zxgs_id",-1);
-        Log.e("Daniel","---CompanyId---"+CompanyId);
         getDictData();
+        Log.e("Daniel","---CompanyId---"+CompanyId);
         getZxgs(CompanyId);
 
     }
 
-    private void getZxgs(int companyId) {
+    private void getZxgs(int CompanyId) {
         Log.e("Daniel","---CompanyId---"+CompanyId);
-        Subscription subscription_getZxgs = NetWork.getZxService().getZxgs(companyId)
+        Subscription subscription = NetWork.getNewZXD1_4Service().getDecoCompanyDetail(CompanyId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Zxgs>() {
+                .subscribe(new Observer<DecoCompanyDetail>() {
                     @Override
                     public void onCompleted() {
-
+                        Log.i("gqf", "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.i("gqf", "onError" + e.getMessage());
                     }
 
                     @Override
-                    public void onNext(Zxgs zxgs) {
-                        Picasso.with(AppointmentActivity.this).load(zxgs.getLogo_img()).into(image);
-                        gsTitleTxt.setText(zxgs.getCompany_name());
+                    public void onNext(DecoCompanyDetail zxgs) {
+                        Log.e("Daniel","---zxgs---"+zxgs.toString());
+                        Picasso.with(AppointmentActivity.this)
+                                .load(zxgs.getCompanyIcon())
+                                .placeholder(R.drawable.demo)
+                                .error(R.drawable.demo)
+                                .into(image);
+
+                        gsTitleTxt.setText(zxgs.getCompanyName());
                         belowTxt.setText(zxgs.getTel());
-                        addressTxt.setText(zxgs.getAddr());
+                            addressTxt.setText(zxgs.getAddr());
                     }
+
                 });
-        mcompositeSubscription.add(subscription_getZxgs);
+        mcompositeSubscription.add(subscription);
+
     }
 
     private void getDictData() {
-        Subscription subscription = NetWork.getJzztService().getDictData()
+        Subscription subscription = NetWork.getNewZXD1_4Service().getHouseBaseInfo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
@@ -141,7 +153,7 @@ public class AppointmentActivity extends BaseActivity {
 
     }
 
-    Observer<List<DictData>> observer = new Observer<List<DictData>>() {
+    Observer<List<HouseBaseInfo>> observer = new Observer<List<HouseBaseInfo>>() {
         @DebugLog
         @Override
         public void onCompleted() {
@@ -156,7 +168,7 @@ public class AppointmentActivity extends BaseActivity {
 
         @DebugLog
         @Override
-        public void onNext(List<DictData> dictData) {
+        public void onNext(List<HouseBaseInfo> dictData) {
             mDictDatas = dictData;
             filterDictData();
         }
@@ -168,17 +180,17 @@ public class AppointmentActivity extends BaseActivity {
         style = new ArrayList<>();
         model = new ArrayList<>();
         area = new ArrayList<>();
-        for (DictData d : mDictDatas) {
-            if (d.getDict_code().equals("houseStyle")) {
+        for (HouseBaseInfo d : mDictDatas) {
+            if (d.getDictCode().equals("houseStyle")) {
                 style.add(d);
-            } else if (d.getDict_code().equals("houseType")) {
+            } else if (d.getDictCode().equals("houseType")) {
                 model.add(d);
             } else {
                 area.add(d);
             }
         }
-        DictData d = new DictData();
-        d.setDict_desc("不限");
+        HouseBaseInfo d = new HouseBaseInfo();
+        d.setDictDesc("不限");
         style.add(0, d);
         model.add(0, d);
         area.add(0, d);
@@ -197,13 +209,13 @@ public class AppointmentActivity extends BaseActivity {
 
     private void setHouseData() {
         for (int i = 0; i < style.size(); i++) {
-            str_style[i] = style.get(i).getDict_desc();
+            str_style[i] = style.get(i).getDictDesc();
         }
         for (int i = 0; i < model.size(); i++) {
-            str_model[i] = model.get(i).getDict_desc();
+            str_model[i] = model.get(i).getDictDesc();
         }
         for (int i = 0; i < area.size(); i++) {
-            str_area[i] = area.get(i).getDict_desc();
+            str_area[i] = area.get(i).getDictDesc();
         }
         Log.e("Daniel", "--- str_style.size()---" + str_style.length);
         Log.e("Daniel", "--- str_model.size()---" + str_model.length);
@@ -218,6 +230,15 @@ public class AppointmentActivity extends BaseActivity {
         ButterKnife.bind(this);
         setToolBar();
         initSubmit();
+
+        realm = Realm.getDefaultInstance();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mNewUser = realm.where(NewUser.class).findFirst();
 
     }
 
@@ -369,50 +390,56 @@ public class AppointmentActivity extends BaseActivity {
                 break;
         }
     }
-
+    int userId;
     private void saveZxyy() {
+        if (mNewUser!=null){
+            userId = mNewUser.getUserId();
+        }else {
+            userId=-1;
+        }
         String _full_name = URLEncoder.encode(storeNameEdi.getText().toString()) ;
         String _phone =URLEncoder.encode(phoneNumEdi.getText().toString()) ;
         String _address =URLEncoder.encode((addressTv.getText().toString() + addressDownEdi.getText().toString())) ;
         String _areaMsg =houseAreaEdi.getText().toString();
         int areaNum = -1;
         for (int i = 0; i < area.size(); i++) {
-            String _area = area.get(i).getDict_desc();
+            String _area = area.get(i).getDictDesc();
             if (_areaMsg.equals(_area)) {
-                areaNum = area.get(i).getDict_id();
+                areaNum = area.get(i).getDictId();
             }
         }
 
         String _houseTypeMsg = houseTypeEdi.getText().toString();
         int houseTypeNum = -1;
         for (int i = 0; i < model.size(); i++) {
-            String _model = model.get(i).getDict_desc();
+            String _model = model.get(i).getDictDesc();
             if (_houseTypeMsg.equals(_model)) {
-                houseTypeNum = model.get(i).getDict_id();
+                houseTypeNum = model.get(i).getDictId();
             }
         }
 
         String _houseStyleMsg = houseStyleEdi.getText().toString();
         int houseStyleNum = -1;
         for (int i = 0; i < style.size(); i++) {
-            String _style = style.get(i).getDict_desc();
+            String _style = style.get(i).getDictDesc();
             if (_areaMsg.equals(_style)) {
-                houseStyleNum = style.get(i).getDict_id();
+                houseStyleNum = style.get(i).getDictId();
            }
         }
 
 //        int company_id = 16;
-
+        Log.e("Daniel","---userId---"+userId);
+        Log.e("Daniel","---CompanyId---"+CompanyId);
         Log.e("Daniel","---_full_name---"+_full_name);
         Log.e("Daniel","---_phone---"+_phone);
-        Log.e("Daniel","---CompanyId---"+CompanyId);
         Log.e("Daniel","---_address---"+_address);
         Log.e("Daniel","---areaNum---"+areaNum);
         Log.e("Daniel","---houseTypeNum---"+houseTypeNum);
         Log.e("Daniel","---houseStyleNum---"+houseStyleNum);
 
 
-        NetWork.getZxService().saveZxyy(_full_name, _phone, CompanyId, _address, areaNum, houseTypeNum, houseStyleNum)
+
+        NetWork.getZxService().saveZxyy(userId,CompanyId,_full_name, _phone , _address, areaNum, houseTypeNum, houseStyleNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResuleInfo>() {

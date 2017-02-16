@@ -82,7 +82,7 @@ public class RecommendBankAdapter extends RecyclerView.Adapter<RecommendBankAdap
             holder.picRecommendBankImg.setImageResource(R.drawable.myhb);
         }
 
-        holder.numRecommendBankUptv.setText(13+"");
+        holder.numRecommendBankUptv.setText(data.getApplications()+"");
         holder.rateRecommendBankUptv.setText(data.getRate());
 
 //                holder.numRecommendBankUptv.setText(data.getMax_money()+"");

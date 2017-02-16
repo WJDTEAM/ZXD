@@ -7,7 +7,7 @@
         android:id="@+id/jzzt_list_lin"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/hugehxxxxxdp"
+        android:layout_height="@dimen/hugehxxxxdp"
         android:background="?android:selectableItemBackground"
         android:clickable="true"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -18,9 +18,10 @@
 
         <ImageView
             android:id="@+id/jzzzt_item_img"
-            android:layout_width="@dimen/hugehxxxxdp"
-            android:layout_height="@dimen/hugehxxxxdp"
-            android:scaleType="centerInside"
+            android:layout_width="@dimen/hugehxxxxxdp"
+            android:layout_height="@dimen/hugehxxdp"
+            android:scaleType="fitXY"
+
             />
         <LinearLayout
             android:layout_width="0dp"
@@ -36,7 +37,7 @@
                 android:text="标题"
                 android:lines="1"
                 android:ellipsize="end"
-                android:textSize="@dimen/mediumxsp"
+                android:textSize="@dimen/mediumsp"
                 android:textColor="@color/black"
                 android:gravity="center_vertical"
                 />
@@ -49,7 +50,7 @@
                 android:text="地址"
                 android:lines="1"
                 android:ellipsize="end"
-                android:textSize="@dimen/mediumsp"
+                android:textSize="@dimen/smallsp"
                 android:gravity="center_vertical"/>
                 <TextView
                     android:id="@+id/jzzt_sponsor_txt"
@@ -59,7 +60,7 @@
                     android:text="测试活动主办方"
                     android:lines="1"
                     android:ellipsize="end"
-                    android:textSize="@dimen/mediumsp"
+                    android:textSize="@dimen/smallsp"
                     android:gravity="center_vertical"/>
 
             <TextView
@@ -67,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2017/02/17~2017/02/28"
-                android:textSize="@dimen/smallsp"
+                android:textSize="@dimen/tinysp"
                 android:textColor="@color/gary_dark"
                 android:gravity="bottom"
                 android:layout_gravity="center_vertical"
@@ -75,5 +76,11 @@
         </LinearLayout>
 
         </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@drawable/recylist_item_line_shap"
+        />
 </LinearLayout>

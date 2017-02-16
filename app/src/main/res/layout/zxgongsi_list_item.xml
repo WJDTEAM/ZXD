@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="好评率：100%"
                 android:layout_marginTop="@dimen/tinymdp"
-                android:textSize="@dimen/smallsp"
+                android:textSize="@dimen/tinysp"
                 />
         </LinearLayout>
         <ImageView

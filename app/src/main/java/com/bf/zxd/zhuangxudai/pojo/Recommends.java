@@ -28,6 +28,15 @@ public class Recommends {
     private String cycle;
     private int maxMoney;
     private String loanTypeName;
+    private int applications;
+
+    public int getApplications() {
+        return applications;
+    }
+
+    public void setApplications(int applications) {
+        this.applications = applications;
+    }
 
     public int getCompanyId() {
         return companyId;
@@ -113,6 +122,7 @@ public class Recommends {
                 ", cycle='" + cycle + '\'' +
                 ", maxMoney=" + maxMoney +
                 ", loanTypeName='" + loanTypeName + '\'' +
+                ", applications=" + applications +
                 '}';
     }
 }
