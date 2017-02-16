@@ -44,6 +44,13 @@
                 android:layout_gravity="center"
 
                 />
+            <LinearLayout
+                android:id="@+id/web_top_lin"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tinymdp"
@@ -102,19 +109,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tinyhdp"
                     >
-                <TextView
+                    <TextView
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/smallmdp"
-                    android:text="地点"
-                    android:paddingRight="@dimen/tinymdp"
-                    android:drawableLeft="@drawable/address"
-                    android:textColor="@color/black"
-                    android:paddingTop="@dimen/tinymdp"
-                    android:paddingLeft="@dimen/smallmdp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/smallmdp"
+                        android:text="地点"
+                        android:paddingRight="@dimen/tinymdp"
+                        android:drawableLeft="@drawable/address"
+                        android:textColor="@color/black"
+                        android:paddingTop="@dimen/tinymdp"
+                        android:paddingLeft="@dimen/smallmdp"
 
-                    />
+                        />
                     <TextView
                         android:id="@+id/address_tv"
                         android:layout_width="match_parent"
@@ -128,17 +135,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tinyhdp"
                     >
-                <TextView
+                    <TextView
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="@dimen/smallmdp"
-                    android:text="主办方"
-                    android:paddingRight="@dimen/tinymdp"
-                    android:drawableLeft="@drawable/sponsor"
-                    android:textColor="@color/black"
-                    android:paddingLeft="@dimen/smallmdp"
-                    />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/smallmdp"
+                        android:text="主办方"
+                        android:paddingRight="@dimen/tinymdp"
+                        android:drawableLeft="@drawable/sponsor"
+                        android:textColor="@color/black"
+                        android:paddingLeft="@dimen/smallmdp"
+                        />
                     <TextView
                         android:id="@+id/sponsor_tv"
                         android:layout_width="match_parent"
@@ -153,8 +160,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tinymdp"
                     android:background="@color/whitesmoke"
-                     />
+                    />
             </LinearLayout>
+            </LinearLayout>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

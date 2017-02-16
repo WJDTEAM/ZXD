@@ -102,6 +102,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
         setToolbar("填写个人信息");
         compositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
+        loanMarryRadFalse.setChecked(true);
         loanApplyForUserMsgBtn.setEnabled(true);
 //        initApplyFor();
         initData();
@@ -158,7 +159,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
 
 
 
-    String marital_status="1";
+    String marital_status="0";
     String credit_status="1";
     ApplyPersonBase mloanPersonBase;
 
@@ -191,7 +192,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
                         } else {
                             loanMarryRadFalse.setChecked(true);
                             loanMarryRadTrue.setChecked(false);
-                            marital_status = "2";
+                            marital_status = "0";
                         }
                         if (loanPersonBase.getCreditStatus()==1) {
                             loanCreditRad1.setChecked(true);
@@ -265,7 +266,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
                 marital_status="1";
                 break;
             case R.id.loan_marry_rad_false:
-                marital_status="2";
+                marital_status="0";
                 break;
             case R.id.loan_credit_rad_1:
                 credit_status="1";

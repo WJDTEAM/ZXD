@@ -23,6 +23,7 @@ public class JzhdItem implements Serializable {
     private String hdrq;
     private String addr;
     private String sponsor;
+    private int companyId;
 
     @Override
     public String toString() {
@@ -33,7 +34,16 @@ public class JzhdItem implements Serializable {
                 ", hdrq='" + hdrq + '\'' +
                 ", addr='" + addr + '\'' +
                 ", sponsor='" + sponsor + '\'' +
+                ", companyId=" + companyId +
                 '}';
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 
     public int getArticleId() {

@@ -75,14 +75,10 @@ public class JzztActivity extends AppCompatActivity {
                 public void onItemClick(View view, int postion) {
                     Gson g=new Gson();
                     startActivity(new Intent(JzztActivity.this,LoanDetailsActivity.class)
+                            .putExtra("isJzhdItem",true)
                             .putExtra("type","01")
                             .putExtra("activity_id",g.toJson(jzztListAdapter.getmDatas().get(postion))));
-                    Intent intent = new Intent();
-                    intent.setClass(JzztActivity.this, JzztDetialActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("jzhdItem", jzhdItems.get(postion));
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+
 
 //                    startActivity(new Intent(JzztActivity.this,JzztDetialActivity.class).putExtra("activity_id",jzztListAdapter.getmDatas().get(postion));
                 }

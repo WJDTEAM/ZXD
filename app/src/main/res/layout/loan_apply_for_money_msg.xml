@@ -84,8 +84,8 @@
                 <EditText
                     android:id="@+id/loan_wage_edi"
                     style="@style/apply_for_edi_style"
-                    android:hint="单位（元）"
-                    android:textColorHint="@color/gary"
+                    android:hint="单位（万元）"
+                    android:textColorHint="@color/gary_dark"
                     android:digits="1234567890."
                     />
 
@@ -237,8 +237,8 @@
                 <EditText
                     android:id="@+id/loan_city_edi"
                     style="@style/apply_for_edi_style"
-                    android:hint="单位（元）"
-                    android:textColorHint="@color/gary"
+                    android:hint="单位（万元）"
+                    android:textColorHint="@color/gary_dark"
                     android:digits="1234567890."
                     />
             </LinearLayout>

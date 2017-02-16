@@ -3,18 +3,23 @@ package com.bf.zxd.zhuangxudai;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
+
 /**
  * Created by Daniel on 2017/1/5.
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+   NewUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 //        ((BaseApplication)getApplication()).addActivity(this);
 //        setTheme(EatApplication.getInstance().getCurrentTheme());
-        //初始化
+        user=new NewUser();
         init();
 
         //放入堆栈管理
@@ -50,6 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         //删除堆栈中的实例
 //        MyActivityManager.getInstance().popActivity(this);
+
     }
 
 }

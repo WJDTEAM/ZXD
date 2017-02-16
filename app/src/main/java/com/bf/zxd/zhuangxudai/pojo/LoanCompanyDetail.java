@@ -37,6 +37,25 @@ public class LoanCompanyDetail {
     private String  application;
     private String  required;
 
+    @Override
+    public String toString() {
+        return "LoanCompanyDetail{" +
+                "companyId=" + companyId +
+                ", companyIcon='" + companyIcon + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", makeLoadDays=" + makeLoadDays +
+                ", loadUnit='" + loadUnit + '\'' +
+                ", rate='" + rate + '\'' +
+                ", minCycle=" + minCycle +
+                ", maxCycle=" + maxCycle +
+                ", minMoney=" + minMoney +
+                ", maxMoney=" + maxMoney +
+                ", productDesc='" + productDesc + '\'' +
+                ", application='" + application + '\'' +
+                ", required='" + required + '\'' +
+                '}';
+    }
+
     public int getCompanyId() {
         return companyId;
     }

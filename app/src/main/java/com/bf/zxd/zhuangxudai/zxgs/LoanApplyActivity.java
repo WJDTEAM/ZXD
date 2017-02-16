@@ -1,8 +1,6 @@
 package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -28,11 +26,9 @@ import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithLoanInfoId;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
 import com.bf.zxd.zhuangxudai.pojo.zxgs_wjd;
-import com.bf.zxd.zhuangxudai.util.BitmapDeleteNoUseSpaceUtil;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -97,6 +93,10 @@ public class LoanApplyActivity extends BaseActivity {
     TextView makeLoadDays_txt;
     @BindView(R.id.loan_referrer_edi)
     EditText loanReferrerEdi;
+    @BindView(R.id.bankpic_img2)
+    ImageView bankpicImg2;
+    @BindView(R.id.textView)
+    TextView textView;
     private int mSex = 1;
 
     public static int companyId = 0;
@@ -110,9 +110,7 @@ public class LoanApplyActivity extends BaseActivity {
 
     @Override
     public void initDate() {
-        if (bankId != -1) {
-            getBankDetail();
-        }
+
 
 
     }
@@ -131,12 +129,13 @@ public class LoanApplyActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.i("gqf","onError"+e.getMessage());
                     }
 
                     @Override
                     public void onNext(LoanCompanyDetail loanCompanyDetail) {
                         mZxd = loanCompanyDetail;
+                        Log.i("gqf","onNext"+mZxd.toString());
                         initBank();
                     }
                 });
@@ -161,12 +160,11 @@ public class LoanApplyActivity extends BaseActivity {
         setContentView(R.layout.activity_loan);
         ButterKnife.bind(this);
         setToolBar();
-        Log.i("gqf", "activity_loan");
         mcompositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
         initApplyFor();
-        initCompanyMsg();
-        initBank();
+        //initCompanyMsg();
+        getBankDetail();
 
     }
 
@@ -190,63 +188,16 @@ public class LoanApplyActivity extends BaseActivity {
 
     }
 
-    public void initCompanyMsg() {
-        if (companyId != 0) {
-            Log.i("gqf", "companyId" + companyId);
-            Subscription subscription = NetWork.getZxService().getZxgs(companyId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Zxgs>() {
-                        @Override
-                        public void onCompleted() {
-                            Log.i("gqf", "onCompleted");
-                        }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.i("gqf", "onError" + e.getMessage());
-                        }
-
-                        @Override
-                        public void onNext(Zxgs zxgs) {
-                            Log.i("gqf", "mListener" + zxgs.toString());
-                            mZxgs = zxgs;
-                            companyName.setText(mZxgs.getCompany_name());
-                            chooseCompany.setText("点击更换公司");
-                        }
-                    });
-            mcompositeSubscription.add(subscription);
-
-        } else {
-            companyName.setText("当前没有选择公司");
-            chooseCompany.setText("点击选择公司");
-        }
-    }
 
     public void initBank() {
         if (mZxd != null) {
             bankTopLinear.setVisibility(View.VISIBLE);
             applyMoneyTv.setText("申请金额(万)");
+
             if (mZxd.getCompanyIcon() != null && !mZxd.getCompanyIcon().equals("")) {
-                Picasso.with(this).load(mZxd.getCompanyIcon()).into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        if (bitmap != null) {
-                            bankpicImg.setImageBitmap(BitmapDeleteNoUseSpaceUtil.getTransparentBitmap2(bitmap, 50, 10));
-                            bankpicImg.setBackgroundResource(R.color.transparent);
-                        }
-                    }
+                Picasso.with(this).load(mZxd.getCompanyIcon()).into(bankpicImg);
 
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
             }
             bankNameTv.setText(mZxd.getCompanyName());
             moneyRangeTv.setText(mZxd.getMinMoney().intValue() + "-" + mZxd.getMaxMoney().intValue() + "/万");
@@ -314,7 +265,7 @@ public class LoanApplyActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        initCompanyMsg();
+        //initCompanyMsg();
         initBank();
         if (isApply && realm.where(NewUser.class).findFirst() != null) {
             applyFor();
@@ -449,15 +400,15 @@ public class LoanApplyActivity extends BaseActivity {
     //提交信息,并跳转页面
     public void applyFor() {
         //realm.where(User.class).findFirst().getUserId()  loan
-        ApplyLoan applyLoan=new ApplyLoan();
+        ApplyLoan applyLoan = new ApplyLoan();
         applyLoan.setFromUserId(realm.where(NewUser.class).findFirst().getUserId());
         applyLoan.setToLoanCompanyId(bankId);
         applyLoan.setToDecoCompanyId(companyId);
         applyLoan.setLoanTerm(Integer.parseInt(loanTimeEdi.getText().toString()));
         applyLoan.setLoanAmount(new BigDecimal(loanMoneyEdi.getText().toString()));
-        applyLoan.setReferrer( loanReferrerEdi.getText().toString());
+        applyLoan.setReferrer(loanReferrerEdi.getText().toString());
         applyLoan.setLoanPurpose(loanUseforEdi.getText().toString());
-        Gson g=new Gson();
+        Gson g = new Gson();
         Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().saveLoanInfo(g.toJson(applyLoan))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -491,11 +442,11 @@ public class LoanApplyActivity extends BaseActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+
     }
 }
