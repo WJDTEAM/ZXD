@@ -69,9 +69,7 @@ public class ZxgsAdapter extends RecyclerView.Adapter<ZxgsAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         final DecoCompanyItem data = datas.get(position);
         if(data.getCompanyIcon()!=null){
-            if(!data.getCompanyIcon().equals("")){
-                Picasso.with(mContext).load(data.getCompanyIcon()).into(holder.img);
-            }
+                Picasso.with(mContext).load(data.getCompanyIcon()).placeholder(R.drawable.demo).error(R.drawable.demo).into(holder.img);
         }
 
         holder.gsTitleTxt.setText(data.getCompanyName());

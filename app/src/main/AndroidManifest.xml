@@ -70,9 +70,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
-        <!-- 家装专题 -->
+        <!-- 家装活动 -->
         <activity
             android:name=".JZZT.JzztActivity"
+            android:hardwareAccelerated="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>

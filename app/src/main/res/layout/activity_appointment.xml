@@ -113,25 +113,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/tinymdp"
-                        android:layout_toRightOf="@+id/below_txt"
-                        android:src="@drawable/like_light"
-                        />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/below_txt"
-                        android:text="98%"
-                        android:layout_weight="1"
-                        android:textColor="@color/colorPrimary"
-
-                        />
                 </LinearLayout>
 
 

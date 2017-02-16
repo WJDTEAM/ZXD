@@ -13,13 +13,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyDetail;
 import com.bf.zxd.zhuangxudai.template.TemplateHorizontalListAdapter;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,6 +34,8 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+
+import static com.bf.zxd.zhuangxudai.zxgs.AppointmentActivity.CompanyId;
 
 public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -68,10 +73,39 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
         Zxgs_id = getIntent().getIntExtra("Zxgs_id",-1);
 
         initCompanyData(Zxgs_id);
+        getDecoCompanyCase(Zxgs_id);
 
 
 
 
+    }
+
+    private void getDecoCompanyCase(int zxgs_id) {
+        Subscription getDecoCompanyCaseImages = NetWork.getNewZXD1_4Service().getDecoCompanyCase(zxgs_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<DecoCompanyCase>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<DecoCompanyCase> decoCompanyCases) {
+                        List<String> strings = new ArrayList<String>();
+                        for (DecoCompanyCase decoCompanyCase:decoCompanyCases){
+                            strings.add(decoCompanyCase.getThumbnails());
+                        }
+                        initListView(strings);
+
+                    }
+                });
+        compositeSubscription.add(getDecoCompanyCaseImages);
     }
 
 
@@ -145,6 +179,11 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
         });
 
     }
+    LoginHelper loginHelper;
+    public boolean initLogin(Class activity) {
+        loginHelper = LoginHelper.getInstence();
+        return loginHelper.startActivityWithLogin(ZxgsDetailActivity.this, activity);
+    }
 
     @OnClick({R.id.template_loan_lin, R.id.template_subscribe_lin})
     public void onClick(View view) {
@@ -161,9 +200,12 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
 //                startActivity(new Intent(ZxgsDetailActivity.this, LoanApplyActivity.class));
                 break;
             case R.id.template_subscribe_lin:
-                Intent _intent = new Intent(ZxgsDetailActivity.this, AppointmentActivity.class);
-                _intent.putExtra("Zxgs_id",Zxgs_id);
-                startActivity(_intent);
+                    CompanyId=Zxgs_id;
+                if (initLogin(AppointmentActivity.class)) {
+                    Log.e("Daniel","---Zxgs_id---"+CompanyId);
+                    Intent _intent = new Intent(ZxgsDetailActivity.this, AppointmentActivity.class);
+                    startActivity(_intent);
+                }
                 break;
         }
     }

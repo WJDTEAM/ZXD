@@ -100,17 +100,12 @@ public interface ZxService {
 
     /**
      * 预约保存
-     * @param full_name
-     * @param phone
-     * @param company_id
-     * @param unit_addr
-     * @param area
-     * @param house_type
+
      * @return
      */
     @FormUrlEncoded
     @POST("saveZxyy")
-    Observable<ResuleInfo> saveZxyy(@Field("full_name") String full_name, @Field("phone") String phone, @Field("company_id") int company_id, @Field("unit_addr") String unit_addr, @Field("area") int area, @Field("house_type") int house_type, @Field("house_style") int house_style);
+    Observable<ResuleInfo> saveZxyy(@Field("fromUserId ") Integer  fromUserId, @Field("toCompanyId") Integer toCompanyId, @Field("proposer") String proposer, @Field("tel") String tel, @Field("addr") String addr, @Field("area") int area, @Field("houseArea") int houseArea, @Field("houseType") int houseType);
 
 
 //    /**
