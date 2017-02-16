@@ -14,6 +14,7 @@ import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.ActivityIdAndZxglDetailActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.ZxglItem;
 import com.bf.zxd.zhuangxudai.util.Utils;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,6 +45,8 @@ public class ZxglActivity extends BaseActivity {
     RecyclerView recyclerviewZhuangxiugonglue;
     private Unbinder mUnbinder;
     private CompositeSubscription mCompositeSubscription;
+
+
 
     @Override
     public void initDate() {
@@ -85,7 +88,11 @@ public class ZxglActivity extends BaseActivity {
         zxglAdapter.setOnItemClickListener(new ZxglAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
-                startActivity(new Intent(ZxglActivity.this,LoanDetailsActivity.class).putExtra("activity_id",zxglAdapter.getDatas().get(postion).getArticleId()));
+                Gson g=new Gson();
+                startActivity(new Intent(ZxglActivity.this,LoanDetailsActivity.class)
+                        .putExtra("type","01")
+                        .putExtra("activity_id",g.toJson(zxglAdapter.getDatas().get(postion)
+                )));
 
             }
         });
@@ -109,6 +116,9 @@ public class ZxglActivity extends BaseActivity {
         intent.putExtra("activityId",v.getActivityId());
         startActivity(intent);
     }
+
+
+
     private void setToolBar() {
         baseToolBar.setTitle("装修攻略");
         baseToolBar.setTitleTextColor(getResources().getColor(R.color.white));

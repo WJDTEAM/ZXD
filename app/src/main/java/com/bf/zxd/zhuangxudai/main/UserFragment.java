@@ -15,9 +15,9 @@ import com.bf.zxd.zhuangxudai.Login.LoginActivity;
 import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.User.MyAppointmentActivity;
-import com.bf.zxd.zhuangxudai.User.MyCollectActivity;
 import com.bf.zxd.zhuangxudai.User.MyLoanActivity;
 import com.bf.zxd.zhuangxudai.User.UserInfoActivity;
+import com.bf.zxd.zhuangxudai.collection.MyConllectionActivity;
 import com.bf.zxd.zhuangxudai.my.LoanApplyForActivity;
 import com.bf.zxd.zhuangxudai.pojo.NewUser;
 import com.squareup.picasso.Picasso;
@@ -120,9 +120,8 @@ public class UserFragment extends Fragment {
                 //                startActivityForResult(intent, 0);
                 break;
             case R.id.myCollect_linearLayout:
-                if (initLogin(MyCollectActivity.class)) {
-                    startActivity(new Intent(getActivity(), MyCollectActivity.class));
-                }
+                    startActivity(new Intent(getActivity(), MyConllectionActivity.class));
+
                 break;
             case R.id.nick_tv:
                 if (mUser==null) {

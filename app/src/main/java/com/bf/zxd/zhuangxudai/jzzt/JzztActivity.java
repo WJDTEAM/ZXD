@@ -9,9 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.bf.zxd.zhuangxudai.Dkhd.LoanDetailsActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.JzhdItem;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -71,6 +73,10 @@ public class JzztActivity extends AppCompatActivity {
             jzztListAdapter.setOnItemClickListener(new JzztListAdapter.MyItemClickListener() {
                 @Override
                 public void onItemClick(View view, int postion) {
+                    Gson g=new Gson();
+                    startActivity(new Intent(JzztActivity.this,LoanDetailsActivity.class)
+                            .putExtra("type","01")
+                            .putExtra("activity_id",g.toJson(jzztListAdapter.getmDatas().get(postion))));
                     Intent intent = new Intent();
                     intent.setClass(JzztActivity.this, JzztDetialActivity.class);
                     Bundle bundle = new Bundle();

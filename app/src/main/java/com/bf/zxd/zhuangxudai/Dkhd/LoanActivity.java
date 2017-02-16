@@ -16,6 +16,7 @@ import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.DkhdItem;
 import com.bf.zxd.zhuangxudai.template.TemplateListAdapter;
 import com.blankj.utilcode.utils.KeyboardUtils;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -115,7 +116,10 @@ public class LoanActivity extends AppCompatActivity {
             loanActivityListAdapter.setOnItemClickListener(new TemplateListAdapter.MyItemClickListener() {
                 @Override
                 public void onItemClick(View view, int postion) {
-                    startActivity(new Intent(LoanActivity.this,LoanDetailsActivity.class).putExtra("activity_id",loanActivityListAdapter.getmDatas().get(postion).getArticleId()));
+                    Gson g=new Gson();
+                    startActivity(new Intent(LoanActivity.this,LoanDetailsActivity.class)
+                            .putExtra("type","02")
+                            .putExtra("activity_id",g.toJson(loanActivityListAdapter.getmDatas().get(postion))));
                 }
             });
         }
