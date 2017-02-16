@@ -59,7 +59,6 @@ public class MyConllectionActivity extends AppCompatActivity{
                 onBackPressed();
             }
         });
-
     }
     CompositeSubscription mcompositeSubscription;
     @Override

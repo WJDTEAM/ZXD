@@ -108,7 +108,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                 @Override
                 public void onClick(View view) {
                     //切换fragment
-                    changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,0);
+                    changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,1);
                 }
             });
             baseToolBar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
