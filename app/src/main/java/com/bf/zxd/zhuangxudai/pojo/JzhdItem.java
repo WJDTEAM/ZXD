@@ -1,10 +1,12 @@
 package com.bf.zxd.zhuangxudai.pojo;
 
+import java.io.Serializable;
+
 /**
  * Created by johe on 2017/2/13.
  */
 
-public class JzhdItem {
+public class JzhdItem implements Serializable {
 
     /**
      * articleId : 29

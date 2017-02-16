@@ -16,8 +16,8 @@ import android.widget.TextView;
 import com.bf.zxd.zhuangxudai.Dkhd.LoanActivity;
 import com.bf.zxd.zhuangxudai.JZZT.JzztActivity;
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.model.BankItemInfo;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.Recommends;
 import com.bf.zxd.zhuangxudai.util.MarqueeView;
 import com.bf.zxd.zhuangxudai.zxgl.ZxglActivity;
 import com.bf.zxd.zhuangxudai.zxgs.ZxgsActivity;
@@ -110,10 +110,10 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
     }
 
     private void getBankItem() {
-        Subscription Subscription_getBankItem = NetWork.getZxService().getBankItem()
+        Subscription Subscription_getBankItem = NetWork.getNewZXD1_4Service().getRecommends()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<BankItemInfo>>() {
+                .subscribe(new Observer<List<Recommends>>() {
                     @Override
                     public void onCompleted() {
 
@@ -127,21 +127,21 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
                     }
 
                     @Override
-                    public void onNext(List<BankItemInfo> bankItemInfos) {
-                        setAdapter(bankItemInfos);
+                    public void onNext(List<Recommends> recommends) {
+                        setAdapter(recommends);
                     }
                 });
         mCompositeSubscription.add(Subscription_getBankItem);
     }
 
-    private void setAdapter(List<BankItemInfo> bankItemInfos) {
+    private void setAdapter(List<Recommends> recommends) {
         recyclerviewFragmentHome.setNestedScrollingEnabled(false);
         //init context view
 
         recyclerviewFragmentHome.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (recommendBankAdapter==null){
 
-            recommendBankAdapter = new RecommendBankAdapter(bankItemInfos, getActivity());
+            recommendBankAdapter = new RecommendBankAdapter(recommends, getActivity());
         }
         recyclerviewFragmentHome.setAdapter(recommendBankAdapter);
         recommendBankAdapter.setOnItemClickListener(this);

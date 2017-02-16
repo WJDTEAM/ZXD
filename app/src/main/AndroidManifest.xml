@@ -5,11 +5,11 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- 读取 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 写入权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- 创建与删除权限 -->
-    <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS"/>
 
     <application
         android:name=".application.BaseApplication"
@@ -18,6 +18,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <!-- 主页 -->
         <activity
             android:name=".main.MainActivity"
@@ -122,9 +123,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
-        <!-- 我的预约-->
+        <!-- 我的预约 -->
         <activity
             android:name=".User.MyAppointmentActivity"
             android:launchMode="singleTask"
@@ -142,7 +142,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
-
         <activity
             android:name=".Login.RegistSuccessActivity"
             android:launchMode="singleTask"
@@ -175,10 +174,10 @@
             android:screenOrientation="portrait">
         </activity>
         <!-- 申请进度 -->
-        <activity android:name=".User.ApplyScheduleActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait"
-            >
+        <activity
+            android:name=".User.ApplyScheduleActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
         </activity>
         <!-- 个人中心 -->
         <activity
@@ -199,6 +198,8 @@
             android:name=".template.CommentsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".JZZT.JzztDetialActivity">
         </activity>
     </application>
 

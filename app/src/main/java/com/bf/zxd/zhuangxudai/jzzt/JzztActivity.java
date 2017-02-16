@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.bf.zxd.zhuangxudai.Dkhd.LoanDetailsActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.JzhdItem;
@@ -64,7 +63,7 @@ public class JzztActivity extends AppCompatActivity {
         compositeSubscription.add(subscription_getZxgs);
     }
     JzztListAdapter jzztListAdapter;
-    public void initList(List<JzhdItem> jzhdItems){
+    public void initList(final List<JzhdItem> jzhdItems){
         if(jzztListAdapter==null){
             jzztListAdapter=new JzztListAdapter(this,jzhdItems);
             jzhdList.setLayoutManager(new LinearLayoutManager(this));
@@ -72,7 +71,14 @@ public class JzztActivity extends AppCompatActivity {
             jzztListAdapter.setOnItemClickListener(new JzztListAdapter.MyItemClickListener() {
                 @Override
                 public void onItemClick(View view, int postion) {
-                    startActivity(new Intent(JzztActivity.this,LoanDetailsActivity.class).putExtra("activity_id",jzztListAdapter.getmDatas().get(postion).getArticleId()));
+                    Intent intent = new Intent();
+                    intent.setClass(JzztActivity.this, JzztDetialActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("jzhdItem", jzhdItems.get(postion));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
+//                    startActivity(new Intent(JzztActivity.this,JzztDetialActivity.class).putExtra("activity_id",jzztListAdapter.getmDatas().get(postion));
                 }
             });
         }else{

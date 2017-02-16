@@ -81,7 +81,7 @@ public class ProductExhibitionActivity extends BaseActivity implements SegmentCo
 //        }
 //        for (MovieInfo m : movieInfos) {
 //            TextSliderView textSliderView = new TextSliderView(getActivity());
-//            if (!StringUtils.isEmpty(m.getImageUrl()))
+//            if (!StringUtils2.isEmpty(m.getImageUrl()))
 //                textSliderView.description(m.getFileName()).image(m.getImageUrl()).setScaleType(BaseSliderView.ScaleType.CenterCrop).setOnSliderClickListener(this);
 //            textSliderView.bundle(new Bundle());
 //            textSliderView.getBundle()
