@@ -81,7 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/login_bt"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/apply_for_color_selector"
                 android:enabled="true"
                 android:text="登录"
                 android:background="@drawable/login_btn_selector"

@@ -1,10 +1,14 @@
 package com.bf.zxd.zhuangxudai.Login;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsMessage;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +48,7 @@ public class RegistActivity extends AppCompatActivity {
     Button registBt;
 
 
-    String codeMsg="";
+    String codeMsg = "";
     private CompositeSubscription compositeSubscription;
     private Unbinder mUnbinder;
 
@@ -92,7 +96,7 @@ public class RegistActivity extends AppCompatActivity {
                             Toast.makeText(RegistActivity.this, "" + registResult.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                         registBt.setEnabled(true);
-                        codeMsg="";
+                        codeMsg = "";
                     }
                 });
     }
@@ -103,21 +107,32 @@ public class RegistActivity extends AppCompatActivity {
         super.onDestroy();
         compositeSubscription.unsubscribe();
         mUnbinder.unbind();
+
+        //        if(myReceiver!=null)
+        //            this.unregisterReceiver(myReceiver);
     }
 
     Thread thread;
-    int timerIndex=60;
-    public void resultPhoneCodeTimer(){
-        thread=new Thread(new Runnable() {
+    int timerIndex = 180;
+
+    public void resultPhoneCodeTimer() {
+        thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(timerIndex!=0){
+                boolean isRun = true;
+                while (isRun) {
                     timerIndex--;
-                    if(timerIndex==0){
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+
+                    }
+                    if (timerIndex != 0) {
                         Message msg = new Message();
                         msg.what = 1;
                         handler.sendMessage(msg);
-                    }else{
+                    } else {
+                        isRun = false;
                         Message msg = new Message();
                         msg.what = 2;
                         handler.sendMessage(msg);
@@ -127,27 +142,26 @@ public class RegistActivity extends AppCompatActivity {
         });
         thread.start();
     }
-    Handler handler=new Handler(){
+
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==1){
-                getCodeBtn.setEnabled(false);
-                getCodeBtn.setText(timerIndex+"秒");
-
-            }else{
-                timerIndex=60;
-                getCodeBtn.setEnabled(true);
-                getCodeBtn.setText("点击获取验证码");
-                codeMsg="超时";
+            if (msg.what == 1) {
+                if (getCodeBtn != null) {
+                    getCodeBtn.setText(timerIndex + "秒");
+                }
+            } else {
+                if (getCodeBtn != null) {
+                    timerIndex = 180;
+                    getCodeBtn.setEnabled(true);
+                    getCodeBtn.setText("点击获取验证码");
+                    codeMsg = "超时";
+                }
             }
-
-
         }
-
     };
 
-
-    public void getCodeMsg(String phone){
+    public void getCodeMsg(String phone) {
         Subscription Subscription_getZxglItem = NetWork.getNewZXD1_4Service().shortMsg(phone)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -164,39 +178,37 @@ public class RegistActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(String resultCode) {
-                        codeMsg=resultCode;
-                        getCodeBtn.setEnabled(true);
+                        codeMsg = resultCode;
+                        getCodeBtn.setEnabled(false);
+                        //开起线程，60秒
+                        resultPhoneCodeTimer();
                     }
                 });
         compositeSubscription.add(Subscription_getZxglItem);
     }
+
     @OnClick({R.id.get_code_btn, R.id.regist_bt})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.get_code_btn:
-                if(registPhoneEt.getText().toString().equals("")){
+                if (registPhoneEt.getText().toString().equals("")) {
                     Toast.makeText(this, "请输入手机号后点击获取", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     getCodeBtn.setEnabled(false);
                     getCodeMsg(registPhoneEt.getText().toString());
-                    //开起线程，60秒
-                    resultPhoneCodeTimer();
+
                 }
                 break;
             case R.id.regist_bt:
                 String _phone = registPhoneEt.getText().toString();
                 String _password = registPasswordEt.getText().toString();
                 String _password2 = registPassword2Et.getText().toString();
-                boolean isCode=true;
-                if(codeMsg.equals("超时")&&!registPassword3Et.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"验证码过期，请重新获取",Toast.LENGTH_SHORT).show();
-                    isCode=false;
+                boolean isCode = true;
+                if (isCode && !codeMsg.equals(registPassword3Et.getText().toString()) || registPassword3Et.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "请输入的验证码不正确", Toast.LENGTH_SHORT).show();
+                    isCode = false;
                 }
-                if(isCode&&!codeMsg.equals(registPassword3Et.getText().toString())||registPassword3Et.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"请输入的验证码不正确",Toast.LENGTH_SHORT).show();
-                    isCode=false;
-                }
-                if(isCode){
+                if (isCode) {
                     if (Phone.IsMobileNO(_phone)) {
                         if (_password.equals(_password2)) {
                             registBt.setEnabled(false);
@@ -214,4 +226,63 @@ public class RegistActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    SmsReceiver myReceiver;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        myReceiver = new SmsReceiver();
+        //实例化过滤器并设置要过滤的广播
+        //        IntentFilter intentFilter = new IntentFilter();
+        //        intentFilter.addAction(SMS_ACTION);
+        //        this.registerReceiver(myReceiver,intentFilter);
+    }
+
+    /**
+     * 内部类
+     *
+     * @author Administrator  15236296272
+     *
+     * 13501942774
+     */
+    public static final String SMS_ACTION = "android.provider.Telephony.SMS_RECEIVED";
+
+    class SmsReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(SMS_ACTION)) {
+                Toast.makeText(context, "监测到系统短信", Toast.LENGTH_SHORT).show();
+
+                //获取intent参数
+                Bundle bundle = intent.getExtras();
+                //判断bundle内容
+                if (bundle != null) {
+                    Object[] pdus = (Object[]) bundle.get("pdus");
+                    for (Object pdu : pdus) {
+                        SmsMessage message = SmsMessage.createFromPdu((byte[]) pdu);
+                        String sender = message.getOriginatingAddress();
+                        Log.i("gqf", "sender" + sender);
+                    }
+                }
+
+                if (bundle != null) {
+                    //获得并解析短信
+                    Object[] pdus = (Object[]) bundle.get("pdus");//取 pdus内容
+                    SmsMessage[] messages = new SmsMessage[pdus.length];//解析短信
+                    //获取短信内容 显示到控件
+                    for (int i = 0; i < messages.length; i++) {
+                        byte[] pdu = (byte[]) pdus[i];
+                        messages[i] = SmsMessage.createFromPdu(pdu);
+                        Log.i("gqf", "messages" + messages[i]);
+                        Log.i("gqf", "messages" + messages[0].getDisplayOriginatingAddress().toString());
+                        Log.i("gqf", "messages" + messages[0].getDisplayMessageBody().toString());
+                    }
+                    //取消系统短信广播
+                    abortBroadcast();
+                }
+            }
+        }
+    }
+
 }

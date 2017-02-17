@@ -10,7 +10,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- 创建与删除权限 -->
     <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS"/>
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
     <application
         android:name=".application.BaseApplication"
         android:allowBackup="true"
@@ -209,6 +213,11 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".JZZT.JzztDetialActivity">
         </activity>
+        <receiver android:name=".Login.SMSBroadcastReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

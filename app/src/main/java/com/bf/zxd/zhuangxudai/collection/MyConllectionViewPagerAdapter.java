@@ -9,19 +9,18 @@ import java.util.List;
 
 /**
  * Created by wjy on 16/8/15.
- *
  */
 public class MyConllectionViewPagerAdapter extends FragmentStatePagerAdapter {
-    List<Fragment>  datas;
+    List<Fragment> datas;
 
     public MyConllectionViewPagerAdapter(FragmentManager fm) {
         super(fm);
-        datas=new ArrayList<>();
+        datas = new ArrayList<>();
     }
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment=ConllectionListFragment.newInstance(position);
+        Fragment fragment = ConllectionListFragment.newInstance(position);
 
         return fragment;
     }
@@ -38,7 +37,7 @@ public class MyConllectionViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return "全部";
             case 1:

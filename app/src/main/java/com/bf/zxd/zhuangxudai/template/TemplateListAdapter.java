@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 public class TemplateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-
     private Context mContext;
     private List<DecoCompanyYbjItem> mDatas;
     private LayoutInflater mLayoutInflater;
@@ -60,30 +59,31 @@ public class TemplateListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      * @param listener
      */
     public void setOnItemClickListener(MyItemClickListener listener) {
-        mItemClickListener= listener;
+        mItemClickListener = listener;
     }
 
-    public void update(List<DecoCompanyYbjItem> mDatas){
-        this.mDatas=mDatas;
+    public void update(List<DecoCompanyYbjItem> mDatas) {
+        this.mDatas = mDatas;
         this.notifyDataSetChanged();
     }
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         MyViewHoder myViewHoder = (MyViewHoder) holder;
-        final View view= myViewHoder.templateItemLin;
+        final View view = myViewHoder.templateItemLin;
         myViewHoder.templateItemLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mItemClickListener!=null){
-                    mItemClickListener.onItemClick(view,position);
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick(view, position);
                 }
             }
         });
         myViewHoder.templateItemTitle.setText(mDatas.get(position).getCaseName());
         myViewHoder.templateItemDetails.setText(mDatas.get(position).getDesignInspiration());
-        myViewHoder.templateItemNum.setText(mDatas.get(position).getComments()+"");
-        if(mDatas.get(position).getThumbnails()!=null){
-            if(!mDatas.get(position).getThumbnails().equals("")){
+        myViewHoder.templateItemNum.setText(mDatas.get(position).getComments() + "");
+        if (mDatas.get(position).getThumbnails() != null) {
+            if (!mDatas.get(position).getThumbnails().equals("")) {
                 Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
                         .placeholder(R.drawable.demo)
                         .error(R.drawable.demo)

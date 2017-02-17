@@ -35,7 +35,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by johe on 2017/2/16.
  */
 
-public class MyConllectionActivity extends AppCompatActivity{
+public class MyConllectionActivity extends AppCompatActivity {
 
 
     @BindView(R.id.my_conllection_toolbar)
@@ -60,53 +60,55 @@ public class MyConllectionActivity extends AppCompatActivity{
             }
         });
     }
+
     CompositeSubscription mcompositeSubscription;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_conllection);
         ButterKnife.bind(this);
         setToolbar("我的收藏");
-        realm=Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
         EventBus.getDefault().register(this);
         MyConllectionViewPagerAdapter adapter = new MyConllectionViewPagerAdapter(getSupportFragmentManager());
         myConllectionViewpager.setAdapter(adapter);
         myConllectionTablayout.setupWithViewPager(myConllectionViewpager);
-        mcompositeSubscription=new CompositeSubscription();
-        if(realm.where(NewUser.class).findFirst()!=null){
+        mcompositeSubscription = new CompositeSubscription();
+        if (realm.where(NewUser.class).findFirst() != null) {
             initData();
         }
 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void changeActivity(ResultCode resultCode){
-        startActivity(new Intent(MyConllectionActivity.this,LoanDetailsActivity.class)
-                .putExtra("type","0"+resultCode.getCode())
-                .putExtra("activity_id",resultCode.getMsg()
+    public void changeActivity(ResultCode resultCode) {
+        startActivity(new Intent(MyConllectionActivity.this, LoanDetailsActivity.class)
+                .putExtra("type", "0" + resultCode.getCode())
+                .putExtra("activity_id", resultCode.getMsg()
                 ));
     }
 
-    public void updataRealm(List<MyCollection> myCollections){
-            if(myCollections.size()!=realm.where(MyCollection.class).findAll().size()){
-                for(MyCollection mc:realm.where(MyCollection.class).findAll()){
-                    realm.beginTransaction();
-                    mc.deleteFromRealm();
-                    realm.commitTransaction();
-                }
-                for(MyCollection mc:myCollections){
-                    realm.beginTransaction();
-                    MyCollection Collection = new MyCollection();
-                    Collection.setArticleId(mc.getArticleId());
-                    Collection.setDescription(mc.getDescription());
-                    Collection.setHdrq(mc.getHdrq());
-                    Collection.setThumbnails(mc.getThumbnails());
-                    Collection.setTitle(mc.getTitle());
-                    Collection.setType(mc.getType());
-                    realm.copyToRealmOrUpdate(Collection);
-                    realm.commitTransaction();
-                }
+    public void updataRealm(List<MyCollection> myCollections) {
+        if (myCollections.size() != realm.where(MyCollection.class).findAll().size()) {
+            for (MyCollection mc : realm.where(MyCollection.class).findAll()) {
+                realm.beginTransaction();
+                mc.deleteFromRealm();
+                realm.commitTransaction();
             }
+            for (MyCollection mc : myCollections) {
+                realm.beginTransaction();
+                MyCollection Collection = new MyCollection();
+                Collection.setArticleId(mc.getArticleId());
+                Collection.setDescription(mc.getDescription());
+                Collection.setHdrq(mc.getHdrq());
+                Collection.setThumbnails(mc.getThumbnails());
+                Collection.setTitle(mc.getTitle());
+                Collection.setType(mc.getType());
+                realm.copyToRealmOrUpdate(Collection);
+                realm.commitTransaction();
+            }
+        }
     }
 
     @Override
@@ -116,8 +118,9 @@ public class MyConllectionActivity extends AppCompatActivity{
         mcompositeSubscription.unsubscribe();
         EventBus.getDefault().unregister(this);
     }
-    public void initData(){
-        Subscription Subscription_getZxglItem= NetWork.getNewZXD1_4Service().getFavoriteItem(realm.where(NewUser.class).findFirst().getUserId())
+
+    public void initData() {
+        Subscription Subscription_getZxglItem = NetWork.getNewZXD1_4Service().getFavoriteItem(realm.where(NewUser.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<MyCollection>>() {

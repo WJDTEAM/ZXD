@@ -40,7 +40,6 @@ public class JzztActivity extends AppCompatActivity {
     CompositeSubscription compositeSubscription;
 
 
-
     public void initData() {
         Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getJzhdItem()
                 .subscribeOn(Schedulers.io())
@@ -58,32 +57,34 @@ public class JzztActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(List<JzhdItem> jzhdItems) {
-                        Log.i("gqf","JzhdItem"+jzhdItems.toString());
+                        Log.i("gqf", "JzhdItem" + jzhdItems.toString());
                         initList(jzhdItems);
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);
     }
+
     JzztListAdapter jzztListAdapter;
-    public void initList(final List<JzhdItem> jzhdItems){
-        if(jzztListAdapter==null){
-            jzztListAdapter=new JzztListAdapter(this,jzhdItems);
+
+    public void initList(final List<JzhdItem> jzhdItems) {
+        if (jzztListAdapter == null) {
+            jzztListAdapter = new JzztListAdapter(this, jzhdItems);
             jzhdList.setLayoutManager(new LinearLayoutManager(this));
             jzhdList.setAdapter(jzztListAdapter);
             jzztListAdapter.setOnItemClickListener(new JzztListAdapter.MyItemClickListener() {
                 @Override
                 public void onItemClick(View view, int postion) {
-                    Gson g=new Gson();
-                    startActivity(new Intent(JzztActivity.this,LoanDetailsActivity.class)
-                            .putExtra("isJzhdItem",true)
-                            .putExtra("type","01")
-                            .putExtra("activity_id",g.toJson(jzztListAdapter.getmDatas().get(postion))));
+                    Gson g = new Gson();
+                    startActivity(new Intent(JzztActivity.this, LoanDetailsActivity.class)
+                            .putExtra("isJzhdItem", true)
+                            .putExtra("type", "01")
+                            .putExtra("activity_id", g.toJson(jzztListAdapter.getmDatas().get(postion))));
 
 
-//                    startActivity(new Intent(JzztActivity.this,JzztDetialActivity.class).putExtra("activity_id",jzztListAdapter.getmDatas().get(postion));
+                    //                    startActivity(new Intent(JzztActivity.this,JzztDetialActivity.class).putExtra("activity_id",jzztListAdapter.getmDatas().get(postion));
                 }
             });
-        }else{
+        } else {
             jzztListAdapter.setmDatas(jzhdItems);
         }
 
@@ -110,7 +111,7 @@ public class JzztActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         //        String orders_str = getResources().getString(R.string.ybj);
         setToolbar();
-        compositeSubscription=new CompositeSubscription();
+        compositeSubscription = new CompositeSubscription();
         initData();
     }
 

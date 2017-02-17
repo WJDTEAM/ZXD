@@ -40,6 +40,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private static Unbinder mUnbinder;
 
     Realm realm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +50,7 @@ public class WelcomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Picasso.with(WelcomeActivity.this).load(R.drawable.startpage).into(startPageImg);
         countToEnter();
-        realm=Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
         NewUser User = realm.where(NewUser.class).findFirst();
         if (User != null) {
             //删除本地之前保存的用户信息
@@ -80,7 +81,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 .subscribe(new Observer<Long>() {
                     @Override
                     public void onCompleted() {
-                       startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                         WelcomeActivity.this.finish();
                     }
 
@@ -93,7 +94,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     @DebugLog
                     @Override
                     public void onNext(Long aLong) {
-//                        activityTimeTv.setText(aLong + "秒");
+                        //                        activityTimeTv.setText(aLong + "秒");
                     }
                 });
         mCompositeSubscription.add(subscriptionCount);

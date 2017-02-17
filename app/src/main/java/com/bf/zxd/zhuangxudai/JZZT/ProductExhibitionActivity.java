@@ -23,8 +23,8 @@ public class ProductExhibitionActivity extends BaseActivity implements SegmentCo
     Toolbar baseToolBar;
     @BindView(R.id.segment_control)
     SegmentControl segmentControl;
-//    @BindView(R.id.slider)
-//    SliderLayout slider;
+    //    @BindView(R.id.slider)
+    //    SliderLayout slider;
     @BindView(R.id.textView2)
     TextView textView2;
     @BindView(R.id.image)
@@ -75,21 +75,21 @@ public class ProductExhibitionActivity extends BaseActivity implements SegmentCo
      * @param movieInfos
      */
 
-//    private void setViewPager(List<MovieInfo> movieInfos) {
-//        if (movieInfos.size() > 1) {
-//            mSlider.startAutoCycle();
-//        }
-//        for (MovieInfo m : movieInfos) {
-//            TextSliderView textSliderView = new TextSliderView(getActivity());
-//            if (!StringUtils2.isEmpty(m.getImageUrl()))
-//                textSliderView.description(m.getFileName()).image(m.getImageUrl()).setScaleType(BaseSliderView.ScaleType.CenterCrop).setOnSliderClickListener(this);
-//            textSliderView.bundle(new Bundle());
-//            textSliderView.getBundle()
-//                    .putString("url", m.getVodUrl() == null ? "no" : m.getVodUrl());
-//            textSliderView.getBundle().putString("name", m.getFileName());
-//            textSliderView.getBundle().putString("imgUrl", m.getImageUrl());
-//
-//            mSlider.addSlider(textSliderView);
-//        }
-//    }
+    //    private void setViewPager(List<MovieInfo> movieInfos) {
+    //        if (movieInfos.size() > 1) {
+    //            mSlider.startAutoCycle();
+    //        }
+    //        for (MovieInfo m : movieInfos) {
+    //            TextSliderView textSliderView = new TextSliderView(getActivity());
+    //            if (!StringUtils2.isEmpty(m.getImageUrl()))
+    //                textSliderView.description(m.getFileName()).image(m.getImageUrl()).setScaleType(BaseSliderView.ScaleType.CenterCrop).setOnSliderClickListener(this);
+    //            textSliderView.bundle(new Bundle());
+    //            textSliderView.getBundle()
+    //                    .putString("url", m.getVodUrl() == null ? "no" : m.getVodUrl());
+    //            textSliderView.getBundle().putString("name", m.getFileName());
+    //            textSliderView.getBundle().putString("imgUrl", m.getImageUrl());
+    //
+    //            mSlider.addSlider(textSliderView);
+    //        }
+    //    }
 }

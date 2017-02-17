@@ -82,15 +82,15 @@ public class LoginActivity extends BaseActivity {
 
         loginBt.setEnabled(false);
         //如果activity集合size不为0则遍历退出activity
-//        if (((BaseApplication) getApplication()).getListSize() != 0) {
-//            ((BaseApplication) getApplication()).exit();
-//        }
+        //        if (((BaseApplication) getApplication()).getListSize() != 0) {
+        //            ((BaseApplication) getApplication()).exit();
+        //        }
         compositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
         initLoginSetting();
         initLogin();
         initLoginBt();
-        loginHelper=LoginHelper.getInstence();
+        loginHelper = LoginHelper.getInstence();
     }
 
     @Override
@@ -101,6 +101,7 @@ public class LoginActivity extends BaseActivity {
 
     //退出时的时间
     private long mExitTime;
+
     //对返回键进行监听
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -115,22 +116,22 @@ public class LoginActivity extends BaseActivity {
 
     public void exit() {
         onBackPressed();
-//        if ((System.currentTimeMillis() - mExitTime) > 2000) {
-//
-//            Toast.makeText(LoginActivity.this, "再按一次退出装修贷app", Toast.LENGTH_SHORT).show();
-//            mExitTime = System.currentTimeMillis();
-//        } else {
-//
-//            //            MyConfig.clearSharePre(this, "users");
-//            ((BaseApplication)getApplication()).exit();
-//        }
+        //        if ((System.currentTimeMillis() - mExitTime) > 2000) {
+        //
+        //            Toast.makeText(LoginActivity.this, "再按一次退出装修贷app", Toast.LENGTH_SHORT).show();
+        //            mExitTime = System.currentTimeMillis();
+        //        } else {
+        //
+        //            //            MyConfig.clearSharePre(this, "users");
+        //            ((BaseApplication)getApplication()).exit();
+        //        }
     }
 
     /**
      * 登录设置
      */
     private void initLoginSetting() {
-//        loginAutoLogin.setChecked(SettingsUtils.isAutoLogin(getApplicationContext()));
+        //        loginAutoLogin.setChecked(SettingsUtils.isAutoLogin(getApplicationContext()));
         loginRememberPassword.setChecked(SettingsUtils.isRememberPassword(getApplicationContext()));
         RxCompoundButton.checkedChanges(loginRememberPassword)
                 .subscribe(new Action1<Boolean>() {
@@ -138,23 +139,23 @@ public class LoginActivity extends BaseActivity {
                     public void call(Boolean aBoolean) {
                         SettingsUtils.setPrefRememberPassword(getApplicationContext(), aBoolean);
                         if (aBoolean == false) {
-//                            loginAutoLogin.setChecked(false);
+                            //                            loginAutoLogin.setChecked(false);
                             SettingsUtils.setPrefAutoLogin(getApplicationContext(), aBoolean);
                         }
                     }
                 });
-//        RxCompoundButton.checkedChanges(loginAutoLogin)
-//                .subscribe(new Action1<Boolean>() {
-//                    @Override
-//                    public void call(Boolean aBoolean) {
-//                        SettingsUtils.setPrefAutoLogin(getApplicationContext(), aBoolean);
-//                        if (aBoolean == true) {
-//                            SettingsUtils.setPrefRememberPassword(getApplicationContext(), aBoolean);
-//                            loginRememberPassword.setChecked(true);
-//                        }
-//
-//                    }
-//                });
+        //        RxCompoundButton.checkedChanges(loginAutoLogin)
+        //                .subscribe(new Action1<Boolean>() {
+        //                    @Override
+        //                    public void call(Boolean aBoolean) {
+        //                        SettingsUtils.setPrefAutoLogin(getApplicationContext(), aBoolean);
+        //                        if (aBoolean == true) {
+        //                            SettingsUtils.setPrefRememberPassword(getApplicationContext(), aBoolean);
+        //                            loginRememberPassword.setChecked(true);
+        //                        }
+        //
+        //                    }
+        //                });
         if (SettingsUtils.isRememberPassword(getApplicationContext())) {
             NewUser userInfo = realm.where(NewUser.class).findFirst();
             if (userInfo != null) {
@@ -265,16 +266,18 @@ public class LoginActivity extends BaseActivity {
                     public void onCompleted() {
 
                     }
+
                     @DebugLog
                     @Override
                     public void onError(Throwable e) {
                         Toast.makeText(LoginActivity.this, "登录失败，服务器响应失败", Toast.LENGTH_SHORT).show();
                         deletUser();
                     }
+
                     @DebugLog
                     @Override
                     public void onNext(ResultCodeWithUser loginResult) {
-                        Log.e("Daniel",loginResult.toString());
+                        Log.e("Daniel", loginResult.toString());
                         NewUser userInfo = loginResult.getUser();
                         if (loginResult.getCode() != 10001) {
                             Toast.makeText(LoginActivity.this, "登录失败,用户名密码错误", Toast.LENGTH_SHORT).show();
@@ -295,10 +298,10 @@ public class LoginActivity extends BaseActivity {
                             realm.commitTransaction();
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                             //startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            isLogin=true;
-                            if(activity==null){
+                            isLogin = true;
+                            if (activity == null) {
                                 onBackPressed();
-                            }else{
+                            } else {
                                 LoginActivity.this.finish();
                             }
 
@@ -310,14 +313,15 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    boolean isLogin=false;
+    boolean isLogin = false;
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         realm.close();
         compositeSubscription.unsubscribe();
-        if(activity!=null){
-            if(realm.where(NewUser.class).findFirst()!=null&&isLogin) {
+        if (activity != null) {
+            if (realm.where(NewUser.class).findFirst() != null && isLogin) {
                 loginHelper.changeActivity(activity);
             }
             activity = null;
@@ -327,6 +331,6 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.home_regist_btn)
     public void onClick() {
-        startActivity(new Intent(LoginActivity.this,RegistActivity.class));
+        startActivity(new Intent(LoginActivity.this, RegistActivity.class));
     }
 }

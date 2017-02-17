@@ -48,7 +48,6 @@ public class ConllectionListFragment extends Fragment {
     private MyConllectionListAdapter myConllectionListAdapter;
 
 
-
     public static ConllectionListFragment newInstance(int type) {
         ConllectionListFragment fragment = new ConllectionListFragment();
         Bundle args = new Bundle();
@@ -71,13 +70,13 @@ public class ConllectionListFragment extends Fragment {
         // Inflate the food_listitem for this fragment
         View view = inflater.inflate(R.layout.fragment_conllection_list, container, false);
         unbinder = ButterKnife.bind(this, view);
-        realm=Realm.getDefaultInstance();
-        mcompositeSubscription=new CompositeSubscription();
+        realm = Realm.getDefaultInstance();
+        mcompositeSubscription = new CompositeSubscription();
 
-        if(realm.where(NewUser.class).findFirst()!=null){
+        if (realm.where(NewUser.class).findFirst() != null) {
             //网络获取
             initData();
-        }else{
+        } else {
             //本地获取
             initRealmData();
         }
@@ -92,20 +91,20 @@ public class ConllectionListFragment extends Fragment {
 
     }
 
-    public void initRealmData(){
-        List<MyCollection> myCollections=new ArrayList<>();
-        for(MyCollection mc:realm.where(MyCollection.class).findAll()){
+    public void initRealmData() {
+        List<MyCollection> myCollections = new ArrayList<>();
+        for (MyCollection mc : realm.where(MyCollection.class).findAll()) {
             switch (type) {
                 case 0:
                     myCollections.add(mc);
                     break;
                 case 1:
-                    if(mc.getType().equals("01")){
+                    if (mc.getType().equals("01")) {
                         myCollections.add(mc);
                     }
                     break;
                 case 2:
-                    if(mc.getType().equals("02")){
+                    if (mc.getType().equals("02")) {
                         myCollections.add(mc);
                     }
                     break;
@@ -115,8 +114,8 @@ public class ConllectionListFragment extends Fragment {
     }
 
 
-    public void initData(){
-        Subscription Subscription_getZxglItem= NetWork.getNewZXD1_4Service().getFavoriteItem(realm.where(NewUser.class).findFirst().getUserId())
+    public void initData() {
+        Subscription Subscription_getZxglItem = NetWork.getNewZXD1_4Service().getFavoriteItem(realm.where(NewUser.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .flatMap(new Func1<List<MyCollection>, Observable<MyCollection>>() {
                     @Override
@@ -156,18 +155,19 @@ public class ConllectionListFragment extends Fragment {
                 });
         mcompositeSubscription.add(Subscription_getZxglItem);
     }
-    public void initList(List<MyCollection> myCollections){
 
-        myConllectionListAdapter=new MyConllectionListAdapter(getActivity(),myCollections);
+    public void initList(List<MyCollection> myCollections) {
+
+        myConllectionListAdapter = new MyConllectionListAdapter(getActivity(), myCollections);
         orderListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         orderListRecyclerView.setAdapter(myConllectionListAdapter);
 
         myConllectionListAdapter.setOnItemClickListener(new MyConllectionListAdapter.MyItemClickListener() {
             @Override
             public void onItemCleck(int position) {
-                Gson g=new Gson();
-                ResultCode resultCode=new ResultCode();
-                MyCollection myCollection=new MyCollection();
+                Gson g = new Gson();
+                ResultCode resultCode = new ResultCode();
+                MyCollection myCollection = new MyCollection();
                 myCollection.setType(myConllectionListAdapter.getDataItem(position).getType());
                 myCollection.setTitle(myConllectionListAdapter.getDataItem(position).getTitle());
                 myCollection.setThumbnails(myConllectionListAdapter.getDataItem(position).getThumbnails());
@@ -175,16 +175,16 @@ public class ConllectionListFragment extends Fragment {
                 myCollection.setArticleId(myConllectionListAdapter.getDataItem(position).getArticleId());
                 myCollection.setDescription(myConllectionListAdapter.getDataItem(position).getDescription());
                 resultCode.setMsg(g.toJson(myCollection));
-                resultCode.setCode(Integer.parseInt( myConllectionListAdapter.getDataItem(position).getType()));
+                resultCode.setCode(Integer.parseInt(myConllectionListAdapter.getDataItem(position).getType()));
                 EventBus.getDefault().post(resultCode);
             }
         });
     }
+
     @Override
     public void onResume() {
         super.onResume();
     }
-
 
 
     @Override

@@ -10,12 +10,12 @@ import java.util.List;
  * Created by johe on 2017/1/11.
  */
 
-public class AutoViewPagerAdapter  extends PagerAdapter{
+public class AutoViewPagerAdapter extends PagerAdapter {
 
     List<View> imageViewList;
 
-    public void setList(List<View> imageViewList){
-        this.imageViewList=imageViewList;
+    public void setList(List<View> imageViewList) {
+        this.imageViewList = imageViewList;
     }
 
     public List<View> getImageViewList() {

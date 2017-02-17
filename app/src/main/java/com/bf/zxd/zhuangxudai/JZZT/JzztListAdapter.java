@@ -65,8 +65,8 @@ public class JzztListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ViewHolder myViewHoder = (ViewHolder) holder;
-        if(mDatas.get(position).getThumbnails()!=null){
-            if(!mDatas.get(position).getThumbnails().equals("")) {
+        if (mDatas.get(position).getThumbnails() != null) {
+            if (!mDatas.get(position).getThumbnails().equals("")) {
                 Picasso.with(mContext).load(mDatas.get(position).getThumbnails())
                         .placeholder(R.drawable.demo)
                         .error(R.drawable.demo)

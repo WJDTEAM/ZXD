@@ -2,7 +2,6 @@ package com.bf.zxd.zhuangxudai.template;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,11 +69,11 @@ public class TemplateHorizontalListAdapter extends RecyclerView.Adapter<Recycler
         myViewHoder.listImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mItemClickListener.onItemClick(myViewHoder.listImg,position);
+                mItemClickListener.onItemClick(myViewHoder.listImg, position);
             }
         });
-        if(mDatas.get(position)!=null){
-            if(!mDatas.get(position).equals("")){
+        if (mDatas.get(position) != null) {
+            if (!mDatas.get(position).equals("")) {
                 Picasso.with(mContext).load(mDatas.get(position))
                         .placeholder(R.drawable.demo)
                         .error(R.drawable.demo2)

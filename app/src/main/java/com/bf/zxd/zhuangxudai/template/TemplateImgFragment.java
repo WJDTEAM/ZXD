@@ -54,8 +54,7 @@ public class TemplateImgFragment extends Fragment {
     public float upX;
 
 
-
-    public boolean Enable=true;
+    public boolean Enable = true;
     List<View> imgViews;
     List<DecoCompanyCase> DecoCompanyCases;
     AutoViewPagerAdapter autoViewPagerAdapter;
@@ -76,8 +75,7 @@ public class TemplateImgFragment extends Fragment {
 
         public boolean isToolBarShow();
 
-        public void changeFragmentByTAG(String fragment,int index);
-
+        public void changeFragmentByTAG(String fragment, int index);
 
 
     }
@@ -96,9 +94,10 @@ public class TemplateImgFragment extends Fragment {
 
     }
 
-    int index=1;
-    int imgSize=15;
+    int index = 1;
+    int imgSize = 15;
     LayoutInflater inflaters;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -107,10 +106,9 @@ public class TemplateImgFragment extends Fragment {
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
         vg = (ViewGroup) view.findViewById(R.id.template_img_lin);
-        inflaters=inflater;
+        inflaters = inflater;
 
-       // popuWindow();
-
+        // popuWindow();
 
 
         return view;
@@ -124,19 +122,19 @@ public class TemplateImgFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(hidden){
-            if(mListener.isToolBarShow()){
+        if (hidden) {
+            if (mListener.isToolBarShow()) {
                 clickEvent(-mListener.getToolBarheight());
             }
-            Enable=false;
-        }else{
-            Enable=true;
+            Enable = false;
+        } else {
+            Enable = true;
         }
     }
 
-    public void setViewPager(int index){
-        templateViewpager.setCurrentItem(index,false);
-        nowNum.setText((index)+"");
+    public void setViewPager(int index) {
+        templateViewpager.setCurrentItem(index, false);
+        nowNum.setText((index) + "");
     }
 
     ViewGroup vg;
@@ -167,24 +165,26 @@ public class TemplateImgFragment extends Fragment {
             clickEvent(mListener.getToolBarheight());
         }
     }
+
     List<String> imgAddres;
-    public void initImg(List<String > imgAddress){
+
+    public void initImg(List<String> imgAddress) {
         imgViews = new ArrayList<>();
-        imgAddres=new ArrayList<>();
-        for(String s:imgAddress){
+        imgAddres = new ArrayList<>();
+        for (String s : imgAddress) {
             imgAddres.add(s);
         }
-        String imgAddresStart=imgAddress.get(0);
-        String imgAddresEnd=imgAddress.get(imgAddress.size()-1);
-        imgAddres.add(0,imgAddresEnd);
+        String imgAddresStart = imgAddress.get(0);
+        String imgAddresEnd = imgAddress.get(imgAddress.size() - 1);
+        imgAddres.add(0, imgAddresEnd);
         imgAddres.add(imgAddresStart);
-        imgSize=imgAddres.size();
-        pageNum.setText("/"+(imgSize-2)+"");
-        for (int i = 0; i <imgAddres.size(); i++) {
+        imgSize = imgAddres.size();
+        pageNum.setText("/" + (imgSize - 2) + "");
+        for (int i = 0; i < imgAddres.size(); i++) {
             View imgView1 = inflaters.inflate(R.layout.template_viewpager_item, null);
             ((TextView) imgView1.findViewById(R.id.txt)).setText("");
-            if(imgAddres.get(i)!=null){
-                if(!imgAddres.get(i).equals("")){
+            if (imgAddres.get(i) != null) {
+                if (!imgAddres.get(i).equals("")) {
                     Picasso.with(getActivity()).load(imgAddres.get(i))
                             .placeholder(R.drawable.demo)
                             .error(R.drawable.demo2)
@@ -199,7 +199,7 @@ public class TemplateImgFragment extends Fragment {
         autoViewPagerAdapter.setList(imgViews);
         templateViewpager.setAdapter(autoViewPagerAdapter);
         //没有翻页动画跳转到地2页
-        templateViewpager.setCurrentItem(1,false);
+        templateViewpager.setCurrentItem(1, false);
 
         templateViewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -214,32 +214,32 @@ public class TemplateImgFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-                nowNum.setText((position)+"");
-                if(position==imgSize-1){
+                nowNum.setText((position) + "");
+                if (position == imgSize - 1) {
                     setViewPager(1);
                 }
-                if(position==0){
-                    setViewPager(imgSize-2);
+                if (position == 0) {
+                    setViewPager(imgSize - 2);
                 }
-                Log.i("gqf","onPageSelected"+position);
+                Log.i("gqf", "onPageSelected" + position);
             }
         });
         templateViewpager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    downY=motionEvent.getY();
-                    downX=motionEvent.getX();
+                    downY = motionEvent.getY();
+                    downX = motionEvent.getX();
                 }
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    upY=motionEvent.getY();
-                    upX=motionEvent.getX();
-                    if((downY-upY)>TemplateActivity.slidingDistance){
-                        mListener.changeFragmentByTAG(TemplateActivity.CHANGE_DETAILS_FRAGMENT,0);
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    upY = motionEvent.getY();
+                    upX = motionEvent.getX();
+                    if ((downY - upY) > TemplateActivity.slidingDistance) {
+                        mListener.changeFragmentByTAG(TemplateActivity.CHANGE_DETAILS_FRAGMENT, 0);
                         return true;
-                    }else{
+                    } else {
 
-                        if(Enable&&(downX-upX)<20&&(downX-upX)>-20) {
+                        if (Enable && (downX - upX) < 20 && (downX - upX) > -20) {
                             if (mListener.isToolBarShow()) {
                                 mListener.hide();
                                 clickEvent(-mListener.getToolBarheight());

@@ -79,7 +79,7 @@ public class MyConllectionListAdapter extends RecyclerView.Adapter<RecyclerView.
         mHolder.collectionItemLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mItemClickListener!=null){
+                if (mItemClickListener != null) {
                     mItemClickListener.onItemCleck(p);
                 }
             }
@@ -87,7 +87,7 @@ public class MyConllectionListAdapter extends RecyclerView.Adapter<RecyclerView.
         mHolder.collectionItemTitle.setText(datas.get(p).getTitle());
         mHolder.collectionItemTxt.setText(datas.get(p).getDescription());
         mHolder.collectionItemTime.setText(datas.get(p).getHdrq());
-        if(!datas.get(p).getThumbnails().equals("")){
+        if (!datas.get(p).getThumbnails().equals("")) {
             Picasso.with(mContext).load(datas.get(p).getThumbnails())
                     .placeholder(R.drawable.demo)
                     .error(R.drawable.demo)
@@ -116,6 +116,7 @@ public class MyConllectionListAdapter extends RecyclerView.Adapter<RecyclerView.
         TextView collectionItemTime;
         @BindView(R.id.collection_item_lin)
         LinearLayout collectionItemLin;
+
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

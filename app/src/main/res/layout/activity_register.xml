@@ -21,12 +21,10 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/hugehxxxxxdp"
                 android:src="@drawable/logintop"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
                 />
 
 
@@ -48,7 +46,43 @@
                     />
 
             </android.support.design.widget.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    >
 
+                    <EditText
+                        android:id="@+id/regist_password3_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="输入验证码"
+                        android:textColor="@color/white"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        />
+
+                </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:id="@+id/get_code_btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.7"
+                    android:layout_height="@dimen/smallhdp"
+                    android:text="点击获取验证码"
+                    android:lines="1"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/mediumsp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/apply_for_selector"
+                    android:layout_marginTop="@dimen/smallmdp"
+                    android:layout_marginBottom="@dimen/smallmdp"
+                    />
+            </LinearLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -84,42 +118,7 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    >
 
-                    <EditText
-                        android:id="@+id/regist_password3_et"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/r_password2"
-                        android:textColor="@color/white"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPassword"
-                        android:maxLines="1"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-                <Button
-                    android:id="@+id/get_code_btn"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.7"
-                    android:layout_height="wrap_content"
-                    android:text="点击获取验证码"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/mediumxsp"
-                    android:textColor="@color/white"
-                    android:paddingLeft="@dimen/smallmdp"
-                    android:paddingRight="@dimen/smallmdp"
-                    android:background="@drawable/apply_for_selector"
-                    />
-            </LinearLayout>
 
             <Button
                 android:layout_width="match_parent"

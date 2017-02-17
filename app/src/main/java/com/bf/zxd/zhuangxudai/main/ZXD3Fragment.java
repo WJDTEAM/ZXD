@@ -48,13 +48,13 @@ public class ZXD3Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.dropDownMenu_bank)
     DropDownMenu dropDownMenuBank;
-    private String headers[] = {"全部","金额", "利率", "期限"};//
-    private String all[] = {"全部","房贷","装修贷"};
-    private String money[] = {"全部","3-20万","20-30万","30-80万","80-200万"};
-    private String rate[] = {"全部","0.3%","0.4%","0.5%"};
-    private String time[] = {"全部","12个月","24个月","36个月"};
+    private String headers[] = {"全部", "金额", "利率", "期限"};//
+    private String all[] = {"全部", "房贷", "装修贷"};
+    private String money[] = {"全部", "3-20万", "20-30万", "30-80万", "80-200万"};
+    private String rate[] = {"全部", "0.3%", "0.4%", "0.5%"};
+    private String time[] = {"全部", "12个月", "24个月", "36个月"};
 
-    String chooseAll="0";
+    String chooseAll = "0";
     String chooseMoney;
     String chooseRate;
     String chooseTime;
@@ -75,6 +75,7 @@ public class ZXD3Fragment extends Fragment {
     }
 
     CompositeSubscription compositeSubscription;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class ZXD3Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_loan_bank3, container, false);
         ButterKnife.bind(this, view);
         unbinder = ButterKnife.bind(this, view);
-        compositeSubscription=new CompositeSubscription();
+        compositeSubscription = new CompositeSubscription();
         getLoanTypes();
 
         return view;
@@ -108,9 +109,9 @@ public class ZXD3Fragment extends Fragment {
 
     private int rateAdapterPosition = 0;
 
-    public  List<LoanTypes>  loanTypes;
+    public List<LoanTypes> loanTypes;
 
-    public void getLoanTypes(){
+    public void getLoanTypes() {
         Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getLoanTypes()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -127,26 +128,26 @@ public class ZXD3Fragment extends Fragment {
 
                     @Override
                     public void onNext(List<LoanTypes> loanTyp) {
-                        LoanTypes l=new LoanTypes();
+                        LoanTypes l = new LoanTypes();
                         l.setLoanTypeId(0);
                         l.setLoanTypeName("全部");
-                        loanTypes=loanTyp;
-                        loanTypes.add(0,l);
+                        loanTypes = loanTyp;
+                        loanTypes.add(0, l);
                         dropMenu();
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);
     }
 
-    public void dropMenu(){
+    public void dropMenu() {
         //init money
         final View constellationView = getActivity().getLayoutInflater().inflate(R.layout.zxd_money_adapter_layout, null);
         GridView constellation = ButterKnife.findById(constellationView, R.id.zxd_money_gird);
-        moneyAdapter = new moneyAdapter(getActivity(),money);
+        moneyAdapter = new moneyAdapter(getActivity(), money);
         constellation.setAdapter(moneyAdapter);
         TextView ok = ButterKnife.findById(constellationView, R.id.ok);
-         minMoney=ButterKnife.findById(constellationView, R.id.zxd_money_edi_min);
-         maxMoney=ButterKnife.findById(constellationView, R.id.zxd_money_edi_max);
+        minMoney = ButterKnife.findById(constellationView, R.id.zxd_money_edi_min);
+        maxMoney = ButterKnife.findById(constellationView, R.id.zxd_money_edi_max);
         minMoney.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -182,28 +183,27 @@ public class ZXD3Fragment extends Fragment {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((minMoney.getText()==null||minMoney.getText().toString().equals(""))&&(maxMoney.getText()==null||maxMoney.getText().toString().equals(""))) {
+                if ((minMoney.getText() == null || minMoney.getText().toString().equals("")) && (maxMoney.getText() == null || maxMoney.getText().toString().equals(""))) {
                     chooseMoney = AdapterPosition == 0 ? headers[1] : money[AdapterPosition];
-                    if(AdapterPosition!=0) {
+                    if (AdapterPosition != 0) {
                         String monetStr = chooseMoney.substring(0, chooseMoney.length() - 1);
                         String[] Str = monetStr.split("-");
                         minMoneyStr = Str[0];
                         maxMoneyStr = Str[1];
-                    }else{
-                        minMoneyStr="";
-                        maxMoneyStr="";
+                    } else {
+                        minMoneyStr = "";
+                        maxMoneyStr = "";
                     }
-                }
-                else{
+                } else {
 
-                    chooseMoney=minMoney.getText().toString()+"~"+maxMoney.getText().toString()+"万";
-                    minMoneyStr=minMoney.getText().toString();
-                    maxMoneyStr=maxMoney.getText().toString();
+                    chooseMoney = minMoney.getText().toString() + "~" + maxMoney.getText().toString() + "万";
+                    minMoneyStr = minMoney.getText().toString();
+                    maxMoneyStr = maxMoney.getText().toString();
 
                 }
                 dropDownMenuBank.setTabText(chooseMoney);
                 dropDownMenuBank.closeMenu();
-                initData(chooseAll,minMoneyStr,maxMoneyStr,chooseRate,chooseTime);
+                initData(chooseAll, minMoneyStr, maxMoneyStr, chooseRate, chooseTime);
             }
         });
         constellation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -221,29 +221,28 @@ public class ZXD3Fragment extends Fragment {
         //init rate
         final View rateView = getActivity().getLayoutInflater().inflate(R.layout.zxd_rate_adapter_layout, null);
         GridView rateGrid = ButterKnife.findById(rateView, R.id.zxd_rate_gird);
-        rateAdapter = new rateAdapter(getActivity(),rate);
+        rateAdapter = new rateAdapter(getActivity(), rate);
         rateGrid.setAdapter(rateAdapter);
         TextView okrate = ButterKnife.findById(rateView, R.id.ok);
-        Rate=ButterKnife.findById(rateView, R.id.zxd_rate_edi);
+        Rate = ButterKnife.findById(rateView, R.id.zxd_rate_edi);
         okrate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Rate.getText().toString()==null||Rate.getText().toString().equals("")) {
-                    if(AdapterPosition!=0){
-                        chooseRate = (AdapterPosition == 0 ? headers[2] : rate[AdapterPosition]).substring(0,(AdapterPosition == 0 ? headers[2] : rate[AdapterPosition]).length()-1);
+                if (Rate.getText().toString() == null || Rate.getText().toString().equals("")) {
+                    if (AdapterPosition != 0) {
+                        chooseRate = (AdapterPosition == 0 ? headers[2] : rate[AdapterPosition]).substring(0, (AdapterPosition == 0 ? headers[2] : rate[AdapterPosition]).length() - 1);
 
-                    }else{
-                        chooseRate="";
+                    } else {
+                        chooseRate = "";
                     }
                     dropDownMenuBank.setTabText(AdapterPosition == 0 ? headers[2] : rate[AdapterPosition]);
-                }
-                else{
-                    chooseRate=Rate.getText().toString();
-                    dropDownMenuBank.setTabText(Rate.getText().toString()+"%");
+                } else {
+                    chooseRate = Rate.getText().toString();
+                    dropDownMenuBank.setTabText(Rate.getText().toString() + "%");
                 }
 
                 dropDownMenuBank.closeMenu();
-                initData(chooseAll,minMoneyStr,maxMoneyStr,chooseRate,chooseTime);
+                initData(chooseAll, minMoneyStr, maxMoneyStr, chooseRate, chooseTime);
             }
         });
         rateGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -258,28 +257,27 @@ public class ZXD3Fragment extends Fragment {
         //init time
         final View timeView = getActivity().getLayoutInflater().inflate(R.layout.zxd_time_adapter_layout, null);
         GridView timeGrid = ButterKnife.findById(timeView, R.id.zxd_time_gird);
-        timeAdapter = new timeAdapter(getActivity(),time);
+        timeAdapter = new timeAdapter(getActivity(), time);
         timeGrid.setAdapter(timeAdapter);
         TextView timeok = ButterKnife.findById(timeView, R.id.ok);
-        Time=ButterKnife.findById(timeView, R.id.zxd_time_edi_min);
+        Time = ButterKnife.findById(timeView, R.id.zxd_time_edi_min);
         timeok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((Time.getText()==null||Time.getText().toString().equals(""))){
-                    if(AdapterPosition!=0){
-                        chooseTime = (AdapterPosition == 0 ? headers[3] : time[AdapterPosition]).substring(0,(AdapterPosition == 0 ? headers[3] : time[AdapterPosition]).length()-2);
+                if ((Time.getText() == null || Time.getText().toString().equals(""))) {
+                    if (AdapterPosition != 0) {
+                        chooseTime = (AdapterPosition == 0 ? headers[3] : time[AdapterPosition]).substring(0, (AdapterPosition == 0 ? headers[3] : time[AdapterPosition]).length() - 2);
 
-                    }else{
-                        chooseTime="";
+                    } else {
+                        chooseTime = "";
                     }
                     dropDownMenuBank.setTabText(AdapterPosition == 0 ? headers[3] : time[AdapterPosition]);
-                }
-                else{
-                    chooseTime=Time.getText().toString()+"个月";
+                } else {
+                    chooseTime = Time.getText().toString() + "个月";
                 }
 
                 dropDownMenuBank.closeMenu();
-                initData(chooseAll,minMoneyStr,maxMoneyStr,chooseRate,chooseTime);
+                initData(chooseAll, minMoneyStr, maxMoneyStr, chooseRate, chooseTime);
             }
         });
         timeGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -301,11 +299,11 @@ public class ZXD3Fragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 allAdapter.setCheckItem(i);
-                chooseAll= loanTypes.get(i).getLoanTypeId()+"";
+                chooseAll = loanTypes.get(i).getLoanTypeId() + "";
 
                 dropDownMenuBank.setTabText(i == 0 ? loanTypes.get(0).getLoanTypeName() : loanTypes.get(i).getLoanTypeName());
                 dropDownMenuBank.closeMenu();
-                initData(chooseAll,minMoneyStr,maxMoneyStr,chooseRate,chooseTime);
+                initData(chooseAll, minMoneyStr, maxMoneyStr, chooseRate, chooseTime);
             }
         });
         popupViews.add(allView);
@@ -317,10 +315,10 @@ public class ZXD3Fragment extends Fragment {
 
     }
 
-    public void initData(String loan_type,String min_money,String max_money,String rate,String cycle){
+    public void initData(String loan_type, String min_money, String max_money, String rate, String cycle) {
 
         Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getLoanCompanyItem(Integer.parseInt(loan_type),
-                min_money,max_money,rate,cycle)
+                min_money, max_money, rate, cycle)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<LoanCompanyItem>>() {
@@ -344,20 +342,22 @@ public class ZXD3Fragment extends Fragment {
     }
 
     LoanBankList3Adapter loanBankList3Adapter;
-    public void initList(List<LoanCompanyItem> zxdBanks){
-        if(loanBankList3Adapter==null) {
+
+    public void initList(List<LoanCompanyItem> zxdBanks) {
+        if (loanBankList3Adapter == null) {
             loanBankList3Adapter = new LoanBankList3Adapter(getActivity(), zxdBanks);
             contentView.setLayoutManager(new LinearLayoutManager(getActivity()));
             contentView.setAdapter(loanBankList3Adapter);
             dropDownMenuBank.setDropDownMenu(Arrays.asList(headers), popupViews, contentView);
-        }else{
+        } else {
             loanBankList3Adapter.update(zxdBanks);
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
-        initData(chooseAll,minMoneyStr,maxMoneyStr,chooseRate,chooseTime);
+        initData(chooseAll, minMoneyStr, maxMoneyStr, chooseRate, chooseTime);
     }
 
 

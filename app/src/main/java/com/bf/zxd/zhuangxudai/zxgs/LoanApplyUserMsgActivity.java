@@ -19,7 +19,6 @@ import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.ApplyPersonBase;
 import com.bf.zxd.zhuangxudai.pojo.NewUser;
 import com.bf.zxd.zhuangxudai.pojo.ResultCode;
-import com.bf.zxd.zhuangxudai.util.UrlEncoded;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -104,7 +103,7 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         loanMarryRadFalse.setChecked(true);
         loanApplyForUserMsgBtn.setEnabled(true);
-//        initApplyFor();
+        //        initApplyFor();
         initData();
         loanApplyForHeaderImg.setImageResource(R.drawable.loan_progress_2);
     }
@@ -158,9 +157,8 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
     }
 
 
-
-    String marital_status="0";
-    String credit_status="1";
+    String marital_status = "0";
+    String credit_status = "1";
     ApplyPersonBase mloanPersonBase;
 
     public void initData() {
@@ -180,12 +178,12 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(ApplyPersonBase loanPersonBase) {
-                        Log.i("gqf","initData+"+"onNext"+loanPersonBase.toString());
+                        Log.i("gqf", "initData+" + "onNext" + loanPersonBase.toString());
                         loanNameEdi.setText(loanPersonBase.getFullName());
                         loanPhoneEdi.setText(loanPersonBase.getMobilePhone());
                         loanCityEdi.setText(loanPersonBase.getAddr());
                         loanIdNumEdi.setText(loanPersonBase.getIdCard());
-                        if (loanPersonBase.getMaritalStatus()==1) {
+                        if (loanPersonBase.getMaritalStatus() == 1) {
                             loanMarryRadTrue.setChecked(true);
                             loanMarryRadFalse.setChecked(false);
                             marital_status = "1";
@@ -194,13 +192,13 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
                             loanMarryRadTrue.setChecked(false);
                             marital_status = "0";
                         }
-                        if (loanPersonBase.getCreditStatus()==1) {
+                        if (loanPersonBase.getCreditStatus() == 1) {
                             loanCreditRad1.setChecked(true);
                             credit_status = "1";
-                        } else if (loanPersonBase.getCreditStatus()==2) {
+                        } else if (loanPersonBase.getCreditStatus() == 2) {
                             loanCreditRad2.setChecked(true);
                             credit_status = "2";
-                        } else if (loanPersonBase.getCreditStatus()==3) {
+                        } else if (loanPersonBase.getCreditStatus() == 3) {
                             loanCreditRad3.setChecked(true);
                             credit_status = "3";
                         } else {
@@ -220,15 +218,15 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
      */
     public void applyForLoanPersonBase() {
         loanApplyForUserMsgBtn.setEnabled(false);
-        ApplyPersonBase applyPersonBase=new ApplyPersonBase();
+        ApplyPersonBase applyPersonBase = new ApplyPersonBase();
         applyPersonBase.setPersonId(realm.where(NewUser.class).findFirst().getUserId());
-        applyPersonBase.setFullName(UrlEncoded.toURLEncoded(loanNameEdi.getText().toString()));
+        applyPersonBase.setFullName(loanNameEdi.getText().toString());
         applyPersonBase.setMobilePhone(loanPhoneEdi.getText().toString());
         applyPersonBase.setMaritalStatus(Integer.parseInt(marital_status));
         applyPersonBase.setCreditStatus(Integer.parseInt(credit_status));
-        applyPersonBase.setAddr(UrlEncoded.toURLEncoded(loanCityEdi.getText().toString()));
+        applyPersonBase.setAddr(loanCityEdi.getText().toString());
         applyPersonBase.setIdCard(loanIdNumEdi.getText().toString());
-        Gson g=new Gson();
+        Gson g = new Gson();
         Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().saveOrUpdatePersonBase(g.toJson(applyPersonBase))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -240,45 +238,43 @@ public class LoanApplyUserMsgActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.i("gqf", "Throwable" + e.getMessage());
                     }
+
                     @Override
                     public void onNext(ResultCode resuleInfo) {
-                        if(resuleInfo.getCode()==10001){
-                            Toast.makeText(getApplicationContext(),"个人信息提交成功",Toast.LENGTH_SHORT).show();
+                        if (resuleInfo.getCode() == 10001) {
+                            Toast.makeText(getApplicationContext(), "个人信息提交成功", Toast.LENGTH_SHORT).show();
                             onBackPressed();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"个人信息提交失败",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "个人信息提交失败", Toast.LENGTH_SHORT).show();
                             loanApplyForUserMsgBtn.setEnabled(true);
                         }
-
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);
-
-
     }
 
-    @OnClick({R.id.loan_apply_for_user_msg_btn,R.id.loan_marry_rad_true, R.id.loan_marry_rad_false, R.id.loan_credit_rad_1, R.id.loan_credit_rad_2, R.id.loan_credit_rad_3, R.id.loan_credit_rad_4})
+    @OnClick({R.id.loan_apply_for_user_msg_btn, R.id.loan_marry_rad_true, R.id.loan_marry_rad_false, R.id.loan_credit_rad_1, R.id.loan_credit_rad_2, R.id.loan_credit_rad_3, R.id.loan_credit_rad_4})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.loan_marry_rad_true:
-                marital_status="1";
+                marital_status = "1";
                 break;
             case R.id.loan_marry_rad_false:
-                marital_status="0";
+                marital_status = "0";
                 break;
             case R.id.loan_credit_rad_1:
-                credit_status="1";
+                credit_status = "1";
                 break;
             case R.id.loan_credit_rad_2:
-                credit_status="2";
+                credit_status = "2";
                 break;
             case R.id.loan_credit_rad_3:
-                credit_status="3";
+                credit_status = "3";
                 break;
             case R.id.loan_credit_rad_4:
-                credit_status="4";
+                credit_status = "4";
                 break;
             case R.id.loan_apply_for_user_msg_btn:
                 applyForLoanPersonBase();
