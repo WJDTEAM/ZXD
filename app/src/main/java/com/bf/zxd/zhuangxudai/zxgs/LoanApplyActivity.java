@@ -50,8 +50,6 @@ import rx.functions.Func3;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-import static com.bf.zxd.zhuangxudai.R.id.loan_referrer_edi;
-
 public class LoanApplyActivity extends BaseActivity {
 
     @BindView(R.id.base_toolBar)
@@ -94,8 +92,6 @@ public class LoanApplyActivity extends BaseActivity {
     EditText loanUseforEdi;
     @BindView(R.id.makeLoadDays_txt)
     TextView makeLoadDays_txt;
-    @BindView(loan_referrer_edi)
-    EditText loanReferrerEdi;
     @BindView(R.id.bankpic_img2)
     ImageView bankpicImg2;
     @BindView(R.id.textView)
@@ -106,6 +102,10 @@ public class LoanApplyActivity extends BaseActivity {
     CheckBox recommendPersonNameCb;
     @BindView(R.id.recommendPerson_name)
     TextView recommendPersonName;
+    @BindView(R.id.company_name_txt)
+    TextView companyNameTxt;
+    @BindView(R.id.loan_referrer_edi)
+    EditText loanReferrerEdi;
     private int mSex = 1;
 
     public static int companyId = 0;
@@ -131,6 +131,9 @@ public class LoanApplyActivity extends BaseActivity {
                 if (b) {
                     chooseCompany.setVisibility(View.INVISIBLE);
                     companyId = 0;
+                    mCompanyName="";
+                    companyNameTxt.setText("");
+                    companyNameTxt.setVisibility(View.GONE);
                 } else {
                     chooseCompany.setVisibility(View.VISIBLE);
                 }
@@ -224,7 +227,6 @@ public class LoanApplyActivity extends BaseActivity {
     }
 
 
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -233,7 +235,7 @@ public class LoanApplyActivity extends BaseActivity {
 
     public void initBank() {
         if (mZxd != null) {
-            Log.i("gqf","mZxd"+mZxd.toString());
+            Log.i("gqf", "mZxd" + mZxd.toString());
             bankTopLinear.setVisibility(View.VISIBLE);
             applyMoneyTv.setText("申请金额(万)");
 
@@ -246,15 +248,13 @@ public class LoanApplyActivity extends BaseActivity {
             cycleUnitTv.setText("还款期限(月)");
             cycleTv.setText("" + mZxd.getMinCycle() + "~" + mZxd.getMaxCycle() + "/月");
             rateUnitTv.setText("月费率");
-            rateTv.setText(mZxd.getRate()+"/月");
+            rateTv.setText(mZxd.getRate() + "/月");
             productDescLoanapplyTx.setText(mZxd.getProductDesc());
             applicationLoanapplyTx.setText(mZxd.getApplication());
             requiredLoanapplyTx.setText(mZxd.getRequired());
             loanMoneyEdi.setHint(mZxd.getMinMoney() + "-" + mZxd.getMaxMoney() + "/万");
             loanTimeEdi.setHint("" + mZxd.getMinCycle() + "-" + mZxd.getMaxCycle() + "/月");
             makeLoadDays_txt.setText("放贷速度：" + mZxd.getMakeLoadDays() + mZxd.getLoadUnit() + "内");
-
-
 
 
         } else {
@@ -321,10 +321,14 @@ public class LoanApplyActivity extends BaseActivity {
         } else {
             isApply = false;
         }
-        if(companyId>0){
+        if (companyId > 0) {
             chooseCompany.setText("已选择公司");
-        }else{
+            companyNameTxt.setText(mCompanyName);
+            companyNameTxt.setVisibility(View.VISIBLE);
+        } else {
             chooseCompany.setText("点击选择公司");
+            companyNameTxt.setText("");
+            companyNameTxt.setVisibility(View.GONE);
         }
 
 

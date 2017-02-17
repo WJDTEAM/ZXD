@@ -49,7 +49,7 @@
                 android:gravity="bottom|right"
                 android:textSize="@dimen/smallsp"
                 android:padding="@dimen/tinymdp"
-                android:text="/14"/>
+                android:text=""/>
         </LinearLayout>
 
     </LinearLayout>

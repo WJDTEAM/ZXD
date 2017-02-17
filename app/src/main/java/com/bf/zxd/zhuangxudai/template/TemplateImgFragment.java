@@ -61,6 +61,8 @@ public class TemplateImgFragment extends Fragment {
     @BindView(R.id.template_viewpager)
     ViewPager templateViewpager;
 
+    public static boolean isNoImg=false;
+
     public static TemplateImgFragment newInstance() {
         TemplateImgFragment fragment = new TemplateImgFragment();
         return fragment;
@@ -107,9 +109,7 @@ public class TemplateImgFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         vg = (ViewGroup) view.findViewById(R.id.template_img_lin);
         inflaters = inflater;
-
         // popuWindow();
-
 
         return view;
     }
@@ -135,6 +135,12 @@ public class TemplateImgFragment extends Fragment {
     public void setViewPager(int index) {
         templateViewpager.setCurrentItem(index, false);
         nowNum.setText((index) + "");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isNoImg=false;
     }
 
     ViewGroup vg;
@@ -169,6 +175,11 @@ public class TemplateImgFragment extends Fragment {
     List<String> imgAddres;
 
     public void initImg(List<String> imgAddress) {
+        if(imgAddress.size()==0){
+            isNoImg=true;
+            mListener.changeFragmentByTAG(TemplateActivity.CHANGE_DETAILS_FRAGMENT, 0);
+        }
+
         imgViews = new ArrayList<>();
         imgAddres = new ArrayList<>();
         for (String s : imgAddress) {
@@ -248,7 +259,6 @@ public class TemplateImgFragment extends Fragment {
                                 clickEvent(mListener.getToolBarheight());
                             }
                         }
-
                     }
                 }
                 return false;

@@ -150,7 +150,7 @@ public class TemplateDetailsFragment extends Fragment {
                 }
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     upY = motionEvent.getY();
-                    if ((upY - downY) > TemplateActivity.slidingDistance && scrolHeight == 0) {
+                    if (TemplateImgFragment.isNoImg==false&&(upY - downY) > TemplateActivity.slidingDistance && scrolHeight == 0) {
                         mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT, 1);
                         return true;
                     }

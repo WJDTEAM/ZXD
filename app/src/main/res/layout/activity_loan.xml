@@ -430,7 +430,7 @@
                 android:gravity="center_vertical|left"
                 style="@style/apply_for_text_style"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.9"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 />
             <CheckBox
@@ -446,17 +446,29 @@
             <Button
                 android:id="@+id/choose_company"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.1"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/smallmdp"
                 android:layout_marginTop="@dimen/smallmdp"
                 android:paddingLeft="@dimen/smallmdp"
                 android:paddingRight="@dimen/smallmdp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/smallhdp"
                 android:background="@drawable/apply_for_selector"
                 android:textColor="@color/white"
                 android:text="点击选择公司"/>
         </LinearLayout>
+        <TextView
+            android:id="@+id/company_name_txt"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            style="@style/apply_for_text_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/smallhdp"
+            android:gravity="center_vertical|left"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:lines="1"
+            android:ellipsize="end"
+            android:visibility="gone"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
@@ -468,7 +480,7 @@
                 android:paddingRight="@dimen/mediummdp"
                 style="@style/apply_for_text_style"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.9"
                 android:gravity="center_vertical|left"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 />
@@ -485,8 +497,9 @@
                 android:id="@+id/loan_referrer_edi"
                 style="@style/apply_for_edi_style"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.1"
                 android:hint="输入推荐人编码"
+                android:layout_marginRight="@dimen/smallhdp"
 
                 />
         </LinearLayout>

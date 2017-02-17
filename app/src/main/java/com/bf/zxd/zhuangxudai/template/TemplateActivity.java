@@ -38,7 +38,6 @@ import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,8 +47,6 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-
-import static com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity.companyId;
 
 /**
  * Created by johe on 2017/1/9.
@@ -109,7 +106,11 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                 @Override
                 public void onClick(View view) {
                     //切换fragment
-                    changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT, 1);
+                    if(imgAddress.size()==0){
+                        onBackPressed();
+                    }else {
+                        changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT, 1);
+                    }
                 }
             });
             baseToolBar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
@@ -241,19 +242,19 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
             });
         }
         if (!isPopuShow) {
-            TimerTask task = new TimerTask() {
-                public void run() {
-                    template_rel.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            popuWindow();
-                            timer.cancel();
-                        }
-                    });
-                }
-            };
-            timer = new Timer(true);
-            timer.schedule(task, 200, 10000000);
+//            TimerTask task = new TimerTask() {
+//                public void run() {
+//                    template_rel.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            popuWindow();
+//                            timer.cancel();
+//                        }
+//                    });
+//                }
+//            };
+//            timer = new Timer(true);
+//            timer.schedule(task, 200, 10000000);
         }
     }
 
@@ -366,7 +367,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         switch (view.getId()) {
             case R.id.template_loan_lin:
                 if (LoanApplyActivity.bankId > 0) {
-                    companyId = CompanyId;
+                    LoanApplyActivity.companyId=compId;
                     startActivity(new Intent(TemplateActivity.this, LoanApplyActivity.class));
                 } else {
                     MainActivity.isBottom2 = true;
@@ -374,8 +375,8 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                 }
                 break;
             case R.id.template_subscribe_lin:
+                AppointmentActivity.CompanyId=compId;
                 Intent _intent = new Intent(TemplateActivity.this, AppointmentActivity.class);
-                _intent.putExtra("Zxgs_id", CompanyId);
                 startActivity(new Intent(_intent));
                 break;
         }
@@ -402,6 +403,10 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                     @Override
                     public void onNext(List<String> strings) {
 
+                        if(strings.size()>0&&isPopuShow==false){
+                            isPopuShow=true;
+                            popuWindow();
+                        }
                         templateImgFragment.initImg(strings);
                         mTemplateDetailsFragment.initListView(strings);
                     }
