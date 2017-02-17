@@ -42,6 +42,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
+import static com.bf.zxd.zhuangxudai.R.id.imgs_num_txt;
+
 /**
  * Created by johe on 2017/1/9.
  */
@@ -83,7 +85,7 @@ public class TemplateDetailsFragment extends Fragment {
     TextView designInspirationTxt;
     @BindView(R.id.housingSituation_txt)
     TextView housingSituationTxt;
-    @BindView(R.id.imgs_num_txt)
+    @BindView(imgs_num_txt)
     TextView imgsNumTxt;
     @BindView(R.id.comments_num_txt)
     TextView commentsNumTxt;
@@ -181,6 +183,7 @@ public class TemplateDetailsFragment extends Fragment {
 
     List<String>  caseImgs;
     public void initListView(List<String> imgs) {
+        imgsNumTxt.setText("相关图片（"+imgs.size()+")");
         templateHorizontalListAdapter = new TemplateHorizontalListAdapter(getActivity(), imgs);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
