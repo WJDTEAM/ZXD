@@ -73,6 +73,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="标题"
+                        android:textColor="@color/black"
                         android:gravity="center"
                         android:id="@+id/title_tv"/>
 
@@ -109,19 +110,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tinyhdp"
                     >
+
                     <TextView
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/smallmdp"
-                        android:text="地点"
+                        android:text="地点:"
                         android:paddingRight="@dimen/tinymdp"
                         android:drawableLeft="@drawable/address"
                         android:textColor="@color/black"
                         android:paddingTop="@dimen/tinymdp"
                         android:paddingLeft="@dimen/smallmdp"
 
-                        />
+                        android:id="@+id/textView4"/>
+
                     <TextView
                         android:id="@+id/address_tv"
                         android:layout_width="match_parent"
@@ -140,7 +143,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="@dimen/smallmdp"
-                        android:text="主办方"
+                        android:text="主办方:"
                         android:paddingRight="@dimen/tinymdp"
                         android:drawableLeft="@drawable/sponsor"
                         android:textColor="@color/black"

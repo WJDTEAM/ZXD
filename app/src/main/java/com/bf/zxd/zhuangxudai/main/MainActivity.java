@@ -14,9 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     private static final int CONTENT_MY = 4;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    @BindView(R.id.toolbar_img)
-    ImageView toolbarImg;
     @BindView(R.id.bottomBar)
     com.ashokvarma.bottomnavigation.BottomNavigationBar bottomBar;
     @BindView(R.id.container)
@@ -81,18 +77,19 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     LoginHelper loginHelper;
 
     private void setToolbar(String toolstr, int flag) {
-        if (flag == 1) {
-            mToolbar.setTitle("");
-            setSupportActionBar(mToolbar);
-            toolbarImg.setVisibility(View.VISIBLE);
-            toolbarTitle.setVisibility(View.GONE);
-        } else {
-            mToolbar.setTitle("");
-            setSupportActionBar(mToolbar);
-            toolbarTitle.setText(toolstr);
-            toolbarImg.setVisibility(View.GONE);
-            toolbarTitle.setVisibility(View.VISIBLE);
-        }
+        toolbarTitle.setText(toolstr);
+//        if (flag == 1) {
+//            mToolbar.setTitle("");
+//            setSupportActionBar(mToolbar);
+//            toolbarImg.setVisibility(View.VISIBLE);
+//            toolbarTitle.setVisibility(View.GONE);
+//        } else {
+//            mToolbar.setTitle("");
+//            setSupportActionBar(mToolbar);
+//            toolbarTitle.setText(toolstr);
+//            toolbarImg.setVisibility(View.GONE);
+//            toolbarTitle.setVisibility(View.VISIBLE);
+//        }
 
 
     }
@@ -129,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         });
 
 
-        updateApp();
+//        updateApp();
 
     }
 
@@ -168,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
                 .setBarBackgroundColor(R.color.whitesmoke);
         bottomBar.addItem(new BottomNavigationItem(R.drawable.home_dake, R.string.firstPage))
                 .addItem(new BottomNavigationItem(R.drawable.ybj,  R.string.ybj))
-                .addItem(new BottomNavigationItem(R.drawable.zxd, R.string.zxd))
+                .addItem(new BottomNavigationItem(R.drawable.zxd, R.string.loan))
                 .addItem(new BottomNavigationItem(R.drawable.my,  R.string.my))
                 .initialise();
 
@@ -226,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
                 setFragment(homeFragment, HOME_TAG);
                 break;
             case CONTENT_ZXD:
-                String zxd_str = getResources().getString(R.string.zxd);
+                String zxd_str = getResources().getString(R.string.Allloan);
                 setToolbar(zxd_str, CONTENT_ZXD);
                 zxdFragment = (ZXD3Fragment) getSupportFragmentManager().findFragmentByTag(ZXD_TAG);
                 if (zxdFragment == null) {

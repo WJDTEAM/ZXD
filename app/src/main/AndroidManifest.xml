@@ -98,6 +98,7 @@
         <activity
             android:name=".zxgs.AppointmentActivity"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
         </activity>
         <!-- 贷款活动 -->

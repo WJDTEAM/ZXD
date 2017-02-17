@@ -52,8 +52,8 @@
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/loan_bg"
                         android:alpha="0.2"
+                        android:paddingRight="@dimen/smallmdp"
                         android:layout_alignLeft="@+id/bankpic_img"
                         android:layout_alignRight="@+id/bankpic_img"
                         android:layout_alignBottom="@+id/bankpic_img"
@@ -74,7 +74,8 @@
                         android:layout_marginLeft="10dp"
                         android:textSize="@dimen/bigsp"
                         android:textColor="@color/white"
-                        android:gravity="center"
+                        android:gravity="left|center_vertical"
+                        android:layout_toRightOf="@+id/bankpic_img"
                         android:layout_centerInParent="true"
                         android:layout_alignParentEnd="true"/>
 
@@ -498,8 +499,10 @@
                 style="@style/apply_for_edi_style"
                 android:layout_width="0dp"
                 android:layout_weight="1.1"
+                android:textSize="@dimen/smallsp"
                 android:hint="输入推荐人编码"
                 android:layout_marginRight="@dimen/smallhdp"
+
 
                 />
         </LinearLayout>

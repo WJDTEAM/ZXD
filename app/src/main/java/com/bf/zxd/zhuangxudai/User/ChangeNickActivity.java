@@ -3,8 +3,10 @@ package com.bf.zxd.zhuangxudai.User;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bf.zxd.zhuangxudai.R;
@@ -27,12 +29,15 @@ import rx.subscriptions.CompositeSubscription;
 
 public class ChangeNickActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+
     @BindView(R.id.changeNickName_et)
     EditText changeNickNameEt;
     @BindView(R.id.changeNick_bt)
     Button changeNickBt;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.userInfo_contain)
+    LinearLayout userInfoContain;
     private Realm realm;
     private NewUser mUser;
     private CompositeSubscription compositeSubscription;
@@ -41,13 +46,29 @@ public class ChangeNickActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((BaseApplication)getApplication()).addActivity(this);
+        ((BaseApplication) getApplication()).addActivity(this);
         setContentView(R.layout.activity_change_nick);
         compositeSubscription = new CompositeSubscription();
-        mUnbinder=ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
-        String _nickName=getIntent().getStringExtra("nickName");
+        String _nickName = getIntent().getStringExtra("nickName");
         changeNickNameEt.setText(_nickName);
+        setToolBar();
+
+
+    }
+
+    private void setToolBar() {
+        toolbar.setTitle("修改昵称");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setNavigationIcon(R.drawable.barcode__back_arrow);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 
@@ -58,10 +79,11 @@ public class ChangeNickActivity extends AppCompatActivity {
     }
 
     private String newNickName;
+
     @OnClick(R.id.changeNick_bt)
     public void onClick() {
         newNickName = changeNickNameEt.getText().toString();
-        Subscription  editNickname=NetWork.getNewZXD1_4Service().editNickname(realm.where(NewUser.class).findFirst().getUserId(),newNickName)
+        Subscription editNickname = NetWork.getNewZXD1_4Service().editNickname(realm.where(NewUser.class).findFirst().getUserId(), newNickName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResultCode>() {
@@ -69,20 +91,22 @@ public class ChangeNickActivity extends AppCompatActivity {
                     public void onCompleted() {
 
                     }
+
                     @DebugLog
                     @Override
                     public void onError(Throwable e) {
 
                     }
+
                     @DebugLog
                     @Override
                     public void onNext(ResultCode resultCode) {
-                        if (resultCode.getCode()==10001){
+                        if (resultCode.getCode() == 10001) {
                             saveNickName(newNickName);
-                            Toast.makeText(ChangeNickActivity.this, ""+resultCode.getMsg(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChangeNickActivity.this, "" + resultCode.getMsg(), Toast.LENGTH_SHORT).show();
                             finish();
-                        }else {
-                            Toast.makeText(ChangeNickActivity.this, ""+resultCode.getMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ChangeNickActivity.this, "" + resultCode.getMsg(), Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -96,6 +120,7 @@ public class ChangeNickActivity extends AppCompatActivity {
 
     /**
      * 保存新昵称
+     *
      * @param newNickName
      */
     private void saveNickName(String newNickName) {

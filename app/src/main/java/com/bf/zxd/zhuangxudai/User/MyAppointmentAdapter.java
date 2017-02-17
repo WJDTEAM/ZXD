@@ -75,7 +75,7 @@ public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdap
         holder.applicationProgressMyappointmentTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ApplyScheduleActivity.applyType="03";
+                ApplyScheduleActivity.applyType="02";
                 ApplyScheduleActivity.applyId=data.getApplyId();
                 mContext.startActivity(new Intent(mContext, ApplyScheduleActivity.class));
 

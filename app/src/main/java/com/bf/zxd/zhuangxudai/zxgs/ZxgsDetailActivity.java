@@ -1,6 +1,7 @@
 package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,7 +22,10 @@ import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyDetail;
+import com.bf.zxd.zhuangxudai.template.TemplateDetailsFragment;
 import com.bf.zxd.zhuangxudai.template.TemplateHorizontalListAdapter;
+import com.bf.zxd.zhuangxudai.template.TemplateImgFragment;
+import com.bf.zxd.zhuangxudai.util.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -37,7 +43,7 @@ import rx.subscriptions.CompositeSubscription;
 
 import static com.bf.zxd.zhuangxudai.zxgs.AppointmentActivity.CompanyId;
 
-public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClickListener,TemplateImgFragment.mImgListener, TemplateDetailsFragment.mDetailsListener {
 
     @BindView(R.id.base_toolBar)
     Toolbar baseToolBar;
@@ -74,10 +80,6 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
 
         initCompanyData(Zxgs_id);
         getDecoCompanyCase(Zxgs_id);
-
-
-
-
     }
 
     private void getDecoCompanyCase(int zxgs_id) {
@@ -146,8 +148,8 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zxgs_detail);
         ButterKnife.bind(this);
-
         compositeSubscription = new CompositeSubscription();
+//        changeSystemBarColor(R.color.black_dark);
         initDate();
 
     }
@@ -158,12 +160,35 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         allImgsRecyclerView.setLayoutManager(linearLayoutManager);
         allImgsRecyclerView.setAdapter(templateHorizontalListAdapter);
-//        templateHorizontalListAdapter.setOnItemClickListener(new TemplateHorizontalListAdapter.MyItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int postion) {
+        templateHorizontalListAdapter.setOnItemClickListener(new TemplateHorizontalListAdapter.MyItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                // TODO: 2017/2/17 公司详情案例
 //                mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,postion+1);
-//            }
-//        });
+            }
+        });
+    }
+
+    public void changeSystemBarColor(int id) {
+        // 改变状�?�栏颜色
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setStatusBarTintResource(id);// 通知栏所�?颜色
+        }
+    }
+
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
     }
 
     private void setToolBar(String tooltitle) {
@@ -214,5 +239,50 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
     protected void onDestroy() {
         super.onDestroy();
         compositeSubscription.unsubscribe();
+    }
+
+    @Override
+    public int getCompanyId() {
+        return 0;
+    }
+
+    @Override
+    public void startActivity(Class activity) {
+
+    }
+
+    @Override
+    public List<String> getImgAddress() {
+        return null;
+    }
+
+    @Override
+    public void setCompanyId(int id) {
+
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
+    public int getToolBarheight() {
+        return 0;
+    }
+
+    @Override
+    public boolean isToolBarShow() {
+        return false;
+    }
+
+    @Override
+    public void changeFragmentByTAG(String fragment, int index) {
+
     }
 }

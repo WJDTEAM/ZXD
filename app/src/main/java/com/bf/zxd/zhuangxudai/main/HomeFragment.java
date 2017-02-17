@@ -17,6 +17,7 @@ import com.bf.zxd.zhuangxudai.Dkhd.LoanActivity;
 import com.bf.zxd.zhuangxudai.JZZT.JzztActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
+import com.bf.zxd.zhuangxudai.pojo.LoanSuccessItem;
 import com.bf.zxd.zhuangxudai.pojo.Recommends;
 import com.bf.zxd.zhuangxudai.util.MarqueeView;
 import com.bf.zxd.zhuangxudai.zxgl.ZxglActivity;
@@ -87,26 +88,49 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
         initDate();
         initView();
 
+
+
+
 //        MarqueeView marqueeView = (MarqueeView) findViewById(R.id.marqueeView);
-
-        List<String> info = new ArrayList<>();
-        info.add("张小姐,20万,158*****111");
-        info.add("王先生,30万,156*****141");
-        info.add("李小姐,10万,138*****341");
-        info.add("赵先生,20万,137*****468");
-        info.add("刘小姐,40万,156*****123");
-        info.add("孙先姐,60万,159*****876");
-        marqueeView.startWithList(info);
-//        String notice = "张小姐                   20万                  158*****111";
-//        marqueeView.startWithText(notice);
-        setViewPager(carousels);
-
 
         return view;
     }
 
     private void initDate() {
         getBankItem();
+        getLoanSuccess();
+    }
+
+    private void getLoanSuccess() {
+        Subscription Subscription_getLoanSuccess = NetWork.getNewZXD1_4Service().getLoanSuccess()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<LoanSuccessItem>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @DebugLog
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Daniel", "请求贷款成功数据失败！");
+
+                    }
+
+                    @Override
+                    public void onNext(List<LoanSuccessItem> LoanSuccessItems) {
+                        List<String> info = new ArrayList<>();
+                        for (LoanSuccessItem loanSuccessItem:LoanSuccessItems){
+                            info.add(""+loanSuccessItem.getFullName()+","+loanSuccessItem.getLoanAmount()+"万,"+loanSuccessItem.getPhone()+"");
+                        }
+                        marqueeView.startWithList(info);
+                        //        String notice = "张小姐                   20万                  158*****111";
+                        //        marqueeView.startWithText(notice);
+                        setViewPager(carousels);
+                    }
+                });
+        mCompositeSubscription.add(Subscription_getLoanSuccess);
     }
 
     private void getBankItem() {

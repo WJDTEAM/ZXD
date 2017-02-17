@@ -89,7 +89,7 @@ public class UserFragment extends Fragment {
                 nickTv.setText(mUser.getNickname());
             }
             if (mUser.getLogoImg().equals("")){
-                Picasso.with(getActivity()).load(R.drawable.demo).into(image);
+                Picasso.with(getActivity()).load(R.drawable.avatar).into(image);
             }else {
 
                 Picasso.with(getActivity()).load(mUser.getLogoImg()).into(image);

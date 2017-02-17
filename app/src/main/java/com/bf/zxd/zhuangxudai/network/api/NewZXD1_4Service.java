@@ -17,6 +17,7 @@ import com.bf.zxd.zhuangxudai.pojo.HouseBaseInfo;
 import com.bf.zxd.zhuangxudai.pojo.JzhdItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
+import com.bf.zxd.zhuangxudai.pojo.LoanSuccessItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanTypes;
 import com.bf.zxd.zhuangxudai.pojo.PersonLoanItem;
 import com.bf.zxd.zhuangxudai.pojo.PersonYyItem;
@@ -363,5 +364,12 @@ public interface NewZXD1_4Service {
     @POST("shortMsg/identifyCode")
     Observable<String> shortMsg(@Field("phone") String  phone);
 
+
+    /**
+     * 获取贷款成功
+     * @return
+     */
+    @GET("getLoanSuccess")
+    Observable<List<LoanSuccessItem>> getLoanSuccess();
 
 }

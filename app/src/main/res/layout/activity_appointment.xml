@@ -107,12 +107,6 @@
                         android:lines="2"
                         android:textColor="@color/black"
                         />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        />
                 </LinearLayout>
 
 
@@ -128,26 +122,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
-            <!--提交资料-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                >
-
-                <Button
-                    android:id="@+id/loan_apply_for_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
-                    android:enabled="false"
-                    android:background="@drawable/apply_for_selector"
-
-                    android:textColor="@drawable/apply_for_text_color_selector"
-                    android:text="提交资料"
-                    android:textSize="@dimen/bigsp"
-                    />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <!--提交资料-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+
+        <Button
+            android:id="@+id/loan_apply_for_btn"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:enabled="false"
+            android:background="@drawable/apply_for_selector"
+            android:textColor="@drawable/apply_for_text_color_selector"
+            android:text="提交资料"
+            android:textSize="@dimen/bigsp"
+            />
+    </LinearLayout>
 
 </RelativeLayout>

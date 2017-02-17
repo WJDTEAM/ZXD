@@ -23,7 +23,7 @@
 
     <color name="bottom_img">#838282</color> <!--底部图标色 -->
 
-    <color name="stepView_color">#00BEAF</color>
+    <color name="stepView_color">#000000</color>
 
 
     <!-- material design black font color -->

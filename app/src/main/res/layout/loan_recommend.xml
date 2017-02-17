@@ -20,13 +20,23 @@
         android:focusable="true"
 
         >
-        <ImageView
-            android:id="@+id/pic_recommendBank_img"
-            android:layout_width="@dimen/hugehxxxxdp"
-            android:layout_height="@dimen/smallhdp"
-            android:src="@drawable/myhb"
-            android:scaleType="fitXY"
-            />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/pic_recommendBank_img"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/smallhdp"
+                android:src="@drawable/myhb"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+
+                />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
