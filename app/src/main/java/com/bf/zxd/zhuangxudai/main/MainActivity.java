@@ -1,9 +1,15 @@
 package com.bf.zxd.zhuangxudai.main;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +29,9 @@ import com.bf.zxd.zhuangxudai.User.MyAppointmentActivity;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.pojo.CompanyIdAndTemplateActivityEvent;
 import com.bf.zxd.zhuangxudai.pojo.EnterActivityEvent;
+import com.bf.zxd.zhuangxudai.update.UpdateInformation;
+import com.bf.zxd.zhuangxudai.update.UpdateMsg;
+import com.bf.zxd.zhuangxudai.update.UpdateService;
 import com.blankj.utilcode.utils.KeyboardUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,7 +42,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
 import io.realm.Realm;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+
+import static com.bf.zxd.zhuangxudai.network.NetWork.getUpdateService;
 
 public class MainActivity extends AppCompatActivity implements HomeFragment.mDetailsListener {
 
@@ -112,6 +127,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
                 startActivity(new Intent(MainActivity.this,activity));
             }
         });
+
+
+        updateApp();
 
     }
 
@@ -301,4 +319,76 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
 //            bottomBar.selectTab(2);
 //        }
     }
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE=1234;
+    UpdateMsg mUpdateMsg;
+    Observer<UpdateMsg> observer=new Observer<UpdateMsg>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onNext(UpdateMsg updateMsg) {
+            Log.i("gqf","updateMsg"+updateMsg.toString());
+            //与本地版本号对比
+            if(BaseApplication.isUpdateForVersion(updateMsg.getVersionCode(), UpdateInformation.localVersion)) {
+               // Log.i("gqf","updateMsg"+updateMsg.toString());
+                mUpdateMsg=updateMsg;
+                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                alert.setTitle("软件升级")
+                        .setMessage(updateMsg.getUpdateContent())
+                        .setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //开启更新服务UpdateService
+                                //这里为了把update更好模块化，可以传一些updateService依赖的值
+                                //如布局ID，资源ID，动态获取的标题,这里以app_name为例
+                                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                        != PackageManager.PERMISSION_GRANTED) {
+                                    //申请WRITE_EXTERNAL_STORAGE权限
+                                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
+                                }else{
+                                    startUpdateService(mUpdateMsg);
+                                }
+                            }
+                        })
+                        .setNegativeButton("取消",new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                            }
+                        });
+                alert.create().show();
+
+
+            }
+        }
+    };
+
+    public void startUpdateService(UpdateMsg updateMsg){
+        Intent updateIntent =new Intent(MainActivity.this, UpdateService.class);
+        updateIntent.putExtra("getUpdateContent",updateMsg.getUpdateContent());
+        updateIntent.putExtra("getVersionCode",updateMsg.getVersionCode());
+        updateIntent.putExtra("getVersionUrl",updateMsg.getVersionUrl());
+        startService(updateIntent);
+    }
+
+    //检测更新
+    public void updateApp(){
+
+        //判断本地数据库是否有版本号
+
+        Subscription subscription = getUpdateService().getAppVersion()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+        mcompositeSubscription.add(subscription);
+
+    }
+
 }

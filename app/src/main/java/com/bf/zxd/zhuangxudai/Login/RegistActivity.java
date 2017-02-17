@@ -208,20 +208,24 @@ public class RegistActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "请输入的验证码不正确", Toast.LENGTH_SHORT).show();
                     isCode = false;
                 }
-                if (isCode) {
-                    if (Phone.IsMobileNO(_phone)) {
-                        if (_password.equals(_password2)) {
-                            registBt.setEnabled(false);
-                            register(_phone, _password);
+                if(!_phone.equals("")&&!_password.equals("")) {
+                    if (isCode) {
+                        if (Phone.IsMobileNO(_phone)) {
+                            if (_password.equals(_password2)) {
+                                registBt.setEnabled(false);
+                                register(_phone, _password);
+                            } else {
+                                Toast.makeText(this, "两次密码输入不一致！", Toast.LENGTH_SHORT).show();
+                                registPasswordEt.setText("");
+                                registPassword2Et.setText("");
+                            }
                         } else {
-                            Toast.makeText(this, "两次密码输入不一致！", Toast.LENGTH_SHORT).show();
-                            registPasswordEt.setText("");
-                            registPassword2Et.setText("");
+                            registPhoneEt.setText("");
+                            Toast.makeText(this, "手机格式不正确！", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        registPhoneEt.setText("");
-                        Toast.makeText(this, "手机格式不正确！", Toast.LENGTH_SHORT).show();
                     }
+                }else{
+                    Toast.makeText(this, "请输入密码！", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

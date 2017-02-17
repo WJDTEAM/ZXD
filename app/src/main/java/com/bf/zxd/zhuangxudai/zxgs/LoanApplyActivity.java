@@ -233,6 +233,7 @@ public class LoanApplyActivity extends BaseActivity {
 
     public void initBank() {
         if (mZxd != null) {
+            Log.i("gqf","mZxd"+mZxd.toString());
             bankTopLinear.setVisibility(View.VISIBLE);
             applyMoneyTv.setText("申请金额(万)");
 
@@ -241,17 +242,20 @@ public class LoanApplyActivity extends BaseActivity {
 
             }
             bankNameTv.setText(mZxd.getCompanyName());
-            moneyRangeTv.setText(mZxd.getMinMoney().intValue() + "-" + mZxd.getMaxMoney().intValue() + "/万");
+            moneyRangeTv.setText(mZxd.getMinMoney().intValue() + "~" + mZxd.getMaxMoney().intValue() + "/万");
             cycleUnitTv.setText("还款期限(月)");
-            cycleTv.setText("" + mZxd.getMinCycle() + "-" + mZxd.getMaxCycle() + "/月");
+            cycleTv.setText("" + mZxd.getMinCycle() + "~" + mZxd.getMaxCycle() + "/月");
             rateUnitTv.setText("月费率");
-            rateTv.setText(mZxd.getRate());
+            rateTv.setText(mZxd.getRate()+"/月");
             productDescLoanapplyTx.setText(mZxd.getProductDesc());
             applicationLoanapplyTx.setText(mZxd.getApplication());
             requiredLoanapplyTx.setText(mZxd.getRequired());
             loanMoneyEdi.setHint(mZxd.getMinMoney() + "-" + mZxd.getMaxMoney() + "/万");
             loanTimeEdi.setHint("" + mZxd.getMinCycle() + "-" + mZxd.getMaxCycle() + "/月");
             makeLoadDays_txt.setText("放贷速度：" + mZxd.getMakeLoadDays() + mZxd.getLoadUnit() + "内");
+
+
+
 
         } else {
             bankTopLinear.setVisibility(View.GONE);
