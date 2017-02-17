@@ -17,6 +17,7 @@ import com.bf.zxd.zhuangxudai.pojo.JzhdItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanTypes;
+import com.bf.zxd.zhuangxudai.pojo.MyCollection;
 import com.bf.zxd.zhuangxudai.pojo.Recommends;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
 import com.bf.zxd.zhuangxudai.pojo.ResultCode;
@@ -311,6 +312,29 @@ public interface NewZXD1_4Service {
     @POST("saveZxyy")
     Observable<ResuleInfo> saveZxyy(@Field("fromUserId ") Integer  fromUserId, @Field("toCompanyId") Integer toCompanyId, @Field("proposer") String proposer, @Field("tel") String tel, @Field("addr") String addr, @Field("area") int area, @Field("houseArea") int houseArea, @Field("houseType") int houseType);
 
+    /**
+     * 获取我的收藏
+     * @return
+     */
+    @GET("getFavoriteItem/{userId}")
+    Observable<List<MyCollection>> getFavoriteItem(@Path("userId") int userId);
+
+    /**
+     *   收藏保存
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("saveFavorite")
+    Observable<ResultCode> saveFavorite(@Field("userId") Integer userId,@Field("objectId") Integer objectId,@Field("type") String type);
 
 
+
+
+    /**
+     * 短信验证
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("shortMsg/identifyCode")
+    Observable<String> shortMsg(@Field("phone") String  phone);
 }
