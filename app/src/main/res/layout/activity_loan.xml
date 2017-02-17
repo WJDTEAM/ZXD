@@ -498,7 +498,7 @@
                 style="@style/apply_for_edi_style"
                 android:layout_width="0dp"
                 android:layout_weight="1.1"
-                android:hint="输入推荐人编码"
+                android:hint="推荐人编码"
                 android:layout_marginRight="@dimen/smallhdp"
 
                 />

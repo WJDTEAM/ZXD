@@ -25,7 +25,8 @@ import com.bf.zxd.zhuangxudai.pojo.DecoCompanyYbjDetail;
 import com.bf.zxd.zhuangxudai.zxgs.ZxgsDetailActivity;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -178,6 +179,7 @@ public class TemplateDetailsFragment extends Fragment {
     }
 
 
+    List<String>  caseImgs;
     public void initListView(List<String> imgs) {
         templateHorizontalListAdapter = new TemplateHorizontalListAdapter(getActivity(), imgs);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -190,25 +192,26 @@ public class TemplateDetailsFragment extends Fragment {
                 mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT, postion + 1);
             }
         });
-        initSliderLayout(imgs);
+        caseImgs=imgs;
+
     }
 
     public void initSliderLayout(List<String> imgs) {
-        TextSliderView textSliderView1 = new TextSliderView(this.getActivity());
-        textSliderView1.image(decoCompanyYbjDetail.getThumbnails());
+        DefaultSliderView textSliderView1 = new DefaultSliderView(this.getActivity());
+        textSliderView1.image(decoCompanyYbjDetail.getThumbnails()) .setScaleType(BaseSliderView.ScaleType.Fit);
 
-        textSliderView1.description("新品推荐");
+
         slider.addSlider(textSliderView1);
         if (imgs.size() > 2) {
-            TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
-            textSliderView2.image(imgs.get(imgs.size() - 1));
-            textSliderView2.description("收藏最多");
+            DefaultSliderView textSliderView2 = new DefaultSliderView(this.getActivity());
+            textSliderView2.image(imgs.get(imgs.size() - 1)) .setScaleType(BaseSliderView.ScaleType.Fit);
+
             slider.addSlider(textSliderView2);
         }
         if (imgs.size() > 3) {
-            TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
-            textSliderView2.image(imgs.get(imgs.size() - 2));
-            textSliderView2.description("流行样板");
+            DefaultSliderView textSliderView2 = new DefaultSliderView(this.getActivity());
+            textSliderView2.image(imgs.get(imgs.size() - 2)) .setScaleType(BaseSliderView.ScaleType.Fit);
+
             slider.addSlider(textSliderView2);
         }
 
@@ -304,6 +307,8 @@ public class TemplateDetailsFragment extends Fragment {
         companyPhone.setText(decoCompanyDetail.getTel());
         aboveTxt.setText(decoCompanyDetail.getCompanyName());
 
+
+        initSliderLayout(caseImgs);
 
     }
 
