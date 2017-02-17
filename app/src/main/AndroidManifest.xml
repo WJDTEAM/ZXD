@@ -152,22 +152,26 @@
         <activity
             android:name=".zxgs.LoanApplyAllMsgActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 个人信息 -->
         <activity
             android:name=".zxgs.LoanApplyUserMsgActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 工作信息 -->
         <activity
             android:name=".zxgs.LoanApplyWorkMsgActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 资产信息 -->
         <activity
             android:name=".zxgs.LoanApplyMoneyMsgActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 我的收藏 -->
         <activity
             android:name=".User.MyCollectActivity"
@@ -200,6 +204,9 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".collection.MyConllectionActivity"
+                  android:launchMode="singleTask"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".JZZT.JzztDetialActivity">
         </activity>
     </application>
