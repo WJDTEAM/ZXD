@@ -1,7 +1,6 @@
 package com.bf.zxd.zhuangxudai.User;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.pojo.PersonLoanItem;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
 
 import java.util.List;
 
@@ -21,11 +20,10 @@ import butterknife.ButterKnife;
  * Created by wjy on 2016/11/7.
  */
 
-public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder> {
+public class ZxgsItemAdapter extends RecyclerView.Adapter<ZxgsItemAdapter.ViewHolder> {
 
-    List<PersonLoanItem> datas;
+    List<DecoCompanyItem> datas;
     MyItemClickListener mItemClickListener;
-
 
 
     private Context mContext;
@@ -34,10 +32,10 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
 
 
     public int getLayout() {
-        return R.layout.myloan_item;
+        return R.layout.zxgongsi_list_item2;
     }
 
-    public MyLoanAdapter(List<PersonLoanItem> datas, Context mContext) {
+    public ZxgsItemAdapter(List<DecoCompanyItem> datas, Context mContext) {
         this.mContext = mContext;
         this.datas = datas;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -67,20 +65,15 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final PersonLoanItem data = datas.get(position);
-        holder.recommendPersonMyloanTv.setText(data.getReferrer());
-        holder.dateMyloanTv.setText(data.getSqrq());
-        holder.companynameMyloanTv.setText(data.getDecoCompany());
-        holder.banknameMyloanTv.setText(data.getLoanCompany());
-        holder.applymoneyMyloanTv.setText(data.getLoanAmount() + "万");
-        holder.statusMyloanTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, ApplyScheduleActivity.class));
-            }
-        });
-
-
+        final DecoCompanyItem data = datas.get(position);
+       holder.companyNameTv.setText(data.getCompanyName());
+//        holder.RelativeLayoutItem.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                LoanApplyActivity.companyId=data.getCompanyId();
+//
+//            }
+//        });
     }
 
     @Override
@@ -89,7 +82,7 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
         return datas != null ? datas.size() : 0;
     }
 
-    public void setdatas(List<PersonLoanItem> datas) {
+    public void setdatas(List<DecoCompanyItem> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -97,25 +90,11 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         View rootView;
         MyItemClickListener mListener;
+        @BindView(R.id.companyName_tv)
+        TextView companyNameTv;
+        @BindView(R.id.RelativeLayout_item)
+        LinearLayout RelativeLayoutItem;
 
-        @BindView(R.id.name_myloan_tv)
-        TextView nameMyloanTv;
-        @BindView(R.id.phone_myloan_tv)
-        TextView phoneMyloanTv;
-        @BindView(R.id.applymoney_myloan_tv)
-        TextView applymoneyMyloanTv;
-        @BindView(R.id.status_myloan_tv)
-        TextView statusMyloanTv;
-        @BindView(R.id.bankname_myloan_tv)
-        TextView banknameMyloanTv;
-        @BindView(R.id.date_myloan_tv)
-        TextView dateMyloanTv;
-        @BindView(R.id.companyname_myloan_tv)
-        TextView companynameMyloanTv;
-        @BindView(R.id.template_item_lin)
-        LinearLayout templateItemLin;
-        @BindView(R.id.recommendPerson_myloan_tv)
-        TextView recommendPersonMyloanTv;
 
         ViewHolder(View view, MyItemClickListener listener) {
             super(view);

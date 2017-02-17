@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
-import com.bf.zxd.zhuangxudai.pojo.YysqItem;
+import com.bf.zxd.zhuangxudai.pojo.PersonYyItem;
 
 import java.util.List;
 
@@ -22,8 +22,9 @@ import butterknife.ButterKnife;
 
 public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdapter.ViewHolder> {
 
-    List<YysqItem> datas;
+    List<PersonYyItem> datas;
     MyItemClickListener mItemClickListener;
+
 
 
     private Context mContext;
@@ -35,7 +36,7 @@ public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdap
         return R.layout.myappointment_item;
     }
 
-    public MyAppointmentAdapter(List<YysqItem> datas, Context mContext) {
+    public MyAppointmentAdapter(List<PersonYyItem> datas, Context mContext) {
         this.mContext = mContext;
         this.datas = datas;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -65,24 +66,28 @@ public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final YysqItem data = datas.get(position);
-        holder.addressMyappointmentTv.setText(data.getUnit_addr());
-        holder.areastyleMyappointmentTv.setText((data.getHouseType()+"*"+data.getArea()));
-        holder.companynameMyappointmentTv.setText(data.getCompany_name());
-        holder.dataMyappointmentTv.setText(data.getSq_date());
-        holder.nameMyappointmentTv.setText(data.getFull_name());
-        holder.phoneMyappointmentTv.setText(data.getPhone());
+        final PersonYyItem data = datas.get(position);
+        holder.nameMyappointmentTv.setText(data.getProposer());
+        holder.phoneMyappointmentTv.setText(data.getTel());
+        holder.companynameMyappointmentTv.setText(data.getDecoCompany());
+        holder.dataMyappointmentTv.setText(data.getSqrq());
+        holder.applicationProgressMyappointmentTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
     }
 
     @Override
     public int getItemCount() {
-//        Log.i("Daniel","---datas.size()---"+datas.size());
+        //        Log.i("Daniel","---datas.size()---"+datas.size());
         return datas != null ? datas.size() : 0;
     }
 
-    public void setdatas(List<YysqItem> datas) {
+    public void setdatas(List<PersonYyItem> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -90,19 +95,16 @@ public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdap
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         View rootView;
         MyItemClickListener mListener;
-
         @BindView(R.id.name_myappointment_tv)
         TextView nameMyappointmentTv;
+        @BindView(R.id.applicationProgress_myappointment_tv)
+        TextView applicationProgressMyappointmentTv;
         @BindView(R.id.phone_myappointment_tv)
         TextView phoneMyappointmentTv;
-        @BindView(R.id.address_myappointment_tv)
-        TextView addressMyappointmentTv;
         @BindView(R.id.companyname_myappointment_tv)
         TextView companynameMyappointmentTv;
         @BindView(R.id.data_myappointment_tv)
         TextView dataMyappointmentTv;
-        @BindView(R.id.areastyle_myappointment_tv)
-        TextView areastyleMyappointmentTv;
         @BindView(R.id.template_item_lin)
         LinearLayout templateItemLin;
 

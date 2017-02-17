@@ -9,7 +9,8 @@ import android.view.View;
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.YysqItem;
+import com.bf.zxd.zhuangxudai.pojo.NewUser;
+import com.bf.zxd.zhuangxudai.pojo.PersonYyItem;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import hugo.weaving.DebugLog;
+import io.realm.Realm;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,6 +32,7 @@ public class MyAppointmentActivity extends BaseActivity {
     RecyclerView recyclerviewMyAppointment;
     private Unbinder mUnbinder;
     private CompositeSubscription mCompositeSubscription;
+    private Realm realm;
 
 
     @Override
@@ -42,10 +45,10 @@ public class MyAppointmentActivity extends BaseActivity {
 
 
     private void getYysqItem() {
-        Subscription Subscription_getYysqItem = NetWork.getZxService().getYysqItem()
+        Subscription Subscription_getYysqItem = NetWork.getNewZXD1_4Service().getPersonYyItem(realm.where(NewUser.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<YysqItem>>() {
+                .subscribe(new Observer<List<PersonYyItem>>() {
                     @Override
                     public void onCompleted() {
 
@@ -59,14 +62,14 @@ public class MyAppointmentActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(List<YysqItem> yysqItems) {
+                    public void onNext(List<PersonYyItem> yysqItems) {
                         setAdapter(yysqItems);
                     }
                 });
         mCompositeSubscription.add(Subscription_getYysqItem);
     }
 
-    private void setAdapter(final List<YysqItem> yysqItems) {
+    private void setAdapter(final List<PersonYyItem> yysqItems) {
         //init context view
         recyclerviewMyAppointment.setLayoutManager(new LinearLayoutManager(this));
         MyAppointmentAdapter myAppointmentAdapter = new MyAppointmentAdapter(yysqItems, this);
@@ -78,6 +81,7 @@ public class MyAppointmentActivity extends BaseActivity {
     public void initView() {
         setContentView(R.layout.activity_my_appointment);
         mUnbinder = ButterKnife.bind(this);
+        realm = Realm.getDefaultInstance();
         setToolBar();
 
     }

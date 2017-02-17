@@ -9,8 +9,8 @@ import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.customview.AutoHeightLayoutManager;
 import com.bf.zxd.zhuangxudai.network.NetWork;
-import com.bf.zxd.zhuangxudai.pojo.DksqItem;
 import com.bf.zxd.zhuangxudai.pojo.NewUser;
+import com.bf.zxd.zhuangxudai.pojo.PersonLoanItem;
 import com.bf.zxd.zhuangxudai.util.Utils;
 
 import java.util.List;
@@ -56,10 +56,10 @@ public class MyLoanActivity extends BaseActivity {
     }
 
     private void getDksqItem() {
-        Subscription Subscription_getDksqItem = NetWork.getZxService().getDksqItem(realm.where(NewUser.class).findFirst().getUserId())
+        Subscription Subscription_getDksqItem = NetWork.getNewZXD1_4Service().getPersonLoanItem(realm.where(NewUser.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<DksqItem>>() {
+                .subscribe(new Observer<List<PersonLoanItem>>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -71,18 +71,18 @@ public class MyLoanActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(List<DksqItem> dksqItems) {
-                        setAdapter(dksqItems);
+                    public void onNext(List<PersonLoanItem> PersonLoanItems) {
+                        setAdapter(PersonLoanItems);
                     }
                 });
         mCompositeSubscription.add(Subscription_getDksqItem);
     }
-    private void setAdapter(final List<DksqItem> dksqItems) {
+    private void setAdapter(final List<PersonLoanItem> PersonLoanItems) {
         //init context view
         recyclerviewMyLoan.setLayoutManager(new AutoHeightLayoutManager(this));
 //        recyclerviewZxgongsi.addItemDecoration(new RecycleViewDivider(
 //                this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
-        MyLoanAdapter myLoanAdapter = new MyLoanAdapter(dksqItems, this);
+        MyLoanAdapter myLoanAdapter = new MyLoanAdapter(PersonLoanItems, this);
         recyclerviewMyLoan.setAdapter(myLoanAdapter);
 
     }
