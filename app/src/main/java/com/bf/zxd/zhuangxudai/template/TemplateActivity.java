@@ -277,7 +277,12 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && event.getRepeatCount() == 0) {
             if (!baseToolBar.getTitle().equals("")) {
-                changeFragmentByTAG(CHANGE_IMG_FRAGMENT, 1);
+                //切换fragment
+                if(imgAddress.size()==0){
+                    onBackPressed();
+                }else {
+                    changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT, 1);
+                }
             } else {
                 onBackPressed();
             }
