@@ -12,6 +12,7 @@ public class ApplyScheduleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ((BaseApplication)getApplication()).addActivity(this);
         setContentView(R.layout.activity_apply_schedule);
                 VerticalStepViewReverseFragment mVerticalStepViewFragment = new VerticalStepViewReverseFragment();

@@ -5,6 +5,7 @@ import android.text.Html;
 import com.bf.zxd.zhuangxudai.pojo.ApplyPersonAsset;
 import com.bf.zxd.zhuangxudai.pojo.ApplyPersonBase;
 import com.bf.zxd.zhuangxudai.pojo.ApplyPersonWork;
+import com.bf.zxd.zhuangxudai.pojo.ApplyStatusItem;
 import com.bf.zxd.zhuangxudai.pojo.Comments;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyDetail;
@@ -17,6 +18,8 @@ import com.bf.zxd.zhuangxudai.pojo.JzhdItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyItem;
 import com.bf.zxd.zhuangxudai.pojo.LoanTypes;
+import com.bf.zxd.zhuangxudai.pojo.PersonLoanItem;
+import com.bf.zxd.zhuangxudai.pojo.PersonYyItem;
 import com.bf.zxd.zhuangxudai.pojo.MyCollection;
 import com.bf.zxd.zhuangxudai.pojo.Recommends;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
@@ -312,6 +315,27 @@ public interface NewZXD1_4Service {
     @POST("saveZxyy")
     Observable<ResuleInfo> saveZxyy(@Field("fromUserId ") Integer  fromUserId, @Field("toCompanyId") Integer toCompanyId, @Field("proposer") String proposer, @Field("tel") String tel, @Field("addr") String addr, @Field("area") int area, @Field("houseArea") int houseArea, @Field("houseType") int houseType);
 
+    /**
+     * 获取我的贷款
+     * @return
+     */
+    @GET("getPersonLoanItem/{userId}")
+    Observable<List<PersonLoanItem>> getPersonLoanItem(@Path("userId") int userId);
+
+    /**
+     * 获取我的预约
+     * @return
+     */
+    @GET("getPersonYyItem/{userId}")
+    Observable<List<PersonYyItem>> getPersonYyItem(@Path("userId") int userId);
+
+
+    /**
+     * 申请进度
+     * @return
+     */
+    @GET("getApplyStatusItem/{applyType}/{applyId}")
+    Observable<List<ApplyStatusItem>> getApplyStatusItem(@Path("applyType") int applyType, @Path("applyId") int applyId);
     /**
      * 获取我的收藏
      * @return

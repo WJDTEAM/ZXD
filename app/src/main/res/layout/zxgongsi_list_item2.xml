@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/RelativeLayout_item"
+    >
+    <TextView
+        android:id="@+id/companyName_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/mediumxsp"
+        android:textColor="@color/black"
+        android:padding="@dimen/smallmdp"
+        android:text="上海公司"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tinymdp"
+        android:layout_marginLeft="@dimen/smallmdp"
+        android:layout_marginRight="@dimen/smallmdp"
+        android:background="@drawable/recylist_item_line_shap"
+        />
+
+
+</LinearLayout>

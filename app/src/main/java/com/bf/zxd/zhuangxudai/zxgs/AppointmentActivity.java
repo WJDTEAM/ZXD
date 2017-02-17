@@ -436,9 +436,7 @@ public class AppointmentActivity extends BaseActivity {
         Log.e("Daniel","---areaNum---"+areaNum);
         Log.e("Daniel","---houseTypeNum---"+houseTypeNum);
         Log.e("Daniel","---houseStyleNum---"+houseStyleNum);
-
-
-
+        
         NetWork.getZxService().saveZxyy(userId,CompanyId,_full_name, _phone , _address, areaNum, houseTypeNum, houseStyleNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

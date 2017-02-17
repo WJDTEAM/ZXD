@@ -1,6 +1,8 @@
 package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -17,6 +19,7 @@ import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.Login.LoginActivity;
 import com.bf.zxd.zhuangxudai.Login.LoginHelper;
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.User.ChooseCompanyActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.ApplyLoan;
 import com.bf.zxd.zhuangxudai.pojo.LoanCompanyDetail;
@@ -26,6 +29,7 @@ import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithLoanInfoId;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
 import com.bf.zxd.zhuangxudai.pojo.zxgs_wjd;
+import com.bf.zxd.zhuangxudai.util.BitmapDeleteNoUseSpaceUtil;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
@@ -99,7 +103,8 @@ public class LoanApplyActivity extends BaseActivity {
     TextView textView;
     private int mSex = 1;
 
-    public static int companyId = 0;
+    public static int companyId = -1;
+    public static String mCompanyName = "";
     public static int bankId = -1;
     Zxgs mZxgs;
     public RecommendBank mRecommendBank;
@@ -160,6 +165,7 @@ public class LoanApplyActivity extends BaseActivity {
         setContentView(R.layout.activity_loan);
         ButterKnife.bind(this);
         setToolBar();
+        Log.i("gqf", "activity_loan");
         mcompositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
         initApplyFor();
@@ -188,7 +194,18 @@ public class LoanApplyActivity extends BaseActivity {
 
     }
 
+    public void initCompanyMsg() {
+//        companyName.setText("装修公司");
+//        chooseCompany.setText("选择装修公司");
+        if (companyId !=-1) {
+            companyName.setText(mCompanyName);
+            chooseCompany.setText("点击更换公司");
 
+        } else {
+            companyName.setText("装修公司");
+            chooseCompany.setText("点击选择公司");
+        }
+    }
 
     public void initBank() {
         if (mZxd != null) {
@@ -303,7 +320,9 @@ public class LoanApplyActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.choose_company:
                 //选择公司
-                getZxgsItem();
+//                getZxgsItem();
+
+                startActivity(new Intent(LoanApplyActivity.this, ChooseCompanyActivity.class));
 
                 break;
         }
@@ -440,6 +459,7 @@ public class LoanApplyActivity extends BaseActivity {
 
 
     }
+
 
 
     @Override
