@@ -98,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
         EventBus.getDefault().register(this);
         realm = Realm.getDefaultInstance();
         mcompositeSubscription = new CompositeSubscription();
+
+
+
         setContent(CONTENT_HOME);
         //设置底部栏
         initBottomBar();

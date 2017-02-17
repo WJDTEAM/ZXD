@@ -22,6 +22,17 @@ public class NewUser extends RealmObject {
     private String nickname;
     private String logoImg;
 
+    @Override
+    public String toString() {
+        return "NewUser{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", logoImg='" + logoImg + '\'' +
+                '}';
+    }
+
     public int getUserId() {
         return userId;
     }

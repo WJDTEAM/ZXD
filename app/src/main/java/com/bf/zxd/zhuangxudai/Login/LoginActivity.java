@@ -17,6 +17,7 @@ import com.bf.zxd.zhuangxudai.application.BaseApplication;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.NewUser;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithUser;
+import com.bf.zxd.zhuangxudai.pojo.UserWithNameAndPassword;
 import com.bf.zxd.zhuangxudai.util.SettingsUtils;
 import com.blankj.utilcode.utils.ScreenUtils;
 import com.jakewharton.rxbinding.view.RxView;
@@ -87,6 +88,7 @@ public class LoginActivity extends BaseActivity {
         //        }
         compositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
+
         initLoginSetting();
         initLogin();
         initLoginBt();
@@ -138,10 +140,10 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void call(Boolean aBoolean) {
                         SettingsUtils.setPrefRememberPassword(getApplicationContext(), aBoolean);
-                        if (aBoolean == false) {
-                            //                            loginAutoLogin.setChecked(false);
-                            SettingsUtils.setPrefAutoLogin(getApplicationContext(), aBoolean);
-                        }
+//                        if (aBoolean == false) {
+//                            //                            loginAutoLogin.setChecked(false);
+//                            SettingsUtils.setPrefAutoLogin(getApplicationContext(), aBoolean);
+//                        }
                     }
                 });
         //        RxCompoundButton.checkedChanges(loginAutoLogin)
@@ -157,17 +159,17 @@ public class LoginActivity extends BaseActivity {
         //                    }
         //                });
         if (SettingsUtils.isRememberPassword(getApplicationContext())) {
-            NewUser userInfo = realm.where(NewUser.class).findFirst();
+            UserWithNameAndPassword userInfo = realm.where(UserWithNameAndPassword.class).findFirst();
+            Log.i("gqf","SettingsUtils");
             if (userInfo != null) {
+                Log.i("gqf",userInfo.toString());
                 name = userInfo.getUserName();
                 BaseApplication.username = name;
-                password = userInfo.getPassword();
+                password = userInfo.getPassWord();
                 loginNameEt.setText(name);
                 loginPasswordEt.setText(password);
                 loginBt.setEnabled(true);
-                if (SettingsUtils.isAutoLogin(getApplicationContext())) {
-                    doLogin();
-                }
+
             }
         }
 
@@ -296,6 +298,25 @@ public class LoginActivity extends BaseActivity {
                             userInfo.setUserName(name);
                             realm.copyToRealmOrUpdate(userInfo);
                             realm.commitTransaction();
+
+
+                            UserWithNameAndPassword nameAndPassword;
+                            if(realm.where(UserWithNameAndPassword.class).findFirst()!=null){
+                                nameAndPassword=realm.where(UserWithNameAndPassword.class).findFirst();
+                                realm.beginTransaction();
+                                nameAndPassword.deleteFromRealm();
+                                realm.commitTransaction();
+                            }else{
+                                nameAndPassword=new UserWithNameAndPassword();
+                            }
+                            nameAndPassword.setUserId(userInfo.getUserId());
+                            nameAndPassword.setUserName(name);
+                            nameAndPassword.setPassWord(password);
+                            realm.beginTransaction();
+                            realm.copyToRealmOrUpdate(nameAndPassword);
+                            realm.commitTransaction();
+
+
                             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                             //startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             isLogin = true;
@@ -312,20 +333,20 @@ public class LoginActivity extends BaseActivity {
         compositeSubscription.add(logSc);
     }
 
-
     boolean isLogin = false;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
-        compositeSubscription.unsubscribe();
+
         if (activity != null) {
             if (realm.where(NewUser.class).findFirst() != null && isLogin) {
                 loginHelper.changeActivity(activity);
             }
             activity = null;
         }
+        realm.close();
+        compositeSubscription.unsubscribe();
     }
 
 
@@ -333,4 +354,23 @@ public class LoginActivity extends BaseActivity {
     public void onClick() {
         startActivity(new Intent(LoginActivity.this, RegistActivity.class));
     }
+//    myRealm.where(Article.class)
+//            //articleName 字段 以职场动态 开头
+//            .beginsWith("articleName","职场动态")
+//    //age 字段在1~6之间的
+//    .between("age",1,6)
+//    //name 字段包含 fancy的
+//    .contains("name","fancy")
+//    //对articleName 去重
+//    .distinct("articleName")
+//    //age 总共
+//    .sum("age")
+//    //最大
+//    .max()
+//    //数量
+//    .count()
+//    //平均值
+//    .average()
+//    //按照type字段排序
+//    .findAllSorted("type");
 }
