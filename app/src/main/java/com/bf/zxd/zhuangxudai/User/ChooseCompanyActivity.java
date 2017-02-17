@@ -5,8 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,6 +17,7 @@ import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,8 +33,6 @@ public class ChooseCompanyActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.btnSearch)
-    Button btnSearch;
     @BindView(R.id.etSearch)
     EditText etSearch;
     @BindView(R.id.ivDeleteText)
@@ -52,6 +52,7 @@ public class ChooseCompanyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_company);
         ButterKnife.bind(this);
         mCompositeSubscription = new CompositeSubscription();
+        setToolBar();
         Subscription Subscription_getZxglItem = NetWork.getNewZXD1_4Service().getDecoCompanyItem()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -73,15 +74,30 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                 });
         mCompositeSubscription.add(Subscription_getZxglItem);
     }
+    private void setToolBar() {
+        toolbar.setTitle("选择公司");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setNavigationIcon(R.drawable.barcode__back_arrow);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
-    private void setAdapter(final List<DecoCompanyItem> decoCompanyItems) {
+    }
+
+    ZxgsItemAdapter zxgsAdapter;
+    List<DecoCompanyItem> decoCompanyItems;
+    private void setAdapter( List<DecoCompanyItem> decoCompanyItes) {
+        decoCompanyItems=decoCompanyItes;
         //init context view
         recyclerviewFragmentHome.setLayoutManager(new LinearLayoutManager(this));
         //        recyclerviewZxgongsi.addItemDecoration(new RecycleViewDivider(
         //                this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
-        ZxgsItemAdapter zxgsAdapter = new ZxgsItemAdapter(decoCompanyItems, this);
+        zxgsAdapter = new ZxgsItemAdapter(decoCompanyItems, this);
         recyclerviewFragmentHome.setAdapter(zxgsAdapter);
-
         zxgsAdapter.setOnItemClickListener(new ZxgsItemAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
@@ -90,15 +106,44 @@ public class ChooseCompanyActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        initEdi();
 
     }
+    public void initEdi(){
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-    @OnClick({R.id.btnSearch, R.id.etSearch, R.id.ivDeleteText, R.id.rlSearchFrameDelete, R.id.top})
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!editable.toString().equals("")) {
+                    List<DecoCompanyItem> decoCompanyItemList = new ArrayList<DecoCompanyItem>();
+                    for (DecoCompanyItem decoCompanyItem : decoCompanyItems) {
+                        if(editable.toString().contains(decoCompanyItem.getCompanyName())){
+                            decoCompanyItemList.add(decoCompanyItem);
+                        }else if(decoCompanyItem.getCompanyName().contains(editable.toString())){
+                            decoCompanyItemList.add(decoCompanyItem);
+                        }
+                    }
+                    zxgsAdapter.setdatas(decoCompanyItemList);
+                }else{
+                    zxgsAdapter.setdatas(decoCompanyItems);
+                }
+
+            }
+        });
+    }
+
+    @OnClick({ R.id.etSearch, R.id.ivDeleteText, R.id.rlSearchFrameDelete, R.id.top})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnSearch:
-                break;
             case R.id.etSearch:
                 break;
             case R.id.ivDeleteText:

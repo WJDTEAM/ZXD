@@ -86,6 +86,9 @@ public class ZxgsItemAdapter extends RecyclerView.Adapter<ZxgsItemAdapter.ViewHo
         this.datas = datas;
         notifyDataSetChanged();
     }
+    public List<DecoCompanyItem> getData(){
+        return datas;
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         View rootView;

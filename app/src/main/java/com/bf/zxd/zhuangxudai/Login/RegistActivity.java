@@ -80,7 +80,7 @@ public class RegistActivity extends AppCompatActivity {
                     @DebugLog
                     @Override
                     public void onNext(ResultCodeWithUser registResult) {
-
+                        registBt.setEnabled(true);
                         if ((registResult.getCode() == 10001)) {
                             //                            Log.e("Daniel","---userRequestResult.getT().getPassword()----"+userRequestResult.getT().getTel());
                             RegistSuccessDialogFragment registSuccessDialogFragment = new RegistSuccessDialogFragment();
@@ -95,7 +95,7 @@ public class RegistActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(RegistActivity.this, "" + registResult.getMsg(), Toast.LENGTH_SHORT).show();
                         }
-                        registBt.setEnabled(true);
+
                         codeMsg = "";
                     }
                 });

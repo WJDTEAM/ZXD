@@ -260,6 +260,7 @@ public class LoginActivity extends BaseActivity {
 
     private void doLogin() {
         Log.i("gqf", name + password);
+        loginBt.setEnabled(false);
         Subscription logSc = NetWork.getNewZXD1_4Service().login(name, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -279,6 +280,7 @@ public class LoginActivity extends BaseActivity {
                     @DebugLog
                     @Override
                     public void onNext(ResultCodeWithUser loginResult) {
+                        loginBt.setEnabled(true);
                         Log.e("Daniel", loginResult.toString());
                         NewUser userInfo = loginResult.getUser();
                         if (loginResult.getCode() != 10001) {
@@ -306,13 +308,12 @@ public class LoginActivity extends BaseActivity {
                                 realm.beginTransaction();
                                 nameAndPassword.deleteFromRealm();
                                 realm.commitTransaction();
-                            }else{
-                                nameAndPassword=new UserWithNameAndPassword();
                             }
+                            realm.beginTransaction();
+                            nameAndPassword=new UserWithNameAndPassword();
                             nameAndPassword.setUserId(userInfo.getUserId());
                             nameAndPassword.setUserName(name);
                             nameAndPassword.setPassWord(password);
-                            realm.beginTransaction();
                             realm.copyToRealmOrUpdate(nameAndPassword);
                             realm.commitTransaction();
 

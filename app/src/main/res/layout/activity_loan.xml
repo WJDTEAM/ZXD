@@ -419,43 +419,14 @@
                 android:layout_gravity="center"
                 />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:orientation="horizontal"
-            >
-            <TextView
 
-                android:text="推荐人："
-                style="@style/apply_for_text_style"
-                android:layout_width="0dp"
-                android:layout_weight="0.5"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                />
-            <EditText
-                android:id="@+id/loan_referrer_edi"
-                style="@style/apply_for_edi_style"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="       "
-                android:gravity="center"
-                android:textSize="@dimen/mediumxsp"
-                android:textColor="@color/black"
-                android:layout_gravity="center"
-                />
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/company_name"
-                android:text="装修公司"
+                android:text="装修公司："
                 android:gravity="center_vertical|left"
                 style="@style/apply_for_text_style"
                 android:layout_width="0dp"
@@ -493,7 +464,7 @@
             >
             <TextView
                 android:id="@+id/recommendPerson_name"
-                android:text="推荐人"
+                android:text="推荐人："
                 android:paddingRight="@dimen/mediummdp"
                 style="@style/apply_for_text_style"
                 android:layout_width="0dp"
@@ -511,11 +482,11 @@
                 android:checked="false"/>
 
             <EditText
-                android:id="@+id/store_name_edi"
+                android:id="@+id/loan_referrer_edi"
                 style="@style/apply_for_edi_style"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:hint="输入编码"
+                android:hint="输入推荐人编码"
 
                 />
         </LinearLayout>

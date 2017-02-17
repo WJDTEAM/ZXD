@@ -1,14 +1,14 @@
 package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,15 +28,12 @@ import com.bf.zxd.zhuangxudai.pojo.RecommendBank;
 import com.bf.zxd.zhuangxudai.pojo.ResultCodeWithLoanInfoId;
 import com.bf.zxd.zhuangxudai.pojo.Zxgs;
 import com.bf.zxd.zhuangxudai.pojo.dksqinfo;
-import com.bf.zxd.zhuangxudai.pojo.zxgs_wjd;
-import com.bf.zxd.zhuangxudai.util.BitmapDeleteNoUseSpaceUtil;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,6 +49,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func3;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+
+import static com.bf.zxd.zhuangxudai.R.id.loan_referrer_edi;
 
 public class LoanApplyActivity extends BaseActivity {
 
@@ -95,15 +94,21 @@ public class LoanApplyActivity extends BaseActivity {
     EditText loanUseforEdi;
     @BindView(R.id.makeLoadDays_txt)
     TextView makeLoadDays_txt;
-    @BindView(R.id.loan_referrer_edi)
+    @BindView(loan_referrer_edi)
     EditText loanReferrerEdi;
     @BindView(R.id.bankpic_img2)
     ImageView bankpicImg2;
     @BindView(R.id.textView)
     TextView textView;
+    @BindView(R.id.cb_st)
+    CheckBox cbSt;
+    @BindView(R.id.recommendPerson_name_cb)
+    CheckBox recommendPersonNameCb;
+    @BindView(R.id.recommendPerson_name)
+    TextView recommendPersonName;
     private int mSex = 1;
 
-    public static int companyId = -1;
+    public static int companyId = 0;
     public static String mCompanyName = "";
     public static int bankId = -1;
     Zxgs mZxgs;
@@ -117,7 +122,31 @@ public class LoanApplyActivity extends BaseActivity {
     public void initDate() {
 
 
+    }
 
+    public void initCheckBox() {
+        cbSt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    chooseCompany.setVisibility(View.INVISIBLE);
+                    companyId = 0;
+                } else {
+                    chooseCompany.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        recommendPersonNameCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    loanReferrerEdi.setVisibility(View.INVISIBLE);
+                    loanReferrerEdi.setText("");
+                } else {
+                    loanReferrerEdi.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
 
@@ -134,13 +163,13 @@ public class LoanApplyActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("gqf","onError"+e.getMessage());
+                        Log.i("gqf", "onError" + e.getMessage());
                     }
 
                     @Override
                     public void onNext(LoanCompanyDetail loanCompanyDetail) {
                         mZxd = loanCompanyDetail;
-                        Log.i("gqf","onNext"+mZxd.toString());
+                        Log.i("gqf", "onNext" + mZxd.toString());
                         initBank();
                     }
                 });
@@ -169,9 +198,9 @@ public class LoanApplyActivity extends BaseActivity {
         mcompositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
         initApplyFor();
-        //initCompanyMsg();
-        getBankDetail();
 
+        getBankDetail();
+        initCheckBox();
     }
 
 
@@ -194,17 +223,12 @@ public class LoanApplyActivity extends BaseActivity {
 
     }
 
-    public void initCompanyMsg() {
-//        companyName.setText("装修公司");
-//        chooseCompany.setText("选择装修公司");
-        if (companyId !=-1) {
-            companyName.setText(mCompanyName);
-            chooseCompany.setText("点击更换公司");
 
-        } else {
-            companyName.setText("装修公司");
-            chooseCompany.setText("点击选择公司");
-        }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     public void initBank() {
@@ -254,7 +278,7 @@ public class LoanApplyActivity extends BaseActivity {
         Double d2 = Double.parseDouble(mZxd.getMaxMoney() + "");
         Double d3 = Double.parseDouble(mZxd.getMinMoney() + "");
 
-        Log.i("gqf", "onClick" + d1 + "onClick" + d2 + "onClick" + d3);
+        Log.i("gqf", "onClick" + cbSt.isChecked() + "onClick" + loanReferrerEdi.getText().toString() + "onClick" + d3);
 
         if (d1 < d3) {
             Toast.makeText(getApplicationContext(), "您所申请的金额不符合银行规定", Toast.LENGTH_SHORT).show();
@@ -264,6 +288,10 @@ public class LoanApplyActivity extends BaseActivity {
         } else if (((Integer.parseInt(loanTimeEdi.getText().toString()) < Integer.parseInt(mZxd.getMinCycle() + "")
                 && Integer.parseInt(loanTimeEdi.getText().toString()) > Integer.parseInt(mZxd.getMaxCycle() + "")))) {
             Toast.makeText(getApplicationContext(), "您所申请的还款时间不符合银行规定", Toast.LENGTH_SHORT).show();
+        } else if (!cbSt.isChecked() && companyId <= 0) {
+            Toast.makeText(getApplicationContext(), "当前没有选择公司，无公司请取消选择", Toast.LENGTH_SHORT).show();
+        } else if (!recommendPersonNameCb.isChecked() && loanReferrerEdi.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "当前没有推荐人，无推荐人请取消选择", Toast.LENGTH_SHORT).show();
         } else {
             isApply = true;
             boolean isLogin = initLogin();
@@ -288,6 +316,11 @@ public class LoanApplyActivity extends BaseActivity {
             applyFor();
         } else {
             isApply = false;
+        }
+        if(companyId>0){
+            chooseCompany.setText("已选择公司");
+        }else{
+            chooseCompany.setText("点击选择公司");
         }
 
 
@@ -320,7 +353,7 @@ public class LoanApplyActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.choose_company:
                 //选择公司
-//                getZxgsItem();
+                //                getZxgsItem();
 
                 startActivity(new Intent(LoanApplyActivity.this, ChooseCompanyActivity.class));
 
@@ -330,42 +363,6 @@ public class LoanApplyActivity extends BaseActivity {
 
     private String[] mCompanyDatas;
     private HashMap<String, Integer> map;
-
-    private void getZxgsItem() {
-        Subscription subscription_getZxgsItem = NetWork.getZxService().getZxgsItem()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<zxgs_wjd>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<zxgs_wjd> zxgs_wjds) {
-                        int _length = zxgs_wjds.size();
-                        mCompanyDatas = new String[_length];
-                        map = new HashMap();
-                        for (int i = 0; i < _length; i++) {
-                            zxgs_wjd _company = zxgs_wjds.get(i);
-                            mCompanyDatas[i] = _company.getZxgs_name();
-
-                            map.put(_company.getZxgs_name(), _company.getZxgs_id());
-
-                        }
-
-                        onOptionPicker(mCompanyDatas);
-
-                    }
-                });
-        mcompositeSubscription.add(subscription_getZxgsItem);
-
-    }
 
 
     /**
@@ -418,7 +415,6 @@ public class LoanApplyActivity extends BaseActivity {
      */
     //提交信息,并跳转页面
     public void applyFor() {
-        //realm.where(User.class).findFirst().getUserId()  loan
         ApplyLoan applyLoan = new ApplyLoan();
         applyLoan.setFromUserId(realm.where(NewUser.class).findFirst().getUserId());
         applyLoan.setToLoanCompanyId(bankId);
@@ -459,7 +455,6 @@ public class LoanApplyActivity extends BaseActivity {
 
 
     }
-
 
 
     @Override
