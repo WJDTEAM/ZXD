@@ -99,6 +99,7 @@ public class TemplateDetailsFragment extends Fragment {
                 mListener.startActivity(CommentsActivity.class);
                 break;
             case R.id.below_txt:
+                Log.i("gqf","decoCompanyYbjDetail"+decoCompanyYbjDetail.toString());
                 mListener.setCompanyId(decoCompanyYbjDetail.getCompanyId());
                 mListener.startActivity(ZxgsDetailActivity.class);
                 break;
@@ -194,19 +195,19 @@ public class TemplateDetailsFragment extends Fragment {
 
     public void initSliderLayout(List<String> imgs) {
         TextSliderView textSliderView1 = new TextSliderView(this.getActivity());
-        textSliderView1.image(imgs.get(imgs.size() - 1));
+        textSliderView1.image(decoCompanyYbjDetail.getThumbnails());
 
         textSliderView1.description("新品推荐");
         slider.addSlider(textSliderView1);
         if (imgs.size() > 2) {
             TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
-            textSliderView2.image(imgs.get(imgs.size() - 2));
+            textSliderView2.image(imgs.get(imgs.size() - 1));
             textSliderView2.description("收藏最多");
             slider.addSlider(textSliderView2);
         }
         if (imgs.size() > 3) {
             TextSliderView textSliderView2 = new TextSliderView(this.getActivity());
-            textSliderView2.image(imgs.get(imgs.size() - 3));
+            textSliderView2.image(imgs.get(imgs.size() - 2));
             textSliderView2.description("流行样板");
             slider.addSlider(textSliderView2);
         }
@@ -245,6 +246,7 @@ public class TemplateDetailsFragment extends Fragment {
                     public void onNext(DecoCompanyYbjDetail zxgs) {
                         Log.i("gqf", "mListener" + zxgs.toString());
                         decoCompanyYbjDetail=zxgs;
+                        mListener.setCompanyId(decoCompanyYbjDetail.getCompanyId());
                         initYBJView(zxgs);
                     }
                 });

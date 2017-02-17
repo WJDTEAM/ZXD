@@ -16,7 +16,7 @@
 
     <!--首页-->
     <string name="firstPage">首页</string>
-    <string name="home_title">房钱</string>
+    <string name="home_title">找了吗装修贷款</string>
     <string name="ZXGL">装修攻略</string>
     <string name="DKHD">贷款活动</string>
     <string name="JZZT">家装活动</string>
@@ -28,6 +28,7 @@
     <!--装修贷-->
     <string name="loan">贷款</string>
     <string name="Allloan">全部贷款</string>
+    <string name="zxd">贷款</string>
     <!--我的-->
     <string name="my">我的</string>
     <string name="myLoan">我的贷款</string>

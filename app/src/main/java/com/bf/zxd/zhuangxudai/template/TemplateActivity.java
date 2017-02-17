@@ -368,6 +368,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
             case R.id.template_loan_lin:
                 if (LoanApplyActivity.bankId > 0) {
                     LoanApplyActivity.companyId=compId;
+                    Log.i("gqf","compId"+compId);
                     startActivity(new Intent(TemplateActivity.this, LoanApplyActivity.class));
                 } else {
                     MainActivity.isBottom2 = true;
@@ -376,6 +377,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                 break;
             case R.id.template_subscribe_lin:
                 AppointmentActivity.CompanyId=compId;
+                Log.i("gqf","compId"+compId);
                 Intent _intent = new Intent(TemplateActivity.this, AppointmentActivity.class);
                 startActivity(new Intent(_intent));
                 break;
