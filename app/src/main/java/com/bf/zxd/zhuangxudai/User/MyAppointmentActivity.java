@@ -33,11 +33,13 @@ public class MyAppointmentActivity extends BaseActivity {
     private Unbinder mUnbinder;
     private CompositeSubscription mCompositeSubscription;
     private Realm realm;
+    private NewUser mNewuser;
 
 
     @Override
     public void initDate() {
         mCompositeSubscription = new CompositeSubscription();
+        realm = Realm.getDefaultInstance();
         getYysqItem();
 
     }
@@ -45,7 +47,7 @@ public class MyAppointmentActivity extends BaseActivity {
 
 
     private void getYysqItem() {
-        Subscription Subscription_getYysqItem = NetWork.getNewZXD1_4Service().getPersonYyItem(realm.where(NewUser.class).findFirst().getUserId())
+        Subscription Subscription_getYysqItem = NetWork.getNewZXD1_4Service().getPersonYyItem( realm.where(NewUser.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<PersonYyItem>>() {
@@ -81,7 +83,6 @@ public class MyAppointmentActivity extends BaseActivity {
     public void initView() {
         setContentView(R.layout.activity_my_appointment);
         mUnbinder = ButterKnife.bind(this);
-        realm = Realm.getDefaultInstance();
         setToolBar();
 
     }

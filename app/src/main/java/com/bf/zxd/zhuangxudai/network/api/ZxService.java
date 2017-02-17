@@ -105,7 +105,7 @@ public interface ZxService {
      */
     @FormUrlEncoded
     @POST("saveZxyy")
-    Observable<ResuleInfo> saveZxyy(@Field("fromUserId ") Integer  fromUserId, @Field("toCompanyId") Integer toCompanyId, @Field("proposer") String proposer, @Field("tel") String tel, @Field("addr") String addr, @Field("area") int area, @Field("houseArea") int houseArea, @Field("houseType") int houseType);
+        Observable<ResuleInfo> saveZxyy(@Field("fromUserId ") Integer  fromUserId, @Field("toCompanyId") Integer toCompanyId, @Field("proposer") String proposer, @Field("tel") String tel, @Field("addr") String addr, @Field("houseArea") String  houseArea, @Field("houseType") String  houseType);
 
 
 //    /**

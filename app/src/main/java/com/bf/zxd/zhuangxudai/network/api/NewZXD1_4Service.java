@@ -310,10 +310,11 @@ public interface NewZXD1_4Service {
      * 预约保存
 
      * @return
+     * zxyy
      */
     @FormUrlEncoded
     @POST("saveZxyy")
-    Observable<ResuleInfo> saveZxyy(@Field("fromUserId ") Integer  fromUserId, @Field("toCompanyId") Integer toCompanyId, @Field("proposer") String proposer, @Field("tel") String tel, @Field("addr") String addr, @Field("area") int area, @Field("houseArea") int houseArea, @Field("houseType") int houseType);
+    Observable<ResuleInfo> saveZxyy(@Field("zxyy") String  zxyy);
 
     /**
      * 获取我的贷款
@@ -335,7 +336,7 @@ public interface NewZXD1_4Service {
      * @return
      */
     @GET("getApplyStatusItem/{applyType}/{applyId}")
-    Observable<List<ApplyStatusItem>> getApplyStatusItem(@Path("applyType") int applyType, @Path("applyId") int applyId);
+    Observable<List<ApplyStatusItem>> getApplyStatusItem(@Path("applyType") String applyType, @Path("applyId") int applyId);
     /**
      * 获取我的收藏
      * @return
@@ -361,4 +362,6 @@ public interface NewZXD1_4Service {
     @FormUrlEncoded
     @POST("shortMsg/identifyCode")
     Observable<String> shortMsg(@Field("phone") String  phone);
+
+
 }

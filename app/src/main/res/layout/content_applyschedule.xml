@@ -3,7 +3,9 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:gravity="center_vertical"
+              android:id="@+id/linear"
+              android:background="@color/stepView_color"
+              android:paddingRight="@dimen/activity_vertical_margin"
     >
     <LinearLayout
         android:layout_width="0dp"
@@ -12,23 +14,28 @@
         android:orientation="vertical"
         >
         <TextView
+            android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="订单已确认！"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             />
         <TextView
+            android:id="@+id/comments_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="请耐心等待商家确认！"
             android:textSize="@dimen/tinysp"
+            android:textColor="@color/whitesmoke"
             />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/date_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2016-2-55"
+        android:textColor="@color/white"
 
         />
 

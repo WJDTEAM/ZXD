@@ -76,6 +76,8 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
         holder.statusMyloanTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ApplyScheduleActivity.applyType="03";
+                ApplyScheduleActivity.applyId=data.getApplyId();
                 mContext.startActivity(new Intent(mContext, ApplyScheduleActivity.class));
             }
         });

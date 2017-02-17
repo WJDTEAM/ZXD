@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.pojo.ApplyStatusItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,12 @@ public class VerticalStepViewReverseFragment extends Fragment
 {
     View mView;
     private VerticalStepView mSetpview0;
+    private List<ApplyStatusItem> applyStatusItems;
+    List<String> list0;
+
+    public VerticalStepViewReverseFragment(List<ApplyStatusItem> applyStatusItems) {
+        this.applyStatusItems = applyStatusItems;
+    }
 
     @Nullable
     @Override
@@ -35,18 +42,19 @@ public class VerticalStepViewReverseFragment extends Fragment
     {
         super.onStart();
         mSetpview0 = (VerticalStepView) mView.findViewById(R.id.step_view0);
+        int lenth=applyStatusItems.size();
+        if (list0==null){
+            list0 = new ArrayList<>();
+        }
+        for (int i = 0; i < lenth; i++) {
+            list0.add(applyStatusItems.get(i).getComment());
+        }
 
-        List<String> list0 = new ArrayList<>();
-        list0.add("申请已提交！");
-        list0.add("审核成功！");
-        list0.add("审核失败！");
-        list0.add("申请完成！00");
-
-        mSetpview0.setStepsViewIndicatorComplectingPosition(1)//设置完成的步数
+        mSetpview0.setStepsViewIndicatorComplectingPosition(lenth)//设置完成的步数
                 .setStepViewTexts(list0)//总步骤
                 .setTextSize(12)
                 .reverseDraw(false)
-                .setLinePaddingProportion(0.85f)//设置indicator线与线间距的比例系数
+                //设置indicator线与线间距的比例系数
                 .setStepsViewIndicatorCompletedLineColor(ContextCompat.getColor(getActivity(), android.R.color.white))//设置StepsViewIndicator完成线的颜色
                 .setStepsViewIndicatorUnCompletedLineColor(ContextCompat.getColor(getActivity(), R.color.uncompleted_text_color))//设置StepsViewIndicator未完成线的颜色
                 .setStepViewComplectedTextColor(ContextCompat.getColor(getActivity(), android.R.color.white))//设置StepsView text完成线的颜色

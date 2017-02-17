@@ -1,6 +1,7 @@
 package com.bf.zxd.zhuangxudai.User;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,9 @@ public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdap
         holder.applicationProgressMyappointmentTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ApplyScheduleActivity.applyType="03";
+                ApplyScheduleActivity.applyId=data.getApplyId();
+                mContext.startActivity(new Intent(mContext, ApplyScheduleActivity.class));
 
             }
         });

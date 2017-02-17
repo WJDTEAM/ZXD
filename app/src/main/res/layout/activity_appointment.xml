@@ -141,9 +141,7 @@
                     android:layout_height="?actionBarSize"
                     android:enabled="false"
                     android:background="@drawable/apply_for_selector"
-                    android:layout_marginLeft="@dimen/hugemdp"
-                    android:layout_marginRight="@dimen/hugemdp"
-                    android:layout_marginBottom="@dimen/hugemdp"
+
                     android:textColor="@drawable/apply_for_text_color_selector"
                     android:text="提交资料"
                     android:textSize="@dimen/bigsp"

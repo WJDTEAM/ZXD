@@ -16,15 +16,16 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.dialog.CommitDialogFragment;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.picker.AddressPickTask;
+import com.bf.zxd.zhuangxudai.pojo.ApplyDecorate;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyDetail;
 import com.bf.zxd.zhuangxudai.pojo.HouseBaseInfo;
 import com.bf.zxd.zhuangxudai.pojo.NewUser;
 import com.bf.zxd.zhuangxudai.pojo.ResuleInfo;
 import com.bf.zxd.zhuangxudai.util.Phone;
+import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.picasso.Picasso;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func6;
+import rx.functions.Func5;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -70,13 +71,13 @@ public class AppointmentActivity extends BaseActivity {
     @BindView(R.id.address_down_edi)
     EditText addressDownEdi;
     @BindView(R.id.house_area_edi)
-    TextView houseAreaEdi;
+    EditText houseAreaEdi;
     @BindView(R.id.house_type_edi)
-    TextView houseTypeEdi;
+    EditText houseTypeEdi;
     @BindView(R.id.activity_product_exhibition)
     RelativeLayout activityProductExhibition;
-    @BindView(R.id.house_style_edi)
-    TextView houseStyleEdi;
+//    @BindView(R.id.house_style_edi)
+//    TextView houseStyleEdi;
 
     private CompositeSubscription mcompositeSubscription;
     public static int CompanyId=-1;
@@ -257,9 +258,9 @@ public class AppointmentActivity extends BaseActivity {
                     case R.id.house_area_edi:
                         houseAreaEdi.setText(item);
                         break;
-                    case R.id.house_style_edi:
-                        houseStyleEdi.setText(item);
-                        break;
+//                    case R.id.house_style_edi:
+//                        houseStyleEdi.setText(item);
+//                        break;
                     case R.id.house_type_edi:
                         houseTypeEdi.setText(item);
                         break;
@@ -278,17 +279,17 @@ public class AppointmentActivity extends BaseActivity {
         Observable<CharSequence> address = RxTextView.textChanges(addressTv).skip(1);
         Observable<CharSequence> houseArea = RxTextView.textChanges(houseAreaEdi).skip(1);
         Observable<CharSequence> houseType = RxTextView.textChanges(houseTypeEdi).skip(1);
-        Observable<CharSequence> houseStyle = RxTextView.textChanges(houseStyleEdi).skip(1);
-        Observable.combineLatest(userName, phoneNum, address, houseArea, houseType, houseStyle, new Func6<CharSequence, CharSequence, CharSequence, CharSequence, CharSequence, CharSequence, Boolean>() {
+//        Observable<CharSequence> houseStyle = RxTextView.textChanges(houseStyleEdi).skip(1);
+        Observable.combineLatest(userName, phoneNum, address, houseArea, houseType, new Func5<CharSequence, CharSequence, CharSequence, CharSequence, CharSequence, Boolean>() {
             @Override
-            public Boolean call(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, CharSequence charSequence4, CharSequence charSequence5, CharSequence charSequence6) {
+            public Boolean call(CharSequence charSequence, CharSequence charSequence2, CharSequence charSequence3, CharSequence charSequence4, CharSequence charSequence5) {
                 boolean userNameBl = !TextUtils.isEmpty(charSequence);
                 boolean phoneNumBl = !TextUtils.isEmpty(charSequence2);
                 boolean addressBl = !TextUtils.isEmpty(charSequence3);
                 boolean houseAreaBl = !TextUtils.isEmpty(charSequence4);
                 boolean houseTypeBl = !TextUtils.isEmpty(charSequence5);
-                boolean houseStyleBl = !TextUtils.isEmpty(charSequence6);
-                return userNameBl && phoneNumBl && addressBl && houseAreaBl && houseTypeBl && houseStyleBl;
+//                boolean houseStyleBl = !TextUtils.isEmpty(charSequence6);
+                return userNameBl && phoneNumBl && addressBl && houseAreaBl && houseTypeBl;
             }
         }).subscribe(new Observer<Boolean>() {
             @Override
@@ -358,7 +359,7 @@ public class AppointmentActivity extends BaseActivity {
         task.execute("河南", "洛阳", "洛龙");
     }
 
-    @OnClick({R.id.loan_apply_for_btn, R.id.address_tv, R.id.house_area_edi, R.id.house_style_edi, R.id.house_type_edi})
+    @OnClick({R.id.loan_apply_for_btn, R.id.address_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.loan_apply_for_btn:
@@ -376,18 +377,18 @@ public class AppointmentActivity extends BaseActivity {
             case R.id.address_tv:
                 onAddressPicker();
                 break;
-            case R.id.house_area_edi:
-                onOptionPicker(str_area, R.id.house_area_edi);
-
-                break;
-            case R.id.house_style_edi:
-                onOptionPicker(str_style, R.id.house_style_edi);
-
-                break;
-            case R.id.house_type_edi:
-                onOptionPicker(str_model, R.id.house_type_edi);
-
-                break;
+//            case R.id.house_area_edi:
+//                onOptionPicker(str_area, R.id.house_area_edi);
+//
+//                break;
+//            case R.id.house_style_edi:
+//                onOptionPicker(str_style, R.id.house_style_edi);
+//
+//                break;
+//            case R.id.house_type_edi:
+//                onOptionPicker(str_model, R.id.house_type_edi);
+//
+//                break;
         }
     }
     int userId;
@@ -397,10 +398,12 @@ public class AppointmentActivity extends BaseActivity {
         }else {
             userId=-1;
         }
-        String _full_name = URLEncoder.encode(storeNameEdi.getText().toString()) ;
-        String _phone =URLEncoder.encode(phoneNumEdi.getText().toString()) ;
-        String _address =URLEncoder.encode((addressTv.getText().toString() + addressDownEdi.getText().toString())) ;
+        String _full_name = storeNameEdi.getText().toString() ;
+        String _phone =phoneNumEdi.getText().toString() ;
+        String _address =(addressTv.getText().toString() + addressDownEdi.getText().toString()) ;
         String _areaMsg =houseAreaEdi.getText().toString();
+        String houseType = houseTypeEdi.getText().toString();
+
         int areaNum = -1;
         for (int i = 0; i < area.size(); i++) {
             String _area = area.get(i).getDictDesc();
@@ -418,7 +421,7 @@ public class AppointmentActivity extends BaseActivity {
             }
         }
 
-        String _houseStyleMsg = houseStyleEdi.getText().toString();
+//        String _houseStyleMsg = houseStyleEdi.getText().toString();
         int houseStyleNum = -1;
         for (int i = 0; i < style.size(); i++) {
             String _style = style.get(i).getDictDesc();
@@ -433,11 +436,20 @@ public class AppointmentActivity extends BaseActivity {
         Log.e("Daniel","---_full_name---"+_full_name);
         Log.e("Daniel","---_phone---"+_phone);
         Log.e("Daniel","---_address---"+_address);
-        Log.e("Daniel","---areaNum---"+areaNum);
-        Log.e("Daniel","---houseTypeNum---"+houseTypeNum);
-        Log.e("Daniel","---houseStyleNum---"+houseStyleNum);
-        
-        NetWork.getZxService().saveZxyy(userId,CompanyId,_full_name, _phone , _address, areaNum, houseTypeNum, houseStyleNum)
+        Log.e("Daniel","---_areaMsg---"+_areaMsg);
+        Log.e("Daniel","---houseType---"+houseType);
+
+        ApplyDecorate applyDecorate = new ApplyDecorate();
+        applyDecorate.setProposer(_full_name);
+        applyDecorate.setAddr(_address);
+        applyDecorate.setFromUserId(userId);
+        applyDecorate.setHouseArea(_areaMsg);
+        applyDecorate.setHouseType(houseType);
+        applyDecorate.setTel(_phone);
+        applyDecorate.setToCompanyId(CompanyId);
+        Gson gson = new Gson();
+
+        NetWork.getNewZXD1_4Service().saveZxyy(gson.toJson(applyDecorate))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ResuleInfo>() {

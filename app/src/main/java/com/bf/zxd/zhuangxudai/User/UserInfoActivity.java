@@ -120,7 +120,7 @@ public class UserInfoActivity extends AppCompatActivity implements TakePhoto.Tak
             userName.setText(userInfo.getNickname());
         }
         if (userInfo.getLogoImg().equals("")){
-            Picasso.with(this).load(R.drawable.demo).into(circleImageView);
+            Picasso.with(this).load(R.drawable.avatar).into(circleImageView);
         }else {
             Picasso.with(this).load(userInfo.getLogoImg()).into(circleImageView);
         }
