@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,9 +24,7 @@ import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyDetail;
-import com.bf.zxd.zhuangxudai.template.TemplateDetailsFragment;
 import com.bf.zxd.zhuangxudai.template.TemplateHorizontalListAdapter;
-import com.bf.zxd.zhuangxudai.template.TemplateImgFragment;
 import com.bf.zxd.zhuangxudai.util.SystemBarTintManager;
 import com.squareup.picasso.Picasso;
 
@@ -43,7 +43,7 @@ import rx.subscriptions.CompositeSubscription;
 
 import static com.bf.zxd.zhuangxudai.zxgs.AppointmentActivity.CompanyId;
 
-public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClickListener,TemplateImgFragment.mImgListener, TemplateDetailsFragment.mDetailsListener {
+public class ZxgsDetailActivity extends AppCompatActivity  {
 
     @BindView(R.id.base_toolBar)
     Toolbar baseToolBar;
@@ -99,11 +99,8 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
 
                     @Override
                     public void onNext(List<DecoCompanyCase> decoCompanyCases) {
-                        List<String> strings = new ArrayList<String>();
-                        for (DecoCompanyCase decoCompanyCase:decoCompanyCases){
-                            strings.add(decoCompanyCase.getThumbnails());
-                        }
-                        initListView(strings);
+
+                        initListView(decoCompanyCases);
 
                     }
                 });
@@ -154,8 +151,13 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    public void initListView(List<String> zxgs){
-        templateHorizontalListAdapter=new TemplateHorizontalListAdapter(ZxgsDetailActivity.this,zxgs);
+    public void initListView(final List<DecoCompanyCase> decoCompanyCases){
+        List<String> strings = new ArrayList<String>();
+        for (DecoCompanyCase decoCompanyCase:decoCompanyCases){
+            Log.e("Daniel",decoCompanyCase.toString());
+            strings.add(decoCompanyCase.getThumbnails());
+        }
+        templateHorizontalListAdapter=new TemplateHorizontalListAdapter(ZxgsDetailActivity.this,strings);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(ZxgsDetailActivity.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         allImgsRecyclerView.setLayoutManager(linearLayoutManager);
@@ -164,6 +166,11 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onItemClick(View view, int postion) {
                 // TODO: 2017/2/17 公司详情案例
+                DecoCompanyCase decoCompanyCase = decoCompanyCases.get(postion);
+                CompanyDetailActivity.CaseId=decoCompanyCase.getCaseId();
+                CompanyDetailActivity.caseName = decoCompanyCase.getCaseName();
+                startActivity(new Intent(ZxgsDetailActivity.this,CompanyDetailActivity.class));
+
 //                mListener.changeFragmentByTAG(TemplateActivity.CHANGE_IMG_FRAGMENT,postion+1);
             }
         });
@@ -235,51 +242,28 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    BottomSheetBehavior mBottomSheetBehavior;
+    public int toolBarheight = 0;
+    public boolean isToolBarShow = false;
+
+    //隐藏toolbar和底部栏
+    public void hide() {
+        baseToolBar.animate().translationY(0 - toolBarheight).setInterpolator(new AccelerateDecelerateInterpolator());
+        isToolBarShow = false;
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+    }
+
+    //显示
+    public void show() {
+        baseToolBar.animate().translationY(0).setInterpolator(new AccelerateDecelerateInterpolator());
+        isToolBarShow = true;
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         compositeSubscription.unsubscribe();
     }
 
-    @Override
-    public int getCompanyId() {
-        return 0;
-    }
-
-    @Override
-    public void startActivity(Class activity) {
-
-    }
-
-    @Override
-    public List<String> getImgAddress() {
-        return null;
-    }
-
-
-
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public int getToolBarheight() {
-        return 0;
-    }
-
-    @Override
-    public boolean isToolBarShow() {
-        return false;
-    }
-
-    @Override
-    public void changeFragmentByTAG(String fragment, int index) {
-
-    }
 }

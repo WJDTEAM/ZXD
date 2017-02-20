@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by wjy on 2016/11/7.
  */
 
-public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdapter.ViewHolder> {
+public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdapter.ViewHolder> implements View.OnClickListener {
 
     List<PersonYyItem> datas;
     MyItemClickListener mItemClickListener;
@@ -30,6 +30,7 @@ public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdap
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
+    PersonYyItem data;
     private String url = "http://211.149.235.17:8080/zxd/upload/zxgl-20170109161416796.jpeg";
 
 
@@ -52,6 +53,13 @@ public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdap
         this.mItemClickListener = listener;
     }
 
+    @Override
+    public void onClick(View v) {
+        ApplyScheduleActivity.applyType="02";
+        ApplyScheduleActivity.applyId=data.getApplyId();
+        mContext.startActivity(new Intent(mContext, ApplyScheduleActivity.class));
+    }
+
 
     public interface MyItemClickListener {
         public void onItemClick(View view, int postion);
@@ -67,20 +75,15 @@ public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final PersonYyItem data = datas.get(position);
+        data = datas.get(position);
         holder.nameMyappointmentTv.setText(data.getProposer());
         holder.phoneMyappointmentTv.setText(data.getTel());
         holder.companynameMyappointmentTv.setText(data.getDecoCompany());
         holder.dataMyappointmentTv.setText(data.getSqrq());
-        holder.applicationProgressMyappointmentTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ApplyScheduleActivity.applyType="02";
-                ApplyScheduleActivity.applyId=data.getApplyId();
-                mContext.startActivity(new Intent(mContext, ApplyScheduleActivity.class));
+        holder.applicationProgressMyappointmentTv.setOnClickListener(this);
+        holder.templateItemLin.setOnClickListener(this);
 
-            }
-        });
+
 
 
     }

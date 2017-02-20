@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by wjy on 2016/11/7.
  */
 
-public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder> {
+public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder> implements View.OnClickListener {
 
     List<PersonLoanItem> datas;
     MyItemClickListener mItemClickListener;
@@ -30,6 +30,7 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
+    PersonLoanItem data;
     private String url = "http://211.149.235.17:8080/zxd/upload/zxgl-20170109161416796.jpeg";
 
 
@@ -52,6 +53,13 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
         this.mItemClickListener = listener;
     }
 
+    @Override
+    public void onClick(View v) {
+        ApplyScheduleActivity.applyType = "03";
+        ApplyScheduleActivity.applyId = data.getApplyId();
+        mContext.startActivity(new Intent(mContext, ApplyScheduleActivity.class));
+    }
+
 
     public interface MyItemClickListener {
         public void onItemClick(View view, int postion);
@@ -67,20 +75,21 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final PersonLoanItem data = datas.get(position);
+        data = datas.get(position);
+
         holder.recommendPersonMyloanTv.setText(data.getReferrer());
         holder.dateMyloanTv.setText(data.getSqrq());
         holder.companynameMyloanTv.setText(data.getDecoCompany());
         holder.banknameMyloanTv.setText(data.getLoanCompany());
         holder.applymoneyMyloanTv.setText(data.getLoanAmount() + "万");
-        holder.statusMyloanTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ApplyScheduleActivity.applyType="03";
-                ApplyScheduleActivity.applyId=data.getApplyId();
-                mContext.startActivity(new Intent(mContext, ApplyScheduleActivity.class));
-            }
-        });
+        holder.templateItemLin.setOnClickListener(this);
+        holder.statusMyloanTv.setOnClickListener(this);
+//        holder.statusMyloanTv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
 
     }
@@ -119,12 +128,14 @@ public class MyLoanAdapter extends RecyclerView.Adapter<MyLoanAdapter.ViewHolder
         @BindView(R.id.recommendPerson_myloan_tv)
         TextView recommendPersonMyloanTv;
 
+
         ViewHolder(View view, MyItemClickListener listener) {
             super(view);
             rootView = view;
             ButterKnife.bind(this, view);
             this.mListener = listener;
             view.setOnClickListener(this);
+
         }
 
         @Override

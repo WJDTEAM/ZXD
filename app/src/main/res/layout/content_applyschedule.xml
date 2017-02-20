@@ -5,8 +5,18 @@
               android:layout_height="match_parent"
               android:id="@+id/linear"
               android:background="@color/stepView_color"
-              android:paddingRight="@dimen/activity_vertical_margin"
+              android:padding="@dimen/activity_vertical_margin"
+              android:gravity="center_vertical"
     >
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/regit"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:layout_marginRight="@dimen/hugehdp"
+
+        />
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -27,6 +37,7 @@
             android:text="请耐心等待商家确认！"
             android:textSize="@dimen/tinysp"
             android:textColor="@color/black"
+            android:paddingTop="@dimen/tinymdp"
             />
     </LinearLayout>
 

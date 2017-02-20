@@ -2,6 +2,7 @@ package com.bf.zxd.zhuangxudai.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,7 +47,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by johe on 2017/1/5.
  */
 
-public class HomeFragment extends Fragment implements RecommendBankAdapter.MyItemClickListener  {
+public class HomeFragment extends Fragment implements RecommendBankAdapter.MyItemClickListener {
 
     @BindView(R.id.zhuangxiugonglue_home)
     TextView zhuangxiugonglueHome;
@@ -65,9 +67,13 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
     RelativeLayout littleLoanBtn;
     @BindView(R.id.big_loan_btn)
     RelativeLayout bigLoanBtn;
+    @BindView(R.id.YBJ_loding)
+    ImageView YBJLoding;
+    @BindView(R.id.YBJ_loding_txt)
+    TextView YBJLodingTxt;
     private Realm realm;
     private Unbinder unbinder;
-    private  RecommendBankAdapter recommendBankAdapter;
+    private RecommendBankAdapter recommendBankAdapter;
     private int[] carousels = {R.drawable.slider1, R.drawable.slider2, R.drawable.slider3};
     private CompositeSubscription mCompositeSubscription;
 
@@ -83,15 +89,13 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
-        mCompositeSubscription =  new CompositeSubscription();
+        mCompositeSubscription = new CompositeSubscription();
         realm = Realm.getDefaultInstance();
+        lodingIsFailOrSucess(1);
         initDate();
-        initView();
 
 
-
-
-//        MarqueeView marqueeView = (MarqueeView) findViewById(R.id.marqueeView);
+        //        MarqueeView marqueeView = (MarqueeView) findViewById(R.id.marqueeView);
 
         return view;
     }
@@ -99,6 +103,31 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
     private void initDate() {
         getBankItem();
         getLoanSuccess();
+    }
+
+    public void lodingIsFailOrSucess(int i) {
+        if (i == 1) {
+            //加载中
+            YBJLoding.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setText("加载中...");
+            YBJLoding.setBackgroundResource(R.drawable.loding_anim_lists);
+            AnimationDrawable anim = (AnimationDrawable) YBJLoding.getBackground();
+            anim.start();
+
+        } else if (i == 2) {
+            //加载成功
+            YBJLoding.setBackground(null);
+            YBJLoding.setVisibility(View.GONE);
+            YBJLodingTxt.setVisibility(View.GONE);
+        } else {
+            //加载失败
+            YBJLoding.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setVisibility(View.VISIBLE);
+            YBJLoding.setBackground(null);
+            YBJLodingTxt.setText("加载失败，请检查网络连接");
+            YBJLoding.setImageResource(R.drawable.ic_loding_fail);
+        }
     }
 
     private void getLoanSuccess() {
@@ -121,8 +150,8 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
                     @Override
                     public void onNext(List<LoanSuccessItem> LoanSuccessItems) {
                         List<String> info = new ArrayList<>();
-                        for (LoanSuccessItem loanSuccessItem:LoanSuccessItems){
-                            info.add(""+loanSuccessItem.getFullName()+","+loanSuccessItem.getLoanAmount()+"万,"+loanSuccessItem.getPhone()+"");
+                        for (LoanSuccessItem loanSuccessItem : LoanSuccessItems) {
+                            info.add("" + loanSuccessItem.getFullName() + "," + loanSuccessItem.getLoanAmount() + "万," + loanSuccessItem.getPhone() + "");
                         }
                         marqueeView.startWithList(info);
                         //        String notice = "张小姐                   20万                  158*****111";
@@ -147,11 +176,13 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
                     @Override
                     public void onError(Throwable e) {
                         Log.e("Daniel", "请求推荐银行列表数据失败！");
+                        lodingIsFailOrSucess(3);
 
                     }
 
                     @Override
                     public void onNext(List<Recommends> recommends) {
+                        lodingIsFailOrSucess(2);
                         setAdapter(recommends);
                     }
                 });
@@ -163,7 +194,7 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
         //init context view
 
         recyclerviewFragmentHome.setLayoutManager(new LinearLayoutManager(getActivity()));
-        if (recommendBankAdapter==null){
+        if (recommendBankAdapter == null) {
 
             recommendBankAdapter = new RecommendBankAdapter(recommends, getActivity());
         }
@@ -172,7 +203,7 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
     }
 
     private void initView() {
-//        setToolbar();
+        //        setToolbar();
 
     }
 
@@ -190,14 +221,14 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
 
     private void setToolbar() {
         //让原始的toolbar的title不显示
-//        baseToolBar.setTitle("");
-//        ((AppCompatActivity) getActivity()).setSupportActionBar(baseToolBar);
-//        toolbarTitle.setText(getResources().getString(R.string.home_title));
+        //        baseToolBar.setTitle("");
+        //        ((AppCompatActivity) getActivity()).setSupportActionBar(baseToolBar);
+        //        toolbarTitle.setText(getResources().getString(R.string.home_title));
     }
 
     @Override
     public void onItemClick(View view, int postion) {
-        Log.e("Daniel","追踪");
+        Log.e("Daniel", "追踪");
 
 
     }
@@ -245,9 +276,9 @@ public class HomeFragment extends Fragment implements RecommendBankAdapter.MyIte
             case R.id.big_loan_btn:
                 mListener.changePageAndSetPagePosition(1);
                 break;
-//            case R.id.home_applyLoan_btn:
-//                startActivity(new Intent(getActivity(), LoanApplyActivity.class));
-//                break;
+            //            case R.id.home_applyLoan_btn:
+            //                startActivity(new Intent(getActivity(), LoanApplyActivity.class));
+            //                break;
         }
     }
 }

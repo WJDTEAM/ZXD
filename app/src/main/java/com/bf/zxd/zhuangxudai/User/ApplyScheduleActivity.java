@@ -4,7 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.application.BaseApplication;
@@ -20,6 +24,8 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.bf.zxd.zhuangxudai.util.Utils.getContext;
+
 public class ApplyScheduleActivity extends AppCompatActivity {
 
 
@@ -28,8 +34,14 @@ public class ApplyScheduleActivity extends AppCompatActivity {
     public static String applyType;
     public static int applyId;
 
-//    private  VerticalStepViewReverseFragment mVerticalStepViewFragment;
-    public static List<ApplyStatusItem>  mApplyStatusItems;
+    //    private  VerticalStepViewReverseFragment mVerticalStepViewFragment;
+    private List<ApplyStatusItem> mApplyStatusItems;
+    TextView titleTv;
+    TextView commentsTv;
+    TextView dateTv;
+    LinearLayout linear;
+    @BindView(R.id.linearLayout_ll)
+    LinearLayout linearLayoutLl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +51,7 @@ public class ApplyScheduleActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setToolBar("进度申请");
 
-        NetWork.getNewZXD1_4Service().getApplyStatusItem(applyType,applyId)
+        NetWork.getNewZXD1_4Service().getApplyStatusItem(applyType, applyId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<ApplyStatusItem>>() {
@@ -47,33 +59,60 @@ public class ApplyScheduleActivity extends AppCompatActivity {
                     public void onCompleted() {
 
                     }
+
                     @DebugLog
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("Daniel","----e--"+e.toString());
+                        Log.e("Daniel", "----e--" + e.toString());
                     }
+
                     @DebugLog
 
                     @Override
                     public void onNext(List<ApplyStatusItem> applyStatusItems) {
-                        mApplyStatusItems=applyStatusItems;
-                        Log.e("Daniel","----applyStatusItems.size()--"+applyStatusItems.size());
+                        mApplyStatusItems = applyStatusItems;
+                        Log.e("Daniel", "----applyStatusItems.size()--" + applyStatusItems.size());
                         StepView(applyStatusItems);
-
-//                        if (mVerticalStepViewFragment==null){
-//                            mVerticalStepViewFragment = new VerticalStepViewReverseFragment(applyStatusItems);
-//                        }
-//                        getFragmentManager().beginTransaction().replace(R.id.container, mVerticalStepViewFragment).commit();
-
                     }
                 });
-
 
 
     }
 
     private void StepView(List<ApplyStatusItem> applyStatusItems) {
+
+        for (int i = 0; i < applyStatusItems.size(); i++) {
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.content_applyschedule, null, false);
+            LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.linear);
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);// 定义布局管理器的参数
+            linearLayout.setLayoutParams(param);
+            titleTv = (TextView) view.findViewById(R.id.title_tv);
+            commentsTv = (TextView) view.findViewById(R.id.comments_tv);
+            dateTv = (TextView) view.findViewById(R.id.date_tv);
+
+            ApplyStatusItem applyStatusItem = mApplyStatusItems.get(i);
+            Log.e("Daniel", applyStatusItem.toString());
+            switch (i) {
+                case 0:
+                    titleTv.setText("申请已提交");
+                    break;
+                case 1:
+                    titleTv.setText("正在审核");
+                    break;
+                case 2:
+                    titleTv.setText("申请失败");
+                    break;
+                case 3:
+                    titleTv.setText("申请成功！");
+                    break;
+
+            }
+            commentsTv.setText(applyStatusItem.getComment());
+            dateTv.setText(applyStatusItem.getStatusRq());
+            linearLayoutLl.addView(view);
+
+        }
 
 
     }

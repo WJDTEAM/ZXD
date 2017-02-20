@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black_dark"
+                android:id="@+id/template_img_rel">
+    <android.support.design.widget.AppBarLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/transparentToolbarTheme">
+        <android.support.v7.widget.Toolbar
+
+            android:id="@+id/base_toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:background="@color/transparent"
+            app:theme="@style/ToolbarTheme"
+            app:popupTheme="@style/ToolbarPopupTheme"
+            android:titleTextColor="@color/white"
+            >
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/template_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+    <LinearLayout
+        android:id="@+id/template_img_lin"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/details_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                android:textSize="@dimen/mediumsp"
+                android:text="智地哥谭(洛阳市洛龙区)现代风格"/>
+            <TextView
+                android:id="@+id/now_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:gravity="center_vertical|right"
+                android:textSize="@dimen/mediumsp"
+                android:text="1"/>
+
+            <TextView
+                android:id="@+id/page_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:gravity="bottom|right"
+                android:textSize="@dimen/smallsp"
+                android:padding="@dimen/tinymdp"
+                android:text=""/>
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
+
