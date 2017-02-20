@@ -1,13 +1,13 @@
 package com.bf.zxd.zhuangxudai.zxgs;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
+import com.bf.zxd.zhuangxudai.customview.AutoHeightLayoutManager;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyItem;
 import com.bf.zxd.zhuangxudai.util.Utils;
@@ -74,7 +74,7 @@ public class ZxgsActivity extends BaseActivity {
 
     private void setAdapter(final List<DecoCompanyItem> zxgses) {
         //init context view
-        recyclerviewZxgongsi.setLayoutManager(new LinearLayoutManager(this));
+        recyclerviewZxgongsi.setLayoutManager(new AutoHeightLayoutManager(this));
 //        recyclerviewZxgongsi.addItemDecoration(new RecycleViewDivider(
 //                this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
         ZxgsAdapter zxgsAdapter = new ZxgsAdapter(zxgses, this);

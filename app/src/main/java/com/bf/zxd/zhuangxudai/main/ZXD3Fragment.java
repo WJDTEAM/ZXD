@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public class ZXD3Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.dropDownMenu_bank)
     DropDownMenu dropDownMenuBank;
-    private String headers[] = {"全部", "金额", "利率", "期限"};//
+    private String headers[] = {"全部贷款", "金额", "利率", "期限"};//
     private String all[] = {"全部", "房贷", "装修贷"};
     private String money[] = {"全部", "3-20万", "20-30万", "30-80万", "80-200万"};
     private String rate[] = {"全部", "0.3%", "0.4%", "0.5%"};
@@ -130,7 +131,7 @@ public class ZXD3Fragment extends Fragment {
                     public void onNext(List<LoanTypes> loanTyp) {
                         LoanTypes l = new LoanTypes();
                         l.setLoanTypeId(0);
-                        l.setLoanTypeName("全部");
+                        l.setLoanTypeName("全部贷款");
                         loanTypes = loanTyp;
                         loanTypes.add(0, l);
                         dropMenu();
@@ -240,7 +241,6 @@ public class ZXD3Fragment extends Fragment {
                     chooseRate = Rate.getText().toString();
                     dropDownMenuBank.setTabText(Rate.getText().toString() + "%");
                 }
-
                 dropDownMenuBank.closeMenu();
                 initData(chooseAll, minMoneyStr, maxMoneyStr, chooseRate, chooseTime);
             }
@@ -317,6 +317,7 @@ public class ZXD3Fragment extends Fragment {
 
     public void initData(String loan_type, String min_money, String max_money, String rate, String cycle) {
 
+       Log.i("gqf","initData"+loan_type+"---"+min_money+"---"+max_money+"---"+rate+"----"+cycle);
         Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getLoanCompanyItem(Integer.parseInt(loan_type),
                 min_money, max_money, rate, cycle)
                 .subscribeOn(Schedulers.io())

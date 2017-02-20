@@ -243,8 +243,27 @@ public class LoanApplyActivity extends BaseActivity {
                 Picasso.with(this).load(mZxd.getCompanyIcon()).into(bankpicImg);
 
             }
+            StringBuilder minMoney=new StringBuilder();
+            minMoney.append(mZxd.getMinMoney().toString());
+//            while (minMoney.charAt(minMoney.length()-1)=='0'){
+//                minMoney.substring(0,minMoney.length()-2);
+//            }
+//            if(minMoney.charAt(minMoney.length()-1)=='.'){
+//                minMoney.substring(0,minMoney.length()-2);
+//            }
+
+            StringBuilder maxMoney=new StringBuilder();
+            maxMoney.append(mZxd.getMaxMoney().toString());
+//            while (maxMoney.charAt(maxMoney.length()-1)=='0'){
+//                maxMoney.substring(0,maxMoney.length()-2);
+//            }
+//            if(maxMoney.charAt(maxMoney.length()-1)=='.'){
+//                maxMoney.substring(0,maxMoney.length()-2);
+//            }
+
+
             bankNameTv.setText(mZxd.getCompanyName());
-            moneyRangeTv.setText(mZxd.getMinMoney().intValue() + "~" + mZxd.getMaxMoney().intValue() + "/万");
+            moneyRangeTv.setText(minMoney + "~" + maxMoney + "/万");
             cycleUnitTv.setText("还款期限(月)");
             cycleTv.setText("" + mZxd.getMinCycle() + "~" + mZxd.getMaxCycle() + "/月");
             rateUnitTv.setText("月费率");
@@ -252,9 +271,9 @@ public class LoanApplyActivity extends BaseActivity {
             productDescLoanapplyTx.setText(mZxd.getProductDesc());
             applicationLoanapplyTx.setText(mZxd.getApplication());
             requiredLoanapplyTx.setText(mZxd.getRequired());
-            loanMoneyEdi.setHint(mZxd.getMinMoney() + "-" + mZxd.getMaxMoney() + "/万");
+            loanMoneyEdi.setHint(minMoney + "-" +maxMoney + "/万");
             loanTimeEdi.setHint("" + mZxd.getMinCycle() + "-" + mZxd.getMaxCycle() + "/月");
-            makeLoadDays_txt.setText("放贷速度：" + mZxd.getMakeLoadDays() + mZxd.getLoadUnit() + "内");
+            makeLoadDays_txt.setText("到账速度：" + mZxd.getMakeLoadDays() + mZxd.getLoadUnit() + "内");
 
 
         } else {
