@@ -245,27 +245,32 @@ public class LoanApplyActivity extends BaseActivity {
             }
             StringBuilder minMoney=new StringBuilder();
             minMoney.append(mZxd.getMinMoney().toString());
-//            while (minMoney.charAt(minMoney.length()-1)=='0'){
-//                minMoney.substring(0,minMoney.length()-2);
-//            }
-//            if(minMoney.charAt(minMoney.length()-1)=='.'){
-//                minMoney.substring(0,minMoney.length()-2);
-//            }
+            if(minMoney.charAt(minMoney.length()-1)=='0'){
+                minMoney=new StringBuilder(minMoney.substring(0,minMoney.length()-1));
+            }
+            if(minMoney.charAt(minMoney.length()-1)=='0'){
+                minMoney=new StringBuilder(minMoney.substring(0,minMoney.length()-1));
+            }
+            if(minMoney.charAt(minMoney.length()-1)=='0'){
+                minMoney=new StringBuilder(minMoney.substring(0,minMoney.length()-1));
+            }
 
             StringBuilder maxMoney=new StringBuilder();
             maxMoney.append(mZxd.getMaxMoney().toString());
-//            while (maxMoney.charAt(maxMoney.length()-1)=='0'){
-//                maxMoney.substring(0,maxMoney.length()-2);
-//            }
-//            if(maxMoney.charAt(maxMoney.length()-1)=='.'){
-//                maxMoney.substring(0,maxMoney.length()-2);
-//            }
-
+            if(maxMoney.charAt(maxMoney.length()-1)=='0'){
+                maxMoney=new StringBuilder(maxMoney.substring(0,maxMoney.length()-1));
+            }
+            if(maxMoney.charAt(maxMoney.length()-1)=='0'){
+                maxMoney=new StringBuilder(maxMoney.substring(0,maxMoney.length()-1));
+            }
+            if(maxMoney.charAt(maxMoney.length()-1)=='0'){
+                maxMoney=new StringBuilder(maxMoney.substring(0,maxMoney.length()-1));
+            }
 
             bankNameTv.setText(mZxd.getCompanyName());
             moneyRangeTv.setText(minMoney + "~" + maxMoney + "/万");
             cycleUnitTv.setText("还款期限(月)");
-            cycleTv.setText("" + mZxd.getMinCycle() + "~" + mZxd.getMaxCycle() + "/月");
+            cycleTv.setText("" + mZxd.getMinCycle().intValue() + "~" + mZxd.getMaxCycle().intValue() + "/月");
             rateUnitTv.setText("月费率");
             rateTv.setText(mZxd.getRate() + "/月");
             productDescLoanapplyTx.setText(mZxd.getProductDesc());
