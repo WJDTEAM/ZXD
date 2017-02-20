@@ -80,7 +80,7 @@ public class LoanBankList3Adapter extends RecyclerView.Adapter<RecyclerView.View
                     .into(myViewHoder.loanTitleImg);
         }
 
-        myViewHoder.loanDkfw.setText("-" + mDatas.get(position).getLoanTypeName());
+        myViewHoder.loanDkfw.setText("/" + mDatas.get(position).getLoanTypeName());
 
         myViewHoder.loanRate.setText(mDatas.get(position).getRate());
         myViewHoder.makeLoadDays.setText(mDatas.get(position).getMakeLoadDays() + mDatas.get(position).getLoadUnit() + "内到账");
