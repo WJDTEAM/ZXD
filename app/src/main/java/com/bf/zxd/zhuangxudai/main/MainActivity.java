@@ -77,7 +77,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.mDet
     LoginHelper loginHelper;
 
     private void setToolbar(String toolstr, int flag) {
+//        setSupportActionBar(mToolbar);
         toolbarTitle.setText(toolstr);
+//        mToolbar.setTitle("");
 //        if (flag == 1) {
 //            mToolbar.setTitle("");
 //            setSupportActionBar(mToolbar);

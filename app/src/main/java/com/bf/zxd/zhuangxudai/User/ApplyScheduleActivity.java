@@ -28,7 +28,7 @@ public class ApplyScheduleActivity extends AppCompatActivity {
     public static String applyType;
     public static int applyId;
 
-    private  VerticalStepViewReverseFragment mVerticalStepViewFragment;
+//    private  VerticalStepViewReverseFragment mVerticalStepViewFragment;
     public static List<ApplyStatusItem>  mApplyStatusItems;
 
     @Override
@@ -59,14 +59,21 @@ public class ApplyScheduleActivity extends AppCompatActivity {
                     public void onNext(List<ApplyStatusItem> applyStatusItems) {
                         mApplyStatusItems=applyStatusItems;
                         Log.e("Daniel","----applyStatusItems.size()--"+applyStatusItems.size());
-                        if (mVerticalStepViewFragment==null){
-                            mVerticalStepViewFragment = new VerticalStepViewReverseFragment(applyStatusItems);
-                        }
-                        getFragmentManager().beginTransaction().replace(R.id.container, mVerticalStepViewFragment).commit();
+                        StepView(applyStatusItems);
+
+//                        if (mVerticalStepViewFragment==null){
+//                            mVerticalStepViewFragment = new VerticalStepViewReverseFragment(applyStatusItems);
+//                        }
+//                        getFragmentManager().beginTransaction().replace(R.id.container, mVerticalStepViewFragment).commit();
 
                     }
                 });
 
+
+
+    }
+
+    private void StepView(List<ApplyStatusItem> applyStatusItems) {
 
 
     }

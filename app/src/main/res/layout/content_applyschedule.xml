@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="订单已确认！"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             />
         <TextView
             android:id="@+id/comments_tv"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="请耐心等待商家确认！"
             android:textSize="@dimen/tinysp"
-            android:textColor="@color/whitesmoke"
+            android:textColor="@color/black"
             />
     </LinearLayout>
 
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2016-2-55"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
 
         />
 
