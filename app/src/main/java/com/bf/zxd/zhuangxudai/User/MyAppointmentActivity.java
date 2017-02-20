@@ -1,10 +1,14 @@
 package com.bf.zxd.zhuangxudai.User;
 
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.BaseActivity;
 import com.bf.zxd.zhuangxudai.R;
@@ -30,6 +34,10 @@ public class MyAppointmentActivity extends BaseActivity {
     Toolbar baseToolBar;
     @BindView(R.id.recyclerview_myAppointment)
     RecyclerView recyclerviewMyAppointment;
+    @BindView(R.id.YBJ_loding)
+    ImageView YBJLoding;
+    @BindView(R.id.YBJ_loding_txt)
+    TextView YBJLodingTxt;
     private Unbinder mUnbinder;
     private CompositeSubscription mCompositeSubscription;
     private Realm realm;
@@ -38,16 +46,13 @@ public class MyAppointmentActivity extends BaseActivity {
 
     @Override
     public void initDate() {
-        mCompositeSubscription = new CompositeSubscription();
-        realm = Realm.getDefaultInstance();
-        getYysqItem();
+
 
     }
 
 
-
     private void getYysqItem() {
-        Subscription Subscription_getYysqItem = NetWork.getNewZXD1_4Service().getPersonYyItem( realm.where(NewUser.class).findFirst().getUserId())
+        Subscription Subscription_getYysqItem = NetWork.getNewZXD1_4Service().getPersonYyItem(realm.where(NewUser.class).findFirst().getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<PersonYyItem>>() {
@@ -59,12 +64,14 @@ public class MyAppointmentActivity extends BaseActivity {
                     @DebugLog
                     @Override
                     public void onError(Throwable e) {
+                        lodingIsFailOrSucess(3);
                         Log.e("Daniel", "请求装修公司列表数据失败！");
 
                     }
 
                     @Override
                     public void onNext(List<PersonYyItem> yysqItems) {
+                        lodingIsFailOrSucess(2);
                         setAdapter(yysqItems);
                     }
                 });
@@ -84,12 +91,41 @@ public class MyAppointmentActivity extends BaseActivity {
         setContentView(R.layout.activity_my_appointment);
         mUnbinder = ButterKnife.bind(this);
         setToolBar();
+        mCompositeSubscription = new CompositeSubscription();
+        realm = Realm.getDefaultInstance();
+        lodingIsFailOrSucess(1);
+        getYysqItem();
 
     }
 
     @Override
     public void initEvent() {
 
+    }
+
+    public void lodingIsFailOrSucess(int i) {
+        if (i == 1) {
+            //加载中
+            YBJLoding.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setText("加载中...");
+            YBJLoding.setBackgroundResource(R.drawable.loding_anim_lists);
+            AnimationDrawable anim = (AnimationDrawable) YBJLoding.getBackground();
+            anim.start();
+
+        } else if (i == 2) {
+            //加载成功
+            YBJLoding.setBackground(null);
+            YBJLoding.setVisibility(View.GONE);
+            YBJLodingTxt.setVisibility(View.GONE);
+        } else {
+            //加载失败
+            YBJLoding.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setVisibility(View.VISIBLE);
+            YBJLoding.setBackground(null);
+            YBJLodingTxt.setText("加载失败，请检查网络连接");
+            YBJLoding.setImageResource(R.drawable.ic_loding_fail);
+        }
     }
 
     private void setToolBar() {
@@ -112,5 +148,12 @@ public class MyAppointmentActivity extends BaseActivity {
         mCompositeSubscription.unsubscribe();
         mUnbinder.unbind();
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
