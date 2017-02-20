@@ -29,6 +29,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,8 +42,6 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-
-import static com.bf.zxd.zhuangxudai.R.id.imgs_num_txt;
 
 /**
  * Created by johe on 2017/1/9.
@@ -85,7 +84,7 @@ public class TemplateDetailsFragment extends Fragment {
     TextView designInspirationTxt;
     @BindView(R.id.housingSituation_txt)
     TextView housingSituationTxt;
-    @BindView(imgs_num_txt)
+    @BindView(R.id.imgs_num_txt)
     TextView imgsNumTxt;
     @BindView(R.id.comments_num_txt)
     TextView commentsNumTxt;
@@ -103,12 +102,16 @@ public class TemplateDetailsFragment extends Fragment {
                 break;
             case R.id.below_txt:
                 Log.i("gqf","decoCompanyYbjDetail"+decoCompanyYbjDetail.toString());
-                mListener.setCompanyId(decoCompanyYbjDetail.getCompanyId());
                 mListener.startActivity(ZxgsDetailActivity.class);
                 break;
         }
     }
 
+
+    public void setDecoCompanyYbjDetail(DecoCompanyYbjDetail d){
+        decoCompanyYbjDetail=d;
+        initSliderLayout(caseImgs);
+    }
 
     public interface mDetailsListener {
         public void show();
@@ -127,7 +130,7 @@ public class TemplateDetailsFragment extends Fragment {
 
         public List<String> getImgAddress();
 
-        public void setCompanyId(int id);
+
     }
 
     private mDetailsListener mListener;
@@ -146,6 +149,7 @@ public class TemplateDetailsFragment extends Fragment {
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
         mcompositeSubscription = new CompositeSubscription();
+        caseImgs=new ArrayList<>();
         templateDetailsScrol.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -177,13 +181,13 @@ public class TemplateDetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initData(mListener.getCompanyId());
+
     }
 
 
     List<String>  caseImgs;
     public void initListView(List<String> imgs) {
-        imgsNumTxt.setText("相关图片（"+imgs.size()+")");
+
         templateHorizontalListAdapter = new TemplateHorizontalListAdapter(getActivity(), imgs);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -196,13 +200,28 @@ public class TemplateDetailsFragment extends Fragment {
             }
         });
         caseImgs=imgs;
+        setImgsNumTxt();
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        setImgsNumTxt();
+    }
+    public void setImgsNumTxt(){
+        if(caseImgs.size()>0){
+            imgsNumTxt.setText("相关图片（"+caseImgs.size()+"张)");
+            imgsNumTxt.setVisibility(View.VISIBLE);
+        }else{
+            imgsNumTxt.setVisibility(View.GONE);
+        }
     }
 
     public void initSliderLayout(List<String> imgs) {
         DefaultSliderView textSliderView1 = new DefaultSliderView(this.getActivity());
-        textSliderView1.image(decoCompanyYbjDetail.getThumbnails()) .setScaleType(BaseSliderView.ScaleType.Fit);
 
+        Log.i("gqf","decoCompanyYbjDetail"+decoCompanyYbjDetail.toString());
+        textSliderView1.image(decoCompanyYbjDetail.getThumbnails()) .setScaleType(BaseSliderView.ScaleType.Fit);
 
         slider.addSlider(textSliderView1);
         if (imgs.size() > 2) {
@@ -229,35 +248,37 @@ public class TemplateDetailsFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if(hidden){
-            initData(mListener.getCompanyId());
+            //initData(mListener.getCompanyId());
         }
     }
 
-    public void initData(int id) {
-        Subscription subscription = NetWork.getNewZXD1_4Service().getDecoCompanyYbjDetail(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DecoCompanyYbjDetail>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i("gqf", "onCompleted");
-                    }
+//    public void initData(int id) {
+//        Subscription subscription = NetWork.getNewZXD1_4Service().getDecoCompanyYbjDetail(id)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<DecoCompanyYbjDetail>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        Log.i("gqf", "onCompleted");
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.i("gqf", "onError" + e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onNext(DecoCompanyYbjDetail zxgs) {
+//                        Log.i("gqf", "mListener" + zxgs.toString());
+//                        decoCompanyYbjDetail=zxgs;
+//                        mListener.setCompanyId(decoCompanyYbjDetail.getCompanyId(),decoCompanyYbjDetail);
+//                        initYBJView(zxgs);
+//                    }
+//                });
+//        mcompositeSubscription.add(subscription);
+//    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i("gqf", "onError" + e.getMessage());
-                    }
 
-                    @Override
-                    public void onNext(DecoCompanyYbjDetail zxgs) {
-                        Log.i("gqf", "mListener" + zxgs.toString());
-                        decoCompanyYbjDetail=zxgs;
-                        mListener.setCompanyId(decoCompanyYbjDetail.getCompanyId());
-                        initYBJView(zxgs);
-                    }
-                });
-        mcompositeSubscription.add(subscription);
-    }
 
     public void initYBJView(DecoCompanyYbjDetail zxgs) {
         companyAddress1.setText(zxgs.getBuildingAddr());
@@ -311,7 +332,7 @@ public class TemplateDetailsFragment extends Fragment {
         aboveTxt.setText(decoCompanyDetail.getCompanyName());
 
 
-        initSliderLayout(caseImgs);
+
 
     }
 

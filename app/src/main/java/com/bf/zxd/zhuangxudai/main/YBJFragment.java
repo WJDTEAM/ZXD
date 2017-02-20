@@ -1,5 +1,6 @@
 package com.bf.zxd.zhuangxudai.main;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,6 +51,10 @@ public class YBJFragment extends Fragment {
     DropDownMenu mDropDownMenu;
     RecyclerView contentView;
     TemplateListAdapter templateListAdapter;
+    @BindView(R.id.YBJ_loding)
+    ImageView YBJLoding;
+    @BindView(R.id.YBJ_loding_txt)
+    TextView YBJLodingTxt;
     private CompositeSubscription mcompositeSubscription;
 
     public static YBJFragment newInstance() {
@@ -77,6 +83,9 @@ public class YBJFragment extends Fragment {
         //判断本地是否有选择条件
         //mDictDatas = realm.where(DictData.class).findAll();
         //没有则网络获取
+
+        lodingIsFailOrSucess(1);
+
         if (mDictDatas == null) {
             getDictData();
         } else {
@@ -96,7 +105,7 @@ public class YBJFragment extends Fragment {
 
         @Override
         public void onError(Throwable e) {
-
+            lodingIsFailOrSucess(3);
         }
 
         @Override
@@ -143,6 +152,31 @@ public class YBJFragment extends Fragment {
         mcompositeSubscription.add(subscription);
     }
 
+    public void lodingIsFailOrSucess(int i) {
+        if (i == 1) {
+            //加载中
+            YBJLoding.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setText("加载中...");
+            YBJLoding.setBackgroundResource(R.drawable.loding_anim_lists);
+            AnimationDrawable anim = (AnimationDrawable) YBJLoding.getBackground();
+            anim.start();
+
+        } else if (i == 2) {
+            //加载成功
+            YBJLoding.setBackground(null);
+            YBJLoding.setVisibility(View.GONE);
+            YBJLodingTxt.setVisibility(View.GONE);
+        } else {
+            //加载失败
+            YBJLoding.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setVisibility(View.VISIBLE);
+            YBJLoding.setBackground(null);
+            YBJLodingTxt.setText("加载失败，请检查网络连接");
+            YBJLoding.setImageResource(R.drawable.ic_loding_fail);
+        }
+    }
+
     //获取样板间数据
     public void initJzztData(int houseStyle, int houseType, int houseArea) {
 
@@ -157,13 +191,13 @@ public class YBJFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        lodingIsFailOrSucess(3);
                     }
 
                     @Override
                     public void onNext(List<DecoCompanyYbjItem> decoCompanyYbjItems) {
                         initListView(decoCompanyYbjItems);
-
+                        lodingIsFailOrSucess(2);
                     }
                 });
         mcompositeSubscription.add(subscription);
@@ -262,13 +296,6 @@ public class YBJFragment extends Fragment {
         contentView = new RecyclerView(getActivity());
 
         initJzztData(houseStyle, houseType, houseArea);
-
-        /*contentView.addItemDecoration(new RecycleViewDivider(
-                getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, R.drawable.template_divider_shap));*/
-
-        //        contentView.addItemDecoration(new RecycleViewDivider(
-        //                getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
-
         contentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         //new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         contentView.setLayoutManager(new LinearLayoutManager(getActivity()));

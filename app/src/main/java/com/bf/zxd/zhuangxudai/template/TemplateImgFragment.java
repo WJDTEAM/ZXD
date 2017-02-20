@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyYbjDetail;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -80,6 +81,11 @@ public class TemplateImgFragment extends Fragment {
         public void changeFragmentByTAG(String fragment, int index);
 
 
+    }
+    DecoCompanyYbjDetail decoCompanyYbjDetail;
+    public void setDecoCompanyYbjDetail(DecoCompanyYbjDetail decoCompanyYbjDail){
+        decoCompanyYbjDetail=decoCompanyYbjDail;
+        detailsTitle.setText(decoCompanyYbjDetail.getHousingSituation());
     }
 
     private mImgListener mListener;
@@ -175,95 +181,96 @@ public class TemplateImgFragment extends Fragment {
     List<String> imgAddres;
 
     public void initImg(List<String> imgAddress) {
-        if(imgAddress.size()==0){
+        if(imgAddress.size()<=0){
             isNoImg=true;
-            mListener.changeFragmentByTAG(TemplateActivity.CHANGE_DETAILS_FRAGMENT, 0);
-        }
+        }else {
 
-        imgViews = new ArrayList<>();
-        imgAddres = new ArrayList<>();
-        for (String s : imgAddress) {
-            imgAddres.add(s);
-        }
-        String imgAddresStart = imgAddress.get(0);
-        String imgAddresEnd = imgAddress.get(imgAddress.size() - 1);
-        imgAddres.add(0, imgAddresEnd);
-        imgAddres.add(imgAddresStart);
-        imgSize = imgAddres.size();
-        pageNum.setText("/" + (imgSize - 2) + "");
-        for (int i = 0; i < imgAddres.size(); i++) {
-            View imgView1 = inflaters.inflate(R.layout.template_viewpager_item, null);
-            ((TextView) imgView1.findViewById(R.id.txt)).setText("");
-            if (imgAddres.get(i) != null) {
-                if (!imgAddres.get(i).equals("")) {
-                    Picasso.with(getActivity()).load(imgAddres.get(i))
-                            .placeholder(R.drawable.demo)
-                            .error(R.drawable.demo2)
-                            .into(((ImageView) imgView1.findViewById(R.id.template_pager_img)));
-                }
+
+            imgViews = new ArrayList<>();
+            imgAddres = new ArrayList<>();
+            for (String s : imgAddress) {
+                imgAddres.add(s);
             }
-            imgViews.add(imgView1);
-        }
-
-
-        autoViewPagerAdapter = new AutoViewPagerAdapter();
-        autoViewPagerAdapter.setList(imgViews);
-        templateViewpager.setAdapter(autoViewPagerAdapter);
-        //没有翻页动画跳转到地2页
-        templateViewpager.setCurrentItem(1, false);
-
-        templateViewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-
+            String imgAddresStart = imgAddress.get(0);
+            String imgAddresEnd = imgAddress.get(imgAddress.size() - 1);
+            imgAddres.add(0, imgAddresEnd);
+            imgAddres.add(imgAddresStart);
+            imgSize = imgAddres.size();
+            pageNum.setText("/" + (imgSize - 2) + "");
+            for (int i = 0; i < imgAddres.size(); i++) {
+                View imgView1 = inflaters.inflate(R.layout.template_viewpager_item, null);
+                ((TextView) imgView1.findViewById(R.id.txt)).setText("");
+                if (imgAddres.get(i) != null) {
+                    if (!imgAddres.get(i).equals("")) {
+                        Picasso.with(getActivity()).load(imgAddres.get(i))
+                                .placeholder(R.drawable.demo)
+                                .error(R.drawable.demo2)
+                                .into(((ImageView) imgView1.findViewById(R.id.template_pager_img)));
+                    }
+                }
+                imgViews.add(imgView1);
             }
 
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
 
-            }
+            autoViewPagerAdapter = new AutoViewPagerAdapter();
+            autoViewPagerAdapter.setList(imgViews);
+            templateViewpager.setAdapter(autoViewPagerAdapter);
+            //没有翻页动画跳转到地2页
+            templateViewpager.setCurrentItem(1, false);
 
-            @Override
-            public void onPageSelected(int position) {
-                nowNum.setText((position) + "");
-                if (position == imgSize - 1) {
-                    setViewPager(1);
-                }
-                if (position == 0) {
-                    setViewPager(imgSize - 2);
-                }
-                Log.i("gqf", "onPageSelected" + position);
-            }
-        });
-        templateViewpager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    downY = motionEvent.getY();
-                    downX = motionEvent.getX();
-                }
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    upY = motionEvent.getY();
-                    upX = motionEvent.getX();
-                    if ((downY - upY) > TemplateActivity.slidingDistance) {
-                        mListener.changeFragmentByTAG(TemplateActivity.CHANGE_DETAILS_FRAGMENT, 0);
-                        return true;
-                    } else {
+            templateViewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrollStateChanged(int arg0) {
 
-                        if (Enable && (downX - upX) < 20 && (downX - upX) > -20) {
-                            if (mListener.isToolBarShow()) {
-                                mListener.hide();
-                                clickEvent(-mListener.getToolBarheight());
-                            } else {
-                                mListener.show();
-                                clickEvent(mListener.getToolBarheight());
+                }
+
+                @Override
+                public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    nowNum.setText((position) + "");
+                    if (position == imgSize - 1) {
+                        setViewPager(1);
+                    }
+                    if (position == 0) {
+                        setViewPager(imgSize - 2);
+                    }
+                    Log.i("gqf", "onPageSelected" + position);
+                }
+            });
+            templateViewpager.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                        downY = motionEvent.getY();
+                        downX = motionEvent.getX();
+                    }
+                    if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                        upY = motionEvent.getY();
+                        upX = motionEvent.getX();
+                        if ((downY - upY) > TemplateActivity.slidingDistance) {
+                            mListener.changeFragmentByTAG(TemplateActivity.CHANGE_DETAILS_FRAGMENT, 0);
+                            return true;
+                        } else {
+
+                            if (Enable && (downX - upX) < 20 && (downX - upX) > -20) {
+                                if (mListener.isToolBarShow()) {
+                                    mListener.hide();
+                                    clickEvent(-mListener.getToolBarheight());
+                                } else {
+                                    mListener.show();
+                                    clickEvent(mListener.getToolBarheight());
+                                }
                             }
                         }
                     }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.bf.zxd.zhuangxudai.main;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,6 +51,10 @@ public class ZXD3Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     @BindView(R.id.dropDownMenu_bank)
     DropDownMenu dropDownMenuBank;
+    @BindView(R.id.YBJ_loding)
+    ImageView YBJLoding;
+    @BindView(R.id.YBJ_loding_txt)
+    TextView YBJLodingTxt;
     private String headers[] = {"全部贷款", "金额", "利率", "期限"};//
     private String all[] = {"全部", "房贷", "装修贷"};
     private String money[] = {"全部", "3-20万", "20-30万", "30-80万", "80-200万"};
@@ -85,6 +91,7 @@ public class ZXD3Fragment extends Fragment {
         ButterKnife.bind(this, view);
         unbinder = ButterKnife.bind(this, view);
         compositeSubscription = new CompositeSubscription();
+        lodingIsFailOrSucess(1);
         getLoanTypes();
 
         return view;
@@ -124,7 +131,7 @@ public class ZXD3Fragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        lodingIsFailOrSucess(3);
                     }
 
                     @Override
@@ -138,6 +145,31 @@ public class ZXD3Fragment extends Fragment {
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);
+    }
+
+    public void lodingIsFailOrSucess(int i) {
+        if (i == 1) {
+            //加载中
+            YBJLoding.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setText("加载中...");
+            YBJLoding.setBackgroundResource(R.drawable.loding_anim_lists);
+            AnimationDrawable anim = (AnimationDrawable) YBJLoding.getBackground();
+            anim.start();
+
+        } else if (i == 2) {
+            //加载成功
+            YBJLoding.setBackground(null);
+            YBJLoding.setVisibility(View.GONE);
+            YBJLodingTxt.setVisibility(View.GONE);
+        } else {
+            //加载失败
+            YBJLoding.setVisibility(View.VISIBLE);
+            YBJLodingTxt.setVisibility(View.VISIBLE);
+            YBJLoding.setBackground(null);
+            YBJLodingTxt.setText("加载失败，请检查网络连接");
+            YBJLoding.setImageResource(R.drawable.ic_loding_fail);
+        }
     }
 
     public void dropMenu() {
@@ -317,7 +349,7 @@ public class ZXD3Fragment extends Fragment {
 
     public void initData(String loan_type, String min_money, String max_money, String rate, String cycle) {
 
-       Log.i("gqf","initData"+loan_type+"---"+min_money+"---"+max_money+"---"+rate+"----"+cycle);
+        Log.i("gqf", "initData" + loan_type + "---" + min_money + "---" + max_money + "---" + rate + "----" + cycle);
         Subscription subscription_getZxgs = NetWork.getNewZXD1_4Service().getLoanCompanyItem(Integer.parseInt(loan_type),
                 min_money, max_money, rate, cycle)
                 .subscribeOn(Schedulers.io())
@@ -330,12 +362,13 @@ public class ZXD3Fragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        lodingIsFailOrSucess(3);
                     }
 
                     @Override
                     public void onNext(List<LoanCompanyItem> loanCompanyItems) {
                         initList(loanCompanyItems);
+                        lodingIsFailOrSucess(2);
                     }
                 });
         compositeSubscription.add(subscription_getZxgs);

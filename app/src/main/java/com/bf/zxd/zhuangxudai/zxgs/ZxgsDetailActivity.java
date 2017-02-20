@@ -256,10 +256,7 @@ public class ZxgsDetailActivity extends AppCompatActivity implements View.OnClic
         return null;
     }
 
-    @Override
-    public void setCompanyId(int id) {
 
-    }
 
     @Override
     public void show() {

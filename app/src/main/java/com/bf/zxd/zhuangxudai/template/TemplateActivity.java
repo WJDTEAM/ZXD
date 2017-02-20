@@ -31,13 +31,13 @@ import com.bf.zxd.zhuangxudai.R;
 import com.bf.zxd.zhuangxudai.main.MainActivity;
 import com.bf.zxd.zhuangxudai.network.NetWork;
 import com.bf.zxd.zhuangxudai.pojo.DecoCompanyCase;
+import com.bf.zxd.zhuangxudai.pojo.DecoCompanyYbjDetail;
 import com.bf.zxd.zhuangxudai.util.SystemBarTintManager;
 import com.bf.zxd.zhuangxudai.zxgs.AppointmentActivity;
 import com.bf.zxd.zhuangxudai.zxgs.LoanApplyActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,6 +75,8 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
     public int compId = 0;//公司id
 
+
+    DecoCompanyYbjDetail decoCompanyYbjDetail;
     List<DecoCompanyCase> decoCompanyCases;//公司案例
     public int toolBarheight = 0;
     LoginHelper loginHelper;
@@ -129,10 +131,34 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
     }
 
-    public void setCompanyId(int id) {
-        compId = id;
-    }
 
+    public void initData(int id) {
+        Subscription subscription = NetWork.getNewZXD1_4Service().getDecoCompanyYbjDetail(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DecoCompanyYbjDetail>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("gqf", "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("gqf", "onError" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(DecoCompanyYbjDetail zxgs) {
+                        Log.i("gqf", "mListener" + zxgs.toString());
+                        decoCompanyYbjDetail=zxgs;
+                        compId=decoCompanyYbjDetail.getCompanyId();
+                        mTemplateDetailsFragment.initYBJView(zxgs);
+                        templateImgFragment.setDecoCompanyYbjDetail(decoCompanyYbjDetail);
+                        initImgData(CompanyId);
+                    }
+                });
+        mcompositeSubscription.add(subscription);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,8 +175,8 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         mTemplateDetailsFragment = TemplateDetailsFragment.newInstance();
 
         changeFragment(templateImgFragment, CHANGE_IMG_FRAGMENT);
-        initImgData(CompanyId);
 
+        initData(CompanyId);
     }
 
 
@@ -223,8 +249,6 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         super.onStart();
     }
 
-    Timer timer;
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -240,21 +264,6 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
                     Log.i("gqf", "onResume");
                 }
             });
-        }
-        if (!isPopuShow) {
-//            TimerTask task = new TimerTask() {
-//                public void run() {
-//                    template_rel.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            popuWindow();
-//                            timer.cancel();
-//                        }
-//                    });
-//                }
-//            };
-//            timer = new Timer(true);
-//            timer.schedule(task, 200, 10000000);
         }
     }
 
@@ -295,7 +304,7 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
         Log.i("gqf", "index" + index);
         if (fragment.equals(CHANGE_DETAILS_FRAGMENT)) {
             //imgfragment上划出屏幕，显示toolbar和底部栏
-            setToolbar(2, "现代风格时尚复式装");
+            setToolbar(2, decoCompanyYbjDetail.getHousingSituation());
             changeFragment(mTemplateDetailsFragment, fragment);
             show();
         } else {
@@ -409,13 +418,15 @@ public class TemplateActivity extends AppCompatActivity implements TemplateImgFr
 
                     @Override
                     public void onNext(List<String> strings) {
-
                         if(strings.size()>0&&isPopuShow==false){
                             isPopuShow=true;
                             popuWindow();
+                        }else if(strings.size()<=0){
+                            changeFragmentByTAG(TemplateActivity.CHANGE_DETAILS_FRAGMENT, 0);
                         }
                         templateImgFragment.initImg(strings);
                         mTemplateDetailsFragment.initListView(strings);
+                        mTemplateDetailsFragment.setDecoCompanyYbjDetail(decoCompanyYbjDetail);
                     }
                 });
         mcompositeSubscription.add(subscription);

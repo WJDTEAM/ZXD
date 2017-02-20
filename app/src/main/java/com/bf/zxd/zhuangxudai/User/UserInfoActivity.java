@@ -114,11 +114,7 @@ public class UserInfoActivity extends AppCompatActivity implements TakePhoto.Tak
         super.onStart();
         userInfo = realm.where(NewUser.class).findFirst();
         Log.e("Daniel","userInfo:::"+userInfo.toString());
-        if(userInfo.getNickname().equals("")){
-            userName.setText(userInfo.getUserName());
-        }else {
-            userName.setText(userInfo.getNickname());
-        }
+
         if (userInfo.getLogoImg().equals("")){
             Picasso.with(this).load(R.drawable.avatar).into(circleImageView);
         }else {
@@ -147,6 +143,15 @@ public class UserInfoActivity extends AppCompatActivity implements TakePhoto.Tak
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(userInfo.getNickname().equals("")){
+            userName.setText(userInfo.getUserName());
+        }else {
+            userName.setText(userInfo.getNickname());
+        }
+    }
 
     @OnClick({R.id.user_name, R.id.logout, R.id.icon_img, R.id.nick_linearlayout})
     public void onClick(View view) {
@@ -157,11 +162,24 @@ public class UserInfoActivity extends AppCompatActivity implements TakePhoto.Tak
                 ChangeIcon();
                 break;
             case R.id.nick_linearlayout:
-                Intent _intent = new Intent(UserInfoActivity.this,ChangeNickActivity.class);
-                String _nick = userName.getText().toString();
-                _intent.putExtra("nickName",_nick);
-                startActivity(_intent);
+//                Intent _intent = new Intent(UserInfoActivity.this,ChangeNickActivity.class);
+//                String _nick = userName.getText().toString();
+//                _intent.putExtra("nickName",_nick);
+//                startActivity(_intent);
 //                changeNickName(_nick);
+
+                EdiNikeNameDialogFragment editNameDialog = new EdiNikeNameDialogFragment();
+                editNameDialog.setNickName(userName.getText().toString());
+                editNameDialog.show(getSupportFragmentManager(), "EditNameDialog");
+                editNameDialog.setDimssLinsener(new EdiNikeNameDialogFragment.DimssLinsener() {
+                    @Override
+                    public void fragmentDimss() {
+                        userInfo=realm.where(NewUser.class).findFirst();
+                        userName.setText(userInfo.getNickname());
+                    }
+                });
+
+
                 break;
             case R.id.logout:
                 logout();

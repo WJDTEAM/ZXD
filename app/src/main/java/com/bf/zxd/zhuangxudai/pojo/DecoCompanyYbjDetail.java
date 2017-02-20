@@ -19,9 +19,22 @@ public class DecoCompanyYbjDetail {
     private String thumbnails;
     private int companyId;
     private int comments;
-    private String designInspiration;
-    private String housingSituation;
-    private String buildingAddr;
+    private String designInspiration="";
+    private String housingSituation="";
+    private String buildingAddr="";
+
+    @Override
+    public String toString() {
+        return "DecoCompanyYbjDetail{" +
+                "caseId=" + caseId +
+                ", thumbnails='" + thumbnails + '\'' +
+                ", companyId=" + companyId +
+                ", comments=" + comments +
+                ", designInspiration='" + designInspiration + '\'' +
+                ", housingSituation='" + housingSituation + '\'' +
+                ", buildingAddr='" + buildingAddr + '\'' +
+                '}';
+    }
 
     public int getCaseId() {
         return caseId;

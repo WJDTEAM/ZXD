@@ -64,7 +64,7 @@
                 android:layout_height="match_parent"
                 android:text="@string/confrim"
                 android:textColor="@color/white"
-                android:background="@drawable/fz024"
+                android:background="@drawable/apply_for_selector"
                 android:id="@+id/changeNick_bt"/>
         </LinearLayout>
 

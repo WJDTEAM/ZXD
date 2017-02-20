@@ -31,6 +31,7 @@
                 android:gravity="center_vertical"
                 android:textColor="@color/white"
                 android:textSize="@dimen/mediumsp"
+                android:paddingLeft="@dimen/smallmdp"
                 android:text="智地哥谭(洛阳市洛龙区)现代风格"/>
             <TextView
                 android:id="@+id/now_num"
