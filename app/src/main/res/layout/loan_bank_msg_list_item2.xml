@@ -5,6 +5,15 @@
               android:background="@color/white"
     android:orientation="vertical"
     >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gary"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        />
+
     <LinearLayout
         android:id="@+id/loan_title_lin"
         android:layout_width="match_parent"
@@ -12,6 +21,7 @@
         android:background="?android:selectableItemBackground"
         android:clickable="true"
         android:layout_marginTop="@dimen/tinymdp"
+        android:layout_marginBottom="@dimen/tinymdp"
         android:orientation="horizontal">
 
         <ImageView
@@ -28,17 +38,19 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/tinymdp"
+            android:paddingBottom="@dimen/tinymdp"
             >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/mediumhdp"
+                android:layout_height="@dimen/tinyhdp"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/loan_title_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="中国工商银行中国工商银行中国工商银行中国工商银行中国工商银行"
-                    android:lines="2"
+                    android:lines="1"
                     android:gravity="center_vertical"
                     android:ellipsize="end"
                     android:textColor="@color/black"
@@ -94,7 +106,7 @@
                     android:layout_height="match_parent"
                     android:text="最高可贷500000"
                     android:textColor="@color/colorPrimary"
-                    android:gravity="center_vertical"
+                    android:gravity="bottom"
                     android:textSize="@dimen/smallsp"
                     />
                 <TextView
@@ -105,17 +117,10 @@
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:lines="3"
                     android:textSize="@dimen/smallsp"
-                    android:gravity="center_vertical"/>
+                    android:gravity="bottom"/>
             </LinearLayout>
         </LinearLayout>
 
  </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/gary"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        />
 
 </LinearLayout>
