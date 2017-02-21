@@ -55,6 +55,7 @@
                     android:ellipsize="end"
                     android:textColor="@color/black"
                     android:textSize="@dimen/mediumxsp"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
                     />
 
             </LinearLayout>
