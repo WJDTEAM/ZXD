@@ -80,6 +80,7 @@ public class MyAppointmentActivity extends BaseActivity {
 
     private void setAdapter(final List<PersonYyItem> yysqItems) {
         //init context view
+        recyclerviewMyAppointment.setNestedScrollingEnabled(false);
         recyclerviewMyAppointment.setLayoutManager(new LinearLayoutManager(this));
         MyAppointmentAdapter myAppointmentAdapter = new MyAppointmentAdapter(yysqItems, this);
         recyclerviewMyAppointment.setAdapter(myAppointmentAdapter);

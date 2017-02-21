@@ -41,10 +41,6 @@ public class ZxgsActivity extends BaseActivity {
     ImageView YBJLoding;
     @BindView(R.id.YBJ_loding_txt)
     TextView YBJLodingTxt;
-
-    //    @BindView(R.id.toolbar_title)
-    //    TextView toolbarTitle;
-
     private Unbinder mUnbinder;
     private CompositeSubscription mCompositeSubscription;
 
@@ -82,11 +78,8 @@ public class ZxgsActivity extends BaseActivity {
     private void setAdapter(final List<DecoCompanyItem> zxgses) {
         //init context view
         recyclerviewZxgongsi.setLayoutManager(new AutoHeightLayoutManager(this));
-        //        recyclerviewZxgongsi.addItemDecoration(new RecycleViewDivider(
-        //                this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
         ZxgsAdapter zxgsAdapter = new ZxgsAdapter(zxgses, this);
         recyclerviewZxgongsi.setAdapter(zxgsAdapter);
-
         zxgsAdapter.setOnItemClickListener(new ZxgsAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
@@ -94,7 +87,6 @@ public class ZxgsActivity extends BaseActivity {
                 Gson g = new Gson();
                 Intent intent = new Intent(ZxgsActivity.this, ZxgsDetailActivity.class);
                 intent.putExtra("Zxgs_id", Zxgs_id);
-
                 startActivity(intent);
             }
         });

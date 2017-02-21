@@ -86,6 +86,7 @@ public class MyLoanActivity extends BaseActivity {
 
     private void setAdapter(final List<PersonLoanItem> PersonLoanItems) {
         //init context view
+        recyclerviewMyLoan.setNestedScrollingEnabled(false);
         recyclerviewMyLoan.setLayoutManager(new AutoHeightLayoutManager(this));
         //        recyclerviewZxgongsi.addItemDecoration(new RecycleViewDivider(
         //                this.getApplicationContext(), LinearLayoutManager.VERTICAL, 10, getResources().getColor(R.color.gary_dark)));
