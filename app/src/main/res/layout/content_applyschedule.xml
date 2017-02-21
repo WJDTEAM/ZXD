@@ -6,15 +6,13 @@
               android:id="@+id/linear"
               android:background="@color/stepView_color"
               android:padding="@dimen/activity_vertical_margin"
-              android:gravity="center_vertical"
     >
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/regit"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        android:layout_marginRight="@dimen/hugehdp"
+
+        android:layout_marginRight="@dimen/smallhdp"
 
         />
     <LinearLayout
@@ -28,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="订单已确认！"
+            android:textSize="@dimen/mediumxsp"
             android:textColor="@color/black"
             />
         <TextView
@@ -35,9 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="请耐心等待商家确认！"
-            android:textSize="@dimen/tinysp"
+            android:textSize="@dimen/mediumsp"
             android:textColor="@color/black"
-            android:paddingTop="@dimen/tinymdp"
             />
     </LinearLayout>
 
@@ -46,7 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2016-2-55"
+        android:textSize="@dimen/mediumsp"
         android:textColor="@color/black"
+        android:layout_marginTop="3dp"
 
         />
 
