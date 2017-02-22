@@ -120,8 +120,9 @@ public class UserFragment extends Fragment {
                 //                startActivityForResult(intent, 0);
                 break;
             case R.id.myCollect_linearLayout:
+                if (initLogin(MyConllectionActivity.class)) {
                     startActivity(new Intent(getActivity(), MyConllectionActivity.class));
-
+                }
                 break;
             case R.id.nick_tv:
                 if (mUser==null) {
